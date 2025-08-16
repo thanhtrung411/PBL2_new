@@ -752,3 +752,4 @@ C:/Users/LENOVO/Documents/pbl2/dang_ky_dialog.cpp
 C:/Users/LENOVO/Documents/pbl2/main.cpp
 C:/Users/LENOVO/Documents/pbl2/pbl2.cpp
  uic:./ui_pbl2.h
+ uic:ui_dang_ky_dialog.h

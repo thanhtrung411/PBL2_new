@@ -14,7 +14,7 @@
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QLineEdit" name="use_input">
+   <widget class="QLineEdit" name="user_input">
     <property name="geometry">
      <rect>
       <x>275</x>
@@ -90,19 +90,6 @@
     </property>
     <property name="text">
      <string>Ngày sinh</string>
-    </property>
-   </widget>
-   <widget class="QLineEdit" name="number_call_input">
-    <property name="geometry">
-     <rect>
-      <x>750</x>
-      <y>160</y>
-      <width>291</width>
-      <height>28</height>
-     </rect>
-    </property>
-    <property name="placeholderText">
-     <string>Nhập số điện thoại</string>
     </property>
    </widget>
    <widget class="QLabel" name="email_layout">
@@ -192,21 +179,11 @@
       <height>28</height>
      </rect>
     </property>
+    <property name="echoMode">
+     <enum>QLineEdit::EchoMode::Password</enum>
+    </property>
     <property name="placeholderText">
      <string>Nhập lại mật khẩu</string>
-    </property>
-   </widget>
-   <widget class="QLineEdit" name="password_input">
-    <property name="geometry">
-     <rect>
-      <x>750</x>
-      <y>300</y>
-      <width>291</width>
-      <height>28</height>
-     </rect>
-    </property>
-    <property name="placeholderText">
-     <string>Nhập mật khẩu</string>
     </property>
    </widget>
    <widget class="QCheckBox" name="dieu_khoan_input">
@@ -282,6 +259,48 @@
       <string>Khác</string>
      </property>
     </item>
+   </widget>
+   <widget class="QPushButton" name="dang_ky_2_button">
+    <property name="geometry">
+     <rect>
+      <x>660</x>
+      <y>550</y>
+      <width>141</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>ĐĂNG KÝ</string>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="so_dien_thoai_input">
+    <property name="geometry">
+     <rect>
+      <x>750</x>
+      <y>160</y>
+      <width>291</width>
+      <height>28</height>
+     </rect>
+    </property>
+    <property name="placeholderText">
+     <string>Nhập số điện thoại</string>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="pass_input">
+    <property name="geometry">
+     <rect>
+      <x>750</x>
+      <y>300</y>
+      <width>291</width>
+      <height>28</height>
+     </rect>
+    </property>
+    <property name="echoMode">
+     <enum>QLineEdit::EchoMode::Password</enum>
+    </property>
+    <property name="placeholderText">
+     <string>Nhập mật khẩu</string>
+    </property>
    </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">

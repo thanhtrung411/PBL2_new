@@ -29,13 +29,13 @@ public:
     QAction *actionTong_quan;
     QAction *actionChuc_nang_Nhiem_vu;
     QWidget *centralwidget;
-    QLineEdit *lineEdit;
-    QLineEdit *lineEdit_2;
+    QLineEdit *ten_nguoi_dung_input;
+    QLineEdit *mat_khau_input;
     QWidget *horizontalLayoutWidget;
     QHBoxLayout *horizontalLayout;
-    QPushButton *dang_ky_button_2;
+    QPushButton *dang_nhap_button;
     QPushButton *dang_ky_button;
-    QPushButton *pushButton;
+    QPushButton *quen_mat_khau_button;
     QMenuBar *menubar;
     QMenu *menuTRANG_CH;
     QMenu *menuGI_I_THI_U;
@@ -59,34 +59,35 @@ public:
         actionChuc_nang_Nhiem_vu->setObjectName("actionChuc_nang_Nhiem_vu");
         centralwidget = new QWidget(pbl2);
         centralwidget->setObjectName("centralwidget");
-        lineEdit = new QLineEdit(centralwidget);
-        lineEdit->setObjectName("lineEdit");
-        lineEdit->setGeometry(QRect(1120, 80, 181, 28));
-        lineEdit->setDragEnabled(true);
-        lineEdit_2 = new QLineEdit(centralwidget);
-        lineEdit_2->setObjectName("lineEdit_2");
-        lineEdit_2->setGeometry(QRect(1120, 120, 181, 28));
-        lineEdit_2->setDragEnabled(true);
+        ten_nguoi_dung_input = new QLineEdit(centralwidget);
+        ten_nguoi_dung_input->setObjectName("ten_nguoi_dung_input");
+        ten_nguoi_dung_input->setGeometry(QRect(1120, 80, 181, 28));
+        ten_nguoi_dung_input->setDragEnabled(true);
+        mat_khau_input = new QLineEdit(centralwidget);
+        mat_khau_input->setObjectName("mat_khau_input");
+        mat_khau_input->setGeometry(QRect(1120, 120, 181, 28));
+        mat_khau_input->setEchoMode(QLineEdit::EchoMode::Password);
+        mat_khau_input->setDragEnabled(true);
         horizontalLayoutWidget = new QWidget(centralwidget);
         horizontalLayoutWidget->setObjectName("horizontalLayoutWidget");
         horizontalLayoutWidget->setGeometry(QRect(1120, 150, 181, 41));
         horizontalLayout = new QHBoxLayout(horizontalLayoutWidget);
         horizontalLayout->setObjectName("horizontalLayout");
         horizontalLayout->setContentsMargins(0, 0, 0, 0);
-        dang_ky_button_2 = new QPushButton(horizontalLayoutWidget);
-        dang_ky_button_2->setObjectName("dang_ky_button_2");
+        dang_nhap_button = new QPushButton(horizontalLayoutWidget);
+        dang_nhap_button->setObjectName("dang_nhap_button");
 
-        horizontalLayout->addWidget(dang_ky_button_2);
+        horizontalLayout->addWidget(dang_nhap_button);
 
         dang_ky_button = new QPushButton(horizontalLayoutWidget);
         dang_ky_button->setObjectName("dang_ky_button");
 
         horizontalLayout->addWidget(dang_ky_button);
 
-        pushButton = new QPushButton(centralwidget);
-        pushButton->setObjectName("pushButton");
-        pushButton->setEnabled(true);
-        pushButton->setGeometry(QRect(1120, 190, 181, 29));
+        quen_mat_khau_button = new QPushButton(centralwidget);
+        quen_mat_khau_button->setObjectName("quen_mat_khau_button");
+        quen_mat_khau_button->setEnabled(true);
+        quen_mat_khau_button->setGeometry(QRect(1120, 190, 181, 29));
         QFont font1;
         font1.setBold(true);
         font1.setItalic(true);
@@ -94,8 +95,8 @@ public:
         font1.setStrikeOut(false);
         font1.setStyleStrategy(QFont::PreferDefault);
         font1.setHintingPreference(QFont::PreferDefaultHinting);
-        pushButton->setFont(font1);
-        pushButton->setCursor(QCursor(Qt::CursorShape::PointingHandCursor));
+        quen_mat_khau_button->setFont(font1);
+        quen_mat_khau_button->setCursor(QCursor(Qt::CursorShape::PointingHandCursor));
         pbl2->setCentralWidget(centralwidget);
         menubar = new QMenuBar(pbl2);
         menubar->setObjectName("menubar");
@@ -137,22 +138,22 @@ public:
         actionTong_quan->setText(QCoreApplication::translate("pbl2", "Tong quan", nullptr));
         actionChuc_nang_Nhiem_vu->setText(QCoreApplication::translate("pbl2", "Chuc nang - Nhiem vu", nullptr));
 #if QT_CONFIG(accessibility)
-        lineEdit->setAccessibleName(QString());
+        ten_nguoi_dung_input->setAccessibleName(QString());
 #endif // QT_CONFIG(accessibility)
-        lineEdit->setInputMask(QString());
-        lineEdit->setText(QString());
-        lineEdit->setPlaceholderText(QCoreApplication::translate("pbl2", "T\303\252n ng\306\260\341\273\235i d\303\271ng", nullptr));
+        ten_nguoi_dung_input->setInputMask(QString());
+        ten_nguoi_dung_input->setText(QString());
+        ten_nguoi_dung_input->setPlaceholderText(QCoreApplication::translate("pbl2", "T\303\252n ng\306\260\341\273\235i d\303\271ng", nullptr));
 #if QT_CONFIG(accessibility)
-        lineEdit_2->setAccessibleName(QString());
+        mat_khau_input->setAccessibleName(QString());
 #endif // QT_CONFIG(accessibility)
-        lineEdit_2->setInputMask(QString());
-        lineEdit_2->setText(QString());
-        lineEdit_2->setPlaceholderText(QCoreApplication::translate("pbl2", "M\341\272\255t kh\341\272\251u", nullptr));
-        dang_ky_button_2->setText(QCoreApplication::translate("pbl2", "\304\220\304\203ng nh\341\272\255p", nullptr));
+        mat_khau_input->setInputMask(QString());
+        mat_khau_input->setText(QString());
+        mat_khau_input->setPlaceholderText(QCoreApplication::translate("pbl2", "M\341\272\255t kh\341\272\251u", nullptr));
+        dang_nhap_button->setText(QCoreApplication::translate("pbl2", "\304\220\304\203ng nh\341\272\255p", nullptr));
         dang_ky_button->setText(QCoreApplication::translate("pbl2", "\304\220\304\203ng k\303\275", nullptr));
-        pushButton->setText(QCoreApplication::translate("pbl2", "B\341\272\241n qu\303\252n m\341\272\255t kh\341\272\251u ?", nullptr));
+        quen_mat_khau_button->setText(QCoreApplication::translate("pbl2", "B\341\272\241n qu\303\252n m\341\272\255t kh\341\272\251u ?", nullptr));
 #if QT_CONFIG(shortcut)
-        pushButton->setShortcut(QString());
+        quen_mat_khau_button->setShortcut(QString());
 #endif // QT_CONFIG(shortcut)
         menuTRANG_CH->setTitle(QCoreApplication::translate("pbl2", "TRANG CH\341\273\246", nullptr));
         menuGI_I_THI_U->setTitle(QCoreApplication::translate("pbl2", "GI\341\273\232I THI\341\273\206U", nullptr));

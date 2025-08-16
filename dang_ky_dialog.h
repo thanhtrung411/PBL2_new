@@ -15,8 +15,11 @@ public:
     explicit dang_ky_dialog(QWidget *parent = nullptr);
     ~dang_ky_dialog();
 
+private slots:
+    void on_dang_ky_2_button_clicked();
+
 private:
-    Ui::dang_ky_dialog *ui;
+    Ui::dang_ky_dialog *ui_2;
 };
 
 #endif // DANG_KY_DIALOG_H

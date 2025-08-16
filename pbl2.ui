@@ -19,7 +19,7 @@
    <string>pbl2</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QLineEdit" name="lineEdit">
+   <widget class="QLineEdit" name="ten_nguoi_dung_input">
     <property name="geometry">
      <rect>
       <x>1120</x>
@@ -44,7 +44,7 @@
      <string>Tên người dùng</string>
     </property>
    </widget>
-   <widget class="QLineEdit" name="lineEdit_2">
+   <widget class="QLineEdit" name="mat_khau_input">
     <property name="geometry">
      <rect>
       <x>1120</x>
@@ -61,6 +61,9 @@
     </property>
     <property name="text">
      <string/>
+    </property>
+    <property name="echoMode">
+     <enum>QLineEdit::EchoMode::Password</enum>
     </property>
     <property name="dragEnabled">
      <bool>true</bool>
@@ -80,7 +83,7 @@
     </property>
     <layout class="QHBoxLayout" name="horizontalLayout">
      <item>
-      <widget class="QPushButton" name="dang_ky_button_2">
+      <widget class="QPushButton" name="dang_nhap_button">
        <property name="text">
         <string>Đăng nhập</string>
        </property>
@@ -95,7 +98,7 @@
      </item>
     </layout>
    </widget>
-   <widget class="QPushButton" name="pushButton">
+   <widget class="QPushButton" name="quen_mat_khau_button">
     <property name="enabled">
      <bool>true</bool>
     </property>

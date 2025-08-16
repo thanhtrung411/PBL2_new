@@ -20,6 +20,8 @@ public:
 private slots:
     void on_dang_ky_button_clicked();
 
+    void on_dang_nhap_button_clicked();
+
 private:
     Ui::pbl2 *ui;
 };
