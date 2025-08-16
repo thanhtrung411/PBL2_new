@@ -1,0 +1,301 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>dang_ky_dialog</class>
+ <widget class="QMainWindow" name="dang_ky_dialog">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1317</width>
+    <height>740</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>MainWindow</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <widget class="QLineEdit" name="use_input">
+    <property name="geometry">
+     <rect>
+      <x>275</x>
+      <y>160</y>
+      <width>291</width>
+      <height>28</height>
+     </rect>
+    </property>
+    <property name="placeholderText">
+     <string>Nhập Mã số sinh viên (nếu có)</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="user_layout">
+    <property name="geometry">
+     <rect>
+      <x>275</x>
+      <y>130</y>
+      <width>291</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Tên đăng nhập (Mã số sinh viên)</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="name_layout">
+    <property name="geometry">
+     <rect>
+      <x>275</x>
+      <y>200</y>
+      <width>291</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Họ và tên</string>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="name_input">
+    <property name="geometry">
+     <rect>
+      <x>275</x>
+      <y>230</y>
+      <width>291</width>
+      <height>28</height>
+     </rect>
+    </property>
+    <property name="placeholderText">
+     <string>Nhập họ và tên</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="gioi_tinh_input">
+    <property name="geometry">
+     <rect>
+      <x>275</x>
+      <y>270</y>
+      <width>291</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Giới tính</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="birthday_layout">
+    <property name="geometry">
+     <rect>
+      <x>275</x>
+      <y>340</y>
+      <width>291</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Ngày sinh</string>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="number_call_input">
+    <property name="geometry">
+     <rect>
+      <x>750</x>
+      <y>160</y>
+      <width>291</width>
+      <height>28</height>
+     </rect>
+    </property>
+    <property name="placeholderText">
+     <string>Nhập số điện thoại</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="email_layout">
+    <property name="geometry">
+     <rect>
+      <x>275</x>
+      <y>410</y>
+      <width>291</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Địa chỉ email</string>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="email_input">
+    <property name="geometry">
+     <rect>
+      <x>275</x>
+      <y>440</y>
+      <width>291</width>
+      <height>28</height>
+     </rect>
+    </property>
+    <property name="placeholderText">
+     <string>Nhập địa chỉ email</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="nuber_call_layout">
+    <property name="geometry">
+     <rect>
+      <x>750</x>
+      <y>130</y>
+      <width>291</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Số điện thoại</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="doi_tuong_layout">
+    <property name="geometry">
+     <rect>
+      <x>750</x>
+      <y>200</y>
+      <width>291</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Đối tượng</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="pass_again_layout">
+    <property name="geometry">
+     <rect>
+      <x>750</x>
+      <y>340</y>
+      <width>291</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Nhập lại mật khẩu</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="password_layout">
+    <property name="geometry">
+     <rect>
+      <x>750</x>
+      <y>270</y>
+      <width>291</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Mật khẩu</string>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="pass_again_input">
+    <property name="geometry">
+     <rect>
+      <x>750</x>
+      <y>370</y>
+      <width>291</width>
+      <height>28</height>
+     </rect>
+    </property>
+    <property name="placeholderText">
+     <string>Nhập lại mật khẩu</string>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="password_input">
+    <property name="geometry">
+     <rect>
+      <x>750</x>
+      <y>300</y>
+      <width>291</width>
+      <height>28</height>
+     </rect>
+    </property>
+    <property name="placeholderText">
+     <string>Nhập mật khẩu</string>
+    </property>
+   </widget>
+   <widget class="QCheckBox" name="dieu_khoan_input">
+    <property name="geometry">
+     <rect>
+      <x>280</x>
+      <y>490</y>
+      <width>761</width>
+      <height>25</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Đăng nhập nghĩa là bạn đồng ý với Điều khoản và Chính sách sử dụng của hệ thống phần mềm Thư viện số.</string>
+    </property>
+   </widget>
+   <widget class="QWidget" name="horizontalLayoutWidget">
+    <property name="geometry">
+     <rect>
+      <x>280</x>
+      <y>289</y>
+      <width>291</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <layout class="QHBoxLayout" name="horizontalLayout">
+     <item>
+      <widget class="QRadioButton" name="Boy_button">
+       <property name="text">
+        <string>Nam</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QRadioButton" name="Girl_button">
+       <property name="text">
+        <string>Nữ</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </widget>
+   <widget class="QDateEdit" name="date_birthday_input">
+    <property name="geometry">
+     <rect>
+      <x>280</x>
+      <y>370</y>
+      <width>281</width>
+      <height>31</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QComboBox" name="Doi_tuong_input">
+    <property name="geometry">
+     <rect>
+      <x>750</x>
+      <y>230</y>
+      <width>291</width>
+      <height>28</height>
+     </rect>
+    </property>
+    <item>
+     <property name="text">
+      <string>Sinh viên</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Giảng viên</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Khác</string>
+     </property>
+    </item>
+   </widget>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>1317</width>
+     <height>25</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

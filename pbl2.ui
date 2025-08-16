@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>pbl2</class>
+ <widget class="QMainWindow" name="pbl2">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1317</width>
+    <height>740</height>
+   </rect>
+  </property>
+  <property name="font">
+   <font>
+    <stylestrategy>PreferDefault</stylestrategy>
+   </font>
+  </property>
+  <property name="windowTitle">
+   <string>pbl2</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <widget class="QLineEdit" name="lineEdit">
+    <property name="geometry">
+     <rect>
+      <x>1120</x>
+      <y>80</y>
+      <width>181</width>
+      <height>28</height>
+     </rect>
+    </property>
+    <property name="accessibleName">
+     <string/>
+    </property>
+    <property name="inputMask">
+     <string/>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="dragEnabled">
+     <bool>true</bool>
+    </property>
+    <property name="placeholderText">
+     <string>Tên người dùng</string>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="lineEdit_2">
+    <property name="geometry">
+     <rect>
+      <x>1120</x>
+      <y>120</y>
+      <width>181</width>
+      <height>28</height>
+     </rect>
+    </property>
+    <property name="accessibleName">
+     <string/>
+    </property>
+    <property name="inputMask">
+     <string/>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="dragEnabled">
+     <bool>true</bool>
+    </property>
+    <property name="placeholderText">
+     <string>Mật khẩu</string>
+    </property>
+   </widget>
+   <widget class="QWidget" name="horizontalLayoutWidget">
+    <property name="geometry">
+     <rect>
+      <x>1120</x>
+      <y>150</y>
+      <width>181</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <layout class="QHBoxLayout" name="horizontalLayout">
+     <item>
+      <widget class="QPushButton" name="dang_ky_button_2">
+       <property name="text">
+        <string>Đăng nhập</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="dang_ky_button">
+       <property name="text">
+        <string>Đăng ký</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </widget>
+   <widget class="QPushButton" name="pushButton">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
+    <property name="geometry">
+     <rect>
+      <x>1120</x>
+      <y>190</y>
+      <width>181</width>
+      <height>29</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <italic>true</italic>
+      <bold>true</bold>
+      <underline>false</underline>
+      <strikeout>false</strikeout>
+      <stylestrategy>PreferDefault</stylestrategy>
+      <hintingpreference>PreferDefaultHinting</hintingpreference>
+     </font>
+    </property>
+    <property name="cursor">
+     <cursorShape>PointingHandCursor</cursorShape>
+    </property>
+    <property name="text">
+     <string>Bạn quên mật khẩu ?</string>
+    </property>
+    <property name="shortcut">
+     <string/>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>1317</width>
+     <height>25</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menuTRANG_CH">
+    <property name="title">
+     <string>TRANG CHỦ</string>
+    </property>
+   </widget>
+   <widget class="QMenu" name="menuGI_I_THI_U">
+    <property name="title">
+     <string>GIỚI THIỆU</string>
+    </property>
+    <addaction name="actionTong_quan"/>
+    <addaction name="actionChuc_nang_Nhiem_vu"/>
+   </widget>
+   <widget class="QMenu" name="menuCSDL_N_I_SINH">
+    <property name="title">
+     <string>CSDL NỘI SINH</string>
+    </property>
+   </widget>
+   <widget class="QMenu" name="menuCSDL_TR_C_TUY_N">
+    <property name="title">
+     <string>CSDL TRỰC TUYẾN</string>
+    </property>
+   </widget>
+   <widget class="QMenu" name="menuD_CH_V_TH_VI_N">
+    <property name="title">
+     <string>DỊCH VỤ THƯ VIỆN</string>
+    </property>
+   </widget>
+   <widget class="QMenu" name="menuH_NG_D_N_S_D_NG">
+    <property name="title">
+     <string>HƯỚNG DẪN SỬ DỤNG</string>
+    </property>
+   </widget>
+   <addaction name="menuTRANG_CH"/>
+   <addaction name="menuGI_I_THI_U"/>
+   <addaction name="menuCSDL_N_I_SINH"/>
+   <addaction name="menuCSDL_TR_C_TUY_N"/>
+   <addaction name="menuD_CH_V_TH_VI_N"/>
+   <addaction name="menuH_NG_D_N_S_D_NG"/>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+  <action name="actionTong_quan">
+   <property name="text">
+    <string>Tong quan</string>
+   </property>
+  </action>
+  <action name="actionChuc_nang_Nhiem_vu">
+   <property name="text">
+    <string>Chuc nang - Nhiem vu</string>
+   </property>
+  </action>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
