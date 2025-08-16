@@ -1,3 +1,4 @@
+/*
 #include "iostream"
 #include "pbl2.h"
 #include "./ui_pbl2.h"
@@ -109,3 +110,4 @@ void dang_ky_dialog::on_dang_ky_2_button_clicked()
     else clearError(ui_2->user_input);
 }
 
+*/
