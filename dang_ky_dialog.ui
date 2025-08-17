@@ -302,6 +302,19 @@
      <string>Nhập mật khẩu</string>
     </property>
    </widget>
+   <widget class="QLabel" name="mat_khau_sai_label">
+    <property name="geometry">
+     <rect>
+      <x>750</x>
+      <y>410</y>
+      <width>291</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
@@ -309,7 +322,7 @@
      <x>0</x>
      <y>0</y>
      <width>1317</width>
-     <height>25</height>
+     <height>21</height>
     </rect>
    </property>
   </widget>

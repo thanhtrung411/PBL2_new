@@ -1,0 +1,79 @@
+{
+	"configurations" : 
+	[
+		{
+			"directories" : 
+			[
+				{
+					"build" : ".",
+					"hasInstallRule" : true,
+					"jsonFile" : "directory-.-Debug-5a2ecff6161889512c25.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.16"
+					},
+					"projectIndex" : 0,
+					"source" : ".",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2
+					]
+				}
+			],
+			"name" : "Debug",
+			"projects" : 
+			[
+				{
+					"directoryIndexes" : 
+					[
+						0
+					],
+					"name" : "pbl2",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2
+					]
+				}
+			],
+			"targets" : 
+			[
+				{
+					"directoryIndex" : 0,
+					"id" : "pbl2::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-pbl2-Debug-97756bb07968cc6f9402.json",
+					"name" : "pbl2",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "pbl2_autogen::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-pbl2_autogen-Debug-0d4dcd2f7806a2c6f128.json",
+					"name" : "pbl2_autogen",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "pbl2_autogen_timestamp_deps::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-pbl2_autogen_timestamp_deps-Debug-487b042dc6dfc74c1218.json",
+					"name" : "pbl2_autogen_timestamp_deps",
+					"projectIndex" : 0
+				}
+			]
+		}
+	],
+	"kind" : "codemodel",
+	"paths" : 
+	{
+		"build" : "C:/Users/LENOVO/Documents/pbl2/build",
+		"source" : "C:/Users/LENOVO/Documents/pbl2"
+	},
+	"version" : 
+	{
+		"major" : 2,
+		"minor" : 7
+	}
+}

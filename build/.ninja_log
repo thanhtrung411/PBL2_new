@@ -1,0 +1,10 @@
+# ninja log v6
+2	702	7770612894624457	pbl2_autogen/timestamp	84b34b9be569d32f
+2	702	7770612894624457	pbl2_autogen/mocs_compilation.cpp	84b34b9be569d32f
+716	772	7770612895844919	CMakeFiles/pbl2.dir/pbl2.cpp.obj	57988589a9077f09
+2	702	7770612894624457	C:/Users/LENOVO/Documents/pbl2/build/pbl2_autogen/timestamp	84b34b9be569d32f
+2	702	7770612894624457	C:/Users/LENOVO/Documents/pbl2/build/pbl2_autogen/mocs_compilation.cpp	84b34b9be569d32f
+719	774	7770612895874917	CMakeFiles/pbl2.dir/dang_ky_dialog.cpp.obj	fce3c951f909da7f
+708	2534	7770612895764918	CMakeFiles/pbl2.dir/pbl2_autogen/mocs_compilation.cpp.obj	f540ee56fb79c057
+712	3363	7770612895804918	CMakeFiles/pbl2.dir/main.cpp.obj	52386759ab679070
+3364	3654	7770612922316591	pbl2.exe	3e0ad958abd345f0

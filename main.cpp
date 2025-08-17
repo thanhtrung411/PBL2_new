@@ -14,15 +14,6 @@ int main(int argc, char *argv[])
     return a.exec();
 }
 
-int so_sanh_chuoi(const char *a, const char *b) {
-    while (*a && *b) {
-        if (*a != *b) return 0;
-        a++;
-        b++;
-    }
-    return (*a == '\0' && *b == '\0') ? 1 : 0;
-}
-
 pbl2::pbl2(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::pbl2)
@@ -95,6 +86,7 @@ void pbl2::on_dang_nhap_button_clicked()
 
 void dang_ky_dialog::on_dang_ky_2_button_clicked()
 {
+    int check = 1; //neu tat ca thong tin deu hop le
     string user_nguoi_dung = ui_2->user_input->text().trimmed().toUtf8().toStdString();
     string user_name       = ui_2->name_input->text().toUtf8().toStdString();
     string ngay_sinh       = ui_2->date_birthday_input->text().toUtf8().toStdString();
@@ -109,12 +101,61 @@ void dang_ky_dialog::on_dang_ky_2_button_clicked()
     if (ui_2->Girl_button->isChecked()) gioi_tinh = 1;
     if (ui_2->dieu_khoan_input->isChecked()) dieu_khoan = 1;
     if (user_nguoi_dung.empty()){
+        check = 0;
         markError(ui_2->user_input,"Vui long nhap ten nguoi dung");
     }
     else clearError(ui_2->user_input);
     if (user_name.empty()){
-        markError(ui_2->user_input,"Vui long nhap ho va ten");
+        check = 0;
+        markError(ui_2->name_input,"Vui long nhap ho va ten");
     }
-    else clearError(ui_2->user_input);
+    else clearError(ui_2->name_input);
+    if (gioi_tinh==-1){
+        check = 0;
+        ui_2->gioi_tinh_input->setText("Vui long nhap gioi tinh");
+        ui_2->gioi_tinh_input->setStyleSheet("QLabel{border:2px solid #e53935;}");
+        QPalette pal = ui_2->gioi_tinh_input->palette();
+        pal.setColor(QPalette::PlaceholderText, QColor("#e53935"));
+        ui_2->gioi_tinh_input->setPalette(pal);
+        ui_2->gioi_tinh_input->setFocus();
+    }
+    else{
+        ui_2->gioi_tinh_input->setStyleSheet("");
+        ui_2->gioi_tinh_input->setPalette(QPalette());
+    }
+    if (email_address.empty()){
+        check = 0;
+        markError(ui_2->email_input,"Vui long nhap dia chi email");
+    }
+    else{
+        clearError(ui_2->email_input);
+    }
+    if (so_dien_thoai.empty()){
+        check = 0;
+        markError(ui_2->so_dien_thoai_input,"Vui long nhap so dien thoai");
+    }
+    else clearError(ui_2->so_dien_thoai_input);
+    if (mat_khau.empty()){
+        check = 0;
+        markError(ui_2->pass_input,"Vui long nhap mat khau");
+    }
+    else clearError(ui_2->pass_input);
+    if (mat_khau_again.empty()){
+        check = 0;
+        markError(ui_2->pass_again_input,"Vui long nhap lai mat khau");
+    }
+    else{
+        clearError(ui_2->pass_again_input);
+        if (!(mat_khau==mat_khau_again)){
+            check = 0;
+            markError(ui_2->pass_again_input,"Mật khẩu không đúng");
+        }
+        else{
+            clearError(ui_2->pass_again_input);
+        }
+    }
+    if (check){
+        //......neu tat ca deu thoa man thi them vao csdl
+    }
 }
 
