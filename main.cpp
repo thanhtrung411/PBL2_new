@@ -1,10 +1,160 @@
 #include "iostream"
+#include "fstream"
 #include "pbl2.h"
 #include "./ui_pbl2.h"
 #include "dang_ky_dialog.h"
 #include "ui_dang_ky_dialog.h"
 #include <QApplication>
 using namespace std;
+
+////////////////////////////
+
+FILE *peoples;
+
+
+////////////////////////////
+
+class people{
+private:
+    string user;
+    string name;
+    int gioi_tinh;
+    string ngay_sinh;
+    string email;
+    int doi_tuong;
+    string phonenumber;
+    string pass;
+public:
+    people(string user,string name, int gioi_tinh,string ngay_sinh,string email,int doi_tuong, string phonenumber,string pass){
+        this->user=user;
+        this->name=name;
+        this->gioi_tinh=gioi_tinh;
+        this->ngay_sinh=ngay_sinh;
+        this->email=email;
+        this->doi_tuong=doi_tuong;
+        this->phonenumber=phonenumber;
+        this->pass=pass;
+    };
+    people();
+    void setUser(string user){
+        this->user=user;
+    }
+    string getUser(){
+        return user;
+    }
+    void setName(string name){
+        this->name=name;
+    }
+    string getName(){
+        return name;
+    }
+    void setGioi_tinh(int gioi_tinh){
+        if(gioi_tinh != 1 && gioi_tinh != 0){
+            cout<<"khong hop le";
+        }else{
+        this->gioi_tinh=gioi_tinh;
+        }
+    }
+    int getGioi_tinh(){
+        return gioi_tinh;
+    }
+    void setNgay_sinh(string ngay_sinh){
+        this->ngay_sinh=ngay_sinh;
+    }
+    string getNgay_sinh(){
+        return ngay_sinh;
+    }
+    void setEmail(string email){
+        this->email=email;
+    }
+    string getEmail(){
+        return email;
+    }
+    void setDoi_tuong(int doi_tuong){
+        this->doi_tuong=doi_tuong;
+    }
+    int getDoi_tuong(){
+        return doi_tuong;
+    }
+    void setPhonenumber(string phonenumber){
+        this->phonenumber=phonenumber;
+    }
+    string getPhonenumber(){
+        return phonenumber;
+    }
+    void setPass(string pass){
+        this->pass=pass;
+    }
+    string getPass(){
+        return pass;
+    }
+};
+
+struct Node {
+    people data;
+    Node* prev;
+    Node* next;
+
+    Node(people p) : data(p), prev(NULL), next(NULL) {}
+};
+class du_lieu_user {
+private:
+    Node* head;
+    Node* tail;
+
+public:
+    du_lieu_user() {
+        head = tail = NULL;
+    }
+
+    // Them vao cuoi
+    void push_back(people p) {
+        Node* newNode = new Node(p);
+        if (!head) {
+            head = tail = newNode;
+        } else {
+            tail->next = newNode;
+            newNode->prev = tail;
+            tail = newNode;
+        }
+    }
+
+    // Duyet danh sach
+    void display() {
+        Node* temp = head;
+        while (temp) {
+            cout << "User: " << temp->data.getUser()
+            << " | Name: " << temp->data.getName()
+            << " | Email: " << temp->data.getEmail()
+            << " | Phone: " << temp->data.getPhonenumber() << endl;
+            temp = temp->next;
+        }
+    }
+
+    void remove(string username) {
+        Node* temp = head;
+        while (temp) {
+            if (temp->data.getUser() == username) {
+                if (temp == head) head = temp->next;
+                if (temp == tail) tail = temp->prev;
+                if (temp->prev) temp->prev->next = temp->next;
+                if (temp->next) temp->next->prev = temp->prev;
+                delete temp;
+                return;
+            }
+            temp = temp->next;
+        }
+    }
+};
+
+du_lieu_user users_;
+
+void Doc_File(){
+    peoples = fopen("user.txt","r");
+    people s;
+    s.setDoi_tuong(5);
+
+}
 
 int main(int argc, char *argv[])
 {
@@ -13,6 +163,8 @@ int main(int argc, char *argv[])
     w.show();
     return a.exec();
 }
+
+
 
 pbl2::pbl2(QWidget *parent)
     : QMainWindow(parent)
@@ -68,15 +220,16 @@ static void clearError(QLineEdit* w) {
 
 void pbl2::on_dang_nhap_button_clicked()
 {
-    const QString user = ui->ten_nguoi_dung_input->text().trimmed();
-    const QString pass = ui->mat_khau_input->text();
-    if (user.isEmpty()){
+    string user = ui->ten_nguoi_dung_input->text().trimmed().toUtf8().toStdString();
+    string pass = ui->mat_khau_input->text().toUtf8().toStdString();
+
+    if (user.empty()){
         markError(ui->ten_nguoi_dung_input,"Vui long nhap ten nguoi dung");
     }
     else{
         clearError(ui->ten_nguoi_dung_input);
     }
-    if (pass.isEmpty()){
+    if (pass.empty()){
         markError(ui->mat_khau_input,"Vui long nhap mat khau");
     }
     else{
