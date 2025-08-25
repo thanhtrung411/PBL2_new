@@ -1,10 +1,123 @@
 #include "iostream"
+#include "fstream"
 #include "pbl2.h"
 #include "./ui_pbl2.h"
 #include "dang_ky_dialog.h"
 #include "ui_dang_ky_dialog.h"
 #include <QApplication>
 using namespace std;
+
+////////////////////////////
+
+FILE *peoples;
+
+////////////////////////////
+
+class people{
+private:
+    string user;
+    string name;
+    int gioi_tinh;
+    string ngay_sinh;
+    string email;
+    int doi_tuong;
+    string phonenumber;
+    string pass;
+public:
+    people(string user,string name, int gioi_tinh,string ngay_sinh,string email,int doi_tuong, string phonenumber,string pass){
+        this->user=user;
+        this->name=name;
+        this->gioi_tinh=gioi_tinh;
+        this->ngay_sinh=ngay_sinh;
+        this->email=email;
+        this->doi_tuong=doi_tuong;
+        this->phonenumber=phonenumber;
+        this->pass=pass;
+    };
+    people();
+    void setUser(string user){
+        this->user=user;
+    }
+    string getUser(){
+        return user;
+    }
+    void setName(string name){
+        this->name=name;
+    }
+    string getName(){
+        return name;
+    }
+    void setGioi_tinh(int gioi_tinh){
+        if(gioi_tinh != 1 && gioi_tinh != 0){
+            cout<<"khong hop le";
+        }else{
+        this->gioi_tinh=gioi_tinh;
+        }
+    }
+    int getGioi_tinh(){
+        return gioi_tinh;
+    }
+    void setNgay_sinh(string ngay_sinh){
+        this->ngay_sinh=ngay_sinh;
+    }
+    string getNgay_sinh(){
+        return ngay_sinh;
+    }
+    void setEmail(string email){
+        this->email=email;
+    }
+    string getEmail(){
+        return email;
+    }
+    void setDoi_tuong(int doi_tuong){
+        this->doi_tuong=doi_tuong;
+    }
+    int getDoi_tuong(){
+        return doi_tuong;
+    }
+    void setPhonenumber(string phonenumber){
+        this->phonenumber=phonenumber;
+    }
+    string getPhonenumber(){
+        return phonenumber;
+    }
+    void setPass(string pass){
+        this->pass=pass;
+    }
+    string getPass(){
+        return pass;
+    }
+};
+
+struct Node {
+    people data;
+    Node* prev;
+    Node* next;
+
+    Node(people p) : data(p), prev(NULL), next(NULL) {}
+};
+class du_lieu_user {
+private:
+    people data_user_id;
+    du_lieu_user* next;
+    du_lieu_user* prev;
+public:
+
+};
+
+void Doc_File(){
+    peoples = fopen("user.txt","r");
+    if (peoples == NULL) {
+        fclose(peoples);
+        fopen("user.txt","w");
+        fclose(peoples);
+        fopen("user.txt","r");
+        return;
+    }
+    int n = 0;
+    n = fscanf(peoples,"%d");
+
+}
 
 int main(int argc, char *argv[])
 {
@@ -13,6 +126,8 @@ int main(int argc, char *argv[])
     w.show();
     return a.exec();
 }
+
+
 
 pbl2::pbl2(QWidget *parent)
     : QMainWindow(parent)
@@ -68,21 +183,24 @@ static void clearError(QLineEdit* w) {
 
 void pbl2::on_dang_nhap_button_clicked()
 {
-    const QString user = ui->ten_nguoi_dung_input->text().trimmed();
-    const QString pass = ui->mat_khau_input->text();
-    if (user.isEmpty()){
+    string user = ui->ten_nguoi_dung_input->text().trimmed().toUtf8().toStdString();
+    string pass = ui->mat_khau_input->text().toUtf8().toStdString();
+
+    if (user.empty()){
         markError(ui->ten_nguoi_dung_input,"Vui long nhap ten nguoi dung");
     }
     else{
         clearError(ui->ten_nguoi_dung_input);
     }
-    if (pass.isEmpty()){
+    if (pass.empty()){
         markError(ui->mat_khau_input,"Vui long nhap mat khau");
     }
     else{
         clearError(ui->mat_khau_input);
     }
 }
+
+
 
 void dang_ky_dialog::on_dang_ky_2_button_clicked()
 {
