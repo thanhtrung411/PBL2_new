@@ -11,7 +11,6 @@ using namespace std;
 
 FILE *peoples;
 
-
 ////////////////////////////
 
 class people{
@@ -98,7 +97,7 @@ class sach{
     string nha_xuat_ban;
     string nam_xuat;
     string hinh_thuc;
-    string so trang;
+    string so_trang;
     string ma_Deway;
     string vi_tri_luu_tru;
     string loai_tai_lieu;
@@ -253,60 +252,24 @@ struct Node {
 };
 class du_lieu_user {
 private:
-    Node* head;
-    Node* tail;
-
+    people data_user_id;
+    du_lieu_user* next;
+    du_lieu_user* prev;
 public:
-    du_lieu_user() {
-        head = tail = NULL;
-    }
 
-    // Them vao cuoi
-    void push_back(people p) {
-        Node* newNode = new Node(p);
-        if (!head) {
-            head = tail = newNode;
-        } else {
-            tail->next = newNode;
-            newNode->prev = tail;
-            tail = newNode;
-        }
-    }
-
-    // Duyet danh sach
-    void display() {
-        Node* temp = head;
-        while (temp) {
-            cout << "User: " << temp->data.getUser()
-            << " | Name: " << temp->data.getName()
-            << " | Email: " << temp->data.getEmail()
-            << " | Phone: " << temp->data.getPhonenumber() << endl;
-            temp = temp->next;
-        }
-    }
-
-    void remove(string username) {
-        Node* temp = head;
-        while (temp) {
-            if (temp->data.getUser() == username) {
-                if (temp == head) head = temp->next;
-                if (temp == tail) tail = temp->prev;
-                if (temp->prev) temp->prev->next = temp->next;
-                if (temp->next) temp->next->prev = temp->prev;
-                delete temp;
-                return;
-            }
-            temp = temp->next;
-        }
-    }
 };
-
-du_lieu_user users_;
 
 void Doc_File(){
     peoples = fopen("user.txt","r");
-    people s;
-    s.setDoi_tuong(5);
+    if (peoples == NULL) {
+        fclose(peoples);
+        fopen("user.txt","w");
+        fclose(peoples);
+        fopen("user.txt","r");
+        return;
+    }
+    int n = 0;
+    n = fscanf(peoples,"%d");
 
 }
 
@@ -390,6 +353,8 @@ void pbl2::on_dang_nhap_button_clicked()
         clearError(ui->mat_khau_input);
     }
 }
+
+
 
 void dang_ky_dialog::on_dang_ky_2_button_clicked()
 {
