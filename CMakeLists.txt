@@ -24,6 +24,7 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         MANUAL_FINALIZATION
         ${PROJECT_SOURCES}
         dang_ky_dialog.h dang_ky_dialog.cpp dang_ky_dialog.ui
+        book.h book.cpp
     )
 # Define target properties for Android with Qt 6 as:
 #    set_property(TARGET pbl2 APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR
