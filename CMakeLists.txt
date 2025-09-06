@@ -25,6 +25,18 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         ${PROJECT_SOURCES}
         dang_ky_dialog.h dang_ky_dialog.cpp dang_ky_dialog.ui
         book.h book.cpp
+        description.h description.cpp
+        time.h time.cpp
+        accout.h accout.cpp
+        tree.h tree.cpp
+
+
+
+        my_string.h my_string.cpp
+        resource.qrc
+        data/accout.txt
+        data/book.txt
+
     )
 # Define target properties for Android with Qt 6 as:
 #    set_property(TARGET pbl2 APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR

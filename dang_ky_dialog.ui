@@ -13,6 +13,9 @@
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
+  <property name="styleSheet">
+   <string notr="true">QWidget { background: rgb(243, 246, 255);color: rgb(69, 104, 173)}</string>
+  </property>
   <widget class="QWidget" name="centralwidget">
    <widget class="QLineEdit" name="user_input">
     <property name="geometry">
@@ -22,6 +25,14 @@
       <width>291</width>
       <height>28</height>
      </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QLineEdit {
+  background: rgb(243, 246, 255);
+  color: rgb(8, 104, 173);
+  border: 2px solid rgb(69, 104, 173);
+  border-radius: 6px;
+}</string>
     </property>
     <property name="placeholderText">
      <string>Nhập Mã số sinh viên (nếu có)</string>
@@ -61,6 +72,14 @@
       <width>291</width>
       <height>28</height>
      </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QLineEdit {
+  background: rgb(243, 246, 255);
+  color: rgb(8, 104, 173);
+  border: 2px solid rgb(69, 104, 173);
+  border-radius: 6px;
+}</string>
     </property>
     <property name="placeholderText">
      <string>Nhập họ và tên</string>
@@ -113,6 +132,13 @@
       <width>291</width>
       <height>28</height>
      </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">  background: rgb(243, 246, 255);
+  color: rgb(8, 104, 173);
+  border: 2px solid rgb(69, 104, 173);
+  border-radius: 6px;
+</string>
     </property>
     <property name="placeholderText">
      <string>Nhập địa chỉ email</string>
@@ -179,6 +205,13 @@
       <height>28</height>
      </rect>
     </property>
+    <property name="styleSheet">
+     <string notr="true">  background: rgb(243, 246, 255);
+  color: rgb(8, 104, 173);
+  border: 2px solid rgb(69, 104, 173);
+  border-radius: 6px;
+</string>
+    </property>
     <property name="echoMode">
      <enum>QLineEdit::EchoMode::Password</enum>
     </property>
@@ -192,7 +225,7 @@
       <x>280</x>
       <y>490</y>
       <width>761</width>
-      <height>25</height>
+      <height>21</height>
      </rect>
     </property>
     <property name="text">
@@ -211,6 +244,9 @@
     <layout class="QHBoxLayout" name="horizontalLayout">
      <item>
       <widget class="QRadioButton" name="Boy_button">
+       <property name="styleSheet">
+        <string notr="true">selection-color: rgb(69, 104, 173)</string>
+       </property>
        <property name="text">
         <string>Nam</string>
        </property>
@@ -234,6 +270,12 @@
       <height>31</height>
      </rect>
     </property>
+    <property name="styleSheet">
+     <string notr="true">  background: rgb(243, 246, 255);
+  color: rgb(8, 104, 173);
+  border: 2px solid rgb(69, 104, 173);
+  border-radius: 6px;</string>
+    </property>
    </widget>
    <widget class="QComboBox" name="Doi_tuong_input">
     <property name="geometry">
@@ -243,6 +285,13 @@
       <width>291</width>
       <height>28</height>
      </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">  background: rgb(243, 246, 255);
+  color: rgb(8, 104, 173);
+  border: 2px solid rgb(69, 104, 173);
+  border-radius: 6px;
+</string>
     </property>
     <item>
      <property name="text">
@@ -264,10 +313,17 @@
     <property name="geometry">
      <rect>
       <x>660</x>
-      <y>550</y>
+      <y>560</y>
       <width>141</width>
       <height>31</height>
      </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">  background:  rgb(8, 104, 173);
+  color: rgb(243, 246, 255);
+  border: 2px solid rgb(69, 104, 173);
+  border-radius: 6px;
+</string>
     </property>
     <property name="text">
      <string>ĐĂNG KÝ</string>
@@ -282,6 +338,13 @@
       <height>28</height>
      </rect>
     </property>
+    <property name="styleSheet">
+     <string notr="true">  background: rgb(243, 246, 255);
+  color: rgb(8, 104, 173);
+  border: 2px solid rgb(69, 104, 173);
+  border-radius: 6px;
+</string>
+    </property>
     <property name="placeholderText">
      <string>Nhập số điện thoại</string>
     </property>
@@ -294,6 +357,13 @@
       <width>291</width>
       <height>28</height>
      </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">  background: rgb(243, 246, 255);
+  color: rgb(8, 104, 173);
+  border: 2px solid rgb(69, 104, 173);
+  border-radius: 6px;
+</string>
     </property>
     <property name="echoMode">
      <enum>QLineEdit::EchoMode::Password</enum>
@@ -315,6 +385,19 @@
      <string/>
     </property>
    </widget>
+   <widget class="QLabel" name="Dieu_khoan_canh_bao">
+    <property name="geometry">
+     <rect>
+      <x>280</x>
+      <y>510</y>
+      <width>391</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
@@ -322,7 +405,7 @@
      <x>0</x>
      <y>0</y>
      <width>1317</width>
-     <height>21</height>
+     <height>25</height>
     </rect>
    </property>
   </widget>
