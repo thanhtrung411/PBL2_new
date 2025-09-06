@@ -13,8 +13,9 @@ private:
     int doi_tuong;
     string phone_number;
     string pass;
+    string level;
 public:
-    accout(string accout_id,string accout_name, int gioi_tinh,string ngay_sinh,string email,int doi_tuong, string phone_number,string pass){
+    accout(string accout_id,string accout_name, int gioi_tinh,string ngay_sinh,string email,int doi_tuong, string phone_number,string pass,string level){
         this->accout_id=accout_id;
         this->accout_name=accout_name;
         this->gioi_tinh=gioi_tinh;
@@ -23,6 +24,7 @@ public:
         this->doi_tuong=doi_tuong;
         this->phone_number=phone_number;
         this->pass=pass;
+        this->level=level;
     };
     accout() {}
     ~accout() {}
@@ -78,8 +80,16 @@ public:
     string getPass(){
         return pass;
     }
+    void setlevel(string level){
+        this->level=level;
+    }
+    string getlevel(){
+        return level;
+    }
     void ma_hoa_(accout &a);
     void ma_hoa_();
+    void giai_ma_(accout &a);
+    void giai_ma_();
 };
 
 #endif // ACCOUT_H

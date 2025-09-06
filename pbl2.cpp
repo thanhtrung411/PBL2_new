@@ -17,3 +17,6 @@ pbl2::~pbl2()
     delete ui;
 }
 
+void pbl2::sign_in() {
+    ui->info->setCurrentIndex(1);
+}

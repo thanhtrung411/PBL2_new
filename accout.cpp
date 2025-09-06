@@ -29,6 +29,16 @@ void accout::ma_hoa_(){
     email = ma_hoa_str_(email);
     phone_number = ma_hoa_str_(phone_number);
     pass = ma_hoa_str_(pass);
+    level = ma_hoa_str_(level);
+}
+
+void accout::giai_ma_(){
+    accout_name = giai_ma_str_(accout_name);
+    ngay_sinh = giai_ma_str_(ngay_sinh);
+    email = giai_ma_str_(email);
+    phone_number = giai_ma_str_(phone_number);
+    pass = giai_ma_str_(pass);
+    level = giai_ma_str_(level);
 }
 /*
 accout accout::check_accout(string id, string pass){

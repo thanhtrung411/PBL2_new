@@ -2,5 +2,10 @@
     <qresource prefix="/icons">
         <file>icons_/check.png</file>
         <file>icons_/search.png</file>
+        <file>icons_/home.png</file>
+    </qresource>
+    <qresource prefix="/data_">
+        <file>data/accout.txt</file>
+        <file>data/book.txt</file>
     </qresource>
 </RCC>

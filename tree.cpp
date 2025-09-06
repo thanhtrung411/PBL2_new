@@ -1,5 +1,7 @@
 #include "tree.h"
 #include <iostream>
+#include <QTextStream>
+#include <QString>
 #include <fstream>
 using namespace std;
 /*
@@ -150,23 +152,21 @@ int BST_Accout::count_accout(){
 int BST_Accout::count_accout() const{
     return count(root); 
 }
-void BST_Accout::write(Node_Accout* node, std::fstream &file) const{
-    if (node == nullptr) {
-        return;
-    }
-    write(node->getLeft(), file);
+void BST_Accout::write(Node_Accout* node, QTextStream &out) const {
+    if (!node) return;
+    write(node->getLeft(), out);
     accout& a = node->getData();
-    file << '\n';
-    file << a.getAccout_id()   << '\n';
-    file << a.getAccout_Name() << '\n';
-    file << a.getEmail()       << '\n';
-    file << a.getPhonenumber() << '\n';
-    file << a.getGioi_tinh()   << '\n';
-    file << a.getDoi_tuong()   << '\n';
-    file << a.getNgay_sinh()   << '\n';
-    file << a.getPass()        << '\n';
-    write(node->getRight(), file);
+    out << QString::fromStdString(a.getAccout_id())   << '\n';
+    out << QString::fromStdString(a.getAccout_Name()) << '\n';
+    out << QString::fromStdString(a.getEmail())       << '\n';
+    out << QString::fromStdString(a.getPhonenumber()) << '\n';
+    out << a.getGioi_tinh()                           << '\n';
+    out << a.getDoi_tuong()                           << '\n';
+    out << QString::fromStdString(a.getNgay_sinh())   << '\n';
+    out << QString::fromStdString(a.getPass())        << '\n';
+    out << QString::fromStdString(a.getlevel())       << '\n';
+    write(node->getRight(), out);
 }
-void BST_Accout::write_accout(fstream &file) const{
-    write(root, file);
+void BST_Accout::write_accout(QTextStream &out) const {
+    write(root, out);
 }

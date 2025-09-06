@@ -1,6 +1,7 @@
 #ifndef TREE_H
 #define TREE_H
 #include <iostream>
+#include <QTextStream>
 #include "accout.h"
 using namespace std;
 class Node_Accout {
@@ -41,7 +42,7 @@ private:
     Node_Accout* check_accout_helper(Node_Accout* node, string id, string pass, int &ok, accout &a);
     Node_Accout* delete_Accout(Node_Accout* node, accout data, int &ok);
     int count(Node_Accout* node) const;
-    void write(Node_Accout* node,std::fstream &file) const;
+    void write(Node_Accout* node, QTextStream &out) const;
 public:
     BST_Accout(): root(nullptr) {}
     ~BST_Accout();
@@ -53,7 +54,7 @@ public:
     int count_accout();
     void write_accout(Node_Accout* node, fstream &file);
     int count_accout() const;
-    void write_accout(fstream &file) const;
+    void write_accout(QTextStream &out) const;
 };
     
 #endif // TREE_H

@@ -34,6 +34,7 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         resource.qrc
         data/accout.txt
         data/book.txt
+        my_file.h my_file.cpp
 
     )
 # Define target properties for Android with Qt 6 as:
