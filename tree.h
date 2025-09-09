@@ -4,7 +4,9 @@
 #include <QTextStream>
 #include "accout.h"
 #include "book.h"
+#include "description.h"
 using namespace std;
+
 class Node_Book{
     private:
     book data;

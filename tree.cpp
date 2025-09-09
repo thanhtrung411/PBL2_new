@@ -201,6 +201,15 @@ Node_Book* BST_Book::add_Book(Node_Book* node, book &value,int &ok){
     }
     return node;
 }
+float Find_str(string a, string b){
+    int count = 0;
+    size_t pos = a.find(b);
+    while (pos != string::npos) {
+        count++;
+        pos = a.find(b, pos + b.length());
+    }
+    return (float)count / a.length();
+}
 Node_Book* BST_Book::search_Book(Node_Book* node, string id, int &ok, book &a){
     if (node == nullptr){
         ok = 0;
