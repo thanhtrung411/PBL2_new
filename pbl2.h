@@ -23,6 +23,8 @@ private slots:
 
     void on_dang_nhap_button_clicked();
 
+    void on_quyen_quan_tri_clicked();
+
 private:
     Ui::pbl2 *ui;
 };

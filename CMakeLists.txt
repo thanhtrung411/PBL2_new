@@ -24,7 +24,9 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         MANUAL_FINALIZATION
         ${PROJECT_SOURCES}
         dang_ky_dialog.h dang_ky_dialog.cpp dang_ky_dialog.ui
-
+        book.h book.cpp
+        description.h description.cpp
+        time.h time.cpp
         accout.h accout.cpp
         tree.h tree.cpp
 
@@ -35,6 +37,8 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         data/accout.txt
         data/book.txt
         my_file.h my_file.cpp
+        admin_show.h admin_show.cpp admin_show.ui
+
 
     )
 # Define target properties for Android with Qt 6 as:

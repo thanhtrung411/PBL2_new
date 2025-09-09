@@ -1,5 +1,7 @@
 #include "pbl2.h"
 #include "./ui_pbl2.h"
+#include "admin_show.h"
+#include "ui_admin_show.h"
 pbl2::pbl2(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::pbl2)
@@ -20,3 +22,11 @@ pbl2::~pbl2()
 void pbl2::sign_in() {
     ui->info->setCurrentIndex(1);
 }
+
+void pbl2::on_quyen_quan_tri_clicked()
+{
+    auto win = new admin_show(this);
+    win->setAttribute(Qt::WA_DeleteOnClose, true);
+    win->show();
+}
+

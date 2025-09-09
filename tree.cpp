@@ -15,15 +15,27 @@ bool insert_Accout(accout &value);
 */
 
 namespace{
-    void destroy(Node_Accout* node) {
+    void destroy_account(Node_Accout* node) {
         if (!node) return;
-        destroy(node->getLeft());
-        destroy(node->getRight());
+        destroy_account(node->getLeft());
+        destroy_account(node->getRight());
+        delete node;
+    }
+    void destroy_book(Node_Book* node) {
+        if (!node) return;
+        destroy_book(node->getLeft());
+        destroy_book(node->getRight());
         delete node;
     }
 }
+
+
+BST_Book::~BST_Book() {
+    destroy_book(root);
+}
+
 BST_Accout::~BST_Accout() {
-    destroy(root);
+    destroy_account(root);
 }
 
 Node_Accout* BST_Accout::add_Accout(Node_Accout* node, accout &value,int &ok){
@@ -57,6 +69,7 @@ Node_Accout* BST_Accout::search_Accout(Node_Accout* node, string id, int &ok, ac
         return search_Accout(node->getRight(), id, ok, a);
     }
 }
+
 
 Node_Accout* BST_Accout::delete_Accout(Node_Accout* node, accout data, int &ok){
     if (node == nullptr){
@@ -169,4 +182,142 @@ void BST_Accout::write(Node_Accout* node, QTextStream &out) const {
 }
 void BST_Accout::write_accout(QTextStream &out) const {
     write(root, out);
+}
+
+///////////////////////////////////////////////////////////////////\
+
+
+Node_Book* BST_Book::add_Book(Node_Book* node, book &value,int &ok){
+    if (node == nullptr){
+        ok = 1;
+        return new Node_Book(value);
+    }
+    if (value.get_id_book() < node->getData().get_id_book()){
+        node->setLeft(add_Book(node->getLeft(), value,ok));
+    } else if (value.get_id_book() > node->getData().get_id_book()){
+        node->setRight(add_Book(node->getRight(), value,ok));
+    } else {
+        ok = 0;
+    }
+    return node;
+}
+Node_Book* BST_Book::search_Book(Node_Book* node, string id, int &ok, book &a){
+    if (node == nullptr){
+        ok = 0;
+        return nullptr;
+    }
+    if (id == node->getData().get_id_book()){
+        ok = 1;
+        a = node->getData();
+        return node;
+    }
+    if (id < node->getData().get_id_book()){
+        return search_Book(node->getLeft(), id, ok, a);
+    } else{
+        return search_Book(node->getRight(), id, ok, a);
+    }
+}
+Node_Book* BST_Book::delete_Book(Node_Book* node, book data, int &ok){
+    if (node == nullptr){
+        ok = 0;
+        return nullptr;
+    }
+    if (data.get_id_book() < node->getData().get_id_book()){
+        node->setLeft(delete_Book(node->getLeft(), data, ok));
+    } else if (data.get_id_book() > node->getData().get_id_book()){
+        node->setRight(delete_Book(node->getRight(), data, ok));
+    } else{
+        ok = 1;
+        if (node->getLeft() == nullptr){
+            Node_Book* temp = node->getRight();
+            delete node;
+            return temp;
+        } else if (node->getRight() == nullptr){
+            Node_Book* temp = node->getLeft();
+            delete node;
+            return temp;
+        } else {
+            Node_Book* successor = node->getRight();
+            while (successor->getLeft() != nullptr){
+                successor = successor->getLeft();
+            }
+            node->setData(successor->getData());
+            node->setRight(delete_Book(node->getRight(), successor->getData(), ok));
+        }
+    }
+    return node;
+}
+bool BST_Book::insert_Book(book &value){
+    int ok = 0;
+    root = add_Book(root, value,ok);
+    return ok == 1;
+}
+bool BST_Book::remove_Book(book &value){
+    int ok = 0;
+    root = delete_Book(root, value, ok);
+    return ok == 1;
+}
+bool BST_Book::find_Book(string id, book &a){
+    int ok = 0;
+    search_Book(root, id, ok, a);
+    return ok == 1;
+}
+bool BST_Book::update_Book(book &old_, book &new_){
+    int ok = 0;
+    Node_Book* node = search_Book(root, old_.get_id_book(), ok, old_);
+    if (ok == 1) {
+        node->setData(new_);
+        return true;
+    }
+    return false;
+}
+int BST_Book::count(Node_Book* node) const{
+    if (node == nullptr) {
+        return 0;
+    }
+    return 1 + count(node->getLeft()) + count(node->getRight());
+}
+int BST_Book::count_book(){
+    return count(root);
+}
+int BST_Book::count_book() const{
+    return count(root); 
+}
+void BST_Book::write(Node_Book* node, std::fstream &file) const{
+    if (node == nullptr) {
+        return;
+    }
+    write(node->getLeft(), file);
+    book& a = node->getData();
+    file << '\n';
+    file << a.get_id_book()    << '\n';
+    file << a.get_name_book()  << '\n';
+    file << a.get_author()     << '\n';
+    file << a.get_category()   << '\n';
+    file << a.get_publisher()  << '\n';
+    file << a.get_year()       << '\n';
+    file << a.get_quantity()   << '\n';
+    file << a.get_state()      << '\n';
+    file << a.get_link_image() << '\n';
+    file << a.get_link_pdf()   << '\n';
+    write(node->getRight(), file);
+}
+void BST_Book::write_book(Node_Book* node, fstream &file){
+    if (node == nullptr) {
+        return;
+    }
+    write_book(node->getLeft(), file);
+    book& a = node->getData();
+    file << '\n';
+    file << a.get_id_book()    << '\n';
+    file << a.get_name_book()  << '\n';
+    file << a.get_author()     << '\n';
+    file << a.get_category()   << '\n';
+    file << a.get_publisher()  << '\n';
+    file << a.get_year()       << '\n';
+    file << a.get_quantity()   << '\n';
+    file << a.get_state()      << '\n';
+    file << a.get_link_image() << '\n';
+    file << a.get_link_pdf()   << '\n';
+    write_book(node->getRight(), file);
 }

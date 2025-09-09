@@ -3,7 +3,60 @@
 #include <iostream>
 #include <QTextStream>
 #include "accout.h"
+#include "book.h"
 using namespace std;
+class Node_Book{
+    private:
+    book data;
+    Node_Book* left;
+    Node_Book* right;   
+    public:
+    explicit Node_Book(book &value):
+        data(value),
+        left(nullptr),
+        right(nullptr){}
+    Node_Book* getLeft(){
+        return left;
+    }
+    Node_Book* getRight() {
+        return right;
+    }
+    book& getData(){
+        return data;
+    }
+    void setLeft(Node_Book* node){
+        left = node;
+    }
+    void setRight(Node_Book* node){
+        right = node;
+    }
+    void setData(const book& value){
+        data = value;
+    }
+
+};
+
+class BST_Book {
+private:
+    Node_Book* root;
+    Node_Book* add_Book(Node_Book* node, book &value,int &ok);
+    Node_Book* search_Book(Node_Book* node, string id, int &ok, book &a);
+    Node_Book* delete_Book(Node_Book* node, book data, int &ok);
+    int count(Node_Book* node) const;
+    void write(Node_Book* node,std::fstream &file) const;
+public:
+    BST_Book(): root(nullptr) {}
+    ~BST_Book();
+    bool insert_Book(book &value);
+    bool remove_Book(book &value);
+    bool find_Book(string id, book &a);
+    bool update_Book(book &old_, book &new_);
+    int count_book();
+    void write_book(Node_Book* node, fstream &file);
+    int count_book() const;
+    void write_book(fstream &file) const;
+};
+
 class Node_Accout {
 private:
     accout data;

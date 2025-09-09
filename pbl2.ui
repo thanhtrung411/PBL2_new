@@ -419,6 +419,13 @@ QPushButton:hover {
           </widget>
          </item>
          <item>
+          <widget class="QPushButton" name="quyen_quan_tri">
+           <property name="text">
+            <string>Quyền quản trị </string>
+           </property>
+          </widget>
+         </item>
+         <item>
           <spacer name="verticalSpacer">
            <property name="orientation">
             <enum>Qt::Orientation::Vertical</enum>

@@ -20,7 +20,6 @@ BST_Accout accout_data;
 accout acc_sign_in;
 
 ////////////////////////////
-
 void box_thong_bao(string s){
     QMessageBox box;
     box.setWindowTitle("Thông báo");
