@@ -15,6 +15,9 @@ public:
     explicit admin_show(QWidget *parent = nullptr);
     ~admin_show();
 
+private slots:
+    void on_them_button_clicked();
+
 private:
     Ui::admin_show *ui_3;
 };

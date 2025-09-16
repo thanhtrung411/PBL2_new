@@ -54,9 +54,9 @@ public:
     bool find_Book(string id, book &a);
     bool update_Book(book &old_, book &new_);
     int count_book();
-    void write_book(Node_Book* node, fstream &file);
+    void write_csv(Node_Book* node, QTextStream &out) const;
     int count_book() const;
-    void write_book(fstream &file) const;
+    void write_book(QTextStream &out) const;
 };
 
 class Node_Accout {

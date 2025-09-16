@@ -178,6 +178,7 @@ void BST_Accout::write(Node_Accout* node, QTextStream &out) const {
     out << QString::fromStdString(a.getNgay_sinh())   << '\n';
     out << QString::fromStdString(a.getPass())        << '\n';
     out << QString::fromStdString(a.getlevel())       << '\n';
+    out << QString::fromStdString(a.getDate_created())<< '\n';
     write(node->getRight(), out);
 }
 void BST_Accout::write_accout(QTextStream &out) const {
@@ -201,6 +202,7 @@ Node_Book* BST_Book::add_Book(Node_Book* node, book &value,int &ok){
     }
     return node;
 }
+
 float Find_str(string a, string b){
     int count = 0;
     size_t pos = a.find(b);
@@ -210,6 +212,7 @@ float Find_str(string a, string b){
     }
     return (float)count / a.length();
 }
+
 Node_Book* BST_Book::search_Book(Node_Book* node, string id, int &ok, book &a){
     if (node == nullptr){
         ok = 0;
@@ -226,6 +229,7 @@ Node_Book* BST_Book::search_Book(Node_Book* node, string id, int &ok, book &a){
         return search_Book(node->getRight(), id, ok, a);
     }
 }
+
 Node_Book* BST_Book::delete_Book(Node_Book* node, book data, int &ok){
     if (node == nullptr){
         ok = 0;
@@ -256,21 +260,25 @@ Node_Book* BST_Book::delete_Book(Node_Book* node, book data, int &ok){
     }
     return node;
 }
+
 bool BST_Book::insert_Book(book &value){
     int ok = 0;
     root = add_Book(root, value,ok);
     return ok == 1;
 }
+
 bool BST_Book::remove_Book(book &value){
     int ok = 0;
     root = delete_Book(root, value, ok);
     return ok == 1;
 }
+
 bool BST_Book::find_Book(string id, book &a){
     int ok = 0;
     search_Book(root, id, ok, a);
     return ok == 1;
 }
+
 bool BST_Book::update_Book(book &old_, book &new_){
     int ok = 0;
     Node_Book* node = search_Book(root, old_.get_id_book(), ok, old_);
@@ -280,53 +288,47 @@ bool BST_Book::update_Book(book &old_, book &new_){
     }
     return false;
 }
+
 int BST_Book::count(Node_Book* node) const{
     if (node == nullptr) {
         return 0;
     }
     return 1 + count(node->getLeft()) + count(node->getRight());
 }
+
 int BST_Book::count_book(){
     return count(root);
 }
+
 int BST_Book::count_book() const{
     return count(root); 
 }
-void BST_Book::write(Node_Book* node, std::fstream &file) const{
-    if (node == nullptr) {
-        return;
-    }
-    write(node->getLeft(), file);
+
+void BST_Book::write_csv(Node_Book* node, QTextStream &out) const {
+    if (!node) return;
+    write_csv(node->getLeft(), out);
     book& a = node->getData();
-    file << '\n';
-    file << a.get_id_book()    << '\n';
-    file << a.get_name_book()  << '\n';
-    file << a.get_author()     << '\n';
-    file << a.get_category()   << '\n';
-    file << a.get_publisher()  << '\n';
-    file << a.get_year()       << '\n';
-    file << a.get_quantity()   << '\n';
-    file << a.get_state()      << '\n';
-    file << a.get_link_image() << '\n';
-    file << a.get_link_pdf()   << '\n';
-    write(node->getRight(), file);
+    out << QString::fromStdString(a.get_id_book())      << ',' << '\"'
+        << QString::fromStdString(a.get_name_book())    << '\"' << ',' << '\"'
+        << QString::fromStdString(a.get_tac_gia())      << '\"' << ','
+        << QString::fromStdString(a.get_the_loai())     << ','
+        << QString::fromStdString(a.get_nha_xuat_ban()) << ','
+        << QString::fromStdString(a.get_nam_xuat_ban()) << ','
+        << QString::fromStdString(a.get_so_trang())     << ','
+        << QString::fromStdString(a.get_ISBN())         << ','
+        << QString::fromStdString(a.get_ngon_ngu())     << ',' << '\"'
+        << QString::fromStdString(a.get_tu_khoa())      << '\"' << ','
+        << QString::fromStdString(a.get_chuyen_nganh()) << ','
+        << QString::fromStdString(a.get_don_gia())      << ',' << "\""
+        << QString::fromStdString(a.get_tom_tat())      << '\"' << ','
+        << QString::fromStdString(a.get_link_png())     << ','
+        << QString::fromStdString(a.get_link_pdf())     << ','
+        << QString::fromStdString(a.get_type_book())    << ','
+        << QString::fromStdString(a.get_tinh_trang())   << '\n';
+    write_csv(node->getRight(), out);
 }
-void BST_Book::write_book(Node_Book* node, fstream &file){
-    if (node == nullptr) {
-        return;
-    }
-    write_book(node->getLeft(), file);
-    book& a = node->getData();
-    file << '\n';
-    file << a.get_id_book()    << '\n';
-    file << a.get_name_book()  << '\n';
-    file << a.get_author()     << '\n';
-    file << a.get_category()   << '\n';
-    file << a.get_publisher()  << '\n';
-    file << a.get_year()       << '\n';
-    file << a.get_quantity()   << '\n';
-    file << a.get_state()      << '\n';
-    file << a.get_link_image() << '\n';
-    file << a.get_link_pdf()   << '\n';
-    write_book(node->getRight(), file);
+void BST_Book::write_book(QTextStream &out) const {
+    // Ghi dòng tiêu đề
+    out << "ID_BOOK,Tên sách,Tên tác giả,Thể loại,Nhà xuất bản,Năm xuất bản,Số trang,ISBN,Ngôn ngữ,Từ khóa,Chuyên ngành,Đơn giá,Tóm tắt,link_png,link_pdf,type_book,Tình trạng\n";
+    write_csv(root, out);
 }

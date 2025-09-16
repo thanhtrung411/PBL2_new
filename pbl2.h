@@ -25,6 +25,8 @@ private slots:
 
     void on_quyen_quan_tri_clicked();
 
+    void set_up_card();
+
 private:
     Ui::pbl2 *ui;
 };

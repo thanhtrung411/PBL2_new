@@ -44,4 +44,7 @@ static string giai_ma_str_(const string& ma_hoa) {
     }
     return giai_ma;
 }
+
+int tim_kiem_xau(string key, string full);
+
 #endif // MY_STRING_H

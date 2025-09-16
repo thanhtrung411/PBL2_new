@@ -8,6 +8,8 @@
 #include "tree.h"
 #include "my_string.h"
 #include "my_file.h"
+#include "my_time.h"
+#include "global.h"
 #include <QApplication>
 #include <QMessageBox>
 #include <QStyleFactory>
@@ -17,6 +19,7 @@ using namespace std;
 
 FILE *peoples;
 BST_Accout accout_data;
+BST_Book book_data;
 accout acc_sign_in;
 
 ////////////////////////////
@@ -62,6 +65,7 @@ int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
     doc_accout(accout_data);
+    doc_book(book_data);
     //applyFusionDark(a);
     pbl2 w;
     w.show();
@@ -76,7 +80,6 @@ void pbl2::on_dang_ky_button_clicked()
     connect(win, &dang_ky_dialog::registered, this, [this, win](const accout& user) {
         acc_sign_in = user;
         ui->info->setCurrentIndex(1);
-        ui->vung_hien_thi->setCurrentIndex(1);
         ui->user_name_layout->setText(
             QString::fromStdString("Xin chào " + giai_ma_str_(acc_sign_in.getAccout_Name()) + ","));
         ui->score_layout->setText("Admin");

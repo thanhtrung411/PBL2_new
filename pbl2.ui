@@ -44,7 +44,7 @@
      <verstretch>0</verstretch>
     </sizepolicy>
    </property>
-   <layout class="QHBoxLayout" name="horizontalLayout" stretch="0,1,0">
+   <layout class="QHBoxLayout" name="horizontalLayout" stretch="0,0,0">
     <property name="spacing">
      <number>5</number>
     </property>
@@ -80,59 +80,212 @@
       <property name="styleSheet">
        <string notr="true"/>
       </property>
-      <widget class="QWidget" name="page_4"/>
+      <property name="currentIndex">
+       <number>0</number>
+      </property>
+      <widget class="QWidget" name="page_4">
+       <widget class="QComboBox" name="comboBox">
+        <property name="geometry">
+         <rect>
+          <x>0</x>
+          <y>10</y>
+          <width>241</width>
+          <height>28</height>
+         </rect>
+        </property>
+        <item>
+         <property name="text">
+          <string>Sách chuyên ngành</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Báo chí</string>
+         </property>
+        </item>
+       </widget>
+      </widget>
       <widget class="QWidget" name="page_5"/>
      </widget>
     </item>
     <item>
-     <widget class="QStackedWidget" name="vung_hien_thi">
-      <property name="sizePolicy">
-       <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
-        <horstretch>0</horstretch>
-        <verstretch>0</verstretch>
-       </sizepolicy>
-      </property>
-      <property name="styleSheet">
-       <string notr="true">
-  border: 2px solid rgb(69, 104, 173);
-
-</string>
-      </property>
-      <property name="currentIndex">
-       <number>0</number>
-      </property>
-      <widget class="QWidget" name="trang_chu">
-       <widget class="QLineEdit" name="search_input">
-        <property name="geometry">
-         <rect>
-          <x>97</x>
-          <y>10</y>
-          <width>671</width>
-          <height>31</height>
-         </rect>
+     <layout class="QVBoxLayout" name="Mid_layout" stretch="1,0">
+      <item>
+       <widget class="QStackedWidget" name="search_widget">
+        <property name="maximumSize">
+         <size>
+          <width>16777215</width>
+          <height>157</height>
+         </size>
         </property>
-        <property name="font">
-         <font>
-          <family>Segoe UI</family>
-          <pointsize>9</pointsize>
-          <bold>false</bold>
-         </font>
+        <property name="currentIndex">
+         <number>0</number>
         </property>
-        <property name="styleSheet">
-         <string notr="true">  background: rgb(243, 246, 255);
+        <widget class="QWidget" name="search_page">
+         <widget class="QLineEdit" name="search_input">
+          <property name="geometry">
+           <rect>
+            <x>100</x>
+            <y>10</y>
+            <width>451</width>
+            <height>26</height>
+           </rect>
+          </property>
+          <property name="font">
+           <font>
+            <family>Segoe UI</family>
+            <pointsize>9</pointsize>
+            <bold>false</bold>
+           </font>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">  background: rgb(243, 246, 255);
   color: rgb(8, 104, 173);
   border: 2px solid rgb(69, 104, 173);
   border-radius: 10px;
   selection-color: rgb(13, 13, 13);
 </string>
-        </property>
-        <property name="placeholderText">
-         <string>Nhập tên tài liệu bạn muốn tìm kiếm...</string>
-        </property>
+          </property>
+          <property name="placeholderText">
+           <string>Nhập tên tài liệu bạn muốn tìm kiếm...</string>
+          </property>
+         </widget>
+         <widget class="QPushButton" name="search_button">
+          <property name="geometry">
+           <rect>
+            <x>560</x>
+            <y>10</y>
+            <width>90</width>
+            <height>29</height>
+           </rect>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">  background: rgb(8, 104, 173);
+  color: rgb(243, 246, 255);
+  border: 2px solid rgb(69, 104, 173);
+  border-radius: 11px;
+  selection-color: rgb(13, 13, 13);
+</string>
+          </property>
+          <property name="text">
+           <string>Tìm kiếm</string>
+          </property>
+         </widget>
+        </widget>
        </widget>
-      </widget>
-      <widget class="QWidget" name="page_2"/>
-     </widget>
+      </item>
+      <item>
+       <widget class="QScrollArea" name="scrollArea">
+        <property name="verticalScrollBarPolicy">
+         <enum>Qt::ScrollBarPolicy::ScrollBarAsNeeded</enum>
+        </property>
+        <property name="horizontalScrollBarPolicy">
+         <enum>Qt::ScrollBarPolicy::ScrollBarAsNeeded</enum>
+        </property>
+        <property name="widgetResizable">
+         <bool>true</bool>
+        </property>
+        <widget class="QWidget" name="scrollAreaWidgetContents">
+         <property name="geometry">
+          <rect>
+           <x>0</x>
+           <y>0</y>
+           <width>849</width>
+           <height>1500</height>
+          </rect>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>849</width>
+           <height>1500</height>
+          </size>
+         </property>
+         <widget class="QStackedWidget" name="noi_dung_layout">
+          <property name="geometry">
+           <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>849</width>
+            <height>1491</height>
+           </rect>
+          </property>
+          <property name="currentIndex">
+           <number>0</number>
+          </property>
+          <widget class="QWidget" name="trang_chu_page">
+           <widget class="QLabel" name="sach_moi_label">
+            <property name="geometry">
+             <rect>
+              <x>10</x>
+              <y>10</y>
+              <width>131</width>
+              <height>41</height>
+             </rect>
+            </property>
+            <property name="font">
+             <font>
+              <family>Times New Roman</family>
+              <pointsize>14</pointsize>
+              <bold>true</bold>
+             </font>
+            </property>
+            <property name="text">
+             <string>SÁCH MỚI</string>
+            </property>
+           </widget>
+           <widget class="QScrollArea" name="sach_moi_layout">
+            <property name="geometry">
+             <rect>
+              <x>0</x>
+              <y>50</y>
+              <width>851</width>
+              <height>276</height>
+             </rect>
+            </property>
+            <property name="verticalScrollBarPolicy">
+             <enum>Qt::ScrollBarPolicy::ScrollBarAsNeeded</enum>
+            </property>
+            <property name="horizontalScrollBarPolicy">
+             <enum>Qt::ScrollBarPolicy::ScrollBarAsNeeded</enum>
+            </property>
+            <property name="widgetResizable">
+             <bool>true</bool>
+            </property>
+            <widget class="QWidget" name="scrollAreaWidgetContents_2">
+             <property name="geometry">
+              <rect>
+               <x>0</x>
+               <y>0</y>
+               <width>885</width>
+               <height>257</height>
+              </rect>
+             </property>
+             <property name="minimumSize">
+              <size>
+               <width>885</width>
+               <height>0</height>
+              </size>
+             </property>
+             <widget class="QWidget" name="gridLayoutWidget">
+              <property name="geometry">
+               <rect>
+                <x>-1</x>
+                <y>-1</y>
+                <width>881</width>
+                <height>261</height>
+               </rect>
+              </property>
+              <layout class="QGridLayout" name="sach_moi_layout_2"/>
+             </widget>
+            </widget>
+           </widget>
+          </widget>
+          <widget class="QWidget" name="page_6"/>
+         </widget>
+        </widget>
+       </widget>
+      </item>
+     </layout>
     </item>
     <item>
      <widget class="QStackedWidget" name="info">
@@ -155,9 +308,9 @@
        <string notr="true"/>
       </property>
       <property name="currentIndex">
-       <number>1</number>
+       <number>0</number>
       </property>
-      <widget class="QWidget" name="page">
+      <widget class="QWidget" name="Sign_in_page">
        <widget class="QPushButton" name="quen_mat_khau_button">
         <property name="enabled">
          <bool>true</bool>
@@ -349,7 +502,7 @@ QPushButton:hover {
         </property>
        </widget>
       </widget>
-      <widget class="QWidget" name="page_3">
+      <widget class="QWidget" name="info_page">
        <widget class="QWidget" name="verticalLayoutWidget">
         <property name="geometry">
          <rect>
