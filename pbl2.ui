@@ -93,6 +93,9 @@
           <height>28</height>
          </rect>
         </property>
+        <property name="placeholderText">
+         <string>Thể Loại</string>
+        </property>
         <item>
          <property name="text">
           <string>Sách chuyên ngành</string>
@@ -127,8 +130,8 @@
            <rect>
             <x>100</x>
             <y>10</y>
-            <width>451</width>
-            <height>26</height>
+            <width>461</width>
+            <height>41</height>
            </rect>
           </property>
           <property name="font">
@@ -153,10 +156,10 @@
          <widget class="QPushButton" name="search_button">
           <property name="geometry">
            <rect>
-            <x>560</x>
+            <x>600</x>
             <y>10</y>
-            <width>90</width>
-            <height>29</height>
+            <width>101</width>
+            <height>41</height>
            </rect>
           </property>
           <property name="styleSheet">
@@ -189,7 +192,7 @@
          <property name="geometry">
           <rect>
            <x>0</x>
-           <y>0</y>
+           <y>-26</y>
            <width>849</width>
            <height>1500</height>
           </rect>
@@ -210,7 +213,7 @@
            </rect>
           </property>
           <property name="currentIndex">
-           <number>0</number>
+           <number>1</number>
           </property>
           <widget class="QWidget" name="trang_chu_page">
            <widget class="QLabel" name="sach_moi_label">
@@ -287,7 +290,279 @@
             </widget>
            </widget>
           </widget>
-          <widget class="QWidget" name="page_6"/>
+          <widget class="QWidget" name="page_6">
+           <widget class="QLabel" name="label">
+            <property name="geometry">
+             <rect>
+              <x>30</x>
+              <y>30</y>
+              <width>200</width>
+              <height>250</height>
+             </rect>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">background-color: rgb(67, 255, 224);</string>
+            </property>
+            <property name="text">
+             <string>TextLabel</string>
+            </property>
+           </widget>
+           <widget class="QWidget" name="verticalLayoutWidget_2">
+            <property name="geometry">
+             <rect>
+              <x>259</x>
+              <y>50</y>
+              <width>581</width>
+              <height>221</height>
+             </rect>
+            </property>
+            <layout class="QVBoxLayout" name="verticalLayout">
+             <item>
+              <widget class="QLabel" name="TEN_SACH">
+               <property name="font">
+                <font>
+                 <pointsize>12</pointsize>
+                </font>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">background-color: rgb(170, 255, 127);</string>
+               </property>
+               <property name="text">
+                <string>TextLabel</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QLabel" name="TAC_GIA">
+               <property name="styleSheet">
+                <string notr="true">background-color: rgb(255, 170, 255);</string>
+               </property>
+               <property name="text">
+                <string>TextLabel</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QLabel" name="NHA_XUAT_BAN">
+               <property name="styleSheet">
+                <string notr="true">background-color: rgb(255, 255, 0);</string>
+               </property>
+               <property name="text">
+                <string>TextLabel</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QLabel" name="NAM_XUAT_BAN">
+               <property name="styleSheet">
+                <string notr="true">background-color: rgb(125, 125, 255);</string>
+               </property>
+               <property name="text">
+                <string>TextLabel</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <spacer name="verticalSpacer_2">
+               <property name="orientation">
+                <enum>Qt::Orientation::Vertical</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>20</width>
+                 <height>40</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
+            </layout>
+           </widget>
+           <widget class="QWidget" name="verticalLayoutWidget_3">
+            <property name="geometry">
+             <rect>
+              <x>50</x>
+              <y>470</y>
+              <width>781</width>
+              <height>191</height>
+             </rect>
+            </property>
+            <layout class="QVBoxLayout" name="verticalLayout_2">
+             <item>
+              <widget class="QLabel" name="TU_KHOA">
+               <property name="styleSheet">
+                <string notr="true">background-color: rgb(255, 180, 155);</string>
+               </property>
+               <property name="text">
+                <string>TextLabel</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QLabel" name="CHU_DE">
+               <property name="styleSheet">
+                <string notr="true">background-color: rgb(255, 229, 123);</string>
+               </property>
+               <property name="text">
+                <string>TextLabel</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QLabel" name="CHUYEN_NGANH">
+               <property name="styleSheet">
+                <string notr="true">background-color: rgb(125, 125, 255);</string>
+               </property>
+               <property name="text">
+                <string>TextLabel</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QLabel" name="TOM_TAT">
+               <property name="styleSheet">
+                <string notr="true">background-color: rgb(255, 105, 105);</string>
+               </property>
+               <property name="text">
+                <string>TextLabel</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <spacer name="verticalSpacer_3">
+               <property name="orientation">
+                <enum>Qt::Orientation::Vertical</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>20</width>
+                 <height>40</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
+            </layout>
+           </widget>
+           <widget class="QWidget" name="verticalLayoutWidget_4">
+            <property name="geometry">
+             <rect>
+              <x>90</x>
+              <y>310</y>
+              <width>281</width>
+              <height>131</height>
+             </rect>
+            </property>
+            <layout class="QVBoxLayout" name="verticalLayout_3">
+             <item>
+              <widget class="QLabel" name="SO_TRANG">
+               <property name="styleSheet">
+                <string notr="true">background-color: rgb(44, 135, 255);</string>
+               </property>
+               <property name="text">
+                <string>TextLabel</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QLabel" name="DON_GIA">
+               <property name="styleSheet">
+                <string notr="true">background-color: rgb(116, 255, 116);</string>
+               </property>
+               <property name="text">
+                <string>TextLabel</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QLabel" name="NGON_NGU">
+               <property name="styleSheet">
+                <string notr="true">background-color: rgb(177, 153, 255);</string>
+               </property>
+               <property name="text">
+                <string>TextLabel</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QLabel" name="DANG_ROI________TONG_SACH">
+               <property name="styleSheet">
+                <string notr="true">background-color: rgb(255, 180, 155);</string>
+               </property>
+               <property name="text">
+                <string>TextLabel</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <spacer name="verticalSpacer_4">
+               <property name="orientation">
+                <enum>Qt::Orientation::Vertical</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>20</width>
+                 <height>40</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
+            </layout>
+           </widget>
+           <widget class="QWidget" name="verticalLayoutWidget_5">
+            <property name="geometry">
+             <rect>
+              <x>480</x>
+              <y>310</y>
+              <width>281</width>
+              <height>101</height>
+             </rect>
+            </property>
+            <layout class="QVBoxLayout" name="verticalLayout_4">
+             <item>
+              <widget class="QLabel" name="MA_ISBN">
+               <property name="styleSheet">
+                <string notr="true">background-color: rgb(255, 105, 105);</string>
+               </property>
+               <property name="text">
+                <string>TextLabel</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QLabel" name="VI_TRI_LUU_TRU">
+               <property name="styleSheet">
+                <string notr="true">background-color: rgb(158, 213, 255);</string>
+               </property>
+               <property name="text">
+                <string>TextLabel</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QLabel" name="LOAI_TAI_LIEU">
+               <property name="styleSheet">
+                <string notr="true">background-color: rgb(162, 255, 191);</string>
+               </property>
+               <property name="text">
+                <string>TextLabel</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <spacer name="verticalSpacer_5">
+               <property name="orientation">
+                <enum>Qt::Orientation::Vertical</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>20</width>
+                 <height>40</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
+            </layout>
+           </widget>
+          </widget>
          </widget>
         </widget>
        </widget>
