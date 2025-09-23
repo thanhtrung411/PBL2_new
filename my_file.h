@@ -32,4 +32,10 @@ void doc_book(BST_Book &book_data);
 
 void ghi_book(BST_Book &book_data);
 
+void doc_support_book(BST_string &the_loai_, BST_string &chuyen_nganh_);
+
+void ghi_support_book(BST_string &support_book_data);
+
+void copy_file(const string& file1, const string& file2);
+
 #endif // MY_FILE_H

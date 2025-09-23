@@ -57,6 +57,9 @@ public:
     void write_csv(Node_Book* node, QTextStream &out) const;
     int count_book() const;
     void write_book(QTextStream &out) const;
+    void tong_hop_sach_chung_Node(string &the_loai, string &chuyen_nganh, Node_Book* node, BST_Book &b);
+    void tong_hop_sach_chung(string &the_loai, string &chuyen_nganh, const BST_Book &book_data_, BST_Book &b);
+    book operator[](int index);
 };
 
 class Node_Accout {
@@ -112,4 +115,63 @@ public:
     void write_accout(QTextStream &out) const;
 };
     
+class Node_string{
+private:
+    string data;
+    int vt;
+    Node_string* left;
+    Node_string* right;
+public:
+    explicit Node_string(string &value, int v = 0):
+        data(value),
+        vt(v),
+        left(nullptr),
+        right(nullptr){}
+    Node_string* getLeft(){
+        return left;
+    }
+    Node_string* getRight() {
+        return right;
+    }
+    string& getData(){
+        return data;
+    }
+    int& getVt(){
+        return vt;
+    }
+    void setLeft(Node_string* node){
+        left = node;
+    }
+    void setRight(Node_string* node){
+        right = node;
+    }
+    void setData(const string& value){
+        data = value;
+    }
+    void setVt(const int& value){
+        vt = value;
+    }
+};
+
+class BST_string {
+private:
+    Node_string* root;
+    Node_string* add_string(Node_string* node, string &value, int &ok);
+    Node_string* search_string(Node_string* node, string id, int &ok, string &a);
+    Node_string* delete_string(Node_string* node, string data, int &ok);
+    int count(Node_string* node) const;
+    void write(Node_string* node,QTextStream &file) const;
+public:
+    BST_string(): root(nullptr) {}
+    ~BST_string();
+    void destroy_string(Node_string* node);
+    bool insert_string(string &value);
+    bool remove_string(string &value);
+    bool find_string(string id, string &a);
+    int count_string();
+    int count_string() const;
+    void write_string(QTextStream &out) const;
+    string operator[](int index);
+};
+
 #endif // TREE_H

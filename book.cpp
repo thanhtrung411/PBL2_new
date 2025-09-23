@@ -20,9 +20,11 @@ book::book(){
     link_pdf = "null";
     type_book = "null";
     tinh_trang = "0";
+    date_created = "";
+    admin_created = "";
 }
 
-book::book(string id_book, string ten_sach, string tac_gia, string the_loai, string nha_xuat_ban, string nam_xuat_ban, string so_trang, string ISBN, string ngon_ngu, string tu_khoa, string chuyen_nganh, string don_gia, string tom_tat, string link_png, string link_pdf, string type_book, string tinh_trang){
+book::book(string id_book, string ten_sach, string tac_gia, string the_loai, string nha_xuat_ban, string nam_xuat_ban, string so_trang, string ISBN, string ngon_ngu, string tu_khoa, string chuyen_nganh, string don_gia, string tom_tat, string link_png, string link_pdf, string type_book, string tinh_trang, string date_created, string admin_created){
     this->id_book = id_book;
     this->ten_sach = ten_sach;
     this->tac_gia = tac_gia;
@@ -40,6 +42,8 @@ book::book(string id_book, string ten_sach, string tac_gia, string the_loai, str
     this->link_pdf = link_pdf;
     this->type_book = type_book;
     this->tinh_trang = tinh_trang;
+    this->date_created = date_created;
+    this->admin_created = admin_created;
 }
 
 book::~book(){}
@@ -94,6 +98,12 @@ void book::set_link_png(string link_png){
 void book::set_link_pdf(string link_pdf){
     this->link_pdf = link_pdf;
 }
+void book::set_date_created(string date_created){
+    this->date_created = date_created;
+}
+void book::set_admin_created(string admin_created){
+    this->admin_created = admin_created;
+}
 string book::get_id_book(){
     return id_book;
 }
@@ -144,4 +154,67 @@ string book::get_link_png(){
 }
 string book::get_link_pdf(){
     return link_pdf;
+}
+string book::get_date_created(){
+    return date_created;
+}
+string book::get_admin_created(){
+    return admin_created;
+}
+string book::get_id_book() const {
+    return id_book;
+}
+string book::get_name_book() const {
+    return ten_sach;
+}
+string book::get_tac_gia() const {
+    return tac_gia;
+}
+string book::get_the_loai() const {
+    return the_loai;
+}
+string book::get_nha_xuat_ban() const {
+    return nha_xuat_ban;
+}
+string book::get_nam_xuat_ban() const {
+    return nam_xuat_ban;
+}
+string book::get_so_trang() const {
+    return so_trang;
+}
+string book::get_ISBN() const {
+    return ISBN;
+}
+string book::get_ngon_ngu() const {
+    return ngon_ngu;
+}
+string book::get_tu_khoa() const {
+    return tu_khoa;
+}
+string book::get_chuyen_nganh() const {
+    return chuyen_nganh;
+}
+string book::get_don_gia() const {
+    return don_gia;
+}
+string book::get_tom_tat() const {
+    return tom_tat;
+}
+string book::get_type_book() const {
+    return type_book;
+}
+string book::get_tinh_trang() const {
+    return tinh_trang;
+}
+string book::get_link_png() const {
+    return link_png;
+}
+string book::get_link_pdf() const {
+    return link_pdf;
+}
+string book::get_date_created() const {
+    return date_created;
+}
+string book::get_admin_created() const {
+    return admin_created;
 }

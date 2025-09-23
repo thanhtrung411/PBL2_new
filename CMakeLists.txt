@@ -43,6 +43,7 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         global.h
         png_background/PBL2-A-01-001.png
         png_background/PBL2-A-01-001.png
+        working.h working.cpp
 
 
     )

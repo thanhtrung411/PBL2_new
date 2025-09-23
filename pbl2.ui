@@ -246,7 +246,7 @@
              <enum>Qt::ScrollBarPolicy::ScrollBarAsNeeded</enum>
             </property>
             <property name="horizontalScrollBarPolicy">
-             <enum>Qt::ScrollBarPolicy::ScrollBarAsNeeded</enum>
+             <enum>Qt::ScrollBarPolicy::ScrollBarAlwaysOff</enum>
             </property>
             <property name="widgetResizable">
              <bool>true</bool>
@@ -256,13 +256,13 @@
               <rect>
                <x>0</x>
                <y>0</y>
-               <width>885</width>
-               <height>257</height>
+               <width>1490</width>
+               <height>274</height>
               </rect>
              </property>
              <property name="minimumSize">
               <size>
-               <width>885</width>
+               <width>1490</width>
                <height>0</height>
               </size>
              </property>
@@ -275,7 +275,14 @@
                 <height>261</height>
                </rect>
               </property>
-              <layout class="QGridLayout" name="sach_moi_layout_2"/>
+              <layout class="QGridLayout" name="sach_moi_layout_2" columnminimumwidth="0">
+               <property name="sizeConstraint">
+                <enum>QLayout::SizeConstraint::SetFixedSize</enum>
+               </property>
+               <property name="spacing">
+                <number>12</number>
+               </property>
+              </layout>
              </widget>
             </widget>
            </widget>

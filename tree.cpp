@@ -1,7 +1,9 @@
 #include "tree.h"
+#include "my_string.h"
 #include <iostream>
 #include <QTextStream>
 #include <QString>
+#include <QDebug>
 #include <fstream>
 using namespace std;
 /*
@@ -203,16 +205,6 @@ Node_Book* BST_Book::add_Book(Node_Book* node, book &value,int &ok){
     return node;
 }
 
-float Find_str(string a, string b){
-    int count = 0;
-    size_t pos = a.find(b);
-    while (pos != string::npos) {
-        count++;
-        pos = a.find(b, pos + b.length());
-    }
-    return (float)count / a.length();
-}
-
 Node_Book* BST_Book::search_Book(Node_Book* node, string id, int &ok, book &a){
     if (node == nullptr){
         ok = 0;
@@ -324,11 +316,150 @@ void BST_Book::write_csv(Node_Book* node, QTextStream &out) const {
         << QString::fromStdString(a.get_link_png())     << ','
         << QString::fromStdString(a.get_link_pdf())     << ','
         << QString::fromStdString(a.get_type_book())    << ','
-        << QString::fromStdString(a.get_tinh_trang())   << '\n';
+        << QString::fromStdString(a.get_tinh_trang())   << ','
+        << QString::fromStdString(a.get_date_created()) <<','
+        << QString::fromStdString(a.get_admin_created())<< '\n';
     write_csv(node->getRight(), out);
 }
 void BST_Book::write_book(QTextStream &out) const {
     // Ghi dòng tiêu đề
-    out << "ID_BOOK,Tên sách,Tên tác giả,Thể loại,Nhà xuất bản,Năm xuất bản,Số trang,ISBN,Ngôn ngữ,Từ khóa,Chuyên ngành,Đơn giá,Tóm tắt,link_png,link_pdf,type_book,Tình trạng\n";
+    out << "ID_BOOK,Tên sách,Tên tác giả,Thể loại,Nhà xuất bản,Năm xuất bản,Số trang,ISBN,Ngôn ngữ,Từ khóa,Chuyên ngành,Đơn giá,Tóm tắt,link_png,link_pdf,type_book,Tình trạng,Date_created, By\n";
     write_csv(root, out);
+}
+book BST_Book::operator[](int index) {
+    if (index < 0 || index >= count_book()) {
+        qDebug() << "Loi index";
+    }
+    Node_Book* result = root;
+    int tmp = 0;
+    while (result) {
+        int leftCount = count(result->getLeft());
+        if (index < tmp + leftCount) {
+            result = result->getLeft();
+        } else if (index > tmp + leftCount) {
+            tmp += leftCount + 1;
+            result = result->getRight();
+        } else {
+            return result->getData();
+        }
+    }
+}
+
+void BST_Book::tong_hop_sach_chung_Node(string &the_loai, string &chuyen_nganh, Node_Book* node, BST_Book &b){
+    if (!node) return;
+    tong_hop_sach_chung_Node(the_loai, chuyen_nganh, node->getLeft(), b);
+    book& a = node->getData();
+    int check1 = tim_kiem_xau(the_loai, a.get_the_loai());
+    int check2 = tim_kiem_xau(chuyen_nganh, a.get_chuyen_nganh());
+    if (check1 == count_string(the_loai) && check2 == count_string(chuyen_nganh)){
+        b.insert_Book(a);
+    }
+    tong_hop_sach_chung_Node(the_loai, chuyen_nganh, node->getRight(), b);
+}
+
+void BST_Book::tong_hop_sach_chung(string &the_loai, string &chuyen_nganh,const BST_Book &book_data_, BST_Book &b){
+    tong_hop_sach_chung_Node(the_loai, chuyen_nganh, book_data_.root, b);
+}
+/////////////////////////////////////////////////////////////////////////
+BST_string::~BST_string() {
+    destroy_string(root);
+}
+void BST_string::destroy_string(Node_string* node) {
+    if (!node) return;
+    destroy_string(node->getLeft());
+    destroy_string(node->getRight());
+    delete node;
+}
+
+int BST_string::count(Node_string* node) const{
+    if (node == nullptr) {
+        return 0;
+    }
+    return 1 + count(node->getLeft()) + count(node->getRight());
+}
+int BST_string::count_string(){
+    return count(root);
+}
+int BST_string::count_string() const{
+    return count(root); 
+}
+Node_string* BST_string::add_string(Node_string* node, string &value, int &ok) {
+    if (!node) {
+        int vt_new = count_string();
+        Node_string* newNode = new Node_string(value, vt_new);
+        ok = 1;
+        return newNode;
+    }
+    node->setRight(add_string(node->getRight(), value, ok));
+    return node;
+}
+bool BST_string::insert_string(string &value) {
+    int ok = 0;
+    root = add_string(root, value, ok);
+    return ok == 1;
+}
+Node_string* BST_string::search_string(Node_string* node, string id, int &ok, string &a) {
+    if (!node) {
+        ok = 0;
+        return nullptr;
+    }
+    if (id == node->getData()) {
+        ok = 1;
+        a = node->getData();
+        return node;
+    }
+    return search_string(node->getRight(), id, ok, a);
+}
+bool BST_string::find_string(string id, string &a) {
+    int ok = 0;
+    search_string(root, id, ok, a);
+    return ok == 1;
+}
+Node_string* BST_string::delete_string(Node_string* node, string data, int &ok) {
+    if (!node) return nullptr;
+    if (node->getData() == data) {
+        ok = 1;
+        Node_string* right = node->getRight();
+        delete node;
+        Node_string* nextNode = right;
+        while (nextNode) {
+            nextNode->setVt(nextNode->getVt() - 1);
+            nextNode = nextNode->getRight();
+        }
+        return right;
+    }
+    node->setRight(delete_string(node->getRight(), data, ok));
+    return node;
+}
+bool BST_string::remove_string(string &value) {
+    int ok = 0;
+    root = delete_string(root, value, ok);
+    return ok == 1;
+}
+void BST_string::write(Node_string* node, QTextStream &out) const {
+    if (!node) return;
+    write(node->getLeft(), out);
+    string& a = node->getData();
+    out << QString::fromStdString(a) << '\n';
+    write(node->getRight(), out);
+}
+void BST_string::write_string(QTextStream &out) const {
+    write(root, out);
+}
+string BST_string::operator[](int index) {
+    if (index < 0 || index >= count_string()) {
+        qDebug() << "Loi index";
+        return "";
+    }
+    
+    Node_string* current = root;
+    while (current) {
+        if (current->getVt() == index) {
+            return current->getData();
+        }
+        current = current->getRight();
+    }
+    
+    qDebug() << "Khong tim thay node voi index:" << index;
+    return "";
 }

@@ -20,6 +20,7 @@ using namespace std;
 FILE *peoples;
 BST_Accout accout_data;
 BST_Book book_data;
+BST_string the_loai_, chuyen_nganh_;
 accout acc_sign_in;
 
 ////////////////////////////
@@ -66,7 +67,9 @@ int main(int argc, char *argv[])
     QApplication a(argc, argv);
     doc_accout(accout_data);
     doc_book(book_data);
-    //applyFusionDark(a);
+    doc_support_book(the_loai_, chuyen_nganh_);
+    qDebug()<< the_loai_[0].c_str();
+    //applyFusionDark(a);   
     pbl2 w;
     w.show();
     return a.exec();

@@ -1,7 +1,11 @@
 #ifndef PBL2_H
 #define PBL2_H
-
+#include <iostream>
 #include <QMainWindow>
+#include <QGridLayout>
+#include <QScrollArea>
+#include "tree.h"
+using namespace std;
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -25,7 +29,9 @@ private slots:
 
     void on_quyen_quan_tri_clicked();
 
-    void set_up_card();
+    void set_scroll(QScrollArea* p, int width);
+
+    void set_up_card(BST_Book &b,QGridLayout* path_link);
 
 private:
     Ui::pbl2 *ui;

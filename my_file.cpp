@@ -7,8 +7,11 @@
 #include <QApplication>
 #include <QCoreApplication>
 #include <QDebug>
+#include <iostream>
+#include <fstream>
 #include "accout.h"
 #include "tree.h"
+using namespace std;
 
 
 
@@ -152,6 +155,10 @@ void doc_book(BST_Book &book_data){
             case 16:
                 b.set_tinh_trang(res);
                 break;
+            case 17:
+                b.set_date_created(res);
+            case 18:
+                b.set_admin_created(res);
             default:
                 break;
             }
@@ -174,4 +181,35 @@ void ghi_book(BST_Book &book_data){
     QTextStream out(&file);
     book_data.write_book(out); // cần overload với QTextStream (bên dưới)
     qDebug() << "Ghi file thanh cong:" << path;
+}
+
+void doc_support_book(BST_string &the_loai_, BST_string &chuyen_nganh_){
+    const QString path = getDataFilePath("data/support_book.txt");
+    QFile file(path);
+    if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
+        qDebug() << "Khong the mo file de doc:" << path;
+        return;
+    }
+    QTextStream in(&file);
+    int n_the_loai_ = in.readLine().toInt();
+    for (int i = 0 ; i < n_the_loai_ ; i++){
+        QString qline = in.readLine();
+        string line = qline.toUtf8().toStdString();
+        the_loai_.insert_string(line);
+    }
+    int n_chuyen_nganh_ = in.readLine().toInt();
+    for (int i = 0 ; i < n_chuyen_nganh_ ; i++){
+        QString qline = in.readLine();
+        string line = qline.toUtf8().toStdString();
+        chuyen_nganh_.insert_string(line);
+    }
+    file.close();
+}
+
+void copy_file(const string& file1, const string& file2){
+    ifstream source(file1, ios::binary);
+    ofstream dest(file2, ios::binary);
+    dest << source.rdbuf();
+    source.close();
+    dest.close();
 }

@@ -267,7 +267,6 @@ QPushButton {
   color: #4568ad;
   border: 2px solid #4568ad;
   border-radius: 8px;
-  padding: 6px 12px;
 }
 QPushButton:hover   { background: #e9ecf5; border-color: #3e5e9c; }
 QPushButton:pressed { background: #d6d8e0; border-color: #37538a; }
@@ -314,7 +313,7 @@ QToolTip {
      <property name="geometry">
       <rect>
        <x>0</x>
-       <y>0</y>
+       <y>-939</y>
        <width>1362</width>
        <height>2000</height>
       </rect>
@@ -353,7 +352,7 @@ background-color: rgb(255, 255, 255);
         <property name="geometry">
          <rect>
           <x>250</x>
-          <y>170</y>
+          <y>100</y>
           <width>91</width>
           <height>31</height>
          </rect>
@@ -374,7 +373,7 @@ background-color: rgb(255, 255, 255);
         <property name="geometry">
          <rect>
           <x>250</x>
-          <y>210</y>
+          <y>140</y>
           <width>861</width>
           <height>41</height>
          </rect>
@@ -387,7 +386,7 @@ background-color: rgb(255, 255, 255);
         <property name="geometry">
          <rect>
           <x>572</x>
-          <y>30</y>
+          <y>20</y>
           <width>211</width>
           <height>51</height>
          </rect>
@@ -409,7 +408,7 @@ background-color: rgb(255, 255, 255);
         <property name="geometry">
          <rect>
           <x>250</x>
-          <y>300</y>
+          <y>230</y>
           <width>861</width>
           <height>41</height>
          </rect>
@@ -422,7 +421,7 @@ background-color: rgb(255, 255, 255);
         <property name="geometry">
          <rect>
           <x>250</x>
-          <y>260</y>
+          <y>190</y>
           <width>91</width>
           <height>31</height>
          </rect>
@@ -443,7 +442,7 @@ background-color: rgb(255, 255, 255);
         <property name="geometry">
          <rect>
           <x>250</x>
-          <y>350</y>
+          <y>280</y>
           <width>141</width>
           <height>31</height>
          </rect>
@@ -464,14 +463,24 @@ background-color: rgb(255, 255, 255);
         <property name="geometry">
          <rect>
           <x>250</x>
-          <y>390</y>
+          <y>320</y>
           <width>861</width>
           <height>41</height>
          </rect>
         </property>
-        <property name="placeholderText">
-         <string>Vui lòng chọn thể loại sách</string>
+        <property name="font">
+         <font>
+          <pointsize>9</pointsize>
+         </font>
         </property>
+        <property name="placeholderText">
+         <string/>
+        </property>
+        <item>
+         <property name="text">
+          <string>Vui lòng chọn thể loại...</string>
+         </property>
+        </item>
         <item>
          <property name="text">
           <string>Sách giáo trình &amp; Tài liệu học tập</string>
@@ -517,7 +526,7 @@ background-color: rgb(255, 255, 255);
         <property name="geometry">
          <rect>
           <x>250</x>
-          <y>480</y>
+          <y>590</y>
           <width>641</width>
           <height>41</height>
          </rect>
@@ -530,7 +539,7 @@ background-color: rgb(255, 255, 255);
         <property name="geometry">
          <rect>
           <x>250</x>
-          <y>440</y>
+          <y>550</y>
           <width>121</width>
           <height>31</height>
          </rect>
@@ -551,7 +560,7 @@ background-color: rgb(255, 255, 255);
         <property name="geometry">
          <rect>
           <x>900</x>
-          <y>480</y>
+          <y>590</y>
           <width>211</width>
           <height>41</height>
          </rect>
@@ -564,7 +573,7 @@ background-color: rgb(255, 255, 255);
         <property name="geometry">
          <rect>
           <x>900</x>
-          <y>450</y>
+          <y>560</y>
           <width>121</width>
           <height>20</height>
          </rect>
@@ -582,7 +591,7 @@ background-color: rgb(255, 255, 255);
         <property name="geometry">
          <rect>
           <x>250</x>
-          <y>570</y>
+          <y>680</y>
           <width>161</width>
           <height>41</height>
          </rect>
@@ -595,7 +604,7 @@ background-color: rgb(255, 255, 255);
         <property name="geometry">
          <rect>
           <x>250</x>
-          <y>530</y>
+          <y>640</y>
           <width>91</width>
           <height>31</height>
          </rect>
@@ -616,7 +625,7 @@ background-color: rgb(255, 255, 255);
         <property name="geometry">
          <rect>
           <x>430</x>
-          <y>570</y>
+          <y>680</y>
           <width>681</width>
           <height>41</height>
          </rect>
@@ -629,7 +638,7 @@ background-color: rgb(255, 255, 255);
         <property name="geometry">
          <rect>
           <x>430</x>
-          <y>530</y>
+          <y>640</y>
           <width>91</width>
           <height>31</height>
          </rect>
@@ -650,7 +659,7 @@ background-color: rgb(255, 255, 255);
         <property name="geometry">
          <rect>
           <x>250</x>
-          <y>660</y>
+          <y>770</y>
           <width>861</width>
           <height>41</height>
          </rect>
@@ -663,7 +672,7 @@ background-color: rgb(255, 255, 255);
         <property name="geometry">
          <rect>
           <x>250</x>
-          <y>620</y>
+          <y>730</y>
           <width>91</width>
           <height>31</height>
          </rect>
@@ -684,7 +693,7 @@ background-color: rgb(255, 255, 255);
         <property name="geometry">
          <rect>
           <x>250</x>
-          <y>750</y>
+          <y>860</y>
           <width>861</width>
           <height>41</height>
          </rect>
@@ -697,7 +706,7 @@ background-color: rgb(255, 255, 255);
         <property name="geometry">
          <rect>
           <x>250</x>
-          <y>710</y>
+          <y>820</y>
           <width>141</width>
           <height>31</height>
          </rect>
@@ -714,24 +723,11 @@ background-color: rgb(255, 255, 255);
          <set>Qt::AlignmentFlag::AlignBottom|Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft</set>
         </property>
        </widget>
-       <widget class="QLineEdit" name="chuyen_nganh_input">
-        <property name="geometry">
-         <rect>
-          <x>250</x>
-          <y>840</y>
-          <width>861</width>
-          <height>41</height>
-         </rect>
-        </property>
-        <property name="placeholderText">
-         <string>Vui lòng nhập ngành học liên quan</string>
-        </property>
-       </widget>
        <widget class="QLabel" name="chuyen_nganh_layout">
         <property name="geometry">
          <rect>
           <x>250</x>
-          <y>800</y>
+          <y>370</y>
           <width>131</width>
           <height>31</height>
          </rect>
@@ -752,7 +748,7 @@ background-color: rgb(255, 255, 255);
         <property name="geometry">
          <rect>
           <x>250</x>
-          <y>890</y>
+          <y>910</y>
           <width>91</width>
           <height>31</height>
          </rect>
@@ -773,7 +769,7 @@ background-color: rgb(255, 255, 255);
         <property name="geometry">
          <rect>
           <x>250</x>
-          <y>930</y>
+          <y>950</y>
           <width>861</width>
           <height>131</height>
          </rect>
@@ -789,7 +785,7 @@ background-color: rgb(255, 255, 255);
         <property name="geometry">
          <rect>
           <x>250</x>
-          <y>1140</y>
+          <y>1130</y>
           <width>861</width>
           <height>41</height>
          </rect>
@@ -802,7 +798,7 @@ background-color: rgb(255, 255, 255);
         <property name="geometry">
          <rect>
           <x>250</x>
-          <y>1100</y>
+          <y>1090</y>
           <width>121</width>
           <height>31</height>
          </rect>
@@ -819,24 +815,11 @@ background-color: rgb(255, 255, 255);
          <set>Qt::AlignmentFlag::AlignBottom|Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft</set>
         </property>
        </widget>
-       <widget class="QLineEdit" name="link_png_input">
+       <widget class="QLabel" name="link_png_name">
         <property name="geometry">
          <rect>
           <x>250</x>
-          <y>1230</y>
-          <width>861</width>
-          <height>41</height>
-         </rect>
-        </property>
-        <property name="placeholderText">
-         <string>Nhập đường dẫn đến tên file chứa ảnh sách</string>
-        </property>
-       </widget>
-       <widget class="QLabel" name="chuyen_nganh_layout_2">
-        <property name="geometry">
-         <rect>
-          <x>250</x>
-          <y>1190</y>
+          <y>1180</y>
           <width>231</width>
           <height>31</height>
          </rect>
@@ -847,30 +830,17 @@ background-color: rgb(255, 255, 255);
          </font>
         </property>
         <property name="text">
-         <string>Nhập đường dẫn ảnh sách</string>
+         <string>Nhập hình ảnh sách</string>
         </property>
         <property name="alignment">
          <set>Qt::AlignmentFlag::AlignBottom|Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft</set>
         </property>
        </widget>
-       <widget class="QLineEdit" name="link_pdf_input">
+       <widget class="QLabel" name="link_pdf_name">
         <property name="geometry">
          <rect>
           <x>250</x>
-          <y>1320</y>
-          <width>861</width>
-          <height>41</height>
-         </rect>
-        </property>
-        <property name="placeholderText">
-         <string>Nhập đường dẫn đến file PDF</string>
-        </property>
-       </widget>
-       <widget class="QLabel" name="chuyen_nganh_layout_3">
-        <property name="geometry">
-         <rect>
-          <x>250</x>
-          <y>1280</y>
+          <y>1260</y>
           <width>221</width>
           <height>31</height>
          </rect>
@@ -881,7 +851,7 @@ background-color: rgb(255, 255, 255);
          </font>
         </property>
         <property name="text">
-         <string>Đường dẫn file PDF</string>
+         <string>Nhập file PDF</string>
         </property>
         <property name="alignment">
          <set>Qt::AlignmentFlag::AlignBottom|Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft</set>
@@ -891,7 +861,7 @@ background-color: rgb(255, 255, 255);
         <property name="geometry">
          <rect>
           <x>609</x>
-          <y>1400</y>
+          <y>1370</y>
           <width>141</width>
           <height>41</height>
          </rect>
@@ -906,11 +876,76 @@ background-color: rgb(255, 255, 255);
          <string>THÊM</string>
         </property>
        </widget>
-       <widget class="QLabel" name="ten_sach_layout_2">
+       <widget class="QComboBox" name="chuyen_nganh_input">
         <property name="geometry">
          <rect>
           <x>250</x>
-          <y>80</y>
+          <y>410</y>
+          <width>861</width>
+          <height>41</height>
+         </rect>
+        </property>
+        <property name="font">
+         <font>
+          <pointsize>9</pointsize>
+         </font>
+        </property>
+        <item>
+         <property name="text">
+          <string>Vui lòng chọn chuyên ngành...</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Máy tính và công nghệ thông tin</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Khoa học sự sống</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Công nghệ kỹ thuật</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Kỹ thuật </string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Sản xuất và chế biến</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Kiến trúc và xây dựng</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Môi trường và bảo vệ môi trường</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Khác...</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string/>
+         </property>
+        </item>
+       </widget>
+       <widget class="QLabel" name="ID_Sach_layout">
+        <property name="geometry">
+         <rect>
+          <x>250</x>
+          <y>460</y>
           <width>91</width>
           <height>31</height>
          </rect>
@@ -931,13 +966,78 @@ background-color: rgb(255, 255, 255);
         <property name="geometry">
          <rect>
           <x>250</x>
-          <y>120</y>
+          <y>500</y>
           <width>861</width>
           <height>41</height>
          </rect>
         </property>
+        <property name="text">
+         <string/>
+        </property>
         <property name="placeholderText">
-         <string>Vui lòng nhập ID Sách</string>
+         <string>ID Sách sẽ tự động hiển thị</string>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="link_png_button">
+        <property name="geometry">
+         <rect>
+          <x>250</x>
+          <y>1220</y>
+          <width>111</width>
+          <height>31</height>
+         </rect>
+        </property>
+        <property name="font">
+         <font>
+          <pointsize>10</pointsize>
+         </font>
+        </property>
+        <property name="text">
+         <string>Chọn file...</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="link_png_layout">
+        <property name="geometry">
+         <rect>
+          <x>370</x>
+          <y>1220</y>
+          <width>731</width>
+          <height>31</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+       </widget>
+       <widget class="QLabel" name="link_pdf_layout">
+        <property name="geometry">
+         <rect>
+          <x>370</x>
+          <y>1300</y>
+          <width>731</width>
+          <height>31</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="link_pdf_button">
+        <property name="geometry">
+         <rect>
+          <x>250</x>
+          <y>1300</y>
+          <width>111</width>
+          <height>31</height>
+         </rect>
+        </property>
+        <property name="font">
+         <font>
+          <pointsize>10</pointsize>
+         </font>
+        </property>
+        <property name="text">
+         <string>Chọn file...</string>
         </property>
        </widget>
        <zorder>ten_sach_layout</zorder>
@@ -959,21 +1059,84 @@ background-color: rgb(255, 255, 255);
        <zorder>language_layout</zorder>
        <zorder>chu_de_input</zorder>
        <zorder>chu_de_layout</zorder>
-       <zorder>chuyen_nganh_input</zorder>
        <zorder>chuyen_nganh_layout</zorder>
        <zorder>tom_tat_layout</zorder>
        <zorder>tom_tat_input</zorder>
        <zorder>don_gia_input</zorder>
        <zorder>don_gia_layout</zorder>
-       <zorder>link_png_input</zorder>
-       <zorder>chuyen_nganh_layout_2</zorder>
-       <zorder>link_pdf_input</zorder>
-       <zorder>chuyen_nganh_layout_3</zorder>
+       <zorder>link_png_name</zorder>
+       <zorder>link_pdf_name</zorder>
        <zorder>them_button</zorder>
-       <zorder>ten_sach_layout_2</zorder>
+       <zorder>chuyen_nganh_input</zorder>
+       <zorder>ID_Sach_layout</zorder>
        <zorder>ID_Sach_input</zorder>
+       <zorder>link_png_button</zorder>
+       <zorder>link_png_layout</zorder>
+       <zorder>link_pdf_layout</zorder>
+       <zorder>link_pdf_button</zorder>
       </widget>
-      <widget class="QWidget" name="page_4"/>
+      <widget class="QWidget" name="page_4">
+       <widget class="QWidget" name="verticalLayoutWidget">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>59</y>
+          <width>1341</width>
+          <height>571</height>
+         </rect>
+        </property>
+        <layout class="QVBoxLayout" name="verticalLayout">
+         <property name="sizeConstraint">
+          <enum>QLayout::SizeConstraint::SetFixedSize</enum>
+         </property>
+         <item>
+          <layout class="QVBoxLayout" name="verticalLayout_2">
+           <property name="sizeConstraint">
+            <enum>QLayout::SizeConstraint::SetDefaultConstraint</enum>
+           </property>
+           <item>
+            <layout class="QHBoxLayout" name="horizontalLayout">
+             <item>
+              <widget class="QComboBox" name="comboBox_2">
+               <item>
+                <property name="text">
+                 <string>ID Sách</string>
+                </property>
+               </item>
+              </widget>
+             </item>
+             <item>
+              <widget class="QComboBox" name="comboBox_4">
+               <item>
+                <property name="text">
+                 <string>Tên sách</string>
+                </property>
+               </item>
+              </widget>
+             </item>
+             <item>
+              <widget class="QComboBox" name="comboBox_3"/>
+             </item>
+             <item>
+              <widget class="QComboBox" name="comboBox"/>
+             </item>
+            </layout>
+           </item>
+          </layout>
+         </item>
+         <item>
+          <widget class="QTableWidget" name="tableWidget">
+           <property name="maximumSize">
+            <size>
+             <width>16777215</width>
+             <height>16777</height>
+            </size>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </widget>
      </widget>
     </widget>
    </widget>
@@ -991,6 +1154,8 @@ background-color: rgb(255, 255, 255);
     <property name="title">
      <string>THÔNG TIN</string>
     </property>
+    <addaction name="actionTHONG_TIN_SACH"/>
+    <addaction name="actionTHONG_TIN_NGUOI_DUNG"/>
    </widget>
    <widget class="QMenu" name="menu_them">
     <property name="title">
@@ -1053,6 +1218,16 @@ background-color: rgb(255, 255, 255);
   <action name="actionHEHEHE">
    <property name="text">
     <string>HEHEHE</string>
+   </property>
+  </action>
+  <action name="actionTHONG_TIN_SACH">
+   <property name="text">
+    <string>THONG TIN SACH</string>
+   </property>
+  </action>
+  <action name="actionTHONG_TIN_NGUOI_DUNG">
+   <property name="text">
+    <string>THONG TIN NGUOI DUNG</string>
    </property>
   </action>
  </widget>
