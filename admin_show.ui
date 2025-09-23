@@ -1,0 +1,1061 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>admin_show</class>
+ <widget class="QMainWindow" name="admin_show">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1385</width>
+    <height>790</height>
+   </rect>
+  </property>
+  <property name="palette">
+   <palette>
+    <active>
+     <colorrole role="WindowText">
+      <brush brushstyle="SolidPattern">
+       <color alpha="255">
+        <red>69</red>
+        <green>104</green>
+        <blue>173</blue>
+       </color>
+      </brush>
+     </colorrole>
+     <colorrole role="Button">
+      <brush brushstyle="SolidPattern">
+       <color alpha="255">
+        <red>243</red>
+        <green>246</green>
+        <blue>255</blue>
+       </color>
+      </brush>
+     </colorrole>
+     <colorrole role="Text">
+      <brush brushstyle="SolidPattern">
+       <color alpha="255">
+        <red>69</red>
+        <green>104</green>
+        <blue>173</blue>
+       </color>
+      </brush>
+     </colorrole>
+     <colorrole role="ButtonText">
+      <brush brushstyle="SolidPattern">
+       <color alpha="255">
+        <red>69</red>
+        <green>104</green>
+        <blue>173</blue>
+       </color>
+      </brush>
+     </colorrole>
+     <colorrole role="Base">
+      <brush brushstyle="SolidPattern">
+       <color alpha="255">
+        <red>243</red>
+        <green>246</green>
+        <blue>255</blue>
+       </color>
+      </brush>
+     </colorrole>
+     <colorrole role="Window">
+      <brush brushstyle="SolidPattern">
+       <color alpha="255">
+        <red>243</red>
+        <green>246</green>
+        <blue>255</blue>
+       </color>
+      </brush>
+     </colorrole>
+     <colorrole role="HighlightedText">
+      <brush brushstyle="SolidPattern">
+       <color alpha="255">
+        <red>170</red>
+        <green>191</green>
+        <blue>255</blue>
+       </color>
+      </brush>
+     </colorrole>
+     <colorrole role="PlaceholderText">
+      <brush brushstyle="SolidPattern">
+       <color alpha="128">
+        <red>69</red>
+        <green>104</green>
+        <blue>173</blue>
+       </color>
+      </brush>
+     </colorrole>
+    </active>
+    <inactive>
+     <colorrole role="WindowText">
+      <brush brushstyle="SolidPattern">
+       <color alpha="255">
+        <red>69</red>
+        <green>104</green>
+        <blue>173</blue>
+       </color>
+      </brush>
+     </colorrole>
+     <colorrole role="Button">
+      <brush brushstyle="SolidPattern">
+       <color alpha="255">
+        <red>243</red>
+        <green>246</green>
+        <blue>255</blue>
+       </color>
+      </brush>
+     </colorrole>
+     <colorrole role="Text">
+      <brush brushstyle="SolidPattern">
+       <color alpha="255">
+        <red>69</red>
+        <green>104</green>
+        <blue>173</blue>
+       </color>
+      </brush>
+     </colorrole>
+     <colorrole role="ButtonText">
+      <brush brushstyle="SolidPattern">
+       <color alpha="255">
+        <red>69</red>
+        <green>104</green>
+        <blue>173</blue>
+       </color>
+      </brush>
+     </colorrole>
+     <colorrole role="Base">
+      <brush brushstyle="SolidPattern">
+       <color alpha="255">
+        <red>243</red>
+        <green>246</green>
+        <blue>255</blue>
+       </color>
+      </brush>
+     </colorrole>
+     <colorrole role="Window">
+      <brush brushstyle="SolidPattern">
+       <color alpha="255">
+        <red>243</red>
+        <green>246</green>
+        <blue>255</blue>
+       </color>
+      </brush>
+     </colorrole>
+     <colorrole role="HighlightedText">
+      <brush brushstyle="SolidPattern">
+       <color alpha="255">
+        <red>170</red>
+        <green>191</green>
+        <blue>255</blue>
+       </color>
+      </brush>
+     </colorrole>
+     <colorrole role="PlaceholderText">
+      <brush brushstyle="SolidPattern">
+       <color alpha="128">
+        <red>69</red>
+        <green>104</green>
+        <blue>173</blue>
+       </color>
+      </brush>
+     </colorrole>
+    </inactive>
+    <disabled>
+     <colorrole role="WindowText">
+      <brush brushstyle="SolidPattern">
+       <color alpha="255">
+        <red>69</red>
+        <green>104</green>
+        <blue>173</blue>
+       </color>
+      </brush>
+     </colorrole>
+     <colorrole role="Button">
+      <brush brushstyle="SolidPattern">
+       <color alpha="255">
+        <red>243</red>
+        <green>246</green>
+        <blue>255</blue>
+       </color>
+      </brush>
+     </colorrole>
+     <colorrole role="Text">
+      <brush brushstyle="SolidPattern">
+       <color alpha="255">
+        <red>69</red>
+        <green>104</green>
+        <blue>173</blue>
+       </color>
+      </brush>
+     </colorrole>
+     <colorrole role="ButtonText">
+      <brush brushstyle="SolidPattern">
+       <color alpha="255">
+        <red>69</red>
+        <green>104</green>
+        <blue>173</blue>
+       </color>
+      </brush>
+     </colorrole>
+     <colorrole role="Base">
+      <brush brushstyle="SolidPattern">
+       <color alpha="255">
+        <red>243</red>
+        <green>246</green>
+        <blue>255</blue>
+       </color>
+      </brush>
+     </colorrole>
+     <colorrole role="Window">
+      <brush brushstyle="SolidPattern">
+       <color alpha="255">
+        <red>243</red>
+        <green>246</green>
+        <blue>255</blue>
+       </color>
+      </brush>
+     </colorrole>
+     <colorrole role="HighlightedText">
+      <brush brushstyle="SolidPattern">
+       <color alpha="255">
+        <red>170</red>
+        <green>191</green>
+        <blue>255</blue>
+       </color>
+      </brush>
+     </colorrole>
+     <colorrole role="PlaceholderText">
+      <brush brushstyle="SolidPattern">
+       <color alpha="128">
+        <red>69</red>
+        <green>104</green>
+        <blue>173</blue>
+       </color>
+      </brush>
+     </colorrole>
+    </disabled>
+   </palette>
+  </property>
+  <property name="font">
+   <font>
+    <fontweight>Thin</fontweight>
+   </font>
+  </property>
+  <property name="windowTitle">
+   <string>MainWindow</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">
+QWidget { background: #f3f6ff; color: #0f172a; }
+
+
+QLineEdit, QComboBox, QSpinBox, QDateEdit {
+  background: #ffffff;
+  color: #0f172a;
+  border: 1px solid #e0e2eb;
+  border-radius: 8px;
+  padding: 6px 8px;
+}
+QLineEdit:focus, QComboBox:focus, QSpinBox:focus, QDateEdit:focus {
+  border-color: #617fb9;            
+  outline: none;
+}
+
+
+QPushButton {
+  background: #ffffff;
+  color: #4568ad;
+  border: 2px solid #4568ad;
+  border-radius: 8px;
+  padding: 6px 12px;
+}
+QPushButton:hover   { background: #e9ecf5; border-color: #3e5e9c; }
+QPushButton:pressed { background: #d6d8e0; border-color: #37538a; }
+QPushButton:disabled{
+  background: #f1f3f9; color: #9aa0a6; border-color: #e0e2eb;
+}
+
+QPushButton#primaryBtn { background:#4568ad; color:#fff; border-color:#4568ad; }
+QPushButton#primaryBtn:hover   { background:#3e5e9c; }
+QPushButton#primaryBtn:pressed { background:#37538a; }
+
+QTableView {
+  background: #ffffff;
+  alternate-background-color: #e9ecf5;
+  gridline-color: #e0e2eb;
+  selection-background-color: #4568ad;
+  selection-color: #ffffff;
+}
+
+
+QToolTip {
+  color: #ffffff;
+  background: #1f2937;
+  border: 1px solid #0b1220;
+  border-radius: 8px;
+  padding: 6px;
+}
+</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <widget class="QScrollArea" name="vung_hien_thi_admin">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>84</y>
+      <width>1381</width>
+      <height>651</height>
+     </rect>
+    </property>
+    <property name="widgetResizable">
+     <bool>true</bool>
+    </property>
+    <widget class="QWidget" name="scrollAreaWidgetContents_2">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>0</y>
+       <width>1362</width>
+       <height>2000</height>
+      </rect>
+     </property>
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="minimumSize">
+      <size>
+       <width>1361</width>
+       <height>2000</height>
+      </size>
+     </property>
+     <widget class="QStackedWidget" name="vung_hien_thi_chinh_admin">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>1357</width>
+        <height>2000</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QLineEdit{
+background-color: rgb(255, 255, 255);
+}</string>
+      </property>
+      <property name="currentIndex">
+       <number>0</number>
+      </property>
+      <widget class="QWidget" name="page_them_sach">
+       <widget class="QLabel" name="ten_sach_layout">
+        <property name="geometry">
+         <rect>
+          <x>250</x>
+          <y>170</y>
+          <width>91</width>
+          <height>31</height>
+         </rect>
+        </property>
+        <property name="font">
+         <font>
+          <pointsize>10</pointsize>
+         </font>
+        </property>
+        <property name="text">
+         <string>Tên sách</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignmentFlag::AlignBottom|Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft</set>
+        </property>
+       </widget>
+       <widget class="QLineEdit" name="ten_sach_input">
+        <property name="geometry">
+         <rect>
+          <x>250</x>
+          <y>210</y>
+          <width>861</width>
+          <height>41</height>
+         </rect>
+        </property>
+        <property name="placeholderText">
+         <string>Vui lòng nhập tên sách</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="them_sach_layout">
+        <property name="geometry">
+         <rect>
+          <x>572</x>
+          <y>30</y>
+          <width>211</width>
+          <height>51</height>
+         </rect>
+        </property>
+        <property name="font">
+         <font>
+          <pointsize>15</pointsize>
+          <bold>true</bold>
+         </font>
+        </property>
+        <property name="text">
+         <string>Thêm sách</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignmentFlag::AlignCenter</set>
+        </property>
+       </widget>
+       <widget class="QLineEdit" name="tac_gia_input">
+        <property name="geometry">
+         <rect>
+          <x>250</x>
+          <y>300</y>
+          <width>861</width>
+          <height>41</height>
+         </rect>
+        </property>
+        <property name="placeholderText">
+         <string>Vui lòng nhập tên tác giả/đồng tác giả</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="tac_gia_layout">
+        <property name="geometry">
+         <rect>
+          <x>250</x>
+          <y>260</y>
+          <width>91</width>
+          <height>31</height>
+         </rect>
+        </property>
+        <property name="font">
+         <font>
+          <pointsize>10</pointsize>
+         </font>
+        </property>
+        <property name="text">
+         <string>Tên tác giả</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignmentFlag::AlignBottom|Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft</set>
+        </property>
+       </widget>
+       <widget class="QLabel" name="the_loai_layout">
+        <property name="geometry">
+         <rect>
+          <x>250</x>
+          <y>350</y>
+          <width>141</width>
+          <height>31</height>
+         </rect>
+        </property>
+        <property name="font">
+         <font>
+          <pointsize>10</pointsize>
+         </font>
+        </property>
+        <property name="text">
+         <string>Thể loại sách</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignmentFlag::AlignBottom|Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft</set>
+        </property>
+       </widget>
+       <widget class="QComboBox" name="the_loai_sach_input">
+        <property name="geometry">
+         <rect>
+          <x>250</x>
+          <y>390</y>
+          <width>861</width>
+          <height>41</height>
+         </rect>
+        </property>
+        <property name="placeholderText">
+         <string>Vui lòng chọn thể loại sách</string>
+        </property>
+        <item>
+         <property name="text">
+          <string>Sách giáo trình &amp; Tài liệu học tập</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Sách chuyên ngành</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Sách tham khảo ngoại văn</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Luận văn - Khóa luận - báo cáo</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Tài liệu phổ thông - bổ trợ</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Báo - Tạp chí - ấn phẩm định kỳ</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Sách kỹ năng mềm</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Khác...</string>
+         </property>
+        </item>
+       </widget>
+       <widget class="QLineEdit" name="nha_xuat_ban_input">
+        <property name="geometry">
+         <rect>
+          <x>250</x>
+          <y>480</y>
+          <width>641</width>
+          <height>41</height>
+         </rect>
+        </property>
+        <property name="placeholderText">
+         <string>Vui lòng nhập nhà xuất bản</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="nha_xuat_ban_layout">
+        <property name="geometry">
+         <rect>
+          <x>250</x>
+          <y>440</y>
+          <width>121</width>
+          <height>31</height>
+         </rect>
+        </property>
+        <property name="font">
+         <font>
+          <pointsize>10</pointsize>
+         </font>
+        </property>
+        <property name="text">
+         <string>Nhà xuất bản</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignmentFlag::AlignBottom|Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft</set>
+        </property>
+       </widget>
+       <widget class="QLineEdit" name="nam_xuat_ban_input">
+        <property name="geometry">
+         <rect>
+          <x>900</x>
+          <y>480</y>
+          <width>211</width>
+          <height>41</height>
+         </rect>
+        </property>
+        <property name="placeholderText">
+         <string>Vui lòng nhập năm xuất bản</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="nam_xuat_ban_layout">
+        <property name="geometry">
+         <rect>
+          <x>900</x>
+          <y>450</y>
+          <width>121</width>
+          <height>20</height>
+         </rect>
+        </property>
+        <property name="font">
+         <font>
+          <pointsize>10</pointsize>
+         </font>
+        </property>
+        <property name="text">
+         <string>Năm xuất bản</string>
+        </property>
+       </widget>
+       <widget class="QLineEdit" name="so_trang_input">
+        <property name="geometry">
+         <rect>
+          <x>250</x>
+          <y>570</y>
+          <width>161</width>
+          <height>41</height>
+         </rect>
+        </property>
+        <property name="placeholderText">
+         <string>Vui lòng nhập số trang</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="so_trang_layout">
+        <property name="geometry">
+         <rect>
+          <x>250</x>
+          <y>530</y>
+          <width>91</width>
+          <height>31</height>
+         </rect>
+        </property>
+        <property name="font">
+         <font>
+          <pointsize>10</pointsize>
+         </font>
+        </property>
+        <property name="text">
+         <string>Số trang</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignmentFlag::AlignBottom|Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft</set>
+        </property>
+       </widget>
+       <widget class="QLineEdit" name="ISBN_input">
+        <property name="geometry">
+         <rect>
+          <x>430</x>
+          <y>570</y>
+          <width>681</width>
+          <height>41</height>
+         </rect>
+        </property>
+        <property name="placeholderText">
+         <string>Nhập mã số sách quốc tế (nếu có)</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="ISBN_layout">
+        <property name="geometry">
+         <rect>
+          <x>430</x>
+          <y>530</y>
+          <width>91</width>
+          <height>31</height>
+         </rect>
+        </property>
+        <property name="font">
+         <font>
+          <pointsize>10</pointsize>
+         </font>
+        </property>
+        <property name="text">
+         <string>Số ISBN</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignmentFlag::AlignBottom|Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft</set>
+        </property>
+       </widget>
+       <widget class="QLineEdit" name="language_input">
+        <property name="geometry">
+         <rect>
+          <x>250</x>
+          <y>660</y>
+          <width>861</width>
+          <height>41</height>
+         </rect>
+        </property>
+        <property name="placeholderText">
+         <string>Vui lòng nhập ngôn ngữ</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="language_layout">
+        <property name="geometry">
+         <rect>
+          <x>250</x>
+          <y>620</y>
+          <width>91</width>
+          <height>31</height>
+         </rect>
+        </property>
+        <property name="font">
+         <font>
+          <pointsize>10</pointsize>
+         </font>
+        </property>
+        <property name="text">
+         <string>Ngôn ngữ</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignmentFlag::AlignBottom|Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft</set>
+        </property>
+       </widget>
+       <widget class="QLineEdit" name="chu_de_input">
+        <property name="geometry">
+         <rect>
+          <x>250</x>
+          <y>750</y>
+          <width>861</width>
+          <height>41</height>
+         </rect>
+        </property>
+        <property name="placeholderText">
+         <string>Vui lòng nhập lĩnh vực, nội dung chính</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="chu_de_layout">
+        <property name="geometry">
+         <rect>
+          <x>250</x>
+          <y>710</y>
+          <width>141</width>
+          <height>31</height>
+         </rect>
+        </property>
+        <property name="font">
+         <font>
+          <pointsize>10</pointsize>
+         </font>
+        </property>
+        <property name="text">
+         <string>Chủ đề/Từ khóa</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignmentFlag::AlignBottom|Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft</set>
+        </property>
+       </widget>
+       <widget class="QLineEdit" name="chuyen_nganh_input">
+        <property name="geometry">
+         <rect>
+          <x>250</x>
+          <y>840</y>
+          <width>861</width>
+          <height>41</height>
+         </rect>
+        </property>
+        <property name="placeholderText">
+         <string>Vui lòng nhập ngành học liên quan</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="chuyen_nganh_layout">
+        <property name="geometry">
+         <rect>
+          <x>250</x>
+          <y>800</y>
+          <width>131</width>
+          <height>31</height>
+         </rect>
+        </property>
+        <property name="font">
+         <font>
+          <pointsize>10</pointsize>
+         </font>
+        </property>
+        <property name="text">
+         <string>Chuyên ngành </string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignmentFlag::AlignBottom|Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft</set>
+        </property>
+       </widget>
+       <widget class="QLabel" name="tom_tat_layout">
+        <property name="geometry">
+         <rect>
+          <x>250</x>
+          <y>890</y>
+          <width>91</width>
+          <height>31</height>
+         </rect>
+        </property>
+        <property name="font">
+         <font>
+          <pointsize>10</pointsize>
+         </font>
+        </property>
+        <property name="text">
+         <string>Tóm tắt</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignmentFlag::AlignBottom|Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft</set>
+        </property>
+       </widget>
+       <widget class="QPlainTextEdit" name="tom_tat_input">
+        <property name="geometry">
+         <rect>
+          <x>250</x>
+          <y>930</y>
+          <width>861</width>
+          <height>131</height>
+         </rect>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">background-color: rgb(255, 255, 255);</string>
+        </property>
+        <property name="placeholderText">
+         <string>Nhập nội dung ngắn gọn của sách</string>
+        </property>
+       </widget>
+       <widget class="QLineEdit" name="don_gia_input">
+        <property name="geometry">
+         <rect>
+          <x>250</x>
+          <y>1140</y>
+          <width>861</width>
+          <height>41</height>
+         </rect>
+        </property>
+        <property name="placeholderText">
+         <string>Nhập giá tiền (nếu có)</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="don_gia_layout">
+        <property name="geometry">
+         <rect>
+          <x>250</x>
+          <y>1100</y>
+          <width>121</width>
+          <height>31</height>
+         </rect>
+        </property>
+        <property name="font">
+         <font>
+          <pointsize>10</pointsize>
+         </font>
+        </property>
+        <property name="text">
+         <string>Nhập đơn giá</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignmentFlag::AlignBottom|Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft</set>
+        </property>
+       </widget>
+       <widget class="QLineEdit" name="link_png_input">
+        <property name="geometry">
+         <rect>
+          <x>250</x>
+          <y>1230</y>
+          <width>861</width>
+          <height>41</height>
+         </rect>
+        </property>
+        <property name="placeholderText">
+         <string>Nhập đường dẫn đến tên file chứa ảnh sách</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="chuyen_nganh_layout_2">
+        <property name="geometry">
+         <rect>
+          <x>250</x>
+          <y>1190</y>
+          <width>231</width>
+          <height>31</height>
+         </rect>
+        </property>
+        <property name="font">
+         <font>
+          <pointsize>10</pointsize>
+         </font>
+        </property>
+        <property name="text">
+         <string>Nhập đường dẫn ảnh sách</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignmentFlag::AlignBottom|Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft</set>
+        </property>
+       </widget>
+       <widget class="QLineEdit" name="link_pdf_input">
+        <property name="geometry">
+         <rect>
+          <x>250</x>
+          <y>1320</y>
+          <width>861</width>
+          <height>41</height>
+         </rect>
+        </property>
+        <property name="placeholderText">
+         <string>Nhập đường dẫn đến file PDF</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="chuyen_nganh_layout_3">
+        <property name="geometry">
+         <rect>
+          <x>250</x>
+          <y>1280</y>
+          <width>221</width>
+          <height>31</height>
+         </rect>
+        </property>
+        <property name="font">
+         <font>
+          <pointsize>10</pointsize>
+         </font>
+        </property>
+        <property name="text">
+         <string>Đường dẫn file PDF</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignmentFlag::AlignBottom|Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft</set>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="them_button">
+        <property name="geometry">
+         <rect>
+          <x>609</x>
+          <y>1400</y>
+          <width>141</width>
+          <height>41</height>
+         </rect>
+        </property>
+        <property name="font">
+         <font>
+          <pointsize>14</pointsize>
+          <bold>true</bold>
+         </font>
+        </property>
+        <property name="text">
+         <string>THÊM</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="ten_sach_layout_2">
+        <property name="geometry">
+         <rect>
+          <x>250</x>
+          <y>80</y>
+          <width>91</width>
+          <height>31</height>
+         </rect>
+        </property>
+        <property name="font">
+         <font>
+          <pointsize>10</pointsize>
+         </font>
+        </property>
+        <property name="text">
+         <string>ID Sách</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignmentFlag::AlignBottom|Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft</set>
+        </property>
+       </widget>
+       <widget class="QLineEdit" name="ID_Sach_input">
+        <property name="geometry">
+         <rect>
+          <x>250</x>
+          <y>120</y>
+          <width>861</width>
+          <height>41</height>
+         </rect>
+        </property>
+        <property name="placeholderText">
+         <string>Vui lòng nhập ID Sách</string>
+        </property>
+       </widget>
+       <zorder>ten_sach_layout</zorder>
+       <zorder>ten_sach_input</zorder>
+       <zorder>them_sach_layout</zorder>
+       <zorder>tac_gia_layout</zorder>
+       <zorder>the_loai_layout</zorder>
+       <zorder>the_loai_sach_input</zorder>
+       <zorder>nha_xuat_ban_input</zorder>
+       <zorder>nha_xuat_ban_layout</zorder>
+       <zorder>nam_xuat_ban_input</zorder>
+       <zorder>nam_xuat_ban_layout</zorder>
+       <zorder>so_trang_layout</zorder>
+       <zorder>ISBN_input</zorder>
+       <zorder>ISBN_layout</zorder>
+       <zorder>tac_gia_input</zorder>
+       <zorder>so_trang_input</zorder>
+       <zorder>language_input</zorder>
+       <zorder>language_layout</zorder>
+       <zorder>chu_de_input</zorder>
+       <zorder>chu_de_layout</zorder>
+       <zorder>chuyen_nganh_input</zorder>
+       <zorder>chuyen_nganh_layout</zorder>
+       <zorder>tom_tat_layout</zorder>
+       <zorder>tom_tat_input</zorder>
+       <zorder>don_gia_input</zorder>
+       <zorder>don_gia_layout</zorder>
+       <zorder>link_png_input</zorder>
+       <zorder>chuyen_nganh_layout_2</zorder>
+       <zorder>link_pdf_input</zorder>
+       <zorder>chuyen_nganh_layout_3</zorder>
+       <zorder>them_button</zorder>
+       <zorder>ten_sach_layout_2</zorder>
+       <zorder>ID_Sach_input</zorder>
+      </widget>
+      <widget class="QWidget" name="page_4"/>
+     </widget>
+    </widget>
+   </widget>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>1385</width>
+     <height>25</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menu_thong_tin">
+    <property name="title">
+     <string>THÔNG TIN</string>
+    </property>
+   </widget>
+   <widget class="QMenu" name="menu_them">
+    <property name="title">
+     <string>THEEM</string>
+    </property>
+    <addaction name="action_them_sach"/>
+    <addaction name="action_them_quan_tri"/>
+    <addaction name="action_them_nguoi_dung"/>
+   </widget>
+   <widget class="QMenu" name="menuT_NG_QUAN">
+    <property name="title">
+     <string>TỔNG QUAN</string>
+    </property>
+   </widget>
+   <addaction name="menuT_NG_QUAN"/>
+   <addaction name="menu_thong_tin"/>
+   <addaction name="menu_them"/>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+  <action name="actionThem_phong">
+   <property name="text">
+    <string>Them phong</string>
+   </property>
+  </action>
+  <action name="actionThem_nguoi_dung_quan_tri">
+   <property name="text">
+    <string>Them nguoi dung quan tri</string>
+   </property>
+  </action>
+  <action name="actionThem_nguoi_dung">
+   <property name="text">
+    <string>Them nguoi dung</string>
+   </property>
+  </action>
+  <action name="action_them_sach">
+   <property name="text">
+    <string>Them sach</string>
+   </property>
+  </action>
+  <action name="action_them_quan_tri">
+   <property name="text">
+    <string>Them quan tri</string>
+   </property>
+  </action>
+  <action name="action_them_nguoi_dung">
+   <property name="text">
+    <string>Them nguoi dung</string>
+   </property>
+  </action>
+  <action name="actionHIHIH">
+   <property name="text">
+    <string>HIHIH</string>
+   </property>
+  </action>
+  <action name="actionHAHAH">
+   <property name="text">
+    <string>HAHAH</string>
+   </property>
+  </action>
+  <action name="actionHEHEHE">
+   <property name="text">
+    <string>HEHEHE</string>
+   </property>
+  </action>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

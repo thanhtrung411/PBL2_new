@@ -16,11 +16,16 @@ class pbl2 : public QMainWindow
 public:
     pbl2(QWidget *parent = nullptr);
     ~pbl2();
-
+public slots:
+    void sign_in();
 private slots:
     void on_dang_ky_button_clicked();
 
     void on_dang_nhap_button_clicked();
+
+    void on_quyen_quan_tri_clicked();
+
+    void set_up_card();
 
 private:
     Ui::pbl2 *ui;

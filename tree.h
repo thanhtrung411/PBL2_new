@@ -1,6 +1,7 @@
 #ifndef TREE_H
 #define TREE_H
 #include <iostream>
+#include <QTextStream>
 #include "accout.h"
 #include "book.h"
 #include "description.h"
@@ -53,9 +54,9 @@ public:
     bool find_Book(string id, book &a);
     bool update_Book(book &old_, book &new_);
     int count_book();
-    void write_book(Node_Book* node, fstream &file);
+    void write_csv(Node_Book* node, QTextStream &out) const;
     int count_book() const;
-    void write_book(fstream &file) const;
+    void write_book(QTextStream &out) const;
 };
 
 class Node_Accout {
@@ -96,7 +97,7 @@ private:
     Node_Accout* check_accout_helper(Node_Accout* node, string id, string pass, int &ok, accout &a);
     Node_Accout* delete_Accout(Node_Accout* node, accout data, int &ok);
     int count(Node_Accout* node) const;
-    void write(Node_Accout* node,std::fstream &file) const;
+    void write(Node_Accout* node, QTextStream &out) const;
 public:
     BST_Accout(): root(nullptr) {}
     ~BST_Accout();
@@ -108,7 +109,7 @@ public:
     int count_accout();
     void write_accout(Node_Accout* node, fstream &file);
     int count_accout() const;
-    void write_accout(fstream &file) const;
+    void write_accout(QTextStream &out) const;
 };
     
 #endif // TREE_H

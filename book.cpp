@@ -1,172 +1,147 @@
 #include "book.h"
+#include <iostream>
+using namespace std;
 
+book::book(){
+    id_book = "";
+    ten_sach = "";
+    tac_gia = "";
+    the_loai = "";
+    nha_xuat_ban = "";
+    nam_xuat_ban = "";
+    so_trang = "";
+    ISBN = "";
+    ngon_ngu = "";
+    tu_khoa = "";
+    chuyen_nganh = "";
+    don_gia = "null";
+    tom_tat = "";
+    link_png = "null";
+    link_pdf = "null";
+    type_book = "null";
+    tinh_trang = "0";
+}
 
-book::book()
-{
-    name_book="";
-    author="";
-    category="";
-    publisher="";
-    year="";
-    quantity="";
-    state="";
-    id_book="";
-    link_image="";
-    link_pdf="";
+book::book(string id_book, string ten_sach, string tac_gia, string the_loai, string nha_xuat_ban, string nam_xuat_ban, string so_trang, string ISBN, string ngon_ngu, string tu_khoa, string chuyen_nganh, string don_gia, string tom_tat, string link_png, string link_pdf, string type_book, string tinh_trang){
+    this->id_book = id_book;
+    this->ten_sach = ten_sach;
+    this->tac_gia = tac_gia;
+    this->the_loai = the_loai;
+    this->nha_xuat_ban = nha_xuat_ban;
+    this->nam_xuat_ban = nam_xuat_ban;
+    this->so_trang = so_trang;
+    this->ISBN = ISBN;
+    this->ngon_ngu = ngon_ngu;
+    this->tu_khoa = tu_khoa;
+    this->chuyen_nganh = chuyen_nganh;
+    this->don_gia = don_gia;
+    this->tom_tat = tom_tat;
+    this->link_png = link_png;
+    this->link_pdf = link_pdf;
+    this->type_book = type_book;
+    this->tinh_trang = tinh_trang;
 }
-book::book(string name_book, string author, string category, string publisher, string year, string quantity, string state,string id_book,string link_image,string link_pdf,string don_gia,string page_number)
-{   
-    this->name_book=name_book;
-    this->author=author;
-    this->category=category;
-    this->publisher=publisher;
-    this->year=year;
-    this->quantity=quantity;
-    this->state=state;
-    this->id_book=id_book;
-    this->link_image=link_image;
-    this->link_pdf=link_pdf;
-    this->don_gia=don_gia;
-    this->page_number=page_number;
+
+book::~book(){}
+void book::set_id_book(string id_book){
+    this->id_book = id_book;
 }
-book::~book()
-{
+void book::set_name_book(string ten_sach){
+    this->ten_sach = ten_sach;
 }
-void book::set_name_book(string name_book)
-{
-    this->name_book=name_book;
+void book::set_tac_gia(string tac_gia){
+    this->tac_gia = tac_gia;
 }
-void book::set_author(string author)
-{
-    this->author=author;
+void book::set_the_loai(string the_loai){
+    this->the_loai = the_loai;
 }
-void book::set_category(string category)
-{
-    this->category=category;
+void book::set_nha_xuat_ban(string nha_xuat_ban){
+    this->nha_xuat_ban = nha_xuat_ban;
 }
-void book::set_publisher(string publisher)
-{
-    this->publisher=publisher;
+void book::set_nam_xuat_ban(string nam_xuat_ban){
+    this->nam_xuat_ban = nam_xuat_ban;
 }
-void book::set_year(string year)
-{
-    this->year=year;
+void book::set_so_trang(string so_trang){
+    this->so_trang = so_trang;
 }
-void book::set_quantity(string quantity)
-{
-    this->quantity=quantity;
+void book::set_ISBN(string ISBN){
+    this->ISBN = ISBN;
 }
-void book::set_state(string state)
-{
-    this->state=state;
+void book::set_ngon_ngu(string ngon_ngu){
+    this->ngon_ngu = ngon_ngu;
 }
-void book::set_id_book(string id_book)
-{
-    this->id_book=id_book;
+void book::set_tu_khoa(string tu_khoa){
+    this->tu_khoa = tu_khoa;
 }
-void book::set_link_image(string link_image)
-{
-    this->link_image=link_image;
+void book::set_chuyen_nganh(string chuyen_nganh){
+    this->chuyen_nganh = chuyen_nganh;
 }
-void book::set_link_pdf(string link_pdf)
-{
-    this->link_pdf=link_pdf;
+void book::set_don_gia(string don_gia){
+    this->don_gia = don_gia;
 }
-void book::set_don_gia(string don_gia)
-{
-    this->don_gia=don_gia;
+void book::set_tom_tat(string tom_tat){
+    this->tom_tat = tom_tat;
 }
-void book::set_page_number(string page_number)
-{
-    this->page_number=page_number;
+void book::set_type_book(string type_book){
+    this->type_book = type_book;
 }
-void book::set_book(string name_book, string author, string category, string publisher, string year, string quantity, string state,string id_book,string link_image,string link_pdf,string don_gia,string page_number)
-{
-    this->name_book=name_book;
-    this->author=author;
-    this->category=category;
-    this->publisher=publisher;
-    this->year=year;
-    this->quantity=quantity;
-    this->state=state;
-    this->id_book=id_book;
-    this->link_image=link_image;
-    this->link_pdf=link_pdf;
-    this->don_gia=don_gia;
-    this->page_number=page_number;
+void book::set_tinh_trang(string tinh_trang){
+    this->tinh_trang = tinh_trang;
 }
-void book::set_book(book &b)
-{
-    this->name_book=b.name_book;
-    this->author=b.author;
-    this->category=b.category;
-    this->publisher=b.publisher;
-    this->year=b.year;
-    this->quantity=b.quantity;
-    this->state=b.state;
-    this->id_book=b.id_book;
-    this->link_image=b.link_image;
-    this->link_pdf=b.link_pdf;
-    this->don_gia=b.don_gia;
-    this->page_number=b.page_number;
+void book::set_link_png(string link_png){
+    this->link_png = link_png;
 }
-string book::get_id_book()
-{
+void book::set_link_pdf(string link_pdf){
+    this->link_pdf = link_pdf;
+}
+string book::get_id_book(){
     return id_book;
 }
-string book::get_link_image()
-{
-    return link_image;
+string book::get_name_book(){
+    return ten_sach;
 }
-string book::get_link_pdf()
-{
-    return link_pdf;
+string book::get_tac_gia(){
+    return tac_gia;
 }
-string book::get_name_book()
-{
-    return name_book;
+string book::get_the_loai(){
+    return the_loai;
 }
-string book::get_author()
-{
-    return author;
+string book::get_nha_xuat_ban(){
+    return nha_xuat_ban;
 }
-string book::get_category()
-{
-    return category;
+string book::get_nam_xuat_ban(){
+    return nam_xuat_ban;
 }
-string book::get_publisher()
-{
-    return publisher;
+string book::get_so_trang(){
+    return so_trang;
 }
-string book::get_year()
-{
-    return year;
+string book::get_ISBN(){
+    return ISBN;
 }
-string book::get_quantity()
-{
-    return quantity;
+string book::get_ngon_ngu(){
+    return ngon_ngu;
 }
-string book::get_state()
-{
-    return state;
+string book::get_tu_khoa(){
+    return tu_khoa;
 }
-string book::get_don_gia()
-{
+string book::get_chuyen_nganh(){
+    return chuyen_nganh;
+}
+string book::get_don_gia(){
     return don_gia;
 }
-string book::get_page_number()
-{
-    return page_number;
+string book::get_tom_tat(){
+    return tom_tat;
 }
-string book::get_book()
-{
-    return name_book + ", " + author + ", " + category + ", " + publisher + ", " + year + ", " + quantity + ", " + state + ", " + id_book + ", " + link_image + ", " + link_pdf + ", " + don_gia + ", " + page_number;
+string book::get_type_book(){
+    return type_book;
 }
-
-description book::get_description() {
-    return desc;
+string book::get_tinh_trang(){
+    return tinh_trang;
 }
-void book::set_description(const description& d) {
-    desc = d;
+string book::get_link_png(){
+    return link_png;
 }
-
+string book::get_link_pdf(){
+    return link_pdf;
+}

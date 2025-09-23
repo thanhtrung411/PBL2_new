@@ -7,6 +7,9 @@
 #include "accout.h"
 #include "tree.h"
 #include "my_string.h"
+#include "my_file.h"
+#include "my_time.h"
+#include "global.h"
 #include <QApplication>
 #include <QMessageBox>
 #include <QStyleFactory>
@@ -16,58 +19,26 @@ using namespace std;
 
 FILE *peoples;
 BST_Accout accout_data;
-
+BST_Book book_data;
+accout acc_sign_in;
 
 ////////////////////////////
-
-void doc_accout(){
-    fstream file;
-    file.open("../accout.txt", ios::in);
-    if (!file.is_open()) {
-        cout << "Khong the mo file de ghi." << endl;
-        return;
+void box_thong_bao(string s){
+    QMessageBox box;
+    box.setWindowTitle("Thông báo");
+    box.setText(QString::fromStdString(s));
+    box.setIconPixmap(QPixmap(":/icons/icons_/error.png").scaled(16,16, Qt::KeepAspectRatio, Qt::SmoothTransformation));
+    box.setStyleSheet(R"(
+    QMessageBox { background: rgb(243,246,255); }           
+    QMessageBox QLabel { color:#0868ad; }           
+    QMessageBox QPushButton {
+    background:#fff; color:#0868ad;
+    border:1px solid #d0d0d0; border-radius:8px; padding:6px 12px;
     }
-    int n = 0;
-    file >> n;
-    for (int i = 0; i < n; i++) {
-        string user_id, user_name, email, phonenumber, pass;
-        int gioi_tinh, doi_tuong;
-        string ngay_sinh;
-        file.ignore();
-        getline(file, user_id);
-        getline(file, user_name);
-        getline(file, email);
-        getline(file, phonenumber);
-        file >> gioi_tinh;
-        file.ignore();
-        file >> doi_tuong;
-        file.ignore();
-        getline(file, ngay_sinh);
-        getline(file, pass);
-        accout p;
-        p.setAccout_id(user_id);
-        p.setAccout_name(user_name);
-        p.setEmail(email);
-        p.setDoi_tuong(doi_tuong);
-        p.setGioi_tinh(gioi_tinh);
-        p.setNgay_sinh(ngay_sinh);
-        p.setPhonenumber(phonenumber);
-        p.setPass(pass);
-        int ok = 0;
-        accout_data.insert_Accout(p);
-    }
-}
-
-void ghi_accout(){
-    fstream file;
-    file.open("../accout.txt", ios::out | ios::trunc);
-    if (!file.is_open()) {
-        cout << "Khong the mo file de ghi." << endl;
-        return;
-    }
-    int n = accout_data.count_accout();
-    file << n << endl;
-    accout_data.write_accout(file);
+    QMessageBox QPushButton:hover  { background:#f5f5f5; }
+    QMessageBox QPushButton:default{ border-color:#0078d7; }
+    )");
+    box.exec();
 }
 
 static void applyFusionDark(QApplication& app) {
@@ -92,9 +63,9 @@ static void applyFusionDark(QApplication& app) {
 
 int main(int argc, char *argv[])
 {
-
-    doc_accout();
     QApplication a(argc, argv);
+    doc_accout(accout_data);
+    doc_book(book_data);
     //applyFusionDark(a);
     pbl2 w;
     w.show();
@@ -103,14 +74,26 @@ int main(int argc, char *argv[])
 
 void pbl2::on_dang_ky_button_clicked()
 {
-    auto win = new dang_ky_dialog();
-
+    auto win = new dang_ky_dialog(this);
+    win->setAttribute(Qt::WA_DeleteOnClose, true);
     // Khi cửa sổ đăng ký đóng, hiển thị lại Pbl2
-    connect(win, &dang_ky_dialog::destroyed, this, [=]() {
+    connect(win, &dang_ky_dialog::registered, this, [this, win](const accout& user) {
+        acc_sign_in = user;
+        ui->info->setCurrentIndex(1);
+        ui->user_name_layout->setText(
+            QString::fromStdString("Xin chào " + giai_ma_str_(acc_sign_in.getAccout_Name()) + ","));
+        ui->score_layout->setText("Admin");
         this->show();
+        this->raise();
+        this->activateWindow();
+        win->deleteLater();
     });
-
-    win->show();
+    connect(win, &dang_ky_dialog::returned, this, [this,win](){
+        this->show();
+        this->raise();
+        this->activateWindow();
+    });
+   win->show();
     this->hide(); // Ẩn cửa sổ chính
 }
 
@@ -131,38 +114,51 @@ static void clearError(QLineEdit* w) {
 
 void pbl2::on_dang_nhap_button_clicked()
 {
+    int check = 1;
     string users_id = ui->ten_nguoi_dung_input->text().trimmed().toUtf8().toStdString();
     string pass = ui->mat_khau_input->text().toUtf8().toStdString();
 
     if (users_id.empty()){
+        check = 0;
         markError(ui->ten_nguoi_dung_input,"Vui lòng nhập tên người dùng");
     }
     else{
         clearError(ui->ten_nguoi_dung_input);
     }
     if (pass.empty()){
+        check = 0;
         markError(ui->mat_khau_input,"Vui lòng nhập mật khẩu");
     }
     else{
         clearError(ui->mat_khau_input);
     }
-    accout sign_in;
-    ma_hoa_str_(pass);
-    if(!accout_data.check_accout(users_id,pass,sign_in) && !users_id.empty() && !pass.empty()){
-        markError(ui->ten_nguoi_dung_input,"Tên người dùng hoặc mật khẩu sai");
-        ui->mat_khau_input->clear();
-        ui->mat_khau_input->setPlaceholderText("Mật khẩu");
-        ui->mat_khau_input->setStyleSheet("QLineEdit{border:2px solid rgb(8, 104, 173);border-radius: 6px;}");
-        QPalette pal = ui->mat_khau_input->palette();
-        pal.setColor(QPalette::PlaceholderText, QColor("#0868ad"));
-        ui->mat_khau_input->setPalette(pal);
-        ui->mat_khau_input->setFocus();
-    }
-    else{
-
+    pass = ma_hoa_str_(pass);
+    if (check){
+        if(!accout_data.check_accout(users_id,pass,acc_sign_in) && !users_id.empty() && !pass.empty()){
+            markError(ui->ten_nguoi_dung_input,"Tên người dùng hoặc mật khẩu sai");
+            ui->mat_khau_input->clear();
+            ui->mat_khau_input->setPlaceholderText("Mật khẩu");
+            ui->mat_khau_input->setStyleSheet("QLineEdit{border:2px solid rgb(8, 104, 173);border-radius: 6px;}");
+            QPalette pal = ui->mat_khau_input->palette();
+            pal.setColor(QPalette::PlaceholderText, QColor("#0868ad"));
+            ui->mat_khau_input->setPalette(pal);
+            ui->mat_khau_input->setFocus();
+        }
+        else{
+            ui->info->setCurrentIndex(1);
+            ui->ten_nguoi_dung_input->setText("");
+            ui->mat_khau_input->setText("");
+            ui->user_name_layout->setText(QString::fromStdString("Xin chào " + giai_ma_str_(acc_sign_in.getAccout_Name()) + ","));
+            ui->score_layout->setText("Admin");
+        }
     }
 }
 
+void dang_ky_dialog::on_return_home_clicked()
+{
+    emit returned();
+    this->close();
+}
 
 
 void dang_ky_dialog::on_dang_ky_2_button_clicked()
@@ -254,24 +250,13 @@ void dang_ky_dialog::on_dang_ky_2_button_clicked()
         p.setNgay_sinh(ngay_sinh);
         p.setPhonenumber(so_dien_thoai);
         p.setPass(mat_khau);
+        p.setlevel("Admin");
         p.ma_hoa_();
+        acc_sign_in = p;
         accout_data.insert_Accout(p);
-        ghi_accout();
-        QMessageBox box;
-        box.setWindowTitle("Thông báo");
-        box.setText("Bạn đã đăng ký thành công.");
-        box.setIconPixmap(QPixmap(":/icons/icons_/check.png").scaled(16,16, Qt::KeepAspectRatio, Qt::SmoothTransformation));
-        box.setStyleSheet(R"(
-        QMessageBox { background: rgb(243,246,255); }             /* nền hộp */
-        QMessageBox QLabel { color:#0868ad; }              /* màu chữ trong hộp */
-        QMessageBox QPushButton {
-        background:#fff; color:#0868ad;
-        border:1px solid #d0d0d0; border-radius:8px; padding:6px 12px;
-        }
-        QMessageBox QPushButton:hover  { background:#f5f5f5; }
-        QMessageBox QPushButton:default{ border-color:#0078d7; }
-        )");
-        box.exec();
+        ghi_accout(accout_data);
+        box_thong_bao("Đăng ký thành công");
+        emit registered(p);
+        this->close();
     }
 }
-

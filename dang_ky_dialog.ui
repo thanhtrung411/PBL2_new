@@ -228,6 +228,9 @@
       <height>21</height>
      </rect>
     </property>
+    <property name="styleSheet">
+     <string notr="true">selection-color: rgb(69, 104, 173);</string>
+    </property>
     <property name="text">
      <string>Đăng nhập nghĩa là bạn đồng ý với Điều khoản và Chính sách sử dụng của hệ thống phần mềm Thư viện số.</string>
     </property>
@@ -245,7 +248,7 @@
      <item>
       <widget class="QRadioButton" name="Boy_button">
        <property name="styleSheet">
-        <string notr="true">selection-color: rgb(69, 104, 173)</string>
+        <string notr="true">selection-color: rgb(255, 0, 0)</string>
        </property>
        <property name="text">
         <string>Nam</string>
@@ -254,6 +257,9 @@
      </item>
      <item>
       <widget class="QRadioButton" name="Girl_button">
+       <property name="styleSheet">
+        <string notr="true">selection-color: rgb(69, 104, 173);</string>
+       </property>
        <property name="text">
         <string>Nữ</string>
        </property>
@@ -396,6 +402,29 @@
     </property>
     <property name="text">
      <string/>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="return_home">
+    <property name="geometry">
+     <rect>
+      <x>40</x>
+      <y>40</y>
+      <width>101</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="cursor">
+     <cursorShape>PointingHandCursor</cursorShape>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">
+  background: rgb(243, 246, 255);
+  color: rgb(8, 104, 173);
+  border:1px solid rgb(8, 104, 173);
+  border-radius: 6px;</string>
+    </property>
+    <property name="text">
+     <string>  Quay lại</string>
     </property>
    </widget>
   </widget>

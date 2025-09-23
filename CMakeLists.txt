@@ -26,7 +26,7 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         dang_ky_dialog.h dang_ky_dialog.cpp dang_ky_dialog.ui
         book.h book.cpp
         description.h description.cpp
-        time.h time.cpp
+
         accout.h accout.cpp
         tree.h tree.cpp
 
@@ -36,6 +36,14 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         resource.qrc
         data/accout.txt
         data/book.txt
+        my_file.h my_file.cpp
+        admin_show.h admin_show.cpp admin_show.ui
+        card.h card.cpp
+        my_time.h my_time.cpp
+        global.h
+        png_background/PBL2-A-01-001.png
+        png_background/PBL2-A-01-001.png
+
 
     )
 # Define target properties for Android with Qt 6 as:
