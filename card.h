@@ -1,5 +1,6 @@
 #pragma once
 #include "book.h"
+#include "pbl2.h"
 #include <QFrame>
 #include <iostream>
 using namespace std;

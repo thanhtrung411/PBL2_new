@@ -3,6 +3,15 @@
         <file>icons_/check.png</file>
         <file>icons_/search.png</file>
         <file>icons_/home.png</file>
+        <file>icons_/user-interface.png</file>
+        <file>icons_/password.png</file>
+        <file>icons_/date.png</file>
+        <file>icons_/emai.png</file>
+        <file>icons_/pass.png</file>
+        <file>icons_/phone.png</file>
+        <file>icons_/borrow.png</file>
+        <file>icons_/download.png</file>
+        <file>icons_/read.png</file>
     </qresource>
     <qresource prefix="/data_">
         <file>data/accout.txt</file>

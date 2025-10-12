@@ -213,3 +213,89 @@ void copy_file(const string& file1, const string& file2){
     source.close();
     dest.close();
 }
+void doc_borrow(BST_Borrow &borrow_data){
+    const QString path = getDataFilePath("data/Borrow.csv");
+    QFile file(path);
+    if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
+        qDebug() << "Khong the mo file de doc:" << path;
+        return;
+    }
+    QTextStream in(&file);
+    in.readLine(); //doc tieu de va bo qua
+    while (!in.atEnd()) {
+        QString qline = in.readLine();
+        if (qline.trimmed().isEmpty()) continue;
+        qDebug() << qline;
+        string line = qline.toUtf8().toStdString();
+        borrow b;
+        int idx = 0;
+        for (int i = 0 ; i < line.size() ; i++){
+            string res = "";
+            if (line[i] == '"'){
+                i++;
+                while (i < line.size() && line[i] != '"'){
+                    res += line[i];
+                    i++;
+                }
+                i++;
+            }
+            else{
+                while (i < line.size() && line[i] != ','){
+                    res += line[i];
+                    i++;
+                }
+            }
+            switch (idx)
+            {
+            case 0:
+                b.set_borrow_id(res);
+                break;
+            case 1:
+                b.set_id_book(res);
+                break;
+            case 2:
+                b.set_id_user(res);
+                break;
+            case 3:
+                b.set_id_admin(res);
+                break;
+            case 4:
+                b.set_booking_date(res);
+                break;
+            case 5:
+                b.set_borrow_date(res);
+                break;
+            case 6:
+                b.set_pay_date(res);
+                break;
+            case 7:
+                b.set_status(res);
+                break;
+            case 8:
+                b.set_return_date(res);
+                break;
+            case 9:
+                b.set_tien_phat(res);
+                break;
+            default:
+                break;
+            }
+            idx++;
+        }
+        borrow_data.insert_Borrow(b);
+    }
+    file.close();
+}
+void ghi_borrow(BST_Borrow &borrow_data){
+    const QString path = getDataFilePath("data/Borrow.csv");
+    QDir().mkpath(QFileInfo(path).absolutePath()); // tạo thư mục data nếu chưa có
+
+    QFile file(path);
+    if (!file.open(QIODevice::WriteOnly | QIODevice::Truncate | QIODevice::Text)) {
+        qDebug() << "Khong the mo file de ghi:" << path;
+        return;
+    }
+    QTextStream out(&file);
+    borrow_data.write_borrow(out); // cần overload với QTextStream (bên dưới)
+    qDebug() << "Ghi file thanh cong:" << path;
+}

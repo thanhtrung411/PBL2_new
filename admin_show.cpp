@@ -58,7 +58,7 @@ void admin_show::on_them_button_clicked()
     string don_gia = ui_3->don_gia_input->text().toUtf8().toStdString();
     string tom_tat = ui_3->tom_tat_input->toPlainText().toUtf8().toStdString();
     string type_book = "null";
-    string tinh_trang = "null";
+    string tinh_trang = "Có sẵn";
     string link_png_ = ui_3->link_png_layout->text().toUtf8().toStdString();
     string link_pdf_ = ui_3->link_pdf_layout->text().toUtf8().toStdString();
     string date_created;
@@ -146,7 +146,12 @@ void admin_show::on_them_button_clicked()
         copy_file(link_pdf_,path.toStdString() + b.get_id_book() + ".pdf");
         rel = QDir::current().relativeFilePath(path);
         b.set_link_pdf(rel.toStdString() +"/"+ b.get_id_book() + ".pdf");
-        book_data.insert_Book(b);
+        for (int i = 0 ; i < ui_3->number_of_book->value();i++){
+            string id_ = id_book +"." + toFixedString(i+1,3);
+            b.set_id_book(id_);
+            qDebug() << id_;
+            book_data.insert_Book(b);
+        }
         ghi_book(book_data);
         box_thong_bao("Thêm sách thành công");
     }

@@ -33,6 +33,18 @@ private slots:
 
     void set_up_card(BST_Book &b,QGridLayout* path_link);
 
+    void show_info_sach(book& b);
+
+    void Reload();
+
+    QPixmap loadScaled(const QString& path, const QSize& toSize) const;
+
+    void on_pushButton_clicked();
+
+    void on_chi_tiet_button_clicked();
+
+    void on_trich_dan_button_clicked();
+
 private:
     Ui::pbl2 *ui;
 };

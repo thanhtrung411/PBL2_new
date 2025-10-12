@@ -36,6 +36,10 @@ void doc_support_book(BST_string &the_loai_, BST_string &chuyen_nganh_);
 
 void ghi_support_book(BST_string &support_book_data);
 
+void doc_borrow(BST_Borrow &borrow_data);
+
+void ghi_borrow(BST_Borrow &borrow_data);
+
 void copy_file(const string& file1, const string& file2);
 
 #endif // MY_FILE_H

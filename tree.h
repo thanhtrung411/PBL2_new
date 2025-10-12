@@ -4,6 +4,7 @@
 #include <QTextStream>
 #include "accout.h"
 #include "book.h"
+#include "borrow.h"
 #include "description.h"
 using namespace std;
 
@@ -172,6 +173,60 @@ public:
     int count_string() const;
     void write_string(QTextStream &out) const;
     string operator[](int index);
+};
+
+class Node_Borrow{
+private:
+    borrow data;
+    Node_Borrow* left;
+    Node_Borrow* right;
+public:
+    explicit Node_Borrow(borrow &value):
+        data(value),
+        left(nullptr),
+        right(nullptr){}
+    Node_Borrow* getLeft(){
+        return left;
+    }
+    Node_Borrow* getRight() {
+        return right;
+    }
+    borrow& getData(){
+        return data;
+    }
+    void setLeft(Node_Borrow* node){
+        left = node;
+    }
+    void setRight(Node_Borrow* node){
+        right = node;
+    }
+    void setData(const borrow& value){
+        data = value;
+    }
+};
+class BST_Borrow {
+private:
+    Node_Borrow* root;
+    bool add_helper_1(const string& id_1, const string& id_2);
+    bool add_helper_2(const string& id_1, const string& id_2);
+    Node_Borrow* add_Borrow(Node_Borrow* node, borrow &value,int &ok);
+    Node_Borrow* search_Borrow(Node_Borrow* node, string id, int &ok, borrow &a);
+    Node_Borrow* delete_Borrow(Node_Borrow* node, borrow data, int &ok);
+    int count(Node_Borrow* node) const;
+    void write(Node_Borrow* node,QTextStream &file) const;
+public:
+    BST_Borrow(): root(nullptr) {}
+    ~BST_Borrow();
+    string find_new_id_borrow();
+    borrow operator[](int index);
+    bool insert_Borrow(borrow &value);
+    bool remove_Borrow(borrow &value);
+    bool find_Borrow(string id, borrow &a);
+    bool update_Borrow(borrow &old_, borrow &new_);
+    int count_borrow();
+    int count_borrow() const;
+    void write_csv(Node_Borrow* node, QTextStream &out) const;
+    void write_borrow(QTextStream &out) const;
 };
 
 #endif // TREE_H

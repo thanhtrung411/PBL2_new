@@ -20,6 +20,10 @@ private slots:
 
     void on_return_home_clicked();
 
+    void on_sign_in_button_clicked();
+
+    void on_sign_up_button_clicked();
+
 private:
     Ui::dang_ky_dialog *ui_2;
 signals:

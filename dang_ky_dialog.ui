@@ -14,401 +14,15 @@
    <string>MainWindow</string>
   </property>
   <property name="styleSheet">
-   <string notr="true">QWidget { background: rgb(243, 246, 255);color: rgb(69, 104, 173)}</string>
+   <string notr="true">background-color: rgb(255, 255, 255);
+color: rgb(15, 15, 15);</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QLineEdit" name="user_input">
-    <property name="geometry">
-     <rect>
-      <x>275</x>
-      <y>160</y>
-      <width>291</width>
-      <height>28</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">QLineEdit {
-  background: rgb(243, 246, 255);
-  color: rgb(8, 104, 173);
-  border: 2px solid rgb(69, 104, 173);
-  border-radius: 6px;
-}</string>
-    </property>
-    <property name="placeholderText">
-     <string>Nhập Mã số sinh viên (nếu có)</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="user_layout">
-    <property name="geometry">
-     <rect>
-      <x>275</x>
-      <y>130</y>
-      <width>291</width>
-      <height>20</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Tên đăng nhập (Mã số sinh viên)</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="name_layout">
-    <property name="geometry">
-     <rect>
-      <x>275</x>
-      <y>200</y>
-      <width>291</width>
-      <height>20</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Họ và tên</string>
-    </property>
-   </widget>
-   <widget class="QLineEdit" name="name_input">
-    <property name="geometry">
-     <rect>
-      <x>275</x>
-      <y>230</y>
-      <width>291</width>
-      <height>28</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">QLineEdit {
-  background: rgb(243, 246, 255);
-  color: rgb(8, 104, 173);
-  border: 2px solid rgb(69, 104, 173);
-  border-radius: 6px;
-}</string>
-    </property>
-    <property name="placeholderText">
-     <string>Nhập họ và tên</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="gioi_tinh_input">
-    <property name="geometry">
-     <rect>
-      <x>275</x>
-      <y>270</y>
-      <width>291</width>
-      <height>20</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Giới tính</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="birthday_layout">
-    <property name="geometry">
-     <rect>
-      <x>275</x>
-      <y>340</y>
-      <width>291</width>
-      <height>20</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Ngày sinh</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="email_layout">
-    <property name="geometry">
-     <rect>
-      <x>275</x>
-      <y>410</y>
-      <width>291</width>
-      <height>20</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Địa chỉ email</string>
-    </property>
-   </widget>
-   <widget class="QLineEdit" name="email_input">
-    <property name="geometry">
-     <rect>
-      <x>275</x>
-      <y>440</y>
-      <width>291</width>
-      <height>28</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">  background: rgb(243, 246, 255);
-  color: rgb(8, 104, 173);
-  border: 2px solid rgb(69, 104, 173);
-  border-radius: 6px;
-</string>
-    </property>
-    <property name="placeholderText">
-     <string>Nhập địa chỉ email</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="nuber_call_layout">
-    <property name="geometry">
-     <rect>
-      <x>750</x>
-      <y>130</y>
-      <width>291</width>
-      <height>20</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Số điện thoại</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="doi_tuong_layout">
-    <property name="geometry">
-     <rect>
-      <x>750</x>
-      <y>200</y>
-      <width>291</width>
-      <height>20</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Đối tượng</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="pass_again_layout">
-    <property name="geometry">
-     <rect>
-      <x>750</x>
-      <y>340</y>
-      <width>291</width>
-      <height>20</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Nhập lại mật khẩu</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="password_layout">
-    <property name="geometry">
-     <rect>
-      <x>750</x>
-      <y>270</y>
-      <width>291</width>
-      <height>20</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Mật khẩu</string>
-    </property>
-   </widget>
-   <widget class="QLineEdit" name="pass_again_input">
-    <property name="geometry">
-     <rect>
-      <x>750</x>
-      <y>370</y>
-      <width>291</width>
-      <height>28</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">  background: rgb(243, 246, 255);
-  color: rgb(8, 104, 173);
-  border: 2px solid rgb(69, 104, 173);
-  border-radius: 6px;
-</string>
-    </property>
-    <property name="echoMode">
-     <enum>QLineEdit::EchoMode::Password</enum>
-    </property>
-    <property name="placeholderText">
-     <string>Nhập lại mật khẩu</string>
-    </property>
-   </widget>
-   <widget class="QCheckBox" name="dieu_khoan_input">
-    <property name="geometry">
-     <rect>
-      <x>280</x>
-      <y>490</y>
-      <width>761</width>
-      <height>21</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">selection-color: rgb(69, 104, 173);</string>
-    </property>
-    <property name="text">
-     <string>Đăng nhập nghĩa là bạn đồng ý với Điều khoản và Chính sách sử dụng của hệ thống phần mềm Thư viện số.</string>
-    </property>
-   </widget>
-   <widget class="QWidget" name="horizontalLayoutWidget">
-    <property name="geometry">
-     <rect>
-      <x>280</x>
-      <y>289</y>
-      <width>291</width>
-      <height>41</height>
-     </rect>
-    </property>
-    <layout class="QHBoxLayout" name="horizontalLayout">
-     <item>
-      <widget class="QRadioButton" name="Boy_button">
-       <property name="styleSheet">
-        <string notr="true">selection-color: rgb(255, 0, 0)</string>
-       </property>
-       <property name="text">
-        <string>Nam</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QRadioButton" name="Girl_button">
-       <property name="styleSheet">
-        <string notr="true">selection-color: rgb(69, 104, 173);</string>
-       </property>
-       <property name="text">
-        <string>Nữ</string>
-       </property>
-      </widget>
-     </item>
-    </layout>
-   </widget>
-   <widget class="QDateEdit" name="date_birthday_input">
-    <property name="geometry">
-     <rect>
-      <x>280</x>
-      <y>370</y>
-      <width>281</width>
-      <height>31</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">  background: rgb(243, 246, 255);
-  color: rgb(8, 104, 173);
-  border: 2px solid rgb(69, 104, 173);
-  border-radius: 6px;</string>
-    </property>
-   </widget>
-   <widget class="QComboBox" name="Doi_tuong_input">
-    <property name="geometry">
-     <rect>
-      <x>750</x>
-      <y>230</y>
-      <width>291</width>
-      <height>28</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">  background: rgb(243, 246, 255);
-  color: rgb(8, 104, 173);
-  border: 2px solid rgb(69, 104, 173);
-  border-radius: 6px;
-</string>
-    </property>
-    <item>
-     <property name="text">
-      <string>Sinh viên</string>
-     </property>
-    </item>
-    <item>
-     <property name="text">
-      <string>Giảng viên</string>
-     </property>
-    </item>
-    <item>
-     <property name="text">
-      <string>Khác</string>
-     </property>
-    </item>
-   </widget>
-   <widget class="QPushButton" name="dang_ky_2_button">
-    <property name="geometry">
-     <rect>
-      <x>660</x>
-      <y>560</y>
-      <width>141</width>
-      <height>31</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">  background:  rgb(8, 104, 173);
-  color: rgb(243, 246, 255);
-  border: 2px solid rgb(69, 104, 173);
-  border-radius: 6px;
-</string>
-    </property>
-    <property name="text">
-     <string>ĐĂNG KÝ</string>
-    </property>
-   </widget>
-   <widget class="QLineEdit" name="so_dien_thoai_input">
-    <property name="geometry">
-     <rect>
-      <x>750</x>
-      <y>160</y>
-      <width>291</width>
-      <height>28</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">  background: rgb(243, 246, 255);
-  color: rgb(8, 104, 173);
-  border: 2px solid rgb(69, 104, 173);
-  border-radius: 6px;
-</string>
-    </property>
-    <property name="placeholderText">
-     <string>Nhập số điện thoại</string>
-    </property>
-   </widget>
-   <widget class="QLineEdit" name="pass_input">
-    <property name="geometry">
-     <rect>
-      <x>750</x>
-      <y>300</y>
-      <width>291</width>
-      <height>28</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">  background: rgb(243, 246, 255);
-  color: rgb(8, 104, 173);
-  border: 2px solid rgb(69, 104, 173);
-  border-radius: 6px;
-</string>
-    </property>
-    <property name="echoMode">
-     <enum>QLineEdit::EchoMode::Password</enum>
-    </property>
-    <property name="placeholderText">
-     <string>Nhập mật khẩu</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="mat_khau_sai_label">
-    <property name="geometry">
-     <rect>
-      <x>750</x>
-      <y>410</y>
-      <width>291</width>
-      <height>20</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-   </widget>
-   <widget class="QLabel" name="Dieu_khoan_canh_bao">
-    <property name="geometry">
-     <rect>
-      <x>280</x>
-      <y>510</y>
-      <width>391</width>
-      <height>20</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-   </widget>
    <widget class="QPushButton" name="return_home">
     <property name="geometry">
      <rect>
-      <x>40</x>
-      <y>40</y>
+      <x>10</x>
+      <y>10</y>
       <width>101</width>
       <height>31</height>
      </rect>
@@ -418,14 +32,802 @@
     </property>
     <property name="styleSheet">
      <string notr="true">
-  background: rgb(243, 246, 255);
-  color: rgb(8, 104, 173);
-  border:1px solid rgb(8, 104, 173);
+  background: rgb(255, 255, 255);
+  color: rgb(15, 15, 15);
+  border:1px solid rgb(15, 15, 15);
   border-radius: 6px;</string>
     </property>
     <property name="text">
      <string>  Quay lại</string>
     </property>
+   </widget>
+   <widget class="QStackedWidget" name="stackedWidget">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>50</y>
+      <width>1271</width>
+      <height>631</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true"/>
+    </property>
+    <property name="currentIndex">
+     <number>0</number>
+    </property>
+    <widget class="QWidget" name="page">
+     <widget class="QPushButton" name="dang_ky_2_button">
+      <property name="geometry">
+       <rect>
+        <x>570</x>
+        <y>530</y>
+        <width>141</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>11</pointsize>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">  background:  rgb(8, 104, 173);
+  color: rgb(243, 246, 255);
+  border: 2px solid rgb(69, 104, 173);
+  border-radius: 6px;
+</string>
+      </property>
+      <property name="text">
+       <string>ĐĂNG KÝ</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="nuber_call_layout">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>160</y>
+        <width>291</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>10</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>Số điện thoại</string>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="so_dien_thoai_input">
+      <property name="geometry">
+       <rect>
+        <x>250</x>
+        <y>410</y>
+        <width>291</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>10</pointsize>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">color: rgb(15, 15, 15);
+border: 2px solid rgb(15, 15, 15);
+border-radius: 14px;</string>
+      </property>
+      <property name="placeholderText">
+       <string>Nhập số điện thoại</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="mat_khau_sai_label">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>50</y>
+        <width>291</width>
+        <height>20</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+     <widget class="QDateEdit" name="date_birthday_input">
+      <property name="geometry">
+       <rect>
+        <x>720</x>
+        <y>320</y>
+        <width>281</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>10</pointsize>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">selection-color: rgb(15,15,15);
+color: rgb(15, 15, 15);
+border: 2px solid rgb(15, 15, 15);
+
+padding: 6px 36px 6px 12px;</string>
+      </property>
+      <property name="displayFormat">
+       <string>MM/dd/yyyy</string>
+      </property>
+     </widget>
+     <widget class="QComboBox" name="Doi_tuong_input">
+      <property name="geometry">
+       <rect>
+        <x>720</x>
+        <y>220</y>
+        <width>291</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>10</pointsize>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">color: rgb(15, 15, 15);
+border: 2px solid rgb(15, 15, 15);
+
+padding: 6px 36px 6px 12px;</string>
+      </property>
+      <item>
+       <property name="text">
+        <string>Sinh viên</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Giảng viên</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Khác</string>
+       </property>
+      </item>
+     </widget>
+     <widget class="QLabel" name="pass_again_layout">
+      <property name="geometry">
+       <rect>
+        <x>-10</x>
+        <y>160</y>
+        <width>291</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>10</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>Nhập lại mật khẩu</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="gioi_tinh_input">
+      <property name="geometry">
+       <rect>
+        <x>720</x>
+        <y>100</y>
+        <width>291</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>10</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>Giới tính</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="email_layout">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>160</y>
+        <width>291</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>10</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>Địa chỉ email</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="Dieu_khoan_canh_bao">
+      <property name="geometry">
+       <rect>
+        <x>250</x>
+        <y>500</y>
+        <width>391</width>
+        <height>20</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="pass_again_input">
+      <property name="geometry">
+       <rect>
+        <x>250</x>
+        <y>290</y>
+        <width>291</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>10</pointsize>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">color: rgb(15, 15, 15);
+border: 2px solid rgb(15, 15, 15);
+border-radius: 14px;</string>
+      </property>
+      <property name="echoMode">
+       <enum>QLineEdit::EchoMode::Password</enum>
+      </property>
+      <property name="placeholderText">
+       <string>Nhập lại mật khẩu</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="birthday_layout">
+      <property name="geometry">
+       <rect>
+        <x>720</x>
+        <y>280</y>
+        <width>291</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>10</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>Ngày sinh</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="name_layout">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>160</y>
+        <width>291</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>10</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>Họ và tên</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="user_layout">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>160</y>
+        <width>291</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>10</pointsize>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true"/>
+      </property>
+      <property name="text">
+       <string>Tên đăng nhập</string>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="email_input">
+      <property name="geometry">
+       <rect>
+        <x>250</x>
+        <y>170</y>
+        <width>291</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>10</pointsize>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">color: rgb(15, 15, 15);
+border: 2px solid rgb(15, 15, 15);
+border-radius: 14px;</string>
+      </property>
+      <property name="placeholderText">
+       <string>Nhập địa chỉ email</string>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="name_input">
+      <property name="geometry">
+       <rect>
+        <x>250</x>
+        <y>350</y>
+        <width>291</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>10</pointsize>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">color: rgb(15, 15, 15);
+border: 2px solid rgb(15, 15, 15);
+border-radius: 14px;</string>
+      </property>
+      <property name="placeholderText">
+       <string>Nhập họ và tên</string>
+      </property>
+     </widget>
+     <widget class="QCheckBox" name="dieu_khoan_input">
+      <property name="geometry">
+       <rect>
+        <x>250</x>
+        <y>470</y>
+        <width>761</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>10</pointsize>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">selection-color: rgb(15, 15, 15);
+gridline-color: rgb(15, 15, 15);</string>
+      </property>
+      <property name="text">
+       <string>Đăng nhập nghĩa là bạn đồng ý với Điều khoản và Chính sách sử dụng của hệ thống phần mềm Thư viện số.</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="password_layout">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>70</y>
+        <width>291</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>10</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>Mật khẩu</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="doi_tuong_layout">
+      <property name="geometry">
+       <rect>
+        <x>720</x>
+        <y>190</y>
+        <width>291</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>10</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>Đối tượng</string>
+      </property>
+     </widget>
+     <widget class="QWidget" name="horizontalLayoutWidget">
+      <property name="geometry">
+       <rect>
+        <x>720</x>
+        <y>130</y>
+        <width>291</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <layout class="QHBoxLayout" name="horizontalLayout">
+       <item>
+        <widget class="QRadioButton" name="Boy_button">
+         <property name="font">
+          <font>
+           <pointsize>10</pointsize>
+          </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">selection-color: rgb(15,15,15);
+color: rgb(15, 15, 15);</string>
+         </property>
+         <property name="text">
+          <string>Nam</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QRadioButton" name="Girl_button">
+         <property name="font">
+          <font>
+           <pointsize>10</pointsize>
+          </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">selection-color: rgb(15,15,15);
+color: rgb(15, 15, 15);</string>
+         </property>
+         <property name="text">
+          <string>Nữ</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QLineEdit" name="pass_input">
+      <property name="geometry">
+       <rect>
+        <x>250</x>
+        <y>230</y>
+        <width>291</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>10</pointsize>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">color: rgb(15, 15, 15);
+border: 2px solid rgb(15, 15, 15);
+border-radius: 14px;</string>
+      </property>
+      <property name="echoMode">
+       <enum>QLineEdit::EchoMode::Password</enum>
+      </property>
+      <property name="placeholderText">
+       <string>Nhập mật khẩu</string>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="user_input">
+      <property name="geometry">
+       <rect>
+        <x>250</x>
+        <y>110</y>
+        <width>291</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>10</pointsize>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">color: rgb(15, 15, 15);
+border: 2px solid rgb(15, 15, 15);
+border-radius: 14px;</string>
+      </property>
+      <property name="placeholderText">
+       <string>Nhập tên đăng nhập</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_6">
+      <property name="geometry">
+       <rect>
+        <x>380</x>
+        <y>20</y>
+        <width>491</width>
+        <height>51</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>15</pointsize>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="text">
+       <string>Chào mừng bạn đến với Thư viện số</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignmentFlag::AlignCenter</set>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButton">
+      <property name="geometry">
+       <rect>
+        <x>550</x>
+        <y>570</y>
+        <width>181</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <italic>true</italic>
+        <bold>true</bold>
+        <underline>true</underline>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">color: rgb(0, 0, 255);</string>
+      </property>
+      <property name="text">
+       <string>Bạn đã có tải khoản ?</string>
+      </property>
+     </widget>
+     <zorder>dang_ky_2_button</zorder>
+     <zorder>nuber_call_layout</zorder>
+     <zorder>so_dien_thoai_input</zorder>
+     <zorder>mat_khau_sai_label</zorder>
+     <zorder>date_birthday_input</zorder>
+     <zorder>pass_again_layout</zorder>
+     <zorder>gioi_tinh_input</zorder>
+     <zorder>email_layout</zorder>
+     <zorder>Dieu_khoan_canh_bao</zorder>
+     <zorder>pass_again_input</zorder>
+     <zorder>birthday_layout</zorder>
+     <zorder>name_layout</zorder>
+     <zorder>user_layout</zorder>
+     <zorder>email_input</zorder>
+     <zorder>name_input</zorder>
+     <zorder>dieu_khoan_input</zorder>
+     <zorder>password_layout</zorder>
+     <zorder>doi_tuong_layout</zorder>
+     <zorder>horizontalLayoutWidget</zorder>
+     <zorder>pass_input</zorder>
+     <zorder>user_input</zorder>
+     <zorder>label_6</zorder>
+     <zorder>pushButton</zorder>
+     <zorder>Doi_tuong_input</zorder>
+    </widget>
+    <widget class="QWidget" name="page_2">
+     <widget class="QWidget" name="widget" native="true">
+      <property name="geometry">
+       <rect>
+        <x>370</x>
+        <y>130</y>
+        <width>531</width>
+        <height>311</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QWidget{color: rgb(255, 255, 255);
+background-color: rgb(255, 255, 255);
+border-radius: 30px;
+border: 2px solid rgb(69, 104, 173);
+}</string>
+      </property>
+      <widget class="QLineEdit" name="username_input">
+       <property name="geometry">
+        <rect>
+         <x>40</x>
+         <y>50</y>
+         <width>451</width>
+         <height>41</height>
+        </rect>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">color: rgb(15, 15, 15);
+border: 2px solid rgb(15, 15, 15);
+border-radius: 14px;</string>
+       </property>
+      </widget>
+      <widget class="QLineEdit" name="password_input">
+       <property name="geometry">
+        <rect>
+         <x>40</x>
+         <y>140</y>
+         <width>451</width>
+         <height>41</height>
+        </rect>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">color: rgb(15, 15, 15);
+border: 2px solid rgb(15, 15, 15);
+border-radius: 14px;</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="user_label">
+       <property name="geometry">
+        <rect>
+         <x>40</x>
+         <y>20</y>
+         <width>111</width>
+         <height>20</height>
+        </rect>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">color: rgb(15, 15, 15);
+border: 0px solid rgb(255,255,255);</string>
+       </property>
+       <property name="text">
+        <string>Tên đăng nhập</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="password_label">
+       <property name="geometry">
+        <rect>
+         <x>40</x>
+         <y>110</y>
+         <width>101</width>
+         <height>20</height>
+        </rect>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">color: rgb(15, 15, 15);
+border: 0px solid rgb(255,255,255);</string>
+       </property>
+       <property name="text">
+        <string>Mật khẩu</string>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="sign_in_button">
+       <property name="geometry">
+        <rect>
+         <x>180</x>
+         <y>208</y>
+         <width>171</width>
+         <height>31</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>10</pointsize>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="cursor">
+        <cursorShape>PointingHandCursor</cursorShape>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">QPushButton{color: rgb(255, 255, 255);
+background-color: rgb(69, 104, 173);
+border: 2px solid rgb(69, 104, 173);
+border-radius: 10px;}
+QPushButton::hover{
+	background-color: rgb(64, 67, 255);
+}
+background-color: rgb(31, 73, 152);
+</string>
+       </property>
+       <property name="text">
+        <string>ĐĂNG NHẬP</string>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="sign_up_button">
+       <property name="geometry">
+        <rect>
+         <x>30</x>
+         <y>250</y>
+         <width>191</width>
+         <height>41</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <italic>true</italic>
+         <bold>true</bold>
+         <underline>true</underline>
+        </font>
+       </property>
+       <property name="cursor">
+        <cursorShape>PointingHandCursor</cursorShape>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">color: rgb(0, 0, 255);
+border: 0px solid rgb(255,255,255);</string>
+       </property>
+       <property name="text">
+        <string>Bạn chưa có tài khoản ?</string>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="forget_button">
+       <property name="geometry">
+        <rect>
+         <x>320</x>
+         <y>250</y>
+         <width>191</width>
+         <height>41</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <italic>true</italic>
+         <bold>true</bold>
+         <underline>true</underline>
+        </font>
+       </property>
+       <property name="cursor">
+        <cursorShape>PointingHandCursor</cursorShape>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">color: rgb(0, 0, 255);
+border: 0px solid rgb(255,255,255);</string>
+       </property>
+       <property name="text">
+        <string>Bạn quên mật khẩu ?</string>
+       </property>
+      </widget>
+     </widget>
+     <widget class="QLabel" name="label_3">
+      <property name="geometry">
+       <rect>
+        <x>540</x>
+        <y>30</y>
+        <width>201</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>11</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>Thư viện số</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignmentFlag::AlignCenter</set>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_4">
+      <property name="geometry">
+       <rect>
+        <x>440</x>
+        <y>70</y>
+        <width>391</width>
+        <height>51</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>15</pointsize>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="text">
+       <string>Chào mừng bạn quay trở lại</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignmentFlag::AlignCenter</set>
+      </property>
+     </widget>
+    </widget>
    </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
