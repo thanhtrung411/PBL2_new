@@ -45,6 +45,10 @@ static string giai_ma_str_(const string& ma_hoa) {
     return giai_ma;
 }
 
-int tim_kiem_xau(string key, string full);
+int tim_kiem_xau(const string& key, const string& full);
+string to_string_(int x);
+int to_int(const string& s);
+string toFixedString(int index, int longs);
+int count_string(const string &s);
 
 #endif // MY_STRING_H

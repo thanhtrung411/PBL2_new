@@ -4,6 +4,7 @@
 #include <QTextStream>
 #include "accout.h"
 #include "book.h"
+#include "borrow.h"
 #include "description.h"
 using namespace std;
 
@@ -57,6 +58,9 @@ public:
     void write_csv(Node_Book* node, QTextStream &out) const;
     int count_book() const;
     void write_book(QTextStream &out) const;
+    void tong_hop_sach_chung_Node(string &the_loai, string &chuyen_nganh, Node_Book* node, BST_Book &b);
+    void tong_hop_sach_chung(string &the_loai, string &chuyen_nganh, const BST_Book &book_data_, BST_Book &b);
+    book operator[](int index);
 };
 
 class Node_Accout {
@@ -112,4 +116,117 @@ public:
     void write_accout(QTextStream &out) const;
 };
     
+class Node_string{
+private:
+    string data;
+    int vt;
+    Node_string* left;
+    Node_string* right;
+public:
+    explicit Node_string(string &value, int v = 0):
+        data(value),
+        vt(v),
+        left(nullptr),
+        right(nullptr){}
+    Node_string* getLeft(){
+        return left;
+    }
+    Node_string* getRight() {
+        return right;
+    }
+    string& getData(){
+        return data;
+    }
+    int& getVt(){
+        return vt;
+    }
+    void setLeft(Node_string* node){
+        left = node;
+    }
+    void setRight(Node_string* node){
+        right = node;
+    }
+    void setData(const string& value){
+        data = value;
+    }
+    void setVt(const int& value){
+        vt = value;
+    }
+};
+
+class BST_string {
+private:
+    Node_string* root;
+    Node_string* add_string(Node_string* node, string &value, int &ok);
+    Node_string* search_string(Node_string* node, string id, int &ok, string &a);
+    Node_string* delete_string(Node_string* node, string data, int &ok);
+    int count(Node_string* node) const;
+    void write(Node_string* node,QTextStream &file) const;
+public:
+    BST_string(): root(nullptr) {}
+    ~BST_string();
+    void destroy_string(Node_string* node);
+    bool insert_string(string &value);
+    bool remove_string(string &value);
+    bool find_string(string id, string &a);
+    int count_string();
+    int count_string() const;
+    void write_string(QTextStream &out) const;
+    string operator[](int index);
+};
+
+class Node_Borrow{
+private:
+    borrow data;
+    Node_Borrow* left;
+    Node_Borrow* right;
+public:
+    explicit Node_Borrow(borrow &value):
+        data(value),
+        left(nullptr),
+        right(nullptr){}
+    Node_Borrow* getLeft(){
+        return left;
+    }
+    Node_Borrow* getRight() {
+        return right;
+    }
+    borrow& getData(){
+        return data;
+    }
+    void setLeft(Node_Borrow* node){
+        left = node;
+    }
+    void setRight(Node_Borrow* node){
+        right = node;
+    }
+    void setData(const borrow& value){
+        data = value;
+    }
+};
+class BST_Borrow {
+private:
+    Node_Borrow* root;
+    bool add_helper_1(const string& id_1, const string& id_2);
+    bool add_helper_2(const string& id_1, const string& id_2);
+    Node_Borrow* add_Borrow(Node_Borrow* node, borrow &value,int &ok);
+    Node_Borrow* search_Borrow(Node_Borrow* node, string id, int &ok, borrow &a);
+    Node_Borrow* delete_Borrow(Node_Borrow* node, borrow data, int &ok);
+    int count(Node_Borrow* node) const;
+    void write(Node_Borrow* node,QTextStream &file) const;
+public:
+    BST_Borrow(): root(nullptr) {}
+    ~BST_Borrow();
+    string find_new_id_borrow();
+    borrow operator[](int index);
+    bool insert_Borrow(borrow &value);
+    bool remove_Borrow(borrow &value);
+    bool find_Borrow(string id, borrow &a);
+    bool update_Borrow(borrow &old_, borrow &new_);
+    int count_borrow();
+    int count_borrow() const;
+    void write_csv(Node_Borrow* node, QTextStream &out) const;
+    void write_borrow(QTextStream &out) const;
+};
+
 #endif // TREE_H

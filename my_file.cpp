@@ -7,8 +7,11 @@
 #include <QApplication>
 #include <QCoreApplication>
 #include <QDebug>
+#include <iostream>
+#include <fstream>
 #include "accout.h"
 #include "tree.h"
+using namespace std;
 
 
 
@@ -152,6 +155,10 @@ void doc_book(BST_Book &book_data){
             case 16:
                 b.set_tinh_trang(res);
                 break;
+            case 17:
+                b.set_date_created(res);
+            case 18:
+                b.set_admin_created(res);
             default:
                 break;
             }
@@ -173,5 +180,122 @@ void ghi_book(BST_Book &book_data){
     }
     QTextStream out(&file);
     book_data.write_book(out); // cần overload với QTextStream (bên dưới)
+    qDebug() << "Ghi file thanh cong:" << path;
+}
+
+void doc_support_book(BST_string &the_loai_, BST_string &chuyen_nganh_){
+    const QString path = getDataFilePath("data/support_book.txt");
+    QFile file(path);
+    if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
+        qDebug() << "Khong the mo file de doc:" << path;
+        return;
+    }
+    QTextStream in(&file);
+    int n_the_loai_ = in.readLine().toInt();
+    for (int i = 0 ; i < n_the_loai_ ; i++){
+        QString qline = in.readLine();
+        string line = qline.toUtf8().toStdString();
+        the_loai_.insert_string(line);
+    }
+    int n_chuyen_nganh_ = in.readLine().toInt();
+    for (int i = 0 ; i < n_chuyen_nganh_ ; i++){
+        QString qline = in.readLine();
+        string line = qline.toUtf8().toStdString();
+        chuyen_nganh_.insert_string(line);
+    }
+    file.close();
+}
+
+void copy_file(const string& file1, const string& file2){
+    ifstream source(file1, ios::binary);
+    ofstream dest(file2, ios::binary);
+    dest << source.rdbuf();
+    source.close();
+    dest.close();
+}
+void doc_borrow(BST_Borrow &borrow_data){
+    const QString path = getDataFilePath("data/Borrow.csv");
+    QFile file(path);
+    if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
+        qDebug() << "Khong the mo file de doc:" << path;
+        return;
+    }
+    QTextStream in(&file);
+    in.readLine(); //doc tieu de va bo qua
+    while (!in.atEnd()) {
+        QString qline = in.readLine();
+        if (qline.trimmed().isEmpty()) continue;
+        qDebug() << qline;
+        string line = qline.toUtf8().toStdString();
+        borrow b;
+        int idx = 0;
+        for (int i = 0 ; i < line.size() ; i++){
+            string res = "";
+            if (line[i] == '"'){
+                i++;
+                while (i < line.size() && line[i] != '"'){
+                    res += line[i];
+                    i++;
+                }
+                i++;
+            }
+            else{
+                while (i < line.size() && line[i] != ','){
+                    res += line[i];
+                    i++;
+                }
+            }
+            switch (idx)
+            {
+            case 0:
+                b.set_borrow_id(res);
+                break;
+            case 1:
+                b.set_id_book(res);
+                break;
+            case 2:
+                b.set_id_user(res);
+                break;
+            case 3:
+                b.set_id_admin(res);
+                break;
+            case 4:
+                b.set_booking_date(res);
+                break;
+            case 5:
+                b.set_borrow_date(res);
+                break;
+            case 6:
+                b.set_pay_date(res);
+                break;
+            case 7:
+                b.set_status(res);
+                break;
+            case 8:
+                b.set_return_date(res);
+                break;
+            case 9:
+                b.set_tien_phat(res);
+                break;
+            default:
+                break;
+            }
+            idx++;
+        }
+        borrow_data.insert_Borrow(b);
+    }
+    file.close();
+}
+void ghi_borrow(BST_Borrow &borrow_data){
+    const QString path = getDataFilePath("data/Borrow.csv");
+    QDir().mkpath(QFileInfo(path).absolutePath()); // tạo thư mục data nếu chưa có
+
+    QFile file(path);
+    if (!file.open(QIODevice::WriteOnly | QIODevice::Truncate | QIODevice::Text)) {
+        qDebug() << "Khong the mo file de ghi:" << path;
+        return;
+    }
+    QTextStream out(&file);
+    borrow_data.write_borrow(out); // cần overload với QTextStream (bên dưới)
     qDebug() << "Ghi file thanh cong:" << path;
 }

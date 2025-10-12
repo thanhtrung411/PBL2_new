@@ -1,4 +1,5 @@
 #include "card.h"
+#include "book.h"
 #include <QLabel>
 #include <QPushButton>
 #include <QVBoxLayout>
@@ -6,50 +7,60 @@
 #include <QGraphicsDropShadowEffect>
 #include <QPixmap>
 #include <QStyle>
+#include <QMouseEvent>
+#include <QEvent>
+#include <QCursor>
+#include <QPainter>
+#include <QPainterPath>
+#include <QLabel>
+#include <QFontMetrics>
+#include <iostream>
+using namespace std;
 
 namespace {
-// Kích thước card cố định (bạn chỉnh tùy ý)
-constexpr int CARD_W = 180;
+//kich thuoc card
+constexpr int CARD_W = 150;
 constexpr int CARD_H = 265;
 
-// Lề trái/phải = X, lề dưới cũng dùng X cho đẹp
-constexpr int X = 0;             // hai bên
-constexpr int Z = 0;             // khoảng cách từ mép trên tới ảnh
-// Ảnh theo tỉ lệ 4:5 (width:height)
+//trai/phai: x
+constexpr int X = 3;
+constexpr int Z = 3;  // tren
+//ti le anh
 constexpr int IMG_W_RATIO = 4;
 constexpr int IMG_H_RATIO = 5;
 }
 
-ProductCard::ProductCard(const QString& imagePath,
-                         const QString& title,
+ProductCard::ProductCard(const book& b,
                          QWidget* parent)
     : QFrame(parent)
 {
+    set_ID(b);
     setObjectName("ProductCard");
     setFixedSize(CARD_W, CARD_H);
-
-    // Style gọn cho card (bạn có thể đưa ra QSS ngoài app)
     setStyleSheet(R"(
+        #ProductCard:hover {
+            border:1px solid #617fb9;
+        }
         #ProductCard {
             background:#fff;
-            border:1px solid #e0e2eb;
-            border-radius:12px;
         }
         #ProductCard QLabel[role="title"] {
             color:#0f172a;
         }
         #ProductCard QPushButton {
-            background:#ffffff;
+            background:#fff;
             color:#4568ad;
             border:2px solid #4568ad;
             border-radius:8px;
             padding:6px 8px;
         }
+        #ProductCard QLabel {
+            background:#fff;
+        }
         #ProductCard QPushButton:hover   { background:#e9ecf5; }
         #ProductCard QPushButton:pressed { background:#d6d8e0; }
     )");
 
-    // (Tuỳ chọn) đổ bóng nhẹ cho card
     auto shadow = new QGraphicsDropShadowEffect(this);
     shadow->setBlurRadius(16);
     shadow->setOffset(0, 4);
@@ -69,26 +80,43 @@ ProductCard::ProductCard(const QString& imagePath,
     imageLabel = new QLabel(this);
     imageLabel->setFixedSize(imgW, imgH);
     imageLabel->setAlignment(Qt::AlignCenter);
-    imageLabel->setPixmap(loadScaled(imagePath, imageLabel->size()));
+    QString imgPath =QString::fromUtf8(b.get_link_png().c_str());
+    imageLabel->setPixmap(loadScaled(imgPath, imageLabel->size()));
     v->addWidget(imageLabel);
 
-    // Tiêu đề (tự xuống dòng)
-    titleLabel = new QLabel(title, this);
+    // Tieu de
+    QString title_ = QString::fromUtf8(b.get_name_book().c_str());
+    titleLabel = new QLabel(title_, this);
+    titleLabel->setFixedWidth(CARD_W-5);
+    QFontMetrics fmTitle(titleLabel->font());
+    QString elided_title = fmTitle.elidedText(title_, Qt::ElideRight, titleLabel->width()*2 - 10);
+    titleLabel->setText(elided_title);
+    int line = fmTitle.lineSpacing();
     titleLabel->setProperty("role", "title");
     titleLabel->setWordWrap(true);
     titleLabel->setAlignment(Qt::AlignLeft | Qt::AlignTop);
-    titleLabel->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
-    // Giới hạn cao vừa phải để tổng chiều cao không vượt CARD_H
-    titleLabel->setMinimumHeight(48);
-    titleLabel->setMaximumHeight(72);
+    titleLabel->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
+    // Gioi han chieu cao
+    titleLabel->setFixedHeight(line*2);
     v->addWidget(titleLabel);
-
-    // Hàng nút dưới cùng
+    QString Auth = QString::fromUtf8(b.get_tac_gia().c_str());
+    Auth_label = new QLabel (Auth, this);
+    Auth_label->setFixedWidth(CARD_W-10);
+    QFontMetrics fmAuthor(Auth_label->font());
+    QString elided_Author = fmAuthor.elidedText(Auth, Qt::ElideRight, Auth_label->width());
+    Auth_label->setText(elided_Author);
+    Auth_label->setProperty("role", "title");
+    Auth_label->setWordWrap(true);
+    Auth_label->setAlignment(Qt::AlignLeft | Qt::AlignTop);
+    Auth_label->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
+    Auth_label->setFixedHeight(line);
+    v->addWidget(Auth_label);
+    // Hang duoi cung
     auto h = new QHBoxLayout();
-    h->setSpacing(8);
+    h->setSpacing(0);
 
-    btnBorrowed = new QPushButton(QStringLiteral("Đã mượn"), this);
-    btnRemove   = new QPushButton(QStringLiteral("Gỡ đơn"),  this);
+    btnBorrowed = new QLabel(QStringLiteral("Sách mới"), this);
+    btnRemove   = new QLabel(QStringLiteral(""),  this);
 
     btnBorrowed->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
     btnRemove->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
@@ -96,7 +124,31 @@ ProductCard::ProductCard(const QString& imagePath,
     h->addWidget(btnBorrowed);
     h->addWidget(btnRemove);
     v->addLayout(h);
+    setCursor(Qt::PointingHandCursor);
+    imageLabel->installEventFilter(this);
+    titleLabel->installEventFilter(this);
+    btnBorrowed->installEventFilter(this);
+    btnRemove->installEventFilter(this);
 }
+
+void ProductCard::mousePressEvent(QMouseEvent* e) {
+    if (e->button() == Qt::LeftButton) emit clicked(b);
+    QFrame::mousePressEvent(e);
+}
+
+bool ProductCard::eventFilter(QObject* obj, QEvent* ev) {
+    if (ev->type() == QEvent::MouseButtonPress) {
+        auto *me = static_cast<QMouseEvent*>(ev);
+        if (me->button() == Qt::LeftButton) {
+            emit clicked(b);
+            return true;                 // đã xử lý
+        }
+    }
+    return QFrame::eventFilter(obj, ev);
+}
+
+void ProductCard::enterEvent(QEnterEvent* e)  { QFrame::enterEvent(e); }
+void ProductCard::leaveEvent(QEvent* e)       { QFrame::leaveEvent(e); }
 
 QPixmap ProductCard::loadScaled(const QString& path, const QSize& toSize) const
 {
