@@ -43,6 +43,8 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         global.h
         png_background/PBL2-A-01-001.png
         png_background/PBL2-A-01-001.png
+        dang_ky1.h dang_ky1.cpp dang_ky1.ui
+        login.h login.cpp login.ui
 
 
     )

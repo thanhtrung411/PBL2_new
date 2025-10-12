@@ -87,42 +87,116 @@ my_time my_time :: extend_date(const my_time &t1,int ngay){
 }
 int my_time :: diff(const my_time &t1,const my_time&t2){
     int ngays=0;
-    my_time temp=t1;
     if(t2.nam < t1.nam || t1.nam == t2.nam && t2.thang < t1.thang || t1.nam == t2.nam && t1.thang == t2.thang && t2.ngay < t1.ngay){
         return ngays;
     }
-    while(temp.ngay != t2.ngay && temp.thang != t2.thang && temp.nam != t2.nam){
+    while(t1.ngay != t2.ngay && t1.thang != t2.thang && t1.nam != t2.nam){
         ngays++;
-        temp.ngay++;
-        if(temp.ngay > month [temp.thang] || temp.nam % 4 == 0 && temp.thang == 2 && temp.ngay > 29 ){
-            temp.ngay=1;
-            temp.thang++;
+        t1.ngay++;
+        if(t1.ngay > month [t1.thang] || t1.nam % 4 == 0 && t1.thang == 2 && t1.ngay > 29 ){
+            t1.ngay=1;
+            t1.thang++;
 
         }
-        if(temp.thang > 12){
-                temp.thang=1;
-                temp.nam++;
+        if(t1.thang > 12){
+                t1.thang=1;
+                t1.nam++;
             }
     }
     return ngays;
 }
 
-// void my_time :: set_time_muon(int ngay,int thang,int nam){
-//     month[2]=(nam % 400 == 0 || nam % 4 == 0 && nam %100 != 0 ) ? 29 : 28;
-//     if(ngay < month[thang] && thang <=12 && nam > 0){
-//         this->ngay=ngay;
-//         this->thang=thang;
-//         this->nam=nam;
-//     }else{
-//         cout<<"Ngay muon khong hop le";
-//     }
-// }
-bool my_time :: is_leap_year(int year) const{
+my_time operator ++(const my_time&t){
+    return t+1;
+}
+long long my_time::operator-(const my_time &d)
+{
+    my_time x;
+    x.ngay=ngay;
+    x.thang=thang;
+    x.nam=nam;
+    long long a=x.ngay;
+    do{
+        switch(x.thang)
+        {
+        case 1: case 3: case 5: case 7: case 8: case 10: case 12:
+            a+=31;
+            x.thang--;
+            if(x.thang==0)
+            {
+                x.nam--;
+                x.thang=12;
+            }
+            break;
+        case 4: case 6: case 9: case 11:
+            a+=30;
+            x.thang--;
+            break;
+        case 2:
+            if(x.nam%400==0 || (x.nam%4==0 && x.nam%100!=0))
+            {
+                a+=29;
+                x.thang--;
+            }
+            else
+            {
+                a+=28;
+                x.thang--;
+            }
+        }
+    }while(x.nam>0);
+
+    x.ngay=d.ngay;
+    x.thang=d.thang;
+    x.nam=d.nam;
+    long long b=x.ngay;
+    do{
+        switch(x.thang)
+        {
+        case 1: case 3: case 5: case 7: case 8: case 10: case 12:
+            b+=31;
+            x.thang--;
+            if(x.thang==0)
+            {
+                x.nam--;
+                x.thang=12;
+            }
+            break;
+        case 4: case 6: case 9: case 11:
+            b+=30;
+            x.thang--;
+            break;
+        case 2:
+            if(x.nam%400==0 || (x.nam%4==0 && x.nam%100!=0))
+            {
+                b+=29;
+                x.thang--;
+            }
+            else
+            {
+                b+=28;
+                x.thang--;
+            }
+        }
+    }while(x.nam>0);
+    return a-b;
+}
+void my_time :: set_time_muon(int ngay,int thang,int nam){
+    month[2]=(nam % 400 == 0 || nam % 4 == 0 && nam %100 != 0 ) ? 29 : 28;
+    if(ngay < month[thang] && thang <=12 && nam > 0){
+        this->ngay=ngay;
+        this->thang=thang;
+        this->nam=nam;
+    }else{
+        cout<<"Ngay muon khong hop le"
+    }
+}
+bool my_time :: is_leap_year(int year){
     return (year % 400 == 0 || year % 4 == 0 && year % 100 != 0) ? 1 : 0;
 }
-bool my_time :: is_valid_day(int ngay,int thang , int nam_) const{
+bool my_time :: is_valid_day(int ngay,int thang , int nam) const{
     if(ngay <1 || nam <1 || thang <1 || thang >12) return false;
-    if(is_leap_year(9)){
+    if(is_leap_year(nam)){
         if(ngay > 29) return false;
     }else if( ngay > month[thang] ) return false;
     return true;
@@ -135,13 +209,11 @@ my_time my_time :: set_ngay_muon(int days){
     return ngay_muon;
 }
 my_time my_time :: ngay_tra(int days){
-    my_time ngay_muon;
-    ngay_muon.set_ngay_muon(6);
     my_time ngay_tra = ngay_muon + days;
     return ngay_tra;
 }
-my_time& my_time :: operator = (const my_time &t){
-    if(this != &t ){
+mytime& mytime :: operator = (const my_time &t){
+    if(*this != t ){
         this->ngay = t.ngay;
         this->thang = t.thang;
         this->nam = t.nam;

@@ -24,10 +24,11 @@ public:
     string get_time();
     void set_time_now();
     friend my_time operator + (const my_time&t1, int ngay);
+    friend my_time operator ++ (const my_time&t);
     my_time extend_date(const my_time &t1, int ngay);
     int diff(const my_time& t1,const my_time &t2);
-    // long long my_time::operator-(const my_time &d);
-    bool is_leap_year(int year) const;
+    long long my_time::operator-(const my_time &d);
+    bool is_leap_year(int year);
     bool is_valid_day(int day,int thang, int nam) const;
     my_time set_ngay_muon(int days);
     my_time ngay_tra(int days = 30 );
