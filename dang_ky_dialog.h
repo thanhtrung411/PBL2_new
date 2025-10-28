@@ -2,7 +2,7 @@
 #define DANG_KY_DIALOG_H
 
 #include <QMainWindow>
-
+#include "accout.h"
 namespace Ui {
 class dang_ky_dialog;
 }
@@ -18,8 +18,17 @@ public:
 private slots:
     void on_dang_ky_2_button_clicked();
 
+    void on_return_home_clicked();
+
+    void on_sign_in_button_clicked();
+
+    void on_sign_up_button_clicked();
+
 private:
     Ui::dang_ky_dialog *ui_2;
+signals:
+    void registered(const accout& user);
+    void returned();
 };
 
 #endif // DANG_KY_DIALOG_H
