@@ -81,10 +81,10 @@ void dang_ky_dialog::on_return_home_clicked()
 void dang_ky_dialog::on_sign_in_button_clicked()
 {
     int check = 1;
-    string users_id = ui_2->username_input->text().trimmed().toUtf8().toStdString();
+    string ten_dang_nhap = ui_2->username_input->text().trimmed().toUtf8().toStdString();
     string pass = ui_2->password_input->text().toUtf8().toStdString();
 
-    if (users_id.empty()){
+    if (ten_dang_nhap.empty()){
         check = 0;
         markError(ui_2->username_input,"Vui lòng nhập tên người dùng");
     }
@@ -98,9 +98,10 @@ void dang_ky_dialog::on_sign_in_button_clicked()
     else{
         clearError(ui_2->password_input);
     }
+    ten_dang_nhap = ma_hoa_str_(ten_dang_nhap);
     pass = ma_hoa_str_(pass);
     if (check){
-        if(!accout_data.check_accout(users_id,pass,acc_sign_in) && !users_id.empty() && !pass.empty()){
+        if(!accout_data.check_accout(ten_dang_nhap,pass,acc_sign_in) && !ten_dang_nhap.empty() && !pass.empty()){
             markError(ui_2->username_input,"Tên người dùng hoặc mật khẩu sai");
             ui_2->password_input->clear();
             ui_2->password_input->setPlaceholderText("Mật khẩu");
@@ -123,7 +124,7 @@ void dang_ky_dialog::on_sign_in_button_clicked()
 void dang_ky_dialog::on_dang_ky_2_button_clicked()
 {
     int check = 1; //neu tat ca thong tin deu hop le
-    string user_nguoi_dung = ui_2->user_input->text().trimmed().toUtf8().toStdString();
+    string ten_dang_nhap = ui_2->user_input->text().trimmed().toUtf8().toStdString();
     string user_name       = ui_2->name_input->text().toUtf8().toStdString();
     string ngay_sinh       = ui_2->date_birthday_input->text().toUtf8().toStdString();
     string email_address   = ui_2->email_input->text().toUtf8().toStdString();
@@ -136,7 +137,7 @@ void dang_ky_dialog::on_dang_ky_2_button_clicked()
     if (ui_2->Boy_button->isChecked()) gioi_tinh = 0;
     if (ui_2->Girl_button->isChecked()) gioi_tinh = 1;
     if (ui_2->dieu_khoan_input->isChecked()) dieu_khoan = 1;
-    if (user_nguoi_dung.empty()){
+    if (ten_dang_nhap.empty()){
         check = 0;
         markError(ui_2->user_input,"Vui lòng nhập tên người dùng");
     }
@@ -201,18 +202,19 @@ void dang_ky_dialog::on_dang_ky_2_button_clicked()
     }
     if (check){
         accout p;
-        p.setAccout_id(user_nguoi_dung);
-        p.setAccout_name(user_name);
-        p.setEmail(email_address);
-        p.setDoi_tuong(doi_tuong);
-        p.setGioi_tinh(gioi_tinh);
-        p.setNgay_sinh(ngay_sinh);
-        p.setPhonenumber(so_dien_thoai);
-        p.setPass(mat_khau);
-        p.setlevel("Admin");
+        p.set_ID(accout_data.find_max_id() + 1);
+        p.set_ten_dang_nhap(ten_dang_nhap);
+        p.set_ten_tai_khoan(user_name);
+        p.set_email(email_address);
+        p.set_doi_tuong(doi_tuong);
+        p.set_gioi_tinh(gioi_tinh);
+        p.set_ngay_sinh(my_time(ngay_sinh));
+        p.set_phone_number(so_dien_thoai);
+        p.set_pass(mat_khau);
+        p.set_level("Admin");
         p.ma_hoa_();
         acc_sign_in = p;
-        accout_data.insert_Accout(p);
+        accout_data.insert(p);
         ghi_accout(accout_data);
         box_thong_bao("Đăng ký thành công");
         emit registered(p);

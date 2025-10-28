@@ -4,118 +4,152 @@
 #include <QTextStream>
 #include "accout.h"
 #include "book.h"
+#include "the_loai_chuyen_nganh.h"
+#include "author.h"
+#include "book_copies.h"
 #include "borrow.h"
 #include "description.h"
 using namespace std;
 
-class Node_Book{
-    private:
-    book data;
-    Node_Book* left;
-    Node_Book* right;   
-    public:
-    explicit Node_Book(book &value):
-        data(value),
-        left(nullptr),
-        right(nullptr){}
-    Node_Book* getLeft(){
-        return left;
-    }
-    Node_Book* getRight() {
-        return right;
-    }
-    book& getData(){
-        return data;
-    }
-    void setLeft(Node_Book* node){
-        left = node;
-    }
-    void setRight(Node_Book* node){
-        right = node;
-    }
-    void setData(const book& value){
+class accout;
+class book;
+class Book_copies;
+class Author;
+class Chuyen_nganh;
+class The_loai;
+class borrow;
+class my_time;
+
+template <typename T>
+
+class Node{
+private:
+    T data;
+    Node<T>* left;
+    Node<T>* right;
+    int height;
+public:
+    explicit Node(const T& value) : data(value), left(nullptr), right(nullptr), height(1) {}
+    void setData(const T& value) {
         data = value;
     }
-
-};
-
-class BST_Book {
-private:
-    Node_Book* root;
-    Node_Book* add_Book(Node_Book* node, book &value,int &ok);
-    Node_Book* search_Book(Node_Book* node, string id, int &ok, book &a);
-    Node_Book* delete_Book(Node_Book* node, book data, int &ok);
-    int count(Node_Book* node) const;
-    void write(Node_Book* node,std::fstream &file) const;
-public:
-    BST_Book(): root(nullptr) {}
-    ~BST_Book();
-    bool insert_Book(book &value);
-    bool remove_Book(book &value);
-    bool find_Book(string id, book &a);
-    bool update_Book(book &old_, book &new_);
-    int count_book();
-    void write_csv(Node_Book* node, QTextStream &out) const;
-    int count_book() const;
-    void write_book(QTextStream &out) const;
-    void tong_hop_sach_chung_Node(string &the_loai, string &chuyen_nganh, Node_Book* node, BST_Book &b);
-    void tong_hop_sach_chung(string &the_loai, string &chuyen_nganh, const BST_Book &book_data_, BST_Book &b);
-    book operator[](int index);
-};
-
-class Node_Accout {
-private:
-    accout data;
-    Node_Accout* left;
-    Node_Accout* right;
-public:
-    explicit Node_Accout(accout &value):
-        data(value),
-        left(nullptr),
-        right(nullptr){}
-    Node_Accout* getLeft(){
-        return left;
+    void setLeft(Node<T>* left) {
+        this->left = left;
     }
-    Node_Accout* getRight() {
-        return right;
+    void setRight(Node<T>* right) {
+        this->right = right;
     }
-    accout& getData(){
+    void setHeight(int h) {
+        height = h;
+    }
+    T& getData() {
         return data;
     }
-    void setLeft(Node_Accout* node){
-        left = node;
+    Node<T>*& getLeft() {
+        return left;
     }
-    void setRight(Node_Accout* node){
-        right = node;
+    Node<T>*& getRight() {
+        return right;
     }
-    void setData(const accout& value){
-        data = value;
+    int getHeight() const {
+        return height;
     }
+
 };
 
-class BST_Accout {
-private:
-    Node_Accout* root;
-    Node_Accout* add_Accout(Node_Accout* node, accout &value,int &ok);
-    Node_Accout* search_Accout(Node_Accout* node, string id, int &ok, accout &a);
-    Node_Accout* check_accout_helper(Node_Accout* node, string id, string pass, int &ok, accout &a);
-    Node_Accout* delete_Accout(Node_Accout* node, accout data, int &ok);
-    int count(Node_Accout* node) const;
-    void write(Node_Accout* node, QTextStream &out) const;
+template <typename T, typename Key>
+class BST{
+protected:
+    Node<T>* root;
+    Key (*getKey)(const T&);
+    int height(Node<T>* node) const;
+    int getBalanceFactor(Node<T>* node) const;
+    void updateHeight(Node<T>* node);
+    Node<T>* rightRotate(Node<T>* y);
+    Node<T>* leftRotate(Node<T>* x);
+    Node<T>* balance(Node<T>* node);
+
+    Node<T>* add_Node(Node<T>* node, const T& value, int &ok);
+    Node<T>* search_Node(Node<T>* node, const Key& key);
+    Node<T>* delete_Node(Node<T>* node, T data, int &ok);
+    int count(Node<T>* node) const;
+    void destroy_Node(Node<T>* node);
+    Key find_max_key(Node<T>* node) const;
 public:
-    BST_Accout(): root(nullptr) {}
-    ~BST_Accout();
-    bool insert_Accout(accout &value);
-    bool remove_Accout(accout &value);
-    bool find_Accout(string id, accout &a);
-    bool check_accout(string id, string pass, accout&a);
-    bool update_Accout(accout &old_, accout &new_);
-    int count_accout();
-    void write_accout(Node_Accout* node, fstream &file);
-    int count_accout() const;
+    BST(Key (*getter)(const T&)): root(nullptr), getKey(getter) {}
+    ~BST();
+    bool insert(const T& value);
+    bool remove(const T& value);
+    bool find(Key id, T& result);
+    bool update(T &old_, T &new_);
+    Key find_max_id() const;
+    int count_data() const;
+    T operator[](int index);
+};
+namespace KeyGetters {
+    int getAccoutID(const accout& a);
+    long long getBookID(const book& b);
+    long long getBookCopiesID(const Book_copies& bc);
+    int getAuthorID(const Author& au);
+    int getTheLoaiID(const The_loai& tl); 
+    int getChuyenNganhID(const Chuyen_nganh& cn);
+    long long getBorrowID(const borrow& br);
+}
+
+class BST_Accout : public BST<accout, int> {
+private:
+    Node<accout>* check_accout_helper(Node<accout>* node, string ten_dang_nhap, string pass, int &ok, accout &a);
+public:
+    BST_Accout() : BST<accout, int>(KeyGetters::getAccoutID) {}
+    bool check_accout(string ten_dang_nhap, string pass, accout& a); 
+    void write_csv(Node<accout>* node, QTextStream &out) const;
     void write_accout(QTextStream &out) const;
 };
-    
+
+class BST_Book : public BST<book, long long> {
+private:
+    Node<book>* tong_hop_sach_TL_CN_Node(int The_loai_ID, int Chuyen_nganh_ID, Node<book>* node, BST_Book &b);
+public:
+    void tong_hop_sach_TL_CN(int The_loai_ID, int Chuyen_nganh_ID, BST_Book &b, BST_Book &book_data_);
+    long long tong_hop_sach_find_max_id(BST_Book &b);
+    BST_Book() : BST<book, long long>(KeyGetters::getBookID) {}
+    //void write_book(QTextStream &out) const;
+};
+
+class BST_book_copy : public BST<Book_copies, long long> {
+public:
+    BST_book_copy() : BST<Book_copies, long long>(KeyGetters::getBookCopiesID) {}
+    //void write_book_copy(QTextStream &out) const;
+};
+
+class BST_Author : public BST<Author, int> {
+public:
+    BST_Author() : BST<Author, int>(KeyGetters::getAuthorID) {}
+    //void write_author(QTextStream &out) const;
+};
+
+class BST_Chuyen_nganh : public BST<Chuyen_nganh, int> {
+private:
+    Node<Chuyen_nganh>* return_name_helper(Node<Chuyen_nganh>* node, int id, int &ok, string &name);
+    Node<Chuyen_nganh>* return_id_helper(Node<Chuyen_nganh>* node, string name, int &ok, int &id);
+public:
+    BST_Chuyen_nganh() : BST<Chuyen_nganh, int>(KeyGetters::getChuyenNganhID) {}
+    string return_name(int id);
+    int return_id(string name);
+    void write_chuyen_nganh(QTextStream &out) const;
+};
+
+class BST_The_loai : public BST<The_loai, int> {
+private:
+    Node<The_loai>* return_name_helper(Node<The_loai>* node, int id, int &ok, string &name);
+    Node<The_loai>* return_id_helper(Node<The_loai>* node, string name, int &ok, int &id);
+public:
+    BST_The_loai() : BST<The_loai, int>(KeyGetters::getTheLoaiID) {}
+    string return_name(int id);
+    int return_id(string name);
+    void write_the_loai(QTextStream &out) const;
+};
+
 class Node_string{
 private:
     string data;
@@ -123,35 +157,15 @@ private:
     Node_string* left;
     Node_string* right;
 public:
-    explicit Node_string(string &value, int v = 0):
-        data(value),
-        vt(v),
-        left(nullptr),
-        right(nullptr){}
-    Node_string* getLeft(){
-        return left;
-    }
-    Node_string* getRight() {
-        return right;
-    }
-    string& getData(){
-        return data;
-    }
-    int& getVt(){
-        return vt;
-    }
-    void setLeft(Node_string* node){
-        left = node;
-    }
-    void setRight(Node_string* node){
-        right = node;
-    }
-    void setData(const string& value){
-        data = value;
-    }
-    void setVt(const int& value){
-        vt = value;
-    }
+    explicit Node_string(string &value, int v = 0): data(value), vt(v), left(nullptr), right(nullptr){}
+    Node_string* getLeft() const { return left; }
+    Node_string* getRight() const { return right; }
+    string& getData(){ return data; }
+    int& getVt(){ return vt; }
+    void setLeft(Node_string* node){ left = node; }
+    void setRight(Node_string* node){ right = node; }
+    void setData(const string& value){ data = value; }
+    void setVt(const int& value){ vt = value; }
 };
 
 class BST_string {
@@ -161,7 +175,6 @@ private:
     Node_string* search_string(Node_string* node, string id, int &ok, string &a);
     Node_string* delete_string(Node_string* node, string data, int &ok);
     int count(Node_string* node) const;
-    void write(Node_string* node,QTextStream &file) const;
 public:
     BST_string(): root(nullptr) {}
     ~BST_string();
@@ -169,63 +182,27 @@ public:
     bool insert_string(string &value);
     bool remove_string(string &value);
     bool find_string(string id, string &a);
-    int count_string();
     int count_string() const;
+    void write(Node_string* node, QTextStream &out) const;
     void write_string(QTextStream &out) const;
     string operator[](int index);
 };
 
-class Node_Borrow{
-private:
-    borrow data;
-    Node_Borrow* left;
-    Node_Borrow* right;
+class BST_Borrow : public BST<borrow, long long> {
 public:
-    explicit Node_Borrow(borrow &value):
-        data(value),
-        left(nullptr),
-        right(nullptr){}
-    Node_Borrow* getLeft(){
-        return left;
+    BST_Borrow() : BST<borrow, long long>(KeyGetters::getBorrowID) {}
+    ~BST_Borrow() = default;
+
+    long long find_new_id_borrow() const {
+        return find_max_id() + 1;
     }
-    Node_Borrow* getRight() {
-        return right;
-    }
-    borrow& getData(){
-        return data;
-    }
-    void setLeft(Node_Borrow* node){
-        left = node;
-    }
-    void setRight(Node_Borrow* node){
-        right = node;
-    }
-    void setData(const borrow& value){
-        data = value;
-    }
-};
-class BST_Borrow {
-private:
-    Node_Borrow* root;
-    bool add_helper_1(const string& id_1, const string& id_2);
-    bool add_helper_2(const string& id_1, const string& id_2);
-    Node_Borrow* add_Borrow(Node_Borrow* node, borrow &value,int &ok);
-    Node_Borrow* search_Borrow(Node_Borrow* node, string id, int &ok, borrow &a);
-    Node_Borrow* delete_Borrow(Node_Borrow* node, borrow data, int &ok);
-    int count(Node_Borrow* node) const;
-    void write(Node_Borrow* node,QTextStream &file) const;
-public:
-    BST_Borrow(): root(nullptr) {}
-    ~BST_Borrow();
-    string find_new_id_borrow();
-    borrow operator[](int index);
-    bool insert_Borrow(borrow &value);
-    bool remove_Borrow(borrow &value);
-    bool find_Borrow(string id, borrow &a);
-    bool update_Borrow(borrow &old_, borrow &new_);
-    int count_borrow();
-    int count_borrow() const;
-    void write_csv(Node_Borrow* node, QTextStream &out) const;
+
+    bool find_Borrow(long long id, borrow &a) { return find(id, a); }
+    bool update_Borrow(borrow &old_, borrow &new_) { return update(old_, new_); }
+    
+    borrow operator[](int index) { return BST::operator[](index); }
+    int count_borrow() const { return count_data(); }
+    void write_csv(Node<borrow>* node, QTextStream &out) const; // Cần thay đổi tham số
     void write_borrow(QTextStream &out) const;
 };
 

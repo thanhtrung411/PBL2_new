@@ -24,8 +24,9 @@ void accout::ma_hoa_(accout &a){
 }
 */
 void accout::ma_hoa_(){
-    accout_name = ma_hoa_str_(accout_name);
-    ngay_sinh = ma_hoa_str_(ngay_sinh);
+    ten_dang_nhap = ma_hoa_str_(ten_dang_nhap);
+    ten_tai_khoan = ma_hoa_str_(ten_tai_khoan);
+    //ngay_sinh = ma_hoa_str_(ngay_sinh);
     email = ma_hoa_str_(email);
     phone_number = ma_hoa_str_(phone_number);
     pass = ma_hoa_str_(pass);
@@ -33,8 +34,8 @@ void accout::ma_hoa_(){
 }
 
 void accout::giai_ma_(){
-    accout_name = giai_ma_str_(accout_name);
-    ngay_sinh = giai_ma_str_(ngay_sinh);
+    ten_dang_nhap = giai_ma_str_(ten_dang_nhap);
+    ten_tai_khoan = giai_ma_str_(ten_tai_khoan);
     email = giai_ma_str_(email);
     phone_number = giai_ma_str_(phone_number);
     pass = giai_ma_str_(pass);

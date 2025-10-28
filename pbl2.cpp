@@ -8,6 +8,8 @@
 #include "card_muon.h"
 #include "global.h"
 #include "my_file.h"
+#include "my_string.h"
+#include "the_loai_chuyen_nganh.h"
 #include <QDir>
 #include <QLabel>
 #include <QPushButton>
@@ -77,7 +79,7 @@ void pbl2::on_dang_nhap_button_clicked()
             acc_sign_in = user;
             is_sign_in = 1;
             acc_sign_in.giai_ma_();
-            QString name_ = QString::fromStdString(acc_sign_in.getAccout_Name());
+            QString name_ = QString::fromStdString(acc_sign_in.get_ten_tai_khoan());
             Reload();
             ui->dang_nhap_button->setText(name_);
             this->show();
@@ -90,7 +92,7 @@ void pbl2::on_dang_nhap_button_clicked()
         auto win = new info(this);
         win->setAttribute(Qt::WA_DeleteOnClose, true);
         win->show();
-
+        this->hide();
 
     }
 }
@@ -121,52 +123,88 @@ void pbl2::set_up_card(BST_Book& b,QGridLayout* path_link){
         auto card = new ProductCard(b[i]);
         path_link->addWidget(card, 0, i);
         connect(card, &ProductCard::clicked, this, [this](book set_book){
-        qDebug() << "Bạn đã bấm card số" << set_book.get_id_book().c_str();
+        qDebug() << "Bạn đã bấm card số" << set_book.get_ID();
             show_info_sach(set_book);
         });
-
-
     }
     //setCentralWidget(gridHost);
 }
+
+void pbl2::Reload_show_info(book& b){
+    for (int i = 0 ; i <= 2 ; i++){
+        auto* row = new card_muon(to_string(b.get_ID()),b.get_Name(),"HEHE","  Mượn",this);
+        ui->muon_sach_layout->addWidget(row);
+    }
+    qDebug() << is_sign_in << "\nis sign in \n";
+    auto* canh_bao_label = new QLabel("Vui lòng đăng nhập để mượn sách !", this);
+    canh_bao_label->setFixedSize(999,32);
+    canh_bao_label->setStyleSheet(R"(
+    background-color: rgb(170, 0, 0);
+    color: rgb(255, 255, 255);
+    )");
+    ui->muon_sach_layout->addWidget(canh_bao_label);
+    canh_bao_label->setVisible(false);
+    if (!is_sign_in){
+        canh_bao_label->setVisible(true);
+    }
+    else{
+        canh_bao_label->setVisible(false);
+    }
+    connect(ui->return_home_button, &QPushButton::clicked, this, [this, b](){
+        ui->noi_dung_layout->setCurrentIndex(0);
+        QLayoutItem *child;
+        while ((child = ui->muon_sach_layout->takeAt(0)) != nullptr) {
+            if (child->widget()) {
+                child->widget()->deleteLater();
+            }
+            delete child;
+        }
+    });
+}
+
 void pbl2::show_info_sach(book& b){
     ui->muon_button->setIcon(QIcon(":/icons/icons_/borrow.png"));
     ui->doc_onliine_button->setIcon(QIcon(":/icons/icons_/read.png"));
     ui->download_button->setIcon(QIcon(":/icons/icons_/download.png"));
     ui->noi_dung_layout->setCurrentIndex(1);
-    ui->TEN_SACH->setText(b.get_name_book().c_str());
-    ui->TAC_GIA->setText(b.get_tac_gia().c_str());
-    ui->NHA_XUAT_BAN->setText(b.get_nha_xuat_ban().c_str());
-    ui->NAM_XUAT_BAN->setText(b.get_nam_xuat_ban().c_str());
-    ui->CHUYEN_NGANH->setText(b.get_chuyen_nganh().c_str());
-    ui->THE_LOAI->setText(b.get_the_loai().c_str());
-    ui->TOM_TAT->setText(b.get_tom_tat().c_str());
-    ui->TU_KHOA->setText(b.get_tu_khoa().c_str());
-    ui->DON_GIA->setText(b.get_don_gia().c_str());
-    ui->NGON_NGU->setText(b.get_ngon_ngu().c_str());
-    ui->SO_TRANG->setText(b.get_so_trang().c_str());
-    ui->THE_LOAI->setText(b.get_the_loai().c_str());
+    ui->TEN_SACH->setText(b.get_Name().c_str());
+    ui->TAC_GIA->setText(b.get_Author().c_str());
+    ui->NHA_XUAT_BAN->setText(b.get_NXB().c_str());
+    ui->NAM_XUAT_BAN->setText(b.get_NamXB().c_str());
+    ui->CHUYEN_NGANH->setText(chuyen_nganh_data.return_name(b.get_Chuyen_nganh_ID()).c_str());
+    ui->THE_LOAI->setText(the_loai_data.return_name(b.get_The_loai_ID()).c_str());
+    ui->NHAN_DE->setText(b.get_Name().c_str());
+    ui->TOM_TAT->setText(b.get_Tom_tat().c_str());
+    ui->THONG_TIN_BAN_QUYEN->setText(b.get_NXB().c_str());
+    ui->NGON_NGU->setText(b.get_Language().c_str());
+    ui->SO_TRANG->setText(to_string(b.get_So_trang()).c_str());
     ui->ISBN->setText(b.get_ISBN().c_str());
-    ui->VI_TRI_LUU_TRU->setText(b.get_id_book().c_str());
-    QString png_path = QString::fromUtf8(b.get_link_png());
+    ui->VI_TRI_LUU_TRU->setText(to_string(b.get_ID()).c_str());
+    QString png_path = QString::fromUtf8(b.get_Link_png());
     ui->PNG_BOOK->setFixedSize(200, 250);
     ui->PNG_BOOK->setAlignment(Qt::AlignCenter);
     ui->PNG_BOOK->setPixmap(loadScaled(png_path, ui->PNG_BOOK->size()));
     //
     //
     connect(ui->muon_button, &QPushButton::clicked, this, [this,b](){
-        qDebug() << "Muon sach " << b.get_id_book().c_str();
+        qDebug() << "Muon sach " << b.get_ID();
     });
     connect(ui->doc_onliine_button, &QPushButton::clicked, this, [this,b](){
-        qDebug() << "Doc online " << b.get_id_book().c_str();
+        qDebug() << "Doc online " << b.get_ID();
     });
     connect(ui->download_button, &QPushButton::clicked, this, [this,b](){
-        qDebug() << "Download " << b.get_id_book().c_str();
+        qDebug() << "Download " << b.get_ID();
     });
-    for (int i = 0 ; i <= 2 ; i++){
-        auto* row = new card_muon(b.get_id_book(),b.get_name_book(),b.get_tinh_trang(),"  Mượn",this);
+    BST_Book show_book;
+    /*
+    string _id_ = lay_n_chu_dau(b.get_ID(),12);
+    show_book.find_some_id_book(_id_,book_data);
+    qDebug() << show_book.count_book();
+    for (int i = 0 ; i < show_book.count_book() ; i++){
+        auto* row = new card_muon(show_book[i].get_ID(),show_book[i].get_Name(), "HEEH","  Mượn",this);
         ui->muon_sach_layout->addWidget(row);
     }
+    */
     qDebug() << is_sign_in << "\nis sign in \n";
     auto* canh_bao_label = new QLabel("Vui lòng đăng nhập để mượn sách !", this);
     canh_bao_label->setFixedSize(999,32);

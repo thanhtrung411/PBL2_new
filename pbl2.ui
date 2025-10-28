@@ -221,7 +221,7 @@ QPushButton:disabled{
          <property name="geometry">
           <rect>
            <x>0</x>
-           <y>0</y>
+           <y>-241</y>
            <width>1234</width>
            <height>1500</height>
           </rect>
@@ -1088,55 +1088,17 @@ QPushButton:disabled{
                    </layout>
                   </item>
                   <item>
-                   <layout class="QHBoxLayout" name="horizontalLayout_14" stretch="0,1">
+                   <layout class="QHBoxLayout" name="horizontalLayout_14" stretch="">
                     <property name="spacing">
                      <number>5</number>
                     </property>
-                    <item>
-                     <widget class="QLabel" name="label_19">
-                      <property name="font">
-                       <font>
-                        <bold>true</bold>
-                       </font>
-                      </property>
-                      <property name="text">
-                       <string>Từ khóa:</string>
-                      </property>
-                     </widget>
-                    </item>
-                    <item>
-                     <widget class="QLabel" name="TU_KHOA">
-                      <property name="text">
-                       <string>Từ khóa</string>
-                      </property>
-                     </widget>
-                    </item>
                    </layout>
                   </item>
                   <item>
-                   <layout class="QHBoxLayout" name="horizontalLayout_15" stretch="0,1">
+                   <layout class="QHBoxLayout" name="horizontalLayout_15" stretch="">
                     <property name="spacing">
                      <number>5</number>
                     </property>
-                    <item>
-                     <widget class="QLabel" name="label_20">
-                      <property name="font">
-                       <font>
-                        <bold>true</bold>
-                       </font>
-                      </property>
-                      <property name="text">
-                       <string>Đơn giá</string>
-                      </property>
-                     </widget>
-                    </item>
-                    <item>
-                     <widget class="QLabel" name="DON_GIA">
-                      <property name="text">
-                       <string>Đơn giá </string>
-                      </property>
-                     </widget>
-                    </item>
                    </layout>
                   </item>
                   <item>

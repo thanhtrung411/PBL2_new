@@ -173,6 +173,18 @@ color: rgb(243, 246, 255);</string>
          </spacer>
         </item>
         <item>
+         <widget class="QPushButton" name="quyen_quan_tri">
+          <property name="font">
+           <font>
+            <pointsize>10</pointsize>
+           </font>
+          </property>
+          <property name="text">
+           <string>Quyền quản trị</string>
+          </property>
+         </widget>
+        </item>
+        <item>
          <widget class="QPushButton" name="pushButton_6">
           <property name="font">
            <font>

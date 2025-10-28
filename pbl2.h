@@ -35,6 +35,8 @@ private slots:
 
     void show_info_sach(book& b);
 
+    void Reload_show_info(book& b);
+
     void Reload();
 
     QPixmap loadScaled(const QString& path, const QSize& toSize) const;

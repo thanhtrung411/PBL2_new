@@ -80,12 +80,12 @@ ProductCard::ProductCard(const book& b,
     imageLabel = new QLabel(this);
     imageLabel->setFixedSize(imgW, imgH);
     imageLabel->setAlignment(Qt::AlignCenter);
-    QString imgPath =QString::fromUtf8(b.get_link_png().c_str());
+    QString imgPath =QString::fromUtf8(b.get_Link_png().c_str());
     imageLabel->setPixmap(loadScaled(imgPath, imageLabel->size()));
     v->addWidget(imageLabel);
 
     // Tieu de
-    QString title_ = QString::fromUtf8(b.get_name_book().c_str());
+    QString title_ = QString::fromUtf8(b.get_Name().c_str());
     titleLabel = new QLabel(title_, this);
     titleLabel->setFixedWidth(CARD_W-5);
     QFontMetrics fmTitle(titleLabel->font());
@@ -99,7 +99,7 @@ ProductCard::ProductCard(const book& b,
     // Gioi han chieu cao
     titleLabel->setFixedHeight(line*2);
     v->addWidget(titleLabel);
-    QString Auth = QString::fromUtf8(b.get_tac_gia().c_str());
+    QString Auth = QString::fromUtf8(b.get_Author().c_str());
     Auth_label = new QLabel (Auth, this);
     Auth_label->setFixedWidth(CARD_W-10);
     QFontMetrics fmAuthor(Auth_label->font());

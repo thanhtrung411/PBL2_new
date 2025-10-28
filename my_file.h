@@ -32,6 +32,22 @@ void doc_book(BST_Book &book_data);
 
 void ghi_book(BST_Book &book_data);
 
+void doc_copy_book(BST_book_copy &book_copy_data);
+
+void ghi_copy_book(BST_book_copy &book_copy_data);
+
+void doc_author(BST_Author &author_data);
+
+void ghi_author(BST_Author &author_data);
+
+void doc_the_loai(BST_The_loai &the_loai_);
+
+void ghi_the_loai(BST_The_loai &the_loai_);
+
+void doc_chuyen_nganh(BST_Chuyen_nganh& chuyen_nganh_);
+
+void ghi_chuyen_nganh(BST_Chuyen_nganh& chuyen_nganh_);
+
 void doc_support_book(BST_string &the_loai_, BST_string &chuyen_nganh_);
 
 void ghi_support_book(BST_string &support_book_data);

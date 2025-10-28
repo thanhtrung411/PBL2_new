@@ -22,6 +22,8 @@ private slots:
 
     void set_the_loai_chuyen_nganh();
 
+    void return_null_all();
+
     void on_chuyen_nganh_input_textActivated(const QString &arg1);
 
     void on_the_loai_sach_input_textActivated(const QString &arg1);
@@ -32,5 +34,7 @@ private slots:
 
 private:
     Ui::admin_show *ui_3;
+protected:
+    void closeEvent(QCloseEvent *event) override;
 };
 #endif // ADMIN_SHOW_H

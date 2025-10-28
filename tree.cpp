@@ -1,372 +1,329 @@
 #include "tree.h"
+#include "global.h"
 #include "my_string.h"
 #include <iostream>
 #include <QTextStream>
 #include <QString>
 #include <QDebug>
 #include <fstream>
-using namespace std;
-/*
-Node_Accout* add_Accout(Node_Accout* node, accout &value,int ok);
-    Node_Accout* search_Accout(Node_Accout* node, string id, int &ok, accout &a);
-    Node_Accout* delete_Accout(Node_Accout* node, accout data, int &ok);
-bool insert_Accout(accout &value);
-    bool remove_Accout(accout &value);
-    bool find_Accout(string id, accout &a);
-    bool update_Accout(accout &old_, accout &new_);
-*/
 
-namespace{
-    void destroy_account(Node_Accout* node) {
-        if (!node) return;
-        destroy_account(node->getLeft());
-        destroy_account(node->getRight());
-        delete node;
+namespace KeyGetters{
+    int getAccoutID(const accout& a) {
+        return a.get_ID();
     }
-    void destroy_book(Node_Book* node) {
-        if (!node) return;
-        destroy_book(node->getLeft());
-        destroy_book(node->getRight());
-        delete node;
+    long long getBookID(const book& b) {
+        return b.get_ID();
     }
-    void destroy_borrow(Node_Borrow* node) {
-        if (!node) return;
-        destroy_borrow(node->getLeft());
-        destroy_borrow(node->getRight());
+    long long getBookCopiesID(const Book_copies& bc) {
+        return bc.get_id();
+    }
+    int getAuthorID(const Author& au) {
+        return au.get_ID();
+    }
+    int getTheLoaiID(const The_loai& tl) {
+        return tl.get_id();
+    }
+    int getChuyenNganhID(const Chuyen_nganh& cn) {
+        return cn.get_id();
+    }
+    long long getBorrowID(const borrow& br) {
+        return br.get_id();
+    }
+}
+
+template<typename T, typename Key>
+int BST<T, Key>::height(Node<T>* node) const {
+    if (node == nullptr) {
+        return 0;
+    }
+    return node->getHeight();
+}
+template<typename T, typename Key>
+int BST<T, Key>::getBalanceFactor(Node<T>* node) const {
+    if (node == nullptr) {
+        return 0;
+    }
+    return height(node->getLeft()) - height(node->getRight());
+}
+template<typename T, typename Key>
+void BST<T, Key>::updateHeight(Node<T>* node) {
+    if (node != nullptr) {
+        int leftHeight = height(node->getLeft());
+        int rightHeight = height(node->getRight());
+        node->setHeight(1 + std::max(leftHeight, rightHeight));
+    }
+}
+template<typename T, typename Key>
+Node<T>* BST<T, Key>::rightRotate(Node<T>* y) {
+    Node<T>* x = y->getLeft();
+    Node<T>* T2 = x->getRight();
+
+    x->setRight(y);
+    y->setLeft(T2);
+
+    updateHeight(y);
+    updateHeight(x);
+
+    return x;
+}
+template<typename T, typename Key>
+Node<T>* BST<T, Key>::leftRotate(Node<T>* x) {
+    Node<T>* y = x->getRight();
+    Node<T>* T2 = y->getLeft();
+
+    y->setLeft(x);
+    x->setRight(T2);
+
+    updateHeight(x);
+    updateHeight(y);
+
+    return y;
+}
+template<typename T, typename Key>
+Node<T>* BST<T, Key>::balance(Node<T>* node) {
+    if (node == nullptr) {
+        return node;
+    }
+    updateHeight(node);
+    int balanceFactor = getBalanceFactor(node);
+
+    if (balanceFactor > 1) {
+        if (getBalanceFactor(node->getLeft()) < 0) {
+            node->setLeft(leftRotate(node->getLeft()));
+        }
+        return rightRotate(node);
+    }
+    if (balanceFactor < -1) {
+        if (getBalanceFactor(node->getRight()) > 0) {
+            node->setRight(rightRotate(node->getRight()));
+        }
+        return leftRotate(node);
+    }
+    return node;
+}
+
+template <typename T, typename Key>
+void BST<T, Key>::destroy_Node(Node<T>* node) {
+    if (node != nullptr) {
+        destroy_Node(node->getLeft());
+        destroy_Node(node->getRight());
         delete node;
     }
 }
 
-
-BST_Book::~BST_Book() {
-    destroy_book(root);
+template <typename T, typename Key>
+BST<T, Key>::~BST() {
+    destroy_Node(root);
 }
 
-BST_Accout::~BST_Accout() {
-    destroy_account(root);
-}
-
-Node_Accout* BST_Accout::add_Accout(Node_Accout* node, accout &value,int &ok){
-    if (node == nullptr){
+template<typename T, typename Key>
+Node<T>* BST<T, Key>::add_Node(Node<T>* node, const T& value, int &ok) {
+    if (node == nullptr) {
         ok = 1;
-        return new Node_Accout(value);
+        return new Node<T>(value);
     }
-    if (value.getAccout_id() < node->getData().getAccout_id()){
-        node->setLeft(add_Accout(node->getLeft(), value,ok));
-    } else if (value.getAccout_id() > node->getData().getAccout_id()){
-        node->setRight(add_Accout(node->getRight(), value,ok));
+    Key key = getKey(value);
+    if (key < getKey(node->getData())) {
+        node->setLeft(add_Node(node->getLeft(), value, ok));
+    } else if (key > getKey(node->getData())) {
+        node->setRight(add_Node(node->getRight(), value, ok));
     } else {
         ok = 0;
-    }
-    return node;
-}
-
-Node_Accout* BST_Accout::search_Accout(Node_Accout* node, string id, int &ok, accout &a){
-    if (node == nullptr){
-        ok = 0;
-        return nullptr;
-    }
-    if (id == node->getData().getAccout_id()){
-        ok = 1;
-        a = node->getData();
         return node;
     }
-    if (id < node->getData().getAccout_id()){
-        return search_Accout(node->getLeft(), id, ok, a);
-    } else{
-        return search_Accout(node->getRight(), id, ok, a);
-    }
+    return balance(node);
 }
-
-
-Node_Accout* BST_Accout::delete_Accout(Node_Accout* node, accout data, int &ok){
-    if (node == nullptr){
+template<typename T, typename Key>
+bool BST<T, Key>::insert(const T& value) {
+    int ok = 0;
+    root = add_Node(root, value, ok);
+    return ok == 1;
+}
+template<typename T, typename Key>
+Node<T>* BST<T, Key>::delete_Node(Node<T>* node, T data, int &ok) {
+    if (node == nullptr) {
         ok = 0;
-        return nullptr;
+        return node;
     }
-    if (data.getAccout_id() < node->getData().getAccout_id()){
-        node->setLeft(delete_Accout(node->getLeft(), data, ok));
-    } else if (data.getAccout_id() > node->getData().getAccout_id()){
-        node->setRight(delete_Accout(node->getRight(), data, ok));
-    } else{
+    Key key = getKey(data);
+    if (key < getKey(node->getData())) {
+        node->setLeft(delete_Node(node->getLeft(), data, ok));
+    } else if (key > getKey(node->getData())) {
+        node->setRight(delete_Node(node->getRight(), data, ok));
+    } else {
         ok = 1;
-        if (node->getLeft() == nullptr){
-            Node_Accout* temp = node->getRight();
-            delete node;
-            return temp;
-        } else if (node->getRight() == nullptr){
-            Node_Accout* temp = node->getLeft();
-            delete node;
-            return temp;
-        } else {
-            Node_Accout* successor = node->getRight();
-            while (successor->getLeft() != nullptr){
-                successor = successor->getLeft();
+        if (node->getLeft() == nullptr || node->getRight() == nullptr) {
+            Node<T>* temp = node->getLeft() ? node->getLeft() : node->getRight();
+            if (temp == nullptr) {
+                temp = node;
+                node = nullptr;
+            } else {
+                *node = *temp;
             }
-            node->setData(successor->getData());
-            node->setRight(delete_Accout(node->getRight(), successor->getData(), ok));
+            delete temp;
+        } else {
+            Node<T>* temp = node->getRight();
+            while (temp->getLeft() != nullptr) {
+                temp = temp->getLeft();
+            }
+            node->setData(temp->getData());
+            node->setRight(delete_Node(node->getRight(), temp->getData(), ok));
         }
     }
-    return node;
-}
-
-bool BST_Accout::insert_Accout(accout &value){
-    int ok = 0;
-    root = add_Accout(root, value,ok);
-    return ok == 1;
-}
-bool BST_Accout::remove_Accout(accout &value){
-    int ok = 0;
-    root = delete_Accout(root, value, ok);
-    return ok == 1;
-}
-
-bool BST_Accout::find_Accout(string id, accout &a){
-    int ok = 0;
-    search_Accout(root, id, ok, a);
-    return ok == 1;
-}
-
-Node_Accout* BST_Accout::check_accout_helper(Node_Accout* node, string id, string pass, int &ok, accout &a){
-    if (node == nullptr){
-        ok = 0;
-        return nullptr;
-    }
-    if (id == node->getData().getAccout_id() && pass == node->getData().getPass()){
-        ok = 1;
-        a = node->getData();
+    if (node == nullptr) {
         return node;
     }
-    if (id < node->getData().getAccout_id()){
-        return check_accout_helper(node->getLeft(), id, pass, ok, a);
-    } else{
-        return check_accout_helper(node->getRight(), id, pass, ok, a);
-    }
+    return balance(node);
 }
 
-bool BST_Accout::check_accout(string id, string pass, accout &a){
+template<typename T, typename Key>
+bool BST<T, Key>::remove(const T& value) {
     int ok = 0;
-    check_accout_helper(root, id, pass, ok, a);
+    root = delete_Node(root, value, ok);
     return ok == 1;
 }
 
-bool BST_Accout::update_Accout(accout &old_, accout &new_){
-    int ok = 0;
-    Node_Accout* node = search_Accout(root, old_.getAccout_id(), ok, old_);
-    if (ok == 1) {
-        node->setData(new_);
+template<typename T, typename Key>
+Node<T>* BST<T, Key>::search_Node(Node<T>* node, const Key& key) {
+    if (node == nullptr || getKey(node->getData()) == key) {
+        return node;
+    }
+    if (key < getKey(node->getData())) {
+        return search_Node(node->getLeft(), key);
+    }
+    return search_Node(node->getRight(), key);
+}
+
+template<typename T, typename Key>
+Key BST<T, Key>::find_max_key(Node<T>* node) const {
+    if (node == nullptr) {
+        return (Key)0;
+    }
+    Node<T>* current = node;
+    while (current->getRight() != nullptr) {
+        current = current->getRight();
+    }
+    return getKey(current->getData());
+}
+
+template<typename T, typename Key>
+bool BST<T, Key>::find(Key id, T& result) {
+    Node<T>* node = search_Node(root, id);
+    if (node != nullptr) {
+        result = node->getData();
         return true;
     }
     return false;
 }
 
-int BST_Accout::count(Node_Accout* node) const{
+template<typename T, typename Key>
+bool BST<T, Key>::update(T &old_, T &new_) {
+    int ok = 0;
+    root = delete_Node(root, old_, ok);
+    if (ok == 0) {
+        return false;
+    }
+    ok = 0;
+    root = add_Node(root, new_, ok);
+    return ok == 1;
+}
+template<typename T, typename Key>
+int BST<T, Key>::count(Node<T>* node) const {
     if (node == nullptr) {
         return 0;
     }
     return 1 + count(node->getLeft()) + count(node->getRight());
 }
 
-int BST_Accout::count_accout(){
+template<typename T, typename Key>
+int BST<T, Key>::count_data() const {
     return count(root);
 }
-int BST_Accout::count_accout() const{
-    return count(root); 
-}
-void BST_Accout::write(Node_Accout* node, QTextStream &out) const {
-    if (!node) return;
-    write(node->getLeft(), out);
-    accout& a = node->getData();
-    out << QString::fromStdString(a.getAccout_id())   << '\n';
-    out << QString::fromStdString(a.getAccout_Name()) << '\n';
-    out << QString::fromStdString(a.getEmail())       << '\n';
-    out << QString::fromStdString(a.getPhonenumber()) << '\n';
-    out << a.getGioi_tinh()                           << '\n';
-    out << a.getDoi_tuong()                           << '\n';
-    out << QString::fromStdString(a.getNgay_sinh())   << '\n';
-    out << QString::fromStdString(a.getPass())        << '\n';
-    out << QString::fromStdString(a.getlevel())       << '\n';
-    out << QString::fromStdString(a.getDate_created())<< '\n';
-    write(node->getRight(), out);
-}
-void BST_Accout::write_accout(QTextStream &out) const {
-    write(root, out);
-}
-
-///////////////////////////////////////////////////////////////////\
-
-
-Node_Book* BST_Book::add_Book(Node_Book* node, book &value,int &ok){
-    if (node == nullptr){
-        ok = 1;
-        return new Node_Book(value);
-    }
-    if (value.get_id_book() < node->getData().get_id_book()){
-        node->setLeft(add_Book(node->getLeft(), value,ok));
-    } else if (value.get_id_book() > node->getData().get_id_book()){
-        node->setRight(add_Book(node->getRight(), value,ok));
-    } else {
-        ok = 0;
-    }
-    return node;
-}
-
-Node_Book* BST_Book::search_Book(Node_Book* node, string id, int &ok, book &a){
-    if (node == nullptr){
-        ok = 0;
-        return nullptr;
-    }
-    if (id == node->getData().get_id_book()){
-        ok = 1;
-        a = node->getData();
-        return node;
-    }
-    if (id < node->getData().get_id_book()){
-        return search_Book(node->getLeft(), id, ok, a);
-    } else{
-        return search_Book(node->getRight(), id, ok, a);
-    }
-}
-
-Node_Book* BST_Book::delete_Book(Node_Book* node, book data, int &ok){
-    if (node == nullptr){
-        ok = 0;
-        return nullptr;
-    }
-    if (data.get_id_book() < node->getData().get_id_book()){
-        node->setLeft(delete_Book(node->getLeft(), data, ok));
-    } else if (data.get_id_book() > node->getData().get_id_book()){
-        node->setRight(delete_Book(node->getRight(), data, ok));
-    } else{
-        ok = 1;
-        if (node->getLeft() == nullptr){
-            Node_Book* temp = node->getRight();
-            delete node;
-            return temp;
-        } else if (node->getRight() == nullptr){
-            Node_Book* temp = node->getLeft();
-            delete node;
-            return temp;
-        } else {
-            Node_Book* successor = node->getRight();
-            while (successor->getLeft() != nullptr){
-                successor = successor->getLeft();
-            }
-            node->setData(successor->getData());
-            node->setRight(delete_Book(node->getRight(), successor->getData(), ok));
-        }
-    }
-    return node;
-}
-
-bool BST_Book::insert_Book(book &value){
-    int ok = 0;
-    root = add_Book(root, value,ok);
-    return ok == 1;
-}
-
-bool BST_Book::remove_Book(book &value){
-    int ok = 0;
-    root = delete_Book(root, value, ok);
-    return ok == 1;
-}
-
-bool BST_Book::find_Book(string id, book &a){
-    int ok = 0;
-    search_Book(root, id, ok, a);
-    return ok == 1;
-}
-
-bool BST_Book::update_Book(book &old_, book &new_){
-    int ok = 0;
-    Node_Book* node = search_Book(root, old_.get_id_book(), ok, old_);
-    if (ok == 1) {
-        node->setData(new_);
-        return true;
-    }
-    return false;
-}
-
-int BST_Book::count(Node_Book* node) const{
-    if (node == nullptr) {
-        return 0;
-    }
-    return 1 + count(node->getLeft()) + count(node->getRight());
-}
-
-int BST_Book::count_book(){
-    return count(root);
-}
-
-int BST_Book::count_book() const{
-    return count(root); 
-}
-
-void BST_Book::write_csv(Node_Book* node, QTextStream &out) const {
-    if (!node) return;
-    write_csv(node->getLeft(), out);
-    book& a = node->getData();
-    out << QString::fromStdString(a.get_id_book())      << ',' << '\"'
-        << QString::fromStdString(a.get_name_book())    << '\"' << ',' << '\"'
-        << QString::fromStdString(a.get_tac_gia())      << '\"' << ','
-        << QString::fromStdString(a.get_the_loai())     << ','
-        << QString::fromStdString(a.get_nha_xuat_ban()) << ','
-        << QString::fromStdString(a.get_nam_xuat_ban()) << ','
-        << QString::fromStdString(a.get_so_trang())     << ','
-        << QString::fromStdString(a.get_ISBN())         << ','
-        << QString::fromStdString(a.get_ngon_ngu())     << ',' << '\"'
-        << QString::fromStdString(a.get_tu_khoa())      << '\"' << ','
-        << QString::fromStdString(a.get_chuyen_nganh()) << ','
-        << QString::fromStdString(a.get_don_gia())      << ',' << "\""
-        << QString::fromStdString(a.get_tom_tat())      << '\"' << ','
-        << QString::fromStdString(a.get_link_png())     << ','
-        << QString::fromStdString(a.get_link_pdf())     << ','
-        << QString::fromStdString(a.get_type_book())    << ','
-        << QString::fromStdString(a.get_tinh_trang())   << ','
-        << QString::fromStdString(a.get_date_created()) <<','
-        << QString::fromStdString(a.get_admin_created())<< '\n';
-    write_csv(node->getRight(), out);
-}
-void BST_Book::write_book(QTextStream &out) const {
-    // Ghi dòng tiêu đề
-    out << "ID_BOOK,Tên sách,Tên tác giả,Thể loại,Nhà xuất bản,Năm xuất bản,Số trang,ISBN,Ngôn ngữ,Từ khóa,Chuyên ngành,Đơn giá,Tóm tắt,link_png,link_pdf,type_book,Tình trạng,Date_created, By\n";
-    write_csv(root, out);
-}
-book BST_Book::operator[](int index) {
-    if (index < 0 || index >= count_book()) {
+template<typename T, typename Key>
+T BST<T, Key>::operator[](int index) {
+    if (index < 0 || index >= count_data()){
         qDebug() << "Loi index";
+        T u = T();
+        return u;
     }
-    Node_Book* result = root;
+    Node<T>* result = root;
     int tmp = 0;
     while (result) {
         int leftCount = count(result->getLeft());
-        if (index < tmp + leftCount) {
+        if (index < tmp + leftCount){
             result = result->getLeft();
-        } else if (index > tmp + leftCount) {
+        } 
+        else if (index > tmp + leftCount){
             tmp += leftCount + 1;
             result = result->getRight();
-        } else {
+        } 
+        else{
             return result->getData();
         }
     }
+    T u = T();
+    qDebug() << "Loi khong xac dinh";
+    return u;
 }
 
-void BST_Book::tong_hop_sach_chung_Node(string &the_loai, string &chuyen_nganh, Node_Book* node, BST_Book &b){
-    if (!node) return;
-    tong_hop_sach_chung_Node(the_loai, chuyen_nganh, node->getLeft(), b);
-    book& a = node->getData();
-    int check1 = tim_kiem_xau(the_loai, a.get_the_loai());
-    int check2 = tim_kiem_xau(chuyen_nganh, a.get_chuyen_nganh());
-    if (check1 == count_string(the_loai) && check2 == count_string(chuyen_nganh)){
-        b.insert_Book(a);
+template<typename T, typename Key>
+Key BST<T, Key>::find_max_id() const{
+    if (root == nullptr) {
+        return Key(0);
     }
-    tong_hop_sach_chung_Node(the_loai, chuyen_nganh, node->getRight(), b);
+    Key max_key = find_max_key(root);
+    return max_key;
 }
 
-void BST_Book::tong_hop_sach_chung(string &the_loai, string &chuyen_nganh,const BST_Book &book_data_, BST_Book &b){
-    tong_hop_sach_chung_Node(the_loai, chuyen_nganh, book_data_.root, b);
+/*
+template <typename T, typename Key>
+
+void BST<T, Key>::write_data_recursive(Node<T>* node, QTextStream &out, void (*writer)(const T&, QTextStream&)) const {
+    if (!node) return; write_data_recursive(node->getLeft(), out, writer); writer(node->getData(), out); write_data_recursive(node->getRight(), out, writer);
 }
-/////////////////////////////////////////////////////////////////////////
+    */
+/*
+template <typename T, typename Key>
+
+Key BST<T, Key>::find_max_key_help(Node<T>* node) const {
+    if (node == nullptr) {
+        // Giả định Key có thể được khởi tạo với giá trị nhỏ nhất (e.g., 0)
+        return (Key)0;
+    }
+    // Trong BST, khóa lớn nhất luôn ở node xa nhất bên phải
+    Node<T>* current = node;
+    while (current->getRight() != nullptr) {
+        current = current->getRight();
+    }
+    return key_getter(current->getData());
+}
+
+template <typename T, typename Key>
+Key BST<T, Key>::find_max_id() const{
+    if (root == nullptr) {
+        return Key(0);
+    }
+    Key max_key = find_max_key_help(root);
+    return max_key;
+}
+template <typename T, typename Key>
+Key BST<T, Key>::find_new_id() const {
+    if (root == nullptr) {
+        return (Key)1; // ID đầu tiên luôn là 1
+    }
+    Key max_key = find_max_key_help(root);
+    return max_key + (Key)1;
+}
+    */
+template class BST<accout, int>;
+template class BST<book, long long>;
+template class BST<Book_copies, long long>;
+template class BST<Author, int>;
+template class BST<Chuyen_nganh, int>;
+template class BST<The_loai, int>;
+template class BST<borrow, long long>;
+
+////////////--for BST_string--//////////////
 BST_string::~BST_string() {
     destroy_string(root);
 }
@@ -383,11 +340,8 @@ int BST_string::count(Node_string* node) const{
     }
     return 1 + count(node->getLeft()) + count(node->getRight());
 }
-int BST_string::count_string(){
-    return count(root);
-}
 int BST_string::count_string() const{
-    return count(root); 
+    return count(root);
 }
 Node_string* BST_string::add_string(Node_string* node, string &value, int &ok) {
     if (!node) {
@@ -469,211 +423,227 @@ string BST_string::operator[](int index) {
     qDebug() << "Khong tim thay node voi index:" << index;
     return "";
 }
-/////////////////////////////////////////////////////////////////////////////////////////////////////
-BST_Borrow::~BST_Borrow() {
-    destroy_borrow(root);
-}
-string BST_Borrow::find_new_id_borrow(){
-    int month_id = 0;
-    int year_id = 0;
-    int id_ = 0;
-    Node_Borrow* node = root;  
-    my_time t;
-    t.set_time_now();
-    month_id = t.get_thang();
-    year_id = t.get_nam();
-    while (node){
-        if (node->getRight() == nullptr) break;
-        node = node->getRight();
-    }
-    if (node){
-        string id_borrow = node->getData().get_borrow_id();
-        month_id = to_int(id_borrow.substr(0,2));
-        year_id = to_int(id_borrow.substr(2,4));
-        id_ = to_int(id_borrow.substr(6,4));
-        if (month_id == t.get_thang() && year_id == t.get_nam()){
-            id_++;
-        }
-        else{
-            id_ = 1;
-            month_id = t.get_thang();
-            year_id = t.get_nam();
-        }
-        string month_str = toFixedString(month_id,2);
-        string year_str = toFixedString(year_id,4);
-        string id_str = toFixedString(id_,4);
-        return month_str + year_str + id_str;
-    }
-    else{
-        id_ = 1;
-        month_id = t.get_thang();
-        year_id = t.get_nam();
-        string month_str = toFixedString(month_id,2);
-        string year_str = toFixedString(year_id,4);
-        string id_str = toFixedString(id_,4);
-        return month_str + year_str + id_str;
-    }
-
-}
-borrow BST_Borrow::operator[](int index) {
-    if (index < 0 || index >= count_borrow()) {
-        qDebug() << "Loi index";
-    }
-    Node_Borrow* result = root;
-    int tmp = 0;
-    while (result) {
-        int leftCount = count(result->getLeft());
-        if (index < tmp + leftCount) {
-            result = result->getLeft();
-        } else if (index > tmp + leftCount) {
-            tmp += leftCount + 1;
-            result = result->getRight();
-        } else {
-            return result->getData();
-        }
-    }
-}
-bool BST_Borrow::add_helper_1(const string& id_1, const string& id_2) {
-    string year_1 = id_1.substr(2,4);
-    string month_1 = id_1.substr(0,2);
-    string STT_1 = id_1.substr(6,4);
-    string year_2 = id_2.substr(2,4);
-    string month_2 = id_2.substr(0,2);
-    string STT_2 = id_2.substr(6,4);
-    if (to_int(year_1) < to_int(year_2)) return true;
-    if (to_int(year_1) == to_int(year_2) && to_int(month_1) < to_int(month_2)) return true;
-    if (to_int(year_1) == to_int(year_2) && to_int(month_1) == to_int(month_2) && to_int(STT_1) < to_int(STT_2)) return true;
-    return false;
-}
-bool BST_Borrow::add_helper_2(const string& id_1, const string& id_2) {
-    string year_1 = id_1.substr(2,4);
-    string month_1 = id_1.substr(0,2);
-    string STT_1 = id_1.substr(6,4);
-    string year_2 = id_2.substr(2,4);
-    string month_2 = id_2.substr(0,2);
-    string STT_2 = id_2.substr(6,4);
-    if (to_int(year_1) > to_int(year_2)) return true;
-    if (to_int(year_1) == to_int(year_2) && to_int(month_1) > to_int(month_2)) return true;
-    if (to_int(year_1) == to_int(year_2) && to_int(month_1) == to_int(month_2) && to_int(STT_1) > to_int(STT_2)) return true;
-    return false;
-}
+/////////////--for BST_Accout--//////////////
 
 
-Node_Borrow* BST_Borrow::add_Borrow(Node_Borrow* node, borrow &value,int &ok){
-    if (node == nullptr){
-        ok = 1;
-        return new Node_Borrow(value);
-    }
-    if (add_helper_1(value.get_borrow_id() , node->getData().get_borrow_id())){
-        node->setLeft(add_Borrow(node->getLeft(), value,ok));
-    } else if (add_helper_2(value.get_borrow_id() , node->getData().get_borrow_id())){
-        node->setRight(add_Borrow(node->getRight(), value,ok));
-    } else {
-        ok = 0;
-    }
-    return node;
-}
-Node_Borrow* BST_Borrow::search_Borrow(Node_Borrow* node, string id, int &ok, borrow &a){
+Node<accout>* BST_Accout::check_accout_helper(Node<accout>* node, string ten_dang_nhap, string pass, int &ok, accout &a){
     if (node == nullptr){
         ok = 0;
         return nullptr;
     }
-    if (id == node->getData().get_borrow_id()){
+    if (ten_dang_nhap < node->getData().get_ten_dang_nhap()){
+        return check_accout_helper(node->getLeft(), ten_dang_nhap, pass, ok, a);
+    }
+    if (ten_dang_nhap == node->getData().get_ten_dang_nhap() && pass == node->getData().get_pass()){
         ok = 1;
         a = node->getData();
         return node;
     }
-    if (id < node->getData().get_borrow_id()){
-        return search_Borrow(node->getLeft(), id, ok, a);
-    } else{
-        return search_Borrow(node->getRight(), id, ok, a);
+    if (ten_dang_nhap > node->getData().get_ten_dang_nhap()){
+        return check_accout_helper(node->getRight(), ten_dang_nhap, pass, ok, a);
     }
 }
-Node_Borrow* BST_Borrow::delete_Borrow(Node_Borrow* node, borrow data, int &ok){
-    if (node == nullptr){
-        ok = 0;
-        return nullptr;
-    }
-    if (data.get_borrow_id() < node->getData().get_borrow_id()){
-        node->setLeft(delete_Borrow(node->getLeft(), data, ok));
-    } else if (data.get_borrow_id() > node->getData().get_borrow_id()){
-        node->setRight(delete_Borrow(node->getRight(), data, ok));
-    } else{
-        ok = 1;
-        if (node->getLeft() == nullptr){
-            Node_Borrow* temp = node->getRight();
-            delete node;
-            return temp;
-        } else if (node->getRight() == nullptr){
-            Node_Borrow* temp = node->getLeft();
-            delete node;
-            return temp;
-        } else {
-            Node_Borrow* successor = node->getRight();
-            while (successor->getLeft() != nullptr){
-                successor = successor->getLeft();
-            }
-            node->setData(successor->getData());
-            node->setRight(delete_Borrow(node->getRight(), successor->getData(), ok));
-        }
-    }
-    return node;
-}
-int BST_Borrow::count(Node_Borrow* node) const{
-    if (node == nullptr) {
-        return 0;
-    }
-    return 1 + count(node->getLeft()) + count(node->getRight());
-}
-bool BST_Borrow::insert_Borrow(borrow &value){
+
+
+bool BST_Accout::check_accout(string ten_dang_nhap, string pass, accout& a){
     int ok = 0;
-    root = add_Borrow(root, value,ok);
+    Node<accout>* node = check_accout_helper(root, ten_dang_nhap, pass, ok, a);
     return ok == 1;
 }
-bool BST_Borrow::remove_Borrow(borrow &value){
-    int ok = 0;
-    root = delete_Borrow(root, value, ok);
-    return ok == 1;
+
+void BST_Accout::write_csv(Node<accout>* node, QTextStream &out) const {
+    if (!node) return;
+    write_csv(node->getLeft(), out);
+    accout& a = node->getData();
+    out << a.get_ID() << "," 
+        << QString::fromStdString(a.get_ten_dang_nhap()) << "," 
+        << QString::fromStdString(a.get_ten_tai_khoan()) << "," 
+        << a.get_gioi_tinh() << ","
+        << QString::fromStdString(a.get_ngay_sinh().get_date()) << ","
+        << QString::fromStdString(a.get_email()) << "," 
+        << a.get_doi_tuong() << ","
+        << QString::fromStdString(a.get_phone_number()) << "," 
+        << QString::fromStdString(a.get_pass()) << "," 
+        << QString::fromStdString(a.get_level()) << ","
+        << QString::fromStdString(a.get_date_created().get_datetime()) << "\n";
+    write_csv(node->getRight(), out);
 }
-bool BST_Borrow::find_Borrow(string id, borrow &a){
-    int ok = 0;
-    search_Borrow(root, id, ok, a);
-    return ok == 1;
+
+void BST_Accout::write_accout(QTextStream &out) const {
+    out << "ID, Ten_dang_nhap, Ten_tai_khoan, Email, Phone_number, Gioi_tinh, Date_created, Pass\n";
+    Node<accout>* node = root;
+    write_csv(node, out);
 }
-bool BST_Borrow::update_Borrow(borrow &old_, borrow &new_){
-    int ok = 0;
-    Node_Borrow* node = search_Borrow(root, old_.get_borrow_id(), ok, old_);
-    if (ok == 1) {
-        node->setData(new_);
-        return true;
-    }
-    return false;
-}
-int BST_Borrow::count_borrow(){
-    return count(root);
-}
-int BST_Borrow::count_borrow() const{
-    return count(root); 
-}
-void BST_Borrow::write_csv(Node_Borrow* node, QTextStream &out) const {
+
+/////////////--for BST_Borrow--//////////////
+
+void BST_Borrow::write_csv(Node<borrow>* node, QTextStream &out) const {
     if (!node) return;
     write_csv(node->getLeft(), out);
     borrow& a = node->getData();
-    out << QString::fromStdString(a.get_borrow_id())    << ','
-        << QString::fromStdString(a.get_id_book())      << ','
-        << QString::fromStdString(a.get_id_user())      << ',' << '\"'
-        << QString::fromStdString(a.get_id_admin())     << '\"'<< ','
-        << QString::fromStdString(a.get_booking_date()) << ','
-        << QString::fromStdString(a.get_borrow_date())  << ','
-        << QString::fromStdString(a.get_pay_date())     << ','
-        << QString::fromStdString(a.get_status())       << ','
-        << QString::fromStdString(a.get_return_date())  << ','
-        << QString::fromStdString(a.get_tien_phat())    << '\n';
-
     write_csv(node->getRight(), out);
 }
 void BST_Borrow::write_borrow(QTextStream &out) const {
-    // Ghi dòng tiêu đề
-    out << "ID, ID_BOOK, ID_USER, ID_ADMIN, BOOKIND DATE, BORROW_DATE, PAY_DATE, STATUS, RETURN_DATE, TIEN_PHAT\n";
+    out << "ID, Book_copy_id, User_id, Admin_id, Booking_date, Borrow_date, Due_date, Return_date, Status, Tien_phat\n";
     write_csv(root, out);
+}
+
+/////////////--for BST_Book--//////////////
+
+Node<book>* BST_Book::tong_hop_sach_TL_CN_Node(int The_loai_ID, int Chuyen_nganh_ID, Node<book>* node, BST_Book &b){
+    if (!node) return nullptr;
+    tong_hop_sach_TL_CN_Node(The_loai_ID, Chuyen_nganh_ID, node->getLeft(), b);
+    book& a = node->getData();
+    if (a.get_The_loai_ID() == The_loai_ID && a.get_Chuyen_nganh_ID() == Chuyen_nganh_ID){
+        b.insert(a);
+    }
+    tong_hop_sach_TL_CN_Node(The_loai_ID, Chuyen_nganh_ID, node->getRight(), b);
+    return nullptr;
+}
+
+void BST_Book::tong_hop_sach_TL_CN(int The_loai_ID, int Chuyen_nganh_ID, BST_Book &b, BST_Book &book_data_){
+    tong_hop_sach_TL_CN_Node(The_loai_ID, Chuyen_nganh_ID, book_data_.root, b);
+}
+
+long long BST_Book::tong_hop_sach_find_max_id(BST_Book &b){
+    return b.find_max_id();
+}
+
+/*
+void BST_Book::tong_hop_sach_chung_Node(string &the_loai, string &chuyen_nganh, Node<book>* node, BST_Book &b){
+    if (!node) return;
+    tong_hop_sach_chung_Node(the_loai, chuyen_nganh, node->getLeft(), b);
+    book& a = node->getData();
+    //int check1 = tim_kiem_xau(the_loai, the_loai_data.return_name(a.get_The_loai_ID()));
+    //int check2 = tim_kiem_xau(chuyen_nganh, chuyen_nganh_data.return_name(a.get_Chuyen_nganh_ID()));
+    //if (check1 == count_string(the_loai) && check2 == count_string(chuyen_nganh)){
+    //    b.insert(a);
+    //}
+    //tong_hop_sach_chung_Node(the_loai, chuyen_nganh, node->getRight(), b);
+}
+
+void BST_Book::tong_hop_sach_chung(string &the_loai, string &chuyen_nganh,const BST_Book &book_data_, BST_Book &b){
+    tong_hop_sach_chung_Node(the_loai, chuyen_nganh, book_data_.root, b);
+}
+
+void BST_Book::find_some_id_book_Node(string& id_, Node<book>* Node){
+    if (!Node) return;
+    find_some_id_book_Node(id_, Node->getLeft());
+    string a = to_string(Node->getData().get_ID());
+    if (is_chua_chuoi(id_, a)){
+        this->insert(Node->getData());
+    }
+    find_some_id_book_Node(id_, Node->getRight());
+}
+
+void BST_Book::find_some_id_book(string& id_chuoi, const BST_Book &book_data_){
+    find_some_id_book_Node(id_chuoi, book_data_.root);
+}
+    */
+
+/////////////--for BST_Chuyen_nganh--//////////////
+
+Node<Chuyen_nganh>* BST_Chuyen_nganh::return_name_helper(Node<Chuyen_nganh>* node, int id, int &ok, string &name) {
+    if (node == nullptr) {
+        ok = 0;
+        return nullptr;
+    }
+    Node<Chuyen_nganh>* found = nullptr;
+    if (node->getData().get_id() == id) {
+        ok = 1;
+        name = node->getData().get_name();
+        return node;
+    }
+    found = return_name_helper(node->getLeft(), id, ok, name);
+    if (ok == 1) return found;
+    return return_name_helper(node->getRight(), id, ok, name);
+}
+
+Node<Chuyen_nganh>* BST_Chuyen_nganh::return_id_helper(Node<Chuyen_nganh>* node, string name, int &ok, int &id) {
+    if (node == nullptr) {
+        ok = 0;
+        return nullptr;
+    }
+     Node<Chuyen_nganh>* found = nullptr;
+    if (node->getData().get_name() == name) {
+        ok = 1;
+        id = node->getData().get_id();
+        return node;
+    }
+    found = return_id_helper(node->getLeft(), name, ok, id);
+    if (ok == 1) return found;
+    return return_id_helper(node->getRight(), name, ok, id);
+}
+
+int BST_Chuyen_nganh::return_id(string name){
+    int ok = 0;
+    int id = -1;
+    Node<Chuyen_nganh>* node = return_id_helper(root, name, ok, id);
+    if (ok == 1){
+        return id;
+    }
+    return -1;
+}
+string BST_Chuyen_nganh::return_name(int id){
+    int ok = 0;
+    string name = "";
+    Node<Chuyen_nganh>* node = return_name_helper(root, id, ok, name);
+    if (ok == 1){
+        return name;
+    }
+    return "";
+}
+
+////////////--for BST_The_loai--//////////////
+
+Node<The_loai>* BST_The_loai::return_name_helper(Node<The_loai>* node, int id, int &ok, string &name) {
+    if (node == nullptr) {
+        ok = 0;
+        return nullptr;
+    }
+     Node<The_loai>* found = nullptr;
+    if (node->getData().get_id() == id) {
+        ok = 1;
+        name = node->getData().get_name();
+        return node;
+    }
+    found = return_name_helper(node->getLeft(), id, ok, name);
+    if (ok == 1) return found;
+    return return_name_helper(node->getRight(), id, ok, name);
+    
+}
+
+Node<The_loai>* BST_The_loai::return_id_helper(Node<The_loai>* node, string name, int &ok, int &id) {
+    if (node == nullptr) {
+        ok = 0;
+        return nullptr;
+    }
+    Node<The_loai>* found = nullptr;
+    if (node->getData().get_name() == name) {
+        ok = 1;
+        id = node->getData().get_id();
+        return node;
+    }
+    found = return_id_helper(node->getLeft(), name, ok, id);
+    if (ok == 1) return found;
+    return return_id_helper(node->getRight(), name, ok, id);
+}
+
+int BST_The_loai::return_id(string name){
+    int ok = 0;
+    int id = -1;
+    Node<The_loai>* node = return_id_helper(root, name, ok, id);
+    if (ok == 1){
+        return id;
+    }
+    return -1;
+}
+string BST_The_loai::return_name(int id){
+    int ok = 0;
+    string name = "";
+    Node<The_loai>* node = return_name_helper(root, id, ok, name);
+    if (ok == 1){
+        return name;
+    }
+    return "";
 }

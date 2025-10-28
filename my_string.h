@@ -1,6 +1,7 @@
 #ifndef MY_STRING_H
 #define MY_STRING_H
 #include <iostream>
+#include "my_time.h"
 using namespace std;
 #define KEY_STR "PBL2By-Do_Tran_Hoai_Nhi-Nguyen_Thanh_Trung"
 
@@ -44,11 +45,17 @@ static string giai_ma_str_(const string& ma_hoa) {
     }
     return giai_ma;
 }
-
+int is_chua_chuoi(const string& key, const string& full);
 int tim_kiem_xau(const string& key, const string& full);
 string to_string_(int x);
+string to_string_(bool x);
+string to_string_(my_time t);
+bool to_bool(const string& s);
+bool to_bool(const int& s);
 int to_int(const string& s);
+long long to_long_long(const string& s);
 string toFixedString(int index, int longs);
 int count_string(const string &s);
+string lay_n_chu_dau(const string& s, size_t n);
 
 #endif // MY_STRING_H

@@ -20,8 +20,10 @@ using namespace std;
 FILE *peoples;
 BST_Accout accout_data;
 BST_Book book_data;
+BST_book_copy book_copy_data;
 BST_Borrow borrow_data;
-BST_string the_loai_, chuyen_nganh_;
+BST_The_loai the_loai_data;
+BST_Chuyen_nganh chuyen_nganh_data;
 accout acc_sign_in;
 int is_sign_in = 0;
 
@@ -69,10 +71,11 @@ int main(int argc, char *argv[])
     QApplication a(argc, argv);
     doc_accout(accout_data);
     doc_book(book_data);
+    doc_copy_book(book_copy_data);
     doc_borrow(borrow_data);
+    doc_the_loai(the_loai_data);
+    doc_chuyen_nganh(chuyen_nganh_data);
     //cout << borrow_data.find_new_id_borrow();
-    doc_support_book(the_loai_, chuyen_nganh_);
-    qDebug()<< the_loai_[0].c_str();
     //applyFusionDark(a);   
     pbl2 w;
     w.show();

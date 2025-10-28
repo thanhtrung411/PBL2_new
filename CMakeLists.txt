@@ -35,23 +35,20 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         my_string.h my_string.cpp
         resource.qrc
         data/accout.txt
-        data/book.txt
         my_file.h my_file.cpp
         admin_show.h admin_show.cpp admin_show.ui
         card.h card.cpp
         my_time.h my_time.cpp
         global.h
-        png_background/PBL2-A-01-001.png
-        png_background/PBL2-A-01-001.png
-<<<<<<< HEAD
         dang_ky1.h dang_ky1.cpp dang_ky1.ui
         login.h login.cpp login.ui
-=======
         working.h working.cpp
         card_muon.h card_muon.cpp
         borrow.h borrow.cpp
         info.h info.cpp info.ui
->>>>>>> 071003c30012779fd4fbb279043856b09bb64d10
+        book_copies.h book_copies.cpp
+        the_loai_chuyen_nganh.h the_loai_chuyen_nganh.cpp
+        author.h author.cpp
 
 
     )

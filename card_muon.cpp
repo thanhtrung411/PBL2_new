@@ -46,9 +46,9 @@ card_muon::card_muon(const string& t1,
         qDebug() << "Run muon sach..";
         if (is_sign_in){
             my_time t;
-            t.set_time_now();
+            t.now();
             string time_now_ = t.get_time();
-            working::muon_sach(m_lb1->text().toUtf8().toStdString(), acc_sign_in.getAccout_id(), time_now_, "15");
+           // working::muon_sach(m_lb1->text().toUtf8().toStdString(), acc_sign_in.get_ten_dang_nhap(), time_now_, "15");
             box_thong_bao("Mượn sách thành công ! Vui lòng đến thư viện để nhận sách.");
         }
         else{

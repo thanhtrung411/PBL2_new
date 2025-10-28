@@ -15,7 +15,6 @@
     </qresource>
     <qresource prefix="/data_">
         <file>data/accout.txt</file>
-        <file>data/book.txt</file>
         <file>data/CSDL.csv</file>
     </qresource>
 </RCC>

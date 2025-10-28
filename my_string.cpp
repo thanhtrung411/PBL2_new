@@ -1,4 +1,5 @@
 #include "my_string.h"
+#include "my_time.h"
 void getline(std::istream& is, std::string& str) {
     std::getline(is, str);
     if (!str.empty() && str.back() == '\r') {
@@ -11,6 +12,13 @@ int do_dai_str(string str) {
         len++;
     }
     return len;
+}
+
+int is_chua_chuoi(const string& key, const string& full){
+    for (int i = 0; i < do_dai_str(key); i++){
+        if (key[i] != full[i]) return 0;
+    }
+    return 1;
 }
 
 int tim_kiem_xau(const string& key, const string& full) {
@@ -90,6 +98,12 @@ string to_string_(int x){
     if (negative) res = '-' + res;
     return res;
 }
+string to_string_(bool x){
+    return x ? "1" : "0";
+}
+string to_string_(my_time t){
+    return t.get_datetime();
+}
 int to_int(const string& s) {
     int res = 0;
     bool negative = false;
@@ -103,6 +117,26 @@ int to_int(const string& s) {
     }
     if (negative) res = -res;
     return res;
+}
+long long to_long_long(const string& s) {
+    long long res = 0;
+    bool negative = false;
+    int i = 0;
+    if (s[i] == '-') {
+        negative = true;
+        i++;
+    }
+    for (; i < s.size(); i++) {
+        res = res * 10 + (s[i] - '0');
+    }
+    if (negative) res = -res;
+    return res;
+}
+bool to_bool(const string& s){
+    return s == "1" || s == "true" || s == "True";
+}
+bool to_bool(const int& s){
+    return s != 0;
 }
 
 string toFixedString(int index, int longs) {
@@ -139,4 +173,11 @@ int count_string(const string &s){ // dem so tu trong 1 xau
     }
 
     return count;
+}
+string lay_n_chu_dau(const string& s, size_t n) {
+    string result = "";
+    for (size_t i = 0; i < n && i < s.size(); i++) {
+        result += s[i];
+    }
+    return result;
 }
