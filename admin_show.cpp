@@ -227,9 +227,6 @@ void admin_show::set_ID_book(){
                 box_thong_bao("Số lượng thể loại sách đã đạt giới hạn!");
                 return;
             }
-            else{
-                if ()
-            }
 
         }
     }

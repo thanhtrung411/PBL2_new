@@ -43,6 +43,7 @@ template <> constexpr inline auto admin_show::qt_create_metaobjectdata<qt_meta_t
         "",
         "set_ID_book",
         "set_the_loai_chuyen_nganh",
+        "return_null_all",
         "on_chuyen_nganh_input_textActivated",
         "arg1",
         "on_the_loai_sach_input_textActivated",
@@ -57,18 +58,20 @@ template <> constexpr inline auto admin_show::qt_create_metaobjectdata<qt_meta_t
         QtMocHelpers::SlotData<void()>(3, 2, QMC::AccessPrivate, QMetaType::Void),
         // Slot 'set_the_loai_chuyen_nganh'
         QtMocHelpers::SlotData<void()>(4, 2, QMC::AccessPrivate, QMetaType::Void),
+        // Slot 'return_null_all'
+        QtMocHelpers::SlotData<void()>(5, 2, QMC::AccessPrivate, QMetaType::Void),
         // Slot 'on_chuyen_nganh_input_textActivated'
-        QtMocHelpers::SlotData<void(const QString &)>(5, 2, QMC::AccessPrivate, QMetaType::Void, {{
-            { QMetaType::QString, 6 },
+        QtMocHelpers::SlotData<void(const QString &)>(6, 2, QMC::AccessPrivate, QMetaType::Void, {{
+            { QMetaType::QString, 7 },
         }}),
         // Slot 'on_the_loai_sach_input_textActivated'
-        QtMocHelpers::SlotData<void(const QString &)>(7, 2, QMC::AccessPrivate, QMetaType::Void, {{
-            { QMetaType::QString, 6 },
+        QtMocHelpers::SlotData<void(const QString &)>(8, 2, QMC::AccessPrivate, QMetaType::Void, {{
+            { QMetaType::QString, 7 },
         }}),
         // Slot 'on_link_png_button_clicked'
-        QtMocHelpers::SlotData<void()>(8, 2, QMC::AccessPrivate, QMetaType::Void),
-        // Slot 'on_link_pdf_button_clicked'
         QtMocHelpers::SlotData<void()>(9, 2, QMC::AccessPrivate, QMetaType::Void),
+        // Slot 'on_link_pdf_button_clicked'
+        QtMocHelpers::SlotData<void()>(10, 2, QMC::AccessPrivate, QMetaType::Void),
     };
     QtMocHelpers::UintData qt_properties {
     };
@@ -95,10 +98,11 @@ void admin_show::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, 
         case 0: _t->on_them_button_clicked(); break;
         case 1: _t->set_ID_book(); break;
         case 2: _t->set_the_loai_chuyen_nganh(); break;
-        case 3: _t->on_chuyen_nganh_input_textActivated((*reinterpret_cast< std::add_pointer_t<QString>>(_a[1]))); break;
-        case 4: _t->on_the_loai_sach_input_textActivated((*reinterpret_cast< std::add_pointer_t<QString>>(_a[1]))); break;
-        case 5: _t->on_link_png_button_clicked(); break;
-        case 6: _t->on_link_pdf_button_clicked(); break;
+        case 3: _t->return_null_all(); break;
+        case 4: _t->on_chuyen_nganh_input_textActivated((*reinterpret_cast< std::add_pointer_t<QString>>(_a[1]))); break;
+        case 5: _t->on_the_loai_sach_input_textActivated((*reinterpret_cast< std::add_pointer_t<QString>>(_a[1]))); break;
+        case 6: _t->on_link_png_button_clicked(); break;
+        case 7: _t->on_link_pdf_button_clicked(); break;
         default: ;
         }
     }
@@ -125,14 +129,14 @@ int admin_show::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 7)
+        if (_id < 8)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 7;
+        _id -= 8;
     }
     if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 7)
+        if (_id < 8)
             *reinterpret_cast<QMetaType *>(_a[0]) = QMetaType();
-        _id -= 7;
+        _id -= 8;
     }
     return _id;
 }

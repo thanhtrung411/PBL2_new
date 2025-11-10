@@ -12,8 +12,10 @@
 #include <QtCore/QVariant>
 #include <QtGui/QAction>
 #include <QtWidgets/QApplication>
+#include <QtWidgets/QCheckBox>
 #include <QtWidgets/QComboBox>
 #include <QtWidgets/QHBoxLayout>
+#include <QtWidgets/QHeaderView>
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QLineEdit>
 #include <QtWidgets/QMainWindow>
@@ -23,6 +25,7 @@
 #include <QtWidgets/QSpacerItem>
 #include <QtWidgets/QSpinBox>
 #include <QtWidgets/QStackedWidget>
+#include <QtWidgets/QTableWidget>
 #include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QWidget>
 
@@ -45,7 +48,10 @@ public:
     QWidget *centralwidget;
     QHBoxLayout *horizontalLayout;
     QVBoxLayout *verticalLayout;
+    QPushButton *pushButton_2;
     QPushButton *pushButton;
+    QPushButton *pushButton_3;
+    QPushButton *pushButton_4;
     QSpacerItem *verticalSpacer;
     QStackedWidget *stackedWidget;
     QWidget *page;
@@ -81,17 +87,16 @@ public:
     QLineEdit *ISBN_input;
     QLabel *language_layout;
     QLineEdit *language_input;
-    QLabel *chu_de_layout;
-    QLineEdit *chu_de_input;
     QLabel *tom_tat_layout;
     QPlainTextEdit *tom_tat_input;
     QHBoxLayout *horizontalLayout_8;
-    QVBoxLayout *verticalLayout_10;
-    QLabel *don_gia_layout;
-    QLineEdit *don_gia_input;
     QVBoxLayout *verticalLayout_11;
     QLabel *label_2;
     QSpinBox *number_of_book;
+    QCheckBox *is_borrow_check;
+    QCheckBox *is_read_online_check;
+    QCheckBox *is_download_check;
+    QSpacerItem *horizontalSpacer_2;
     QLabel *link_png_name;
     QHBoxLayout *horizontalLayout_6;
     QPushButton *link_png_button;
@@ -104,6 +109,15 @@ public:
     QPushButton *them_button;
     QSpacerItem *verticalSpacer_2;
     QWidget *page_2;
+    QWidget *verticalLayoutWidget;
+    QVBoxLayout *verticalLayout_2;
+    QLabel *label;
+    QHBoxLayout *horizontalLayout_4;
+    QPushButton *pushButton_6;
+    QPushButton *pushButton_5;
+    QSpacerItem *horizontalSpacer;
+    QTableWidget *tableWidget;
+    QSpacerItem *verticalSpacer_3;
 
     void setupUi(QMainWindow *admin_show)
     {
@@ -232,11 +246,26 @@ public:
         horizontalLayout->setObjectName("horizontalLayout");
         verticalLayout = new QVBoxLayout();
         verticalLayout->setObjectName("verticalLayout");
+        pushButton_2 = new QPushButton(centralwidget);
+        pushButton_2->setObjectName("pushButton_2");
+
+        verticalLayout->addWidget(pushButton_2);
+
         pushButton = new QPushButton(centralwidget);
         pushButton->setObjectName("pushButton");
         pushButton->setMinimumSize(QSize(200, 0));
 
         verticalLayout->addWidget(pushButton);
+
+        pushButton_3 = new QPushButton(centralwidget);
+        pushButton_3->setObjectName("pushButton_3");
+
+        verticalLayout->addWidget(pushButton_3);
+
+        pushButton_4 = new QPushButton(centralwidget);
+        pushButton_4->setObjectName("pushButton_4");
+
+        verticalLayout->addWidget(pushButton_4);
 
         verticalSpacer = new QSpacerItem(20, 40, QSizePolicy::Policy::Minimum, QSizePolicy::Policy::Expanding);
 
@@ -456,18 +485,6 @@ public:
 
         verticalLayout_3->addWidget(language_input);
 
-        chu_de_layout = new QLabel(verticalLayoutWidget_3);
-        chu_de_layout->setObjectName("chu_de_layout");
-        chu_de_layout->setFont(font2);
-        chu_de_layout->setAlignment(Qt::AlignmentFlag::AlignBottom|Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft);
-
-        verticalLayout_3->addWidget(chu_de_layout);
-
-        chu_de_input = new QLineEdit(verticalLayoutWidget_3);
-        chu_de_input->setObjectName("chu_de_input");
-
-        verticalLayout_3->addWidget(chu_de_input);
-
         tom_tat_layout = new QLabel(verticalLayoutWidget_3);
         tom_tat_layout->setObjectName("tom_tat_layout");
         tom_tat_layout->setFont(font2);
@@ -484,23 +501,6 @@ public:
 
         horizontalLayout_8 = new QHBoxLayout();
         horizontalLayout_8->setObjectName("horizontalLayout_8");
-        verticalLayout_10 = new QVBoxLayout();
-        verticalLayout_10->setObjectName("verticalLayout_10");
-        don_gia_layout = new QLabel(verticalLayoutWidget_3);
-        don_gia_layout->setObjectName("don_gia_layout");
-        don_gia_layout->setFont(font2);
-        don_gia_layout->setAlignment(Qt::AlignmentFlag::AlignBottom|Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft);
-
-        verticalLayout_10->addWidget(don_gia_layout);
-
-        don_gia_input = new QLineEdit(verticalLayoutWidget_3);
-        don_gia_input->setObjectName("don_gia_input");
-
-        verticalLayout_10->addWidget(don_gia_input);
-
-
-        horizontalLayout_8->addLayout(verticalLayout_10);
-
         verticalLayout_11 = new QVBoxLayout();
         verticalLayout_11->setObjectName("verticalLayout_11");
         label_2 = new QLabel(verticalLayoutWidget_3);
@@ -522,6 +522,27 @@ public:
 
 
         horizontalLayout_8->addLayout(verticalLayout_11);
+
+        is_borrow_check = new QCheckBox(verticalLayoutWidget_3);
+        is_borrow_check->setObjectName("is_borrow_check");
+        is_borrow_check->setMaximumSize(QSize(999999, 16777215));
+
+        horizontalLayout_8->addWidget(is_borrow_check);
+
+        is_read_online_check = new QCheckBox(verticalLayoutWidget_3);
+        is_read_online_check->setObjectName("is_read_online_check");
+        is_read_online_check->setMaximumSize(QSize(9999999, 16777215));
+
+        horizontalLayout_8->addWidget(is_read_online_check);
+
+        is_download_check = new QCheckBox(verticalLayoutWidget_3);
+        is_download_check->setObjectName("is_download_check");
+
+        horizontalLayout_8->addWidget(is_download_check);
+
+        horizontalSpacer_2 = new QSpacerItem(40, 20, QSizePolicy::Policy::Expanding, QSizePolicy::Policy::Minimum);
+
+        horizontalLayout_8->addItem(horizontalSpacer_2);
 
 
         verticalLayout_3->addLayout(horizontalLayout_8);
@@ -599,6 +620,62 @@ public:
         stackedWidget->addWidget(page);
         page_2 = new QWidget();
         page_2->setObjectName("page_2");
+        verticalLayoutWidget = new QWidget(page_2);
+        verticalLayoutWidget->setObjectName("verticalLayoutWidget");
+        verticalLayoutWidget->setGeometry(QRect(9, 9, 1141, 741));
+        verticalLayout_2 = new QVBoxLayout(verticalLayoutWidget);
+        verticalLayout_2->setObjectName("verticalLayout_2");
+        verticalLayout_2->setContentsMargins(0, 0, 0, 0);
+        label = new QLabel(verticalLayoutWidget);
+        label->setObjectName("label");
+        label->setMinimumSize(QSize(0, 75));
+        label->setFont(font4);
+        label->setAlignment(Qt::AlignmentFlag::AlignCenter);
+
+        verticalLayout_2->addWidget(label);
+
+        horizontalLayout_4 = new QHBoxLayout();
+        horizontalLayout_4->setObjectName("horizontalLayout_4");
+        pushButton_6 = new QPushButton(verticalLayoutWidget);
+        pushButton_6->setObjectName("pushButton_6");
+        pushButton_6->setMinimumSize(QSize(200, 0));
+        pushButton_6->setMaximumSize(QSize(200, 200));
+
+        horizontalLayout_4->addWidget(pushButton_6);
+
+        pushButton_5 = new QPushButton(verticalLayoutWidget);
+        pushButton_5->setObjectName("pushButton_5");
+        pushButton_5->setMinimumSize(QSize(200, 0));
+        pushButton_5->setMaximumSize(QSize(200, 16777215));
+
+        horizontalLayout_4->addWidget(pushButton_5);
+
+        horizontalSpacer = new QSpacerItem(40, 20, QSizePolicy::Policy::Expanding, QSizePolicy::Policy::Minimum);
+
+        horizontalLayout_4->addItem(horizontalSpacer);
+
+
+        verticalLayout_2->addLayout(horizontalLayout_4);
+
+        tableWidget = new QTableWidget(verticalLayoutWidget);
+        if (tableWidget->columnCount() < 8)
+            tableWidget->setColumnCount(8);
+        if (tableWidget->rowCount() < 6)
+            tableWidget->setRowCount(6);
+        tableWidget->setObjectName("tableWidget");
+        tableWidget->setRowCount(6);
+        tableWidget->setColumnCount(8);
+        tableWidget->horizontalHeader()->setVisible(true);
+        tableWidget->horizontalHeader()->setCascadingSectionResizes(false);
+        tableWidget->verticalHeader()->setVisible(false);
+        tableWidget->verticalHeader()->setCascadingSectionResizes(false);
+
+        verticalLayout_2->addWidget(tableWidget);
+
+        verticalSpacer_3 = new QSpacerItem(20, 40, QSizePolicy::Policy::Minimum, QSizePolicy::Policy::Expanding);
+
+        verticalLayout_2->addItem(verticalSpacer_3);
+
         stackedWidget->addWidget(page_2);
 
         horizontalLayout->addWidget(stackedWidget);
@@ -627,7 +704,10 @@ public:
         actionHEHEHE->setText(QCoreApplication::translate("admin_show", "HEHEHE", nullptr));
         actionTHONG_TIN_SACH->setText(QCoreApplication::translate("admin_show", "THONG TIN SACH", nullptr));
         actionTHONG_TIN_NGUOI_DUNG->setText(QCoreApplication::translate("admin_show", "THONG TIN NGUOI DUNG", nullptr));
-        pushButton->setText(QCoreApplication::translate("admin_show", "Qu\341\272\243n l\303\275 m\306\260\341\273\243n s\303\241ch", nullptr));
+        pushButton_2->setText(QCoreApplication::translate("admin_show", "Qu\341\272\243n l\303\275 s\303\241ch", nullptr));
+        pushButton->setText(QCoreApplication::translate("admin_show", "Qu\341\272\243n l\303\275 m\306\260\341\273\243n/tr\341\272\243", nullptr));
+        pushButton_3->setText(QCoreApplication::translate("admin_show", "Qu\341\272\243n l\303\275 ng\306\260\341\273\235i d\303\271ng", nullptr));
+        pushButton_4->setText(QCoreApplication::translate("admin_show", "Th\341\273\221ng k\303\252 v\303\240 b\303\241o c\303\241o", nullptr));
         them_sach_layout->setText(QCoreApplication::translate("admin_show", "Th\303\252m s\303\241ch", nullptr));
         label_3->setText(QString());
         ten_sach_layout->setText(QCoreApplication::translate("admin_show", "T\303\252n s\303\241ch", nullptr));
@@ -671,13 +751,12 @@ public:
         ISBN_input->setPlaceholderText(QCoreApplication::translate("admin_show", "Nh\341\272\255p m\303\243 s\341\273\221 s\303\241ch qu\341\273\221c t\341\272\277 (n\341\272\277u c\303\263)", nullptr));
         language_layout->setText(QCoreApplication::translate("admin_show", "Ng\303\264n ng\341\273\257", nullptr));
         language_input->setPlaceholderText(QCoreApplication::translate("admin_show", "Vui l\303\262ng nh\341\272\255p ng\303\264n ng\341\273\257", nullptr));
-        chu_de_layout->setText(QCoreApplication::translate("admin_show", "Ch\341\273\247 \304\221\341\273\201/T\341\273\253 kh\303\263a", nullptr));
-        chu_de_input->setPlaceholderText(QCoreApplication::translate("admin_show", "Vui l\303\262ng nh\341\272\255p l\304\251nh v\341\273\261c, n\341\273\231i dung ch\303\255nh", nullptr));
         tom_tat_layout->setText(QCoreApplication::translate("admin_show", "T\303\263m t\341\272\257t", nullptr));
         tom_tat_input->setPlaceholderText(QCoreApplication::translate("admin_show", "Nh\341\272\255p n\341\273\231i dung ng\341\272\257n g\341\273\215n c\341\273\247a s\303\241ch", nullptr));
-        don_gia_layout->setText(QCoreApplication::translate("admin_show", "Nh\341\272\255p \304\221\306\241n gi\303\241", nullptr));
-        don_gia_input->setPlaceholderText(QCoreApplication::translate("admin_show", "Nh\341\272\255p gi\303\241 ti\341\273\201n (n\341\272\277u c\303\263)", nullptr));
         label_2->setText(QCoreApplication::translate("admin_show", "Nh\341\272\255p s\341\273\221 l\306\260\341\273\243ng", nullptr));
+        is_borrow_check->setText(QCoreApplication::translate("admin_show", "Cho ph\303\251p m\306\260\341\273\243n", nullptr));
+        is_read_online_check->setText(QCoreApplication::translate("admin_show", "Cho ph\303\251p \304\221\341\273\215c tr\341\273\261c tuy\341\272\277n", nullptr));
+        is_download_check->setText(QCoreApplication::translate("admin_show", "Cho ph\303\251p t\341\272\243i v\341\273\201", nullptr));
         link_png_name->setText(QCoreApplication::translate("admin_show", "Nh\341\272\255p h\303\254nh \341\272\243nh s\303\241ch", nullptr));
         link_png_button->setText(QCoreApplication::translate("admin_show", "Ch\341\273\215n file...", nullptr));
         link_png_layout->setText(QString());
@@ -685,6 +764,9 @@ public:
         link_pdf_button->setText(QCoreApplication::translate("admin_show", "Ch\341\273\215n file...", nullptr));
         link_pdf_layout->setText(QString());
         them_button->setText(QCoreApplication::translate("admin_show", "TH\303\212M", nullptr));
+        label->setText(QCoreApplication::translate("admin_show", "Qu\341\272\243n l\303\275 m\306\260\341\273\243n / tr\341\272\243 s\303\241ch", nullptr));
+        pushButton_6->setText(QCoreApplication::translate("admin_show", "PushButton", nullptr));
+        pushButton_5->setText(QCoreApplication::translate("admin_show", "PushButton", nullptr));
     } // retranslateUi
 
 };

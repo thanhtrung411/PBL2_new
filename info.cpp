@@ -7,6 +7,18 @@ info::info(QWidget *parent)
     , ui(new Ui::info)
 {
     ui->setupUi(this);
+    // connect(ui-> pushButton_8 , &QPushButton::clicked, [=](){
+    //     ui->stackedWidget->setCurrentIndex(0);
+    // });
+
+    // connect(ui->pushButton_9, &QPushButton::clicked, [=](){
+    //     ui->stackedWidget->setCurrentIndex(1);
+    // });
+
+    // connect(ui->pushButton_10, &QPushButton::clicked, [=](){
+    //     ui->stackedWidget->setCurrentIndex(2);
+    // });
+
 }
 
 info::~info()

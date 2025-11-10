@@ -1,11 +1,14 @@
 C:/Users/HOAI\ NHI/Documents/PBL2_new/build/Desktop_Qt_6_9_1_MinGW_64_bit-Debug/pbl2_autogen/EWIEGA46WW/moc_admin_show.cpp: C:/Users/HOAI\ NHI/Documents/PBL2_new/admin_show.h \
   C:/Users/HOAI\ NHI/Documents/PBL2_new/build/Desktop_Qt_6_9_1_MinGW_64_bit-Debug/pbl2_autogen/moc_predefs.h \
   C:/Users/HOAI\ NHI/Documents/PBL2_new/accout.h \
+  C:/Users/HOAI\ NHI/Documents/PBL2_new/author.h \
   C:/Users/HOAI\ NHI/Documents/PBL2_new/book.h \
+  C:/Users/HOAI\ NHI/Documents/PBL2_new/book_copies.h \
   C:/Users/HOAI\ NHI/Documents/PBL2_new/borrow.h \
   C:/Users/HOAI\ NHI/Documents/PBL2_new/description.h \
   C:/Users/HOAI\ NHI/Documents/PBL2_new/my_string.h \
   C:/Users/HOAI\ NHI/Documents/PBL2_new/my_time.h \
+  C:/Users/HOAI\ NHI/Documents/PBL2_new/the_loai_chuyen_nganh.h \
   C:/Users/HOAI\ NHI/Documents/PBL2_new/tree.h \
   F:/QT/6.9.1/mingw_64/include/QtCore/QTextStream \
   F:/QT/6.9.1/mingw_64/include/QtCore/q17memory.h \

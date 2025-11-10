@@ -221,7 +221,7 @@ QPushButton:disabled{
          <property name="geometry">
           <rect>
            <x>0</x>
-           <y>-241</y>
+           <y>0</y>
            <width>1234</width>
            <height>1500</height>
           </rect>
@@ -1088,14 +1088,14 @@ QPushButton:disabled{
                    </layout>
                   </item>
                   <item>
-                   <layout class="QHBoxLayout" name="horizontalLayout_14" stretch="">
+                   <layout class="QHBoxLayout" name="horizontalLayout_14">
                     <property name="spacing">
                      <number>5</number>
                     </property>
                    </layout>
                   </item>
                   <item>
-                   <layout class="QHBoxLayout" name="horizontalLayout_15" stretch="">
+                   <layout class="QHBoxLayout" name="horizontalLayout_15">
                     <property name="spacing">
                      <number>5</number>
                     </property>
