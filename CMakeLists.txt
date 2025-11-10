@@ -49,6 +49,7 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         book_copies.h book_copies.cpp
         the_loai_chuyen_nganh.h the_loai_chuyen_nganh.cpp
         author.h author.cpp
+        library.h library.cpp
 
 
     )

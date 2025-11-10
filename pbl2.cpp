@@ -131,10 +131,6 @@ void pbl2::set_up_card(BST_Book& b,QGridLayout* path_link){
 }
 
 void pbl2::Reload_show_info(book& b){
-    for (int i = 0 ; i <= 2 ; i++){
-        auto* row = new card_muon(to_string(b.get_ID()),b.get_Name(),"HEHE","  Mượn",this);
-        ui->muon_sach_layout->addWidget(row);
-    }
     qDebug() << is_sign_in << "\nis sign in \n";
     auto* canh_bao_label = new QLabel("Vui lòng đăng nhập để mượn sách !", this);
     canh_bao_label->setFixedSize(999,32);
@@ -170,9 +166,9 @@ void pbl2::show_info_sach(book& b){
     ui->TEN_SACH->setText(b.get_Name().c_str());
     ui->TAC_GIA->setText(b.get_Author().c_str());
     ui->NHA_XUAT_BAN->setText(b.get_NXB().c_str());
-    ui->NAM_XUAT_BAN->setText(b.get_NamXB().c_str());
-    ui->CHUYEN_NGANH->setText(chuyen_nganh_data.return_name(b.get_Chuyen_nganh_ID()).c_str());
-    ui->THE_LOAI->setText(the_loai_data.return_name(b.get_The_loai_ID()).c_str());
+    ui->NAM_XUAT_BAN->setText(to_string_(b.get_NamXB()).c_str());
+    ui->CHUYEN_NGANH->setText(b.get_Chuyen_nganh_name().c_str());
+    ui->THE_LOAI->setText(b.get_The_loai_name().c_str());
     ui->NHAN_DE->setText(b.get_Name().c_str());
     ui->TOM_TAT->setText(b.get_Tom_tat().c_str());
     ui->THONG_TIN_BAN_QUYEN->setText(b.get_NXB().c_str());
@@ -195,16 +191,6 @@ void pbl2::show_info_sach(book& b){
     connect(ui->download_button, &QPushButton::clicked, this, [this,b](){
         qDebug() << "Download " << b.get_ID();
     });
-    BST_Book show_book;
-    /*
-    string _id_ = lay_n_chu_dau(b.get_ID(),12);
-    show_book.find_some_id_book(_id_,book_data);
-    qDebug() << show_book.count_book();
-    for (int i = 0 ; i < show_book.count_book() ; i++){
-        auto* row = new card_muon(show_book[i].get_ID(),show_book[i].get_Name(), "HEEH","  Mượn",this);
-        ui->muon_sach_layout->addWidget(row);
-    }
-    */
     qDebug() << is_sign_in << "\nis sign in \n";
     auto* canh_bao_label = new QLabel("Vui lòng đăng nhập để mượn sách !", this);
     canh_bao_label->setFixedSize(999,32);

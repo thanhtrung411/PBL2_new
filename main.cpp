@@ -24,6 +24,7 @@ BST_book_copy book_copy_data;
 BST_Borrow borrow_data;
 BST_The_loai the_loai_data;
 BST_Chuyen_nganh chuyen_nganh_data;
+BST_string string_data;
 accout acc_sign_in;
 int is_sign_in = 0;
 
@@ -77,6 +78,12 @@ int main(int argc, char *argv[])
     doc_chuyen_nganh(chuyen_nganh_data);
     //cout << borrow_data.find_new_id_borrow();
     //applyFusionDark(a);   
+
+    qDebug() << tim_kiem_co_chua("Như bác ơi đó","Như có Bác Hồ trong Như hrhr Như ơi");
+    qDebug() << tim_kiem_chinh_xac("Như bác ơi đó","Như có Bác Hồ trong Như hrhr Như ơi");
+    qDebug() << tim_kiem_chinh_xac("Một hai ba","một hai ba");
+    qDebug() << tim_kiem_bat_dau_bang("Như bác ơi đó","Như bác ơi đó có Bác Hồ trong Như hrhr Như ơi");
+
     pbl2 w;
     w.show();
     return a.exec();

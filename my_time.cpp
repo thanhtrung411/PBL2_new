@@ -114,6 +114,7 @@ long long my_time::day_to_seconds() const {
 my_time my_time::operator+(const my_time& t) const {
     return add_time(t);
 }
+
 my_time my_time::operator-(const my_time& t) const {
     long long seconds1 = this->day_to_seconds();
     long long seconds2 = t.day_to_seconds();
