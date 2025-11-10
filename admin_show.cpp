@@ -69,7 +69,7 @@ void admin_show::on_them_button_clicked()
     string ten_sach = ui_3->ten_sach_input->text().trimmed().toUtf8().toStdString();
     string tac_gia = ui_3->tac_gia_input->text().trimmed().toUtf8().toStdString();
     string nha_xuat_ban = ui_3->nha_xuat_ban_input->text().trimmed().toUtf8().toStdString();
-    string nam_xuat_ban = ui_3->nam_xuat_ban_input->text().trimmed().toUtf8().toStdString();
+    int nam_xuat_ban = ui_3->nam_xuat_ban_input->text().trimmed().toUtf8().toInt();
     int so_trang = ui_3->so_trang_input->text().trimmed().toUtf8().toInt();
     string ISBN = ui_3->ISBN_input->text().trimmed().toUtf8().toStdString();
     string ngon_ngu = ui_3->language_input->text().trimmed().toUtf8().toStdString();
@@ -94,7 +94,7 @@ void admin_show::on_them_button_clicked()
         check = 0;
     }
     else clearError(ui_3->tac_gia_input);
-    if (nam_xuat_ban.empty()){
+    if (nam_xuat_ban <= 0){
         markError(ui_3->nam_xuat_ban_input,"Vui lòng nhập năm xuất bản");
         check = 0;
     }
@@ -198,36 +198,82 @@ void admin_show::set_ID_book(){
     string the_loai_ = ui_3->the_loai_sach_input->currentText().toStdString();
     if (ui_3->chuyen_nganh_input->currentIndex() == 0) return;
     if (ui_3->the_loai_sach_input->currentIndex() == 0) return;
-    int The_loai_ID = the_loai_data.return_id(the_loai_);
-    int Chuyen_nganh_ID = chuyen_nganh_data.return_id(chuyen_nganh_);
+    int The_loai_ID;
+    the_loai_data.return_id(the_loai_,The_loai_ID);
+    int Chuyen_nganh_ID;
+    chuyen_nganh_data.return_id(chuyen_nganh_, Chuyen_nganh_ID);
     if (chuyen_nganh_ == "Khác..."){
         Chuyen_nganh_ID = 99;
     }
     my_time now = my_time::now();
-    int ID_CN_temp;
+    long long ID_CN_temp;
     if (Chuyen_nganh_ID < 10){
         ID_CN_temp = Chuyen_nganh_ID *1000000;
     }
     else {
-        ID_CN_temp = Chuyen_nganh_ID *100000;
+        ID_CN_temp = Chuyen_nganh_ID *1000000;
     }
     if (the_loai_ == "Khác..."){
         The_loai_ID = 8;
-        long long ID_temp = (long long)now.get_year()*100000000 + ID_CN_temp + The_loai_ID*100000 + 1;
         BST_Book b;
-        book_data.tong_hop_sach_TL_CN(The_loai_ID, Chuyen_nganh_ID, b, book_data);
+        book_data.tong_hop_sach_TL_CN(The_loai_ID, Chuyen_nganh_ID, b,book_data);
         long long max_id = b.find_max_id();
-        if (!(max_id - 99999) % 100000){
-            The_loai_ID += 1;
-            ID_temp = (long long)now.get_year()*100000000 + ID_CN_temp + The_loai_ID*100000 + 1;
-            BST_Book b;
-            book_data.tong_hop_sach_TL_CN(The_loai_ID, Chuyen_nganh_ID, b, book_data);
-            max_id = b.find_max_id();
-            if (!(max_id - 99999) % 100000){
-                box_thong_bao("Số lượng thể loại sách đã đạt giới hạn!");
+        if ((max_id - 99999 & 100000) == 0 && max_id > 0){
+            The_loai_ID = 9;
+            BST_Book b_;
+            book_data.tong_hop_sach_TL_CN(The_loai_ID, Chuyen_nganh_ID, b_,book_data);
+            long long max_id_ = b_.find_max_id();
+            if ((max_id_ - 99999 & 100000) == 0 && max_id_ > 0){
+                ui_3->ID_Sach_input->clear();
+                ui_3->ID_Sach_input->setPlaceholderText("Hết mã ID cho chuyên ngành này");
                 return;
             }
-
+            else{
+                long long ID_temp = (long long)now.get_year() * 100000000LL + ID_CN_temp + The_loai_ID * 100000 + 1;
+                if (max_id_ < ID_temp -1){
+                    ui_3->ID_Sach_input->setText(QString::fromStdString(to_stringll_(ID_temp)));
+                    return;
+                }
+                else {
+                    long long new_id = max_id_ + 1;
+                    ui_3->ID_Sach_input->setText(QString::fromStdString(to_stringll_(new_id)));
+                    return;
+                }
+            }
+        }
+        else{
+            long long ID_temp = (long long)now.get_year() * 100000000LL + ID_CN_temp + The_loai_ID * 100000 + 1;
+            if (max_id < ID_temp -1){
+                ui_3->ID_Sach_input->setText(QString::fromStdString(to_stringll_(ID_temp)));
+                return;
+            }
+            else {
+                long long new_id = max_id + 1;
+                ui_3->ID_Sach_input->setText(QString::fromStdString(to_stringll_(new_id)));
+                return;
+            }
+        }
+    }
+    else{
+        BST_Book b;
+        book_data.tong_hop_sach_TL_CN(The_loai_ID, Chuyen_nganh_ID, b,book_data);
+        long long max_id = b.find_max_id();
+        if ((max_id - 99999 & 100000) == 0 && max_id > 0){
+            ui_3->ID_Sach_input->clear();
+            ui_3->ID_Sach_input->setPlaceholderText("Hết mã ID cho chuyên ngành này");
+            return;
+        }
+        else{
+            long long ID_temp = (long long)now.get_year() * 100000000LL + ID_CN_temp + The_loai_ID * 100000 + 1;
+            if (max_id < ID_temp -1){
+                ui_3->ID_Sach_input->setText(QString::fromStdString(to_string(ID_temp)));
+                return;
+            }
+            else {
+                long long new_id = max_id + 1;
+                ui_3->ID_Sach_input->setText(QString::fromStdString(to_string(new_id)));
+                return;
+            }
         }
     }
 }

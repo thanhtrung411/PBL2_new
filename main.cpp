@@ -77,10 +77,16 @@ int main(int argc, char *argv[])
     doc_the_loai(the_loai_data);
     doc_chuyen_nganh(chuyen_nganh_data);
     //cout << borrow_data.find_new_id_borrow();
-    //applyFusionDark(a);
-pbl2 w;
-w.show();
-return a.exec();
+    //applyFusionDark(a);   
+
+    qDebug() << tim_kiem_co_chua("Như bác ơi đó","Như có Bác Hồ trong Như hrhr Như ơi");
+    qDebug() << tim_kiem_chinh_xac("Như bác ơi đó","Như có Bác Hồ trong Như hrhr Như ơi");
+    qDebug() << tim_kiem_chinh_xac("Một hai ba","một hai ba");
+    qDebug() << tim_kiem_bat_dau_bang("Như bác ơi đó","Như bác ơi đó có Bác Hồ trong Như hrhr Như ơi");
+
+    pbl2 w;
+    w.show();
+    return a.exec();
 }
 
 void pbl2::on_dang_ky_button_clicked()

@@ -45,7 +45,10 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         book_copies.h book_copies.cpp
         the_loai_chuyen_nganh.h the_loai_chuyen_nganh.cpp
         author.h author.cpp
-        )
+        library.h library.cpp
+
+
+    )
 # Define target properties for Android with Qt 6 as:
 #    set_property(TARGET pbl2 APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR
 #                 ${CMAKE_CURRENT_SOURCE_DIR}/android)
