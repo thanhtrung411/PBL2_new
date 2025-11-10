@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1250</width>
-    <height>790</height>
+    <width>1287</width>
+    <height>838</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -58,7 +58,8 @@
         <item>
          <widget class="QLabel" name="xin_chao">
           <property name="styleSheet">
-           <string notr="true">color: rgb(243, 246, 255);</string>
+           <string notr="true">color: rgb(243, 246, 255);
+font: 11pt &quot;Segoe UI&quot;;</string>
           </property>
           <property name="text">
            <string>Xin chào</string>
@@ -68,7 +69,8 @@
         <item>
          <widget class="QLabel" name="label_2">
           <property name="styleSheet">
-           <string notr="true">color: rgb(243, 246, 255);</string>
+           <string notr="true">color: rgb(243, 246, 255);
+font: 11pt &quot;Segoe UI&quot;;</string>
           </property>
           <property name="text">
            <string>user_name</string>
@@ -78,7 +80,8 @@
         <item>
          <widget class="QLabel" name="score">
           <property name="styleSheet">
-           <string notr="true">color: rgb(243, 246, 255);</string>
+           <string notr="true">color: rgb(243, 246, 255);
+font: 11pt &quot;Segoe UI&quot;;</string>
           </property>
           <property name="text">
            <string>Số điểm: 0</string>
@@ -138,7 +141,7 @@ background-color: rgb(69, 104, 173);
 color: rgb(243, 246, 255);</string>
           </property>
           <property name="text">
-           <string>Họat động và tương tác</string>
+           <string>Lịch sử hoạt động</string>
           </property>
          </widget>
         </item>
@@ -156,6 +159,13 @@ color: rgb(243, 246, 255);</string>
           </property>
           <property name="text">
            <string>Cài đặt và bảo mật</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="label_12">
+          <property name="text">
+           <string>TextLabel</string>
           </property>
          </widget>
         </item>
@@ -204,7 +214,7 @@ color: rgb(243, 246, 255);</string>
          <widget class="QStackedWidget" name="stackedWidget">
           <property name="font">
            <font>
-            <pointsize>10</pointsize>
+            <pointsize>11</pointsize>
            </font>
           </property>
           <property name="styleSheet">
@@ -216,561 +226,804 @@ QLabel{
 }</string>
           </property>
           <property name="currentIndex">
-           <number>0</number>
+           <number>1</number>
           </property>
           <widget class="QWidget" name="page">
-           <layout class="QVBoxLayout" name="verticalLayout_5" stretch="0,0,0,1">
-            <property name="spacing">
-             <number>0</number>
+           <widget class="QLabel" name="label">
+            <property name="geometry">
+             <rect>
+              <x>110</x>
+              <y>120</y>
+              <width>161</width>
+              <height>201</height>
+             </rect>
             </property>
-            <property name="leftMargin">
-             <number>0</number>
+            <property name="styleSheet">
+             <string notr="true">background-color: rgb(255, 180, 155);</string>
             </property>
-            <property name="topMargin">
-             <number>0</number>
+            <property name="text">
+             <string>Ảnh cá nhân</string>
             </property>
-            <property name="rightMargin">
-             <number>0</number>
+           </widget>
+           <widget class="QLabel" name="label_5">
+            <property name="geometry">
+             <rect>
+              <x>420</x>
+              <y>50</y>
+              <width>311</width>
+              <height>41</height>
+             </rect>
             </property>
-            <property name="bottomMargin">
-             <number>0</number>
+            <property name="styleSheet">
+             <string notr="true">color: rgb(0, 0, 0);
+font: 12pt &quot;Segoe UI&quot;;</string>
             </property>
-            <item>
-             <widget class="QLabel" name="label">
-              <property name="minimumSize">
-               <size>
-                <width>0</width>
-                <height>80</height>
-               </size>
+            <property name="text">
+             <string>Cập nhật thông tin tài khoản</string>
+            </property>
+           </widget>
+           <widget class="QWidget" name="formLayoutWidget">
+            <property name="geometry">
+             <rect>
+              <x>360</x>
+              <y>120</y>
+              <width>351</width>
+              <height>431</height>
+             </rect>
+            </property>
+            <layout class="QFormLayout" name="formLayout">
+             <property name="verticalSpacing">
+              <number>30</number>
+             </property>
+             <item row="0" column="0">
+              <widget class="QLabel" name="label_3">
+               <property name="font">
+                <font>
+                 <family>Segoe UI</family>
+                 <pointsize>11</pointsize>
+                 <italic>false</italic>
+                 <bold>false</bold>
+                </font>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">color: rgb(0, 0, 0);
+font: 11pt &quot;Segoe UI&quot;;</string>
+               </property>
+               <property name="text">
+                <string>Họ và tên</string>
+               </property>
+              </widget>
+             </item>
+             <item row="1" column="0">
+              <widget class="QLabel" name="label_4">
+               <property name="font">
+                <font>
+                 <family>Segoe UI</family>
+                 <pointsize>11</pointsize>
+                 <italic>false</italic>
+                 <bold>false</bold>
+                </font>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">color: rgb(0, 0, 0);
+font: 11pt &quot;Segoe UI&quot;;</string>
+               </property>
+               <property name="text">
+                <string>Tài khoản</string>
+               </property>
+              </widget>
+             </item>
+             <item row="1" column="1">
+              <widget class="QLineEdit" name="lineEdit_2">
+               <property name="font">
+                <font>
+                 <pointsize>11</pointsize>
+                </font>
+               </property>
+              </widget>
+             </item>
+             <item row="2" column="0">
+              <widget class="QLabel" name="label_9">
+               <property name="styleSheet">
+                <string notr="true">color: rgb(0, 0, 0);
+font: 11pt &quot;Segoe UI&quot;;</string>
+               </property>
+               <property name="text">
+                <string>Giới tính</string>
+               </property>
+              </widget>
+             </item>
+             <item row="2" column="1">
+              <widget class="QLineEdit" name="lineEdit_3">
+               <property name="font">
+                <font>
+                 <pointsize>11</pointsize>
+                </font>
+               </property>
+              </widget>
+             </item>
+             <item row="3" column="0">
+              <widget class="QLabel" name="label_6">
+               <property name="styleSheet">
+                <string notr="true">color: rgb(0, 0, 0);
+font: 11pt &quot;Segoe UI&quot;;</string>
+               </property>
+               <property name="text">
+                <string>Ngày sinh</string>
+               </property>
+              </widget>
+             </item>
+             <item row="3" column="1">
+              <widget class="QLineEdit" name="lineEdit_4">
+               <property name="font">
+                <font>
+                 <pointsize>11</pointsize>
+                </font>
+               </property>
+              </widget>
+             </item>
+             <item row="4" column="0">
+              <widget class="QLabel" name="label_11">
+               <property name="styleSheet">
+                <string notr="true">color: rgb(0, 0, 0);
+font: 11pt &quot;Segoe UI&quot;;</string>
+               </property>
+               <property name="text">
+                <string>Đối tượng</string>
+               </property>
+              </widget>
+             </item>
+             <item row="4" column="1">
+              <widget class="QLineEdit" name="lineEdit_7">
+               <property name="font">
+                <font>
+                 <pointsize>11</pointsize>
+                </font>
+               </property>
+              </widget>
+             </item>
+             <item row="5" column="0">
+              <widget class="QLabel" name="label_7">
+               <property name="styleSheet">
+                <string notr="true">color: rgb(0, 0, 0);
+font: 11pt &quot;Segoe UI&quot;;</string>
+               </property>
+               <property name="text">
+                <string>Email</string>
+               </property>
+              </widget>
+             </item>
+             <item row="5" column="1">
+              <widget class="QLineEdit" name="lineEdit_5">
+               <property name="font">
+                <font>
+                 <pointsize>11</pointsize>
+                </font>
+               </property>
+              </widget>
+             </item>
+             <item row="6" column="0">
+              <widget class="QLabel" name="label_8">
+               <property name="styleSheet">
+                <string notr="true">color: rgb(0, 0, 0);
+font: 11pt &quot;Segoe UI&quot;;</string>
+               </property>
+               <property name="text">
+                <string>SĐT</string>
+               </property>
+              </widget>
+             </item>
+             <item row="6" column="1">
+              <widget class="QLineEdit" name="lineEdit_6">
+               <property name="font">
+                <font>
+                 <pointsize>11</pointsize>
+                </font>
+               </property>
+              </widget>
+             </item>
+             <item row="0" column="1">
+              <widget class="QLineEdit" name="lineEdit">
+               <property name="font">
+                <font>
+                 <pointsize>11</pointsize>
+                </font>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </widget>
+           <widget class="QLabel" name="label_10">
+            <property name="geometry">
+             <rect>
+              <x>370</x>
+              <y>580</y>
+              <width>331</width>
+              <height>21</height>
+             </rect>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">color: rgb(0, 0, 0);</string>
+            </property>
+            <property name="text">
+             <string>Cập nhật thông tin để sử dụng đầy đủ tính năng</string>
+            </property>
+           </widget>
+           <widget class="QPushButton" name="pushButton_2">
+            <property name="geometry">
+             <rect>
+              <x>480</x>
+              <y>620</y>
+              <width>90</width>
+              <height>29</height>
+             </rect>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">color: rgb(0, 0, 0);</string>
+            </property>
+            <property name="text">
+             <string>Cập nhật</string>
+            </property>
+           </widget>
+          </widget>
+          <widget class="QWidget" name="page_2">
+           <widget class="QPushButton" name="pushButton_7">
+            <property name="geometry">
+             <rect>
+              <x>40</x>
+              <y>30</y>
+              <width>91</width>
+              <height>31</height>
+             </rect>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">color: rgb(0, 0, 0);</string>
+            </property>
+            <property name="text">
+             <string>Trở về</string>
+            </property>
+           </widget>
+           <widget class="QStackedWidget" name="stackedWidget_2">
+            <property name="geometry">
+             <rect>
+              <x>230</x>
+              <y>320</y>
+              <width>120</width>
+              <height>80</height>
+             </rect>
+            </property>
+            <widget class="QWidget" name="page_3">
+             <widget class="QStackedWidget" name="stackedWidget_3">
+              <property name="geometry">
+               <rect>
+                <x>50</x>
+                <y>50</y>
+                <width>431</width>
+                <height>241</height>
+               </rect>
               </property>
-              <property name="font">
-               <font>
-                <pointsize>12</pointsize>
-                <bold>true</bold>
-               </font>
+              <widget class="QWidget" name="page_5"/>
+              <widget class="QWidget" name="page_6"/>
+             </widget>
+            </widget>
+            <widget class="QWidget" name="page_4"/>
+           </widget>
+           <widget class="QStackedWidget" name="stackedWidget_4">
+            <property name="geometry">
+             <rect>
+              <x>770</x>
+              <y>450</y>
+              <width>120</width>
+              <height>80</height>
+             </rect>
+            </property>
+            <widget class="QWidget" name="page_7"/>
+            <widget class="QWidget" name="page_8"/>
+           </widget>
+           <widget class="QStackedWidget" name="stackedWidget_5">
+            <property name="geometry">
+             <rect>
+              <x>80</x>
+              <y>60</y>
+              <width>770</width>
+              <height>600</height>
+             </rect>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">background-color: rgb(255, 180, 155);</string>
+            </property>
+            <property name="currentIndex">
+             <number>0</number>
+            </property>
+            <widget class="QWidget" name="page_9">
+             <widget class="QPushButton" name="pushButton_14">
+              <property name="geometry">
+               <rect>
+                <x>0</x>
+                <y>0</y>
+                <width>160</width>
+                <height>40</height>
+               </rect>
               </property>
               <property name="styleSheet">
-               <string notr="true">color: rgb(15, 15, 15);</string>
+               <string notr="true">color: rgb(0, 0, 0);</string>
               </property>
               <property name="text">
-               <string>Thông tin cá nhân</string>
-              </property>
-              <property name="alignment">
-               <set>Qt::AlignmentFlag::AlignCenter</set>
+               <string>Đã xem</string>
               </property>
              </widget>
-            </item>
-            <item>
-             <layout class="QHBoxLayout" name="horizontalLayout_2">
-              <property name="spacing">
-               <number>39</number>
-              </property>
-              <property name="leftMargin">
-               <number>15</number>
-              </property>
-              <property name="topMargin">
-               <number>0</number>
-              </property>
-              <property name="rightMargin">
-               <number>15</number>
-              </property>
-              <item>
-               <layout class="QVBoxLayout" name="verticalLayout_3">
-                <property name="spacing">
-                 <number>7</number>
-                </property>
-                <item>
-                 <widget class="QLabel" name="label_3">
-                  <property name="sizePolicy">
-                   <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-                    <horstretch>0</horstretch>
-                    <verstretch>0</verstretch>
-                   </sizepolicy>
-                  </property>
-                  <property name="font">
-                   <font>
-                    <pointsize>10</pointsize>
-                   </font>
-                  </property>
-                  <property name="styleSheet">
-                   <string notr="true">color: rgb(15, 15, 15);</string>
-                  </property>
-                  <property name="text">
-                   <string>Tên đăng nhập</string>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <widget class="QLineEdit" name="user_id">
-                  <property name="sizePolicy">
-                   <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-                    <horstretch>0</horstretch>
-                    <verstretch>0</verstretch>
-                   </sizepolicy>
-                  </property>
-                  <property name="minimumSize">
-                   <size>
-                    <width>0</width>
-                    <height>35</height>
-                   </size>
-                  </property>
-                  <property name="sizeIncrement">
-                   <size>
-                    <width>0</width>
-                    <height>0</height>
-                   </size>
-                  </property>
-                  <property name="baseSize">
-                   <size>
-                    <width>0</width>
-                    <height>0</height>
-                   </size>
-                  </property>
-                  <property name="font">
-                   <font>
-                    <pointsize>10</pointsize>
-                    <underline>false</underline>
-                   </font>
-                  </property>
-                  <property name="styleSheet">
-                   <string notr="true">color: rgb(15, 15, 15);
-border: 1px solid rgb(15, 15, 15);
-border-radius: 14px;
-padding-left: 12px;
-</string>
-                  </property>
-                  <property name="text">
-                   <string/>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <widget class="QLabel" name="label_10">
-                  <property name="text">
-                   <string/>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <widget class="QLabel" name="label_5">
-                  <property name="sizePolicy">
-                   <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-                    <horstretch>0</horstretch>
-                    <verstretch>0</verstretch>
-                   </sizepolicy>
-                  </property>
-                  <property name="font">
-                   <font>
-                    <pointsize>10</pointsize>
-                   </font>
-                  </property>
-                  <property name="styleSheet">
-                   <string notr="true">color: rgb(15, 15, 15);</string>
-                  </property>
-                  <property name="text">
-                   <string>Họ và tên</string>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <widget class="QLineEdit" name="user_name">
-                  <property name="sizePolicy">
-                   <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-                    <horstretch>0</horstretch>
-                    <verstretch>0</verstretch>
-                   </sizepolicy>
-                  </property>
-                  <property name="minimumSize">
-                   <size>
-                    <width>0</width>
-                    <height>35</height>
-                   </size>
-                  </property>
-                  <property name="font">
-                   <font>
-                    <pointsize>10</pointsize>
-                   </font>
-                  </property>
-                  <property name="styleSheet">
-                   <string notr="true">color: rgb(15, 15, 15);
-border: 1px solid rgb(15, 15, 15);
-border-radius: 14px;
-padding-left: 12px;</string>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <widget class="QLabel" name="label_11">
-                  <property name="text">
-                   <string/>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <widget class="QLabel" name="label_4">
-                  <property name="sizePolicy">
-                   <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-                    <horstretch>0</horstretch>
-                    <verstretch>0</verstretch>
-                   </sizepolicy>
-                  </property>
-                  <property name="font">
-                   <font>
-                    <pointsize>10</pointsize>
-                   </font>
-                  </property>
-                  <property name="styleSheet">
-                   <string notr="true">color: rgb(15, 15, 15);</string>
-                  </property>
-                  <property name="text">
-                   <string>Địa chỉ email</string>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <widget class="QLineEdit" name="email">
-                  <property name="sizePolicy">
-                   <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-                    <horstretch>0</horstretch>
-                    <verstretch>0</verstretch>
-                   </sizepolicy>
-                  </property>
-                  <property name="minimumSize">
-                   <size>
-                    <width>0</width>
-                    <height>35</height>
-                   </size>
-                  </property>
-                  <property name="font">
-                   <font>
-                    <pointsize>10</pointsize>
-                   </font>
-                  </property>
-                  <property name="styleSheet">
-                   <string notr="true">color: rgb(15, 15, 15);
-border: 1px solid rgb(15, 15, 15);
-border-radius: 14px;
-padding-left: 12px;</string>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <widget class="QLabel" name="label_12">
-                  <property name="text">
-                   <string/>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <widget class="QLabel" name="label_6">
-                  <property name="sizePolicy">
-                   <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-                    <horstretch>0</horstretch>
-                    <verstretch>0</verstretch>
-                   </sizepolicy>
-                  </property>
-                  <property name="font">
-                   <font>
-                    <pointsize>10</pointsize>
-                   </font>
-                  </property>
-                  <property name="styleSheet">
-                   <string notr="true">color: rgb(15, 15, 15);</string>
-                  </property>
-                  <property name="text">
-                   <string>Số điện thoại</string>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <widget class="QLineEdit" name="number_call">
-                  <property name="sizePolicy">
-                   <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-                    <horstretch>0</horstretch>
-                    <verstretch>0</verstretch>
-                   </sizepolicy>
-                  </property>
-                  <property name="minimumSize">
-                   <size>
-                    <width>0</width>
-                    <height>35</height>
-                   </size>
-                  </property>
-                  <property name="font">
-                   <font>
-                    <pointsize>10</pointsize>
-                   </font>
-                  </property>
-                  <property name="styleSheet">
-                   <string notr="true">color: rgb(15, 15, 15);
-border: 1px solid rgb(15, 15, 15);
-border-radius: 14px;
-padding-left: 12px;</string>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <spacer name="verticalSpacer_3">
-                  <property name="orientation">
-                   <enum>Qt::Orientation::Vertical</enum>
-                  </property>
-                  <property name="sizeHint" stdset="0">
-                   <size>
-                    <width>20</width>
-                    <height>40</height>
-                   </size>
-                  </property>
-                 </spacer>
-                </item>
-               </layout>
-              </item>
-              <item>
-               <layout class="QVBoxLayout" name="verticalLayout_4">
-                <property name="spacing">
-                 <number>7</number>
-                </property>
-                <item>
-                 <widget class="QLabel" name="label_7">
-                  <property name="sizePolicy">
-                   <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-                    <horstretch>0</horstretch>
-                    <verstretch>0</verstretch>
-                   </sizepolicy>
-                  </property>
-                  <property name="font">
-                   <font>
-                    <pointsize>10</pointsize>
-                   </font>
-                  </property>
-                  <property name="styleSheet">
-                   <string notr="true">color: rgb(15, 15, 15);</string>
-                  </property>
-                  <property name="text">
-                   <string>Giới tính</string>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <layout class="QHBoxLayout" name="horizontalLayout_3">
-                  <property name="spacing">
-                   <number>7</number>
-                  </property>
-                  <item>
-                   <widget class="QPushButton" name="pushButton_8">
-                    <property name="minimumSize">
-                     <size>
-                      <width>0</width>
-                      <height>35</height>
-                     </size>
-                    </property>
-                    <property name="styleSheet">
-                     <string notr="true">color: rgb(15, 15, 15);</string>
-                    </property>
-                    <property name="text">
-                     <string>Nam</string>
-                    </property>
-                   </widget>
-                  </item>
-                  <item>
-                   <widget class="QPushButton" name="pushButton_7">
-                    <property name="sizePolicy">
-                     <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
-                      <horstretch>0</horstretch>
-                      <verstretch>0</verstretch>
-                     </sizepolicy>
-                    </property>
-                    <property name="minimumSize">
-                     <size>
-                      <width>0</width>
-                      <height>35</height>
-                     </size>
-                    </property>
-                    <property name="styleSheet">
-                     <string notr="true">color: rgb(15, 15, 15);</string>
-                    </property>
-                    <property name="text">
-                     <string>Nữ</string>
-                    </property>
-                   </widget>
-                  </item>
-                 </layout>
-                </item>
-                <item>
-                 <widget class="QLabel" name="label_13">
-                  <property name="text">
-                   <string/>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <widget class="QLabel" name="label_8">
-                  <property name="sizePolicy">
-                   <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-                    <horstretch>0</horstretch>
-                    <verstretch>0</verstretch>
-                   </sizepolicy>
-                  </property>
-                  <property name="font">
-                   <font>
-                    <pointsize>10</pointsize>
-                   </font>
-                  </property>
-                  <property name="styleSheet">
-                   <string notr="true">color: rgb(15, 15, 15);</string>
-                  </property>
-                  <property name="text">
-                   <string>Đối tượng</string>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <widget class="QComboBox" name="comboBox">
-                  <property name="sizePolicy">
-                   <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-                    <horstretch>0</horstretch>
-                    <verstretch>0</verstretch>
-                   </sizepolicy>
-                  </property>
-                  <property name="minimumSize">
-                   <size>
-                    <width>0</width>
-                    <height>35</height>
-                   </size>
-                  </property>
-                  <property name="font">
-                   <font>
-                    <pointsize>10</pointsize>
-                   </font>
-                  </property>
-                  <property name="styleSheet">
-                   <string notr="true">color: rgb(15, 15, 15);
-border: 2px solid rgb(15, 15, 15);
-</string>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <widget class="QLabel" name="label_14">
-                  <property name="text">
-                   <string/>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <widget class="QLabel" name="label_9">
-                  <property name="sizePolicy">
-                   <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-                    <horstretch>0</horstretch>
-                    <verstretch>0</verstretch>
-                   </sizepolicy>
-                  </property>
-                  <property name="font">
-                   <font>
-                    <pointsize>10</pointsize>
-                   </font>
-                  </property>
-                  <property name="styleSheet">
-                   <string notr="true">color: rgb(15, 15, 15);</string>
-                  </property>
-                  <property name="text">
-                   <string>Ngày sinh</string>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <widget class="QDateEdit" name="dateEdit">
-                  <property name="sizePolicy">
-                   <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-                    <horstretch>0</horstretch>
-                    <verstretch>0</verstretch>
-                   </sizepolicy>
-                  </property>
-                  <property name="minimumSize">
-                   <size>
-                    <width>0</width>
-                    <height>35</height>
-                   </size>
-                  </property>
-                  <property name="styleSheet">
-                   <string notr="true">color: rgb(15, 15, 15);
-border: 2px solid rgb(15, 15, 15);
-</string>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <spacer name="verticalSpacer_4">
-                  <property name="orientation">
-                   <enum>Qt::Orientation::Vertical</enum>
-                  </property>
-                  <property name="sizeHint" stdset="0">
-                   <size>
-                    <width>20</width>
-                    <height>40</height>
-                   </size>
-                  </property>
-                 </spacer>
-                </item>
-               </layout>
-              </item>
-             </layout>
-            </item>
-            <item>
-             <layout class="QHBoxLayout" name="horizontalLayout_6">
-              <item>
-               <spacer name="horizontalSpacer">
-                <property name="orientation">
-                 <enum>Qt::Orientation::Horizontal</enum>
-                </property>
-                <property name="sizeHint" stdset="0">
-                 <size>
-                  <width>40</width>
-                  <height>20</height>
-                 </size>
-                </property>
-               </spacer>
-              </item>
-              <item>
-               <widget class="QPushButton" name="pushButton_2">
-                <property name="styleSheet">
-                 <string notr="true">color: rgb(15, 15, 15);</string>
-                </property>
-                <property name="text">
-                 <string>Cập nhật thông tin</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <spacer name="horizontalSpacer_2">
-                <property name="orientation">
-                 <enum>Qt::Orientation::Horizontal</enum>
-                </property>
-                <property name="sizeHint" stdset="0">
-                 <size>
-                  <width>40</width>
-                  <height>20</height>
-                 </size>
-                </property>
-               </spacer>
-              </item>
-             </layout>
-            </item>
-            <item>
-             <spacer name="verticalSpacer_2">
-              <property name="orientation">
-               <enum>Qt::Orientation::Vertical</enum>
-              </property>
-              <property name="sizeHint" stdset="0">
-               <size>
-                <width>20</width>
+             <widget class="QPushButton" name="pushButton_15">
+              <property name="geometry">
+               <rect>
+                <x>160</x>
+                <y>0</y>
+                <width>160</width>
                 <height>40</height>
+               </rect>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">color: rgb(0, 0, 0);
+font: 9pt &quot;Segoe UI&quot;;</string>
+              </property>
+              <property name="text">
+               <string>Yêu thích</string>
+              </property>
+             </widget>
+             <widget class="QPushButton" name="pushButton_16">
+              <property name="geometry">
+               <rect>
+                <x>320</x>
+                <y>0</y>
+                <width>160</width>
+                <height>40</height>
+               </rect>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">color: rgb(0, 0, 0);
+text-decoration: underline;
+font: 9pt &quot;Segoe UI&quot;;</string>
+              </property>
+              <property name="text">
+               <string>Đã tải xuống</string>
+              </property>
+             </widget>
+             <widget class="QScrollArea" name="scrollArea_3">
+              <property name="geometry">
+               <rect>
+                <x>0</x>
+                <y>80</y>
+                <width>800</width>
+                <height>180</height>
+               </rect>
+              </property>
+              <property name="minimumSize">
+               <size>
+                <width>700</width>
+                <height>153</height>
                </size>
               </property>
-             </spacer>
-            </item>
-           </layout>
+              <property name="widgetResizable">
+               <bool>true</bool>
+              </property>
+              <widget class="QWidget" name="scrollAreaWidgetContents_3">
+               <property name="geometry">
+                <rect>
+                 <x>0</x>
+                 <y>0</y>
+                 <width>798</width>
+                 <height>178</height>
+                </rect>
+               </property>
+               <widget class="QLabel" name="label_23">
+                <property name="geometry">
+                 <rect>
+                  <x>0</x>
+                  <y>0</y>
+                  <width>160</width>
+                  <height>180</height>
+                 </rect>
+                </property>
+                <property name="styleSheet">
+                 <string notr="true">background-color: rgb(211, 255, 248);</string>
+                </property>
+                <property name="text">
+                 <string>TextLabel</string>
+                </property>
+               </widget>
+               <widget class="QLabel" name="label_24">
+                <property name="geometry">
+                 <rect>
+                  <x>160</x>
+                  <y>0</y>
+                  <width>160</width>
+                  <height>180</height>
+                 </rect>
+                </property>
+                <property name="styleSheet">
+                 <string notr="true">background-color: rgb(255, 246, 217);</string>
+                </property>
+                <property name="text">
+                 <string>TextLabel</string>
+                </property>
+               </widget>
+               <widget class="QLabel" name="label_25">
+                <property name="geometry">
+                 <rect>
+                  <x>320</x>
+                  <y>0</y>
+                  <width>160</width>
+                  <height>180</height>
+                 </rect>
+                </property>
+                <property name="styleSheet">
+                 <string notr="true">background-color: rgb(241, 224, 255);</string>
+                </property>
+                <property name="text">
+                 <string>TextLabel</string>
+                </property>
+               </widget>
+               <widget class="QLabel" name="label_26">
+                <property name="geometry">
+                 <rect>
+                  <x>480</x>
+                  <y>0</y>
+                  <width>160</width>
+                  <height>180</height>
+                 </rect>
+                </property>
+                <property name="styleSheet">
+                 <string notr="true">background-color: rgb(230, 255, 229);</string>
+                </property>
+                <property name="text">
+                 <string>TextLabel</string>
+                </property>
+               </widget>
+               <widget class="QLabel" name="label_27">
+                <property name="geometry">
+                 <rect>
+                  <x>640</x>
+                  <y>0</y>
+                  <width>160</width>
+                  <height>180</height>
+                 </rect>
+                </property>
+                <property name="styleSheet">
+                 <string notr="true">background-color: rgb(255, 230, 228);</string>
+                </property>
+                <property name="text">
+                 <string>TextLabel</string>
+                </property>
+               </widget>
+              </widget>
+             </widget>
+            </widget>
+            <widget class="QWidget" name="page_11">
+             <widget class="QPushButton" name="pushButton_8">
+              <property name="geometry">
+               <rect>
+                <x>0</x>
+                <y>0</y>
+                <width>160</width>
+                <height>40</height>
+               </rect>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">color: rgb(0, 0, 0);
+text-decoration: underline;
+font: 9pt &quot;Segoe UI&quot;;</string>
+              </property>
+              <property name="text">
+               <string>Đã xem</string>
+              </property>
+             </widget>
+             <widget class="QPushButton" name="pushButton_9">
+              <property name="geometry">
+               <rect>
+                <x>160</x>
+                <y>0</y>
+                <width>160</width>
+                <height>40</height>
+               </rect>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">color: rgb(0, 0, 0);</string>
+              </property>
+              <property name="text">
+               <string>Yêu thích</string>
+              </property>
+             </widget>
+             <widget class="QPushButton" name="pushButton_10">
+              <property name="geometry">
+               <rect>
+                <x>320</x>
+                <y>0</y>
+                <width>160</width>
+                <height>40</height>
+               </rect>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">color: rgb(0, 0, 0);
+
+font: 9pt &quot;Segoe UI&quot;;</string>
+              </property>
+              <property name="text">
+               <string>Đã tải xuống</string>
+              </property>
+             </widget>
+             <widget class="QScrollArea" name="scrollArea">
+              <property name="geometry">
+               <rect>
+                <x>0</x>
+                <y>80</y>
+                <width>770</width>
+                <height>180</height>
+               </rect>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">background-color: rgb(80, 165, 255);</string>
+              </property>
+              <property name="widgetResizable">
+               <bool>true</bool>
+              </property>
+              <widget class="QWidget" name="scrollAreaWidgetContents">
+               <property name="geometry">
+                <rect>
+                 <x>0</x>
+                 <y>0</y>
+                 <width>800</width>
+                 <height>161</height>
+                </rect>
+               </property>
+               <property name="minimumSize">
+                <size>
+                 <width>800</width>
+                 <height>0</height>
+                </size>
+               </property>
+               <widget class="QLabel" name="label_13">
+                <property name="geometry">
+                 <rect>
+                  <x>0</x>
+                  <y>0</y>
+                  <width>160</width>
+                  <height>180</height>
+                 </rect>
+                </property>
+                <property name="styleSheet">
+                 <string notr="true">background-color: rgb(162, 255, 191);</string>
+                </property>
+                <property name="text">
+                 <string>TextLabel</string>
+                </property>
+               </widget>
+               <widget class="QLabel" name="label_14">
+                <property name="geometry">
+                 <rect>
+                  <x>160</x>
+                  <y>0</y>
+                  <width>160</width>
+                  <height>180</height>
+                 </rect>
+                </property>
+                <property name="styleSheet">
+                 <string notr="true">background-color: rgb(255, 255, 210);</string>
+                </property>
+                <property name="text">
+                 <string>TextLabel</string>
+                </property>
+               </widget>
+               <widget class="QLabel" name="label_15">
+                <property name="geometry">
+                 <rect>
+                  <x>320</x>
+                  <y>0</y>
+                  <width>160</width>
+                  <height>180</height>
+                 </rect>
+                </property>
+                <property name="styleSheet">
+                 <string notr="true">background-color: rgb(238, 235, 255);</string>
+                </property>
+                <property name="text">
+                 <string>TextLabel</string>
+                </property>
+               </widget>
+               <widget class="QLabel" name="label_16">
+                <property name="geometry">
+                 <rect>
+                  <x>480</x>
+                  <y>0</y>
+                  <width>160</width>
+                  <height>180</height>
+                 </rect>
+                </property>
+                <property name="styleSheet">
+                 <string notr="true">background-color: rgb(255, 249, 244);</string>
+                </property>
+                <property name="text">
+                 <string>TextLabel</string>
+                </property>
+               </widget>
+               <widget class="QLabel" name="label_17">
+                <property name="geometry">
+                 <rect>
+                  <x>630</x>
+                  <y>0</y>
+                  <width>160</width>
+                  <height>180</height>
+                 </rect>
+                </property>
+                <property name="text">
+                 <string>TextLabel</string>
+                </property>
+               </widget>
+              </widget>
+             </widget>
+            </widget>
+            <widget class="QWidget" name="page_10">
+             <widget class="QPushButton" name="pushButton_11">
+              <property name="geometry">
+               <rect>
+                <x>0</x>
+                <y>0</y>
+                <width>160</width>
+                <height>40</height>
+               </rect>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">color: rgb(0, 0, 0);
+font: 9pt &quot;Segoe UI&quot;;</string>
+              </property>
+              <property name="text">
+               <string>Đã xem</string>
+              </property>
+             </widget>
+             <widget class="QPushButton" name="pushButton_12">
+              <property name="geometry">
+               <rect>
+                <x>160</x>
+                <y>0</y>
+                <width>160</width>
+                <height>40</height>
+               </rect>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">color: rgb(0, 0, 0);
+text-decoration: underline;
+font: 9pt &quot;Segoe UI&quot;;</string>
+              </property>
+              <property name="text">
+               <string>Yêu thích</string>
+              </property>
+             </widget>
+             <widget class="QPushButton" name="pushButton_13">
+              <property name="geometry">
+               <rect>
+                <x>320</x>
+                <y>0</y>
+                <width>160</width>
+                <height>40</height>
+               </rect>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">color: rgb(0, 0, 0);</string>
+              </property>
+              <property name="text">
+               <string>Đã tải xuống</string>
+              </property>
+             </widget>
+             <widget class="QScrollArea" name="scrollArea_2">
+              <property name="geometry">
+               <rect>
+                <x>0</x>
+                <y>80</y>
+                <width>770</width>
+                <height>180</height>
+               </rect>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">background-color: rgb(158, 213, 255);</string>
+              </property>
+              <property name="widgetResizable">
+               <bool>true</bool>
+              </property>
+              <widget class="QWidget" name="scrollAreaWidgetContents_2">
+               <property name="geometry">
+                <rect>
+                 <x>-32</x>
+                 <y>0</y>
+                 <width>800</width>
+                 <height>161</height>
+                </rect>
+               </property>
+               <property name="minimumSize">
+                <size>
+                 <width>800</width>
+                 <height>0</height>
+                </size>
+               </property>
+               <widget class="QLabel" name="label_18">
+                <property name="geometry">
+                 <rect>
+                  <x>0</x>
+                  <y>0</y>
+                  <width>160</width>
+                  <height>180</height>
+                 </rect>
+                </property>
+                <property name="styleSheet">
+                 <string notr="true">background-color: rgb(255, 234, 247);</string>
+                </property>
+                <property name="text">
+                 <string>TextLabel</string>
+                </property>
+               </widget>
+               <widget class="QLabel" name="label_19">
+                <property name="geometry">
+                 <rect>
+                  <x>160</x>
+                  <y>0</y>
+                  <width>160</width>
+                  <height>180</height>
+                 </rect>
+                </property>
+                <property name="styleSheet">
+                 <string notr="true">background-color: rgb(243, 238, 255);</string>
+                </property>
+                <property name="text">
+                 <string>TextLabel</string>
+                </property>
+               </widget>
+               <widget class="QLabel" name="label_20">
+                <property name="geometry">
+                 <rect>
+                  <x>320</x>
+                  <y>0</y>
+                  <width>160</width>
+                  <height>180</height>
+                 </rect>
+                </property>
+                <property name="styleSheet">
+                 <string notr="true">background-color: rgb(249, 255, 220);</string>
+                </property>
+                <property name="text">
+                 <string>TextLabel</string>
+                </property>
+               </widget>
+               <widget class="QLabel" name="label_22">
+                <property name="geometry">
+                 <rect>
+                  <x>480</x>
+                  <y>0</y>
+                  <width>160</width>
+                  <height>180</height>
+                 </rect>
+                </property>
+                <property name="styleSheet">
+                 <string notr="true">background-color: rgb(203, 255, 252);</string>
+                </property>
+                <property name="text">
+                 <string>TextLabel</string>
+                </property>
+               </widget>
+               <widget class="QLabel" name="label_21">
+                <property name="geometry">
+                 <rect>
+                  <x>640</x>
+                  <y>0</y>
+                  <width>160</width>
+                  <height>180</height>
+                 </rect>
+                </property>
+                <property name="text">
+                 <string>TextLabel</string>
+                </property>
+               </widget>
+              </widget>
+             </widget>
+            </widget>
+           </widget>
           </widget>
-          <widget class="QWidget" name="page_2"/>
          </widget>
         </item>
        </layout>
@@ -784,7 +1037,7 @@ border: 2px solid rgb(15, 15, 15);
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1250</width>
+     <width>1287</width>
      <height>25</height>
     </rect>
    </property>

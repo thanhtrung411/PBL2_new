@@ -1,4 +1,6 @@
 #include "book.h"
+#include "tree.h"
+#include "global.h"
 #include <iostream>
 using namespace std;
 book::book(){
@@ -6,7 +8,7 @@ book::book(){
     Name = "";
     Author = "";
     NXB = "";
-    NamXB = "";
+    NamXB = 1900;
     So_trang = 0;
     ISBN = "NULL";
     Language = "";
@@ -24,8 +26,9 @@ book::book(){
     luot_tai = 0;
     Date_created = my_time();
     Created_by = "NULL";
+    do_chinh_xac = 0;
 }
-book::book(long long ID, string Name, string Author, string NXB, string NamXB, int So_trang, string ISBN, string Language, string Tom_tat, string Link_png, string Link_pdf, int The_loai_ID, int Chuyen_nganh_ID, bool is_Read_online, bool is_Download, bool is_Borrow, int limit_borrow, int luot_xem, int luot_muon, int luot_tai, my_time Date_created, string Created_by){
+book::book(long long ID, string Name, string Author, string NXB, int NamXB, int So_trang, string ISBN, string Language, string Tom_tat, string Link_png, string Link_pdf, int The_loai_ID, int Chuyen_nganh_ID, bool is_Read_online, bool is_Download, bool is_Borrow, int limit_borrow, int luot_xem, int luot_muon, int luot_tai,int tong_sach, int tong_sach_dang_muon, int tong_sach_dang_dat, int tong_sach_ranh, my_time Date_created, string Created_by){
     this->ID = ID;
     this->Name = Name;
     this->Author = Author;
@@ -46,8 +49,13 @@ book::book(long long ID, string Name, string Author, string NXB, string NamXB, i
     this->luot_xem = luot_xem;
     this->luot_muon = luot_muon;
     this->luot_tai = luot_tai;
+    this->tong_sach = tong_sach;
+    this->tong_sach_dang_muon = tong_sach_dang_muon;
+    this->tong_sach_dang_dat = tong_sach_dang_dat;
+    this->tong_sach_ranh = tong_sach_ranh;
     this->Date_created = Date_created;
     this->Created_by = Created_by;
+    this->do_chinh_xac = 0;
 }
 book::~book(){}
 void book::set_ID(long long ID){
@@ -62,7 +70,7 @@ void book::set_Author(string Author){
 void book::set_NXB(string NXB){
     this->NXB = NXB;
 }
-void book::set_NamXB(string NamXB){
+void book::set_NamXB(int NamXB){
     this->NamXB = NamXB;
 }
 void book::set_So_trang(int So_trang){
@@ -88,6 +96,20 @@ void book::set_The_loai_ID(int The_loai_ID){
 }
 void book::set_Chuyen_nganh_ID(int Chuyen_nganh_ID){
     this->Chuyen_nganh_ID = Chuyen_nganh_ID;
+}
+string book::get_The_loai_name() const{
+    string name;
+    if (the_loai_data.return_name(this->The_loai_ID, name)) {
+        return name;
+    }
+    return "";
+}
+string book::get_Chuyen_nganh_name() const{
+    string name;
+    if (chuyen_nganh_data.return_name(this->Chuyen_nganh_ID, name)) {
+        return name;
+    }
+    return "";
 }
 void book::set_is_Read_online(bool is_Read_online){
     this->is_Read_online = is_Read_online;
@@ -116,6 +138,10 @@ void book::set_Date_created(my_time Date_created){
 void book::set_Created_by(string Created_by){
     this->Created_by = Created_by;
 }
+void book::set_do_chinh_xac(int dcx){
+    this->do_chinh_xac = dcx;
+}
+
 long long book::get_ID() const{
     return ID;
 }
@@ -128,7 +154,7 @@ string book::get_Author() const{
 string book::get_NXB() const{
     return NXB;
 }
-string book::get_NamXB() const{
+int book::get_NamXB() const{
     return NamXB;
 }
 int book::get_So_trang() const{
@@ -176,9 +202,24 @@ int book::get_luot_muon() const{
 int book::get_luot_tai() const{
     return luot_tai;
 }
+int book::get_tong_sach() const{
+    return tong_sach;
+}
+int book::get_tong_sach_dang_muon() const{
+    return tong_sach_dang_muon;
+}
+int book::get_tong_sach_dang_dat() const{
+    return tong_sach_dang_dat;
+}
+int book::get_tong_sach_ranh() const{
+    return tong_sach_ranh;
+}
 my_time book::get_Date_created() const{
     return Date_created;
 }
 string book::get_Created_by() const{
     return Created_by;
+}
+int book::get_do_chinh_xac() const{
+    return do_chinh_xac;
 }

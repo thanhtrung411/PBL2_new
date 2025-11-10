@@ -49,6 +49,8 @@ public:
     bool operator>(const my_time& t) const;
     bool operator>=(const my_time& t) const;
     my_time& operator = (const my_time& t);
+    my_time operator+(int day) const;
+    my_time extend_date(int day) const;
 
 
 };

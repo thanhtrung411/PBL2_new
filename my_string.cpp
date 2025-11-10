@@ -1,5 +1,6 @@
 #include "my_string.h"
 #include "my_time.h"
+#include "tree.h"
 void getline(std::istream& is, std::string& str) {
     std::getline(is, str);
     if (!str.empty() && str.back() == '\r') {
@@ -21,38 +22,71 @@ int is_chua_chuoi(const string& key, const string& full){
     return 1;
 }
 
-int tim_kiem_xau(const string& key, const string& full) {
-    int n = do_dai_str(key);
-    int m = do_dai_str(full);
-    int k = 0;                 // số từ của key tìm thấy trong full
-    string temp = "";
-
-    for (int i = 0; i < n; i++) {
-        if (key[i] != ' ') {
-            temp += key[i];
-        }
-        // Khi gặp khoảng trắng KẾT THÚC từ, hoặc là ký tự cuối chuỗi
-        if ((key[i] == ' ' && !temp.empty()) || (i == n - 1 && !temp.empty())) {
-            // Tìm temp trong full
-            int j = 0;             // đặt về 0 để tìm ở bất kỳ đâu trong full
-            string value = "";
-            for (; j < m; j++) {
-                if (full[j] != ' ') {
-                    value += full[j];
-                }
-                if ((full[j] == ' ' && !value.empty()) || (j == m - 1 && !value.empty())) {
-                    if (temp == value) {
-                        k++;       // tìm thấy 1 lần cho từ temp
-                        break;     // dừng tìm cho từ này
-                    }
-                    value.clear(); // chuẩn bị đọc từ kế tiếp trong full
-                }
+int tim_kiem_co_chua(const string& key, const string& full) {
+    int count = 0;
+    int key_len = do_dai_str(key);
+    int full_len = do_dai_str(full);
+    BST_string key_words;
+    BST_string full_words;
+    for (int i = 0 ; i < key_len ; i++){
+        string res = "";
+        while (i < key_len && key[i] != ' '){
+            char c = key[i];
+            if (c >= 'A' && c <= 'Z'){
+                c = c - 'A' + 'a';
             }
-            temp.clear();          // chuẩn bị đọc từ kế tiếp trong key
+            res += c;
+            i++;
+        }
+        if (res != "") {
+
+            key_words.insert(res); 
         }
     }
-    return k;
+
+    for (int i = 0 ; i < full_len ; i++){
+        string res = "";
+        while (i < full_len && full[i] != ' '){
+            char c = full[i];
+            if (c >= 'A' && c <= 'Z'){
+                c = c - 'A' + 'a';
+            }
+            res += c;
+            i++;
+        }
+        if (res != "") {
+            full_words.insert(res);
+        }
+    }
+    full_words.search_co_chua(key_words, full_words, count);
+    return count;
 }
+
+int tim_kiem_chinh_xac(const string& key, const string& full) {
+    int count = tim_kiem_co_chua(key, full);
+    if (count == count_string(key) && count == count_string(full)) return 1;
+    return 0;
+}
+int tim_kiem_bat_dau_bang(const string& key, const string& full) {
+    int key_len = do_dai_str(key);
+    int full_len = do_dai_str(full);
+    if (key_len > full_len) return 0;
+    for (int i = 0; i < key_len; i++) {
+        char c1 = key[i];
+        char c2 = full[i];
+        if (c1 >= 'A' && c1 <= 'Z') {
+            c1 = c1 - 'A' + 'a';
+        }
+        if (c2 >= 'A' && c2 <= 'Z') {
+            c2 = c2 - 'A' + 'a';
+        }
+        if (c1 != c2) {
+            return 0;
+        }
+    }
+    return 1;
+}
+
 
 static inline void rtrim_inplace(string &s){
     while (!s.empty() && (s.back()==' '||s.back()=='\t'||s.back()=='\r')){
@@ -98,6 +132,23 @@ string to_string_(int x){
     if (negative) res = '-' + res;
     return res;
 }
+
+string to_stringll_(long long &x){
+    if (x == 0) return "0";
+    string res = "";
+    bool negative = false;
+    if (x < 0) {
+        negative = true;
+        x = -x;
+    }
+    while (x > 0) {
+        res = char((x % 10) + '0') + res;
+        x /= 10;
+    }
+    if (negative) res = '-' + res;
+    return res;
+}
+
 string to_string_(bool x){
     return x ? "1" : "0";
 }
@@ -118,6 +169,11 @@ int to_int(const string& s) {
     if (negative) res = -res;
     return res;
 }
+
+int to_int(const bool& s){
+    return s ? 1 : 0;
+}
+
 long long to_long_long(const string& s) {
     long long res = 0;
     bool negative = false;

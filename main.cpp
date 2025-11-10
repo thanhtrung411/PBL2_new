@@ -24,6 +24,7 @@ BST_book_copy book_copy_data;
 BST_Borrow borrow_data;
 BST_The_loai the_loai_data;
 BST_Chuyen_nganh chuyen_nganh_data;
+BST_string string_data;
 accout acc_sign_in;
 int is_sign_in = 0;
 
@@ -34,8 +35,8 @@ void box_thong_bao(string s){
     box.setText(QString::fromStdString(s));
     box.setIconPixmap(QPixmap(":/icons/icons_/error.png").scaled(16,16, Qt::KeepAspectRatio, Qt::SmoothTransformation));
     box.setStyleSheet(R"(
-    QMessageBox { background: rgb(243,246,255); }           
-    QMessageBox QLabel { color:#0868ad; }           
+    QMessageBox { background: rgb(243,246,255); }
+    QMessageBox QLabel { color:#0868ad; }
     QMessageBox QPushButton {
     background:#fff; color:#0868ad;
     border:1px solid #d0d0d0; border-radius:8px; padding:6px 12px;
@@ -77,6 +78,12 @@ int main(int argc, char *argv[])
     doc_chuyen_nganh(chuyen_nganh_data);
     //cout << borrow_data.find_new_id_borrow();
     //applyFusionDark(a);   
+
+    qDebug() << tim_kiem_co_chua("Như bác ơi đó","Như có Bác Hồ trong Như hrhr Như ơi");
+    qDebug() << tim_kiem_chinh_xac("Như bác ơi đó","Như có Bác Hồ trong Như hrhr Như ơi");
+    qDebug() << tim_kiem_chinh_xac("Một hai ba","một hai ba");
+    qDebug() << tim_kiem_bat_dau_bang("Như bác ơi đó","Như bác ơi đó có Bác Hồ trong Như hrhr Như ơi");
+
     pbl2 w;
     w.show();
     return a.exec();
@@ -103,7 +110,6 @@ void pbl2::on_dang_ky_button_clicked()
         this->raise();
         this->activateWindow();
     });
-   win->show();
+    win->show();
     this->hide(); // Ẩn cửa sổ chính
 }
-

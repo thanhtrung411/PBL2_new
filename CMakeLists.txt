@@ -26,12 +26,8 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         dang_ky_dialog.h dang_ky_dialog.cpp dang_ky_dialog.ui
         book.h book.cpp
         description.h description.cpp
-
         accout.h accout.cpp
         tree.h tree.cpp
-
-
-
         my_string.h my_string.cpp
         resource.qrc
         data/accout.txt
@@ -49,6 +45,7 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         book_copies.h book_copies.cpp
         the_loai_chuyen_nganh.h the_loai_chuyen_nganh.cpp
         author.h author.cpp
+        library.h library.cpp
 
 
     )

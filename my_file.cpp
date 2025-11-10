@@ -161,7 +161,7 @@ void doc_book(BST_Book &book_data){
                 b.set_NXB(res);
                 break;
             case 4:
-                b.set_NamXB(res);
+                b.set_NamXB(to_int(res));
                 break;
             case 5: 
                 b.set_So_trang(to_int(res));
@@ -239,29 +239,6 @@ void ghi_book(BST_Book &book_data){
     }
     QTextStream out(&file);
     qDebug() << "Ghi file thanh cong:" << path;
-}
-
-void doc_support_book(BST_string &the_loai_, BST_string &chuyen_nganh_){
-    const QString path = getDataFilePath("data/support_book.txt");
-    QFile file(path);
-    if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
-        qDebug() << "Khong the mo file de doc:" << path;
-        return;
-    }
-    QTextStream in(&file);
-    int n_the_loai_ = in.readLine().toInt();
-    for (int i = 0 ; i < n_the_loai_ ; i++){
-        QString qline = in.readLine();
-        string line = qline.toUtf8().toStdString();
-        the_loai_.insert_string(line);
-    }
-    int n_chuyen_nganh_ = in.readLine().toInt();
-    for (int i = 0 ; i < n_chuyen_nganh_ ; i++){
-        QString qline = in.readLine();
-        string line = qline.toUtf8().toStdString();
-        chuyen_nganh_.insert_string(line);
-    }
-    file.close();
 }
 
 void doc_copy_book(BST_book_copy &book_copy_data){

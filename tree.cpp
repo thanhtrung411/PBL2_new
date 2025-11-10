@@ -7,6 +7,11 @@
 #include <QDebug>
 #include <fstream>
 
+namespace{
+    BST_Chuyen_nganh* chuyen_nganh_tree = nullptr;
+    BST_The_loai* the_loai_tree = nullptr;
+}
+
 namespace KeyGetters{
     int getAccoutID(const accout& a) {
         return a.get_ID();
@@ -29,6 +34,24 @@ namespace KeyGetters{
     long long getBorrowID(const borrow& br) {
         return br.get_id();
     }
+    string getStringID(const string& s) {
+        return s;
+    }
+    string getNameBook(const book& b) {
+        return b.get_Name();
+    }
+    string getAuthorName(const book& b){
+        return b.get_Author();
+    }
+    inline string lower(string s){
+        for(char &c: s) c = std::tolower((unsigned char)c);
+        return s;
+    }
+    std::pair<string,long long> getKey_Name_ID   (const book& b) { return { lower(b.get_Name()),              b.get_ID() }; }
+    std::pair<string,long long> getKey_Author_ID (const book& b) { return { lower(b.get_Author()),            b.get_ID() }; }
+    std::pair<string,long long> getKey_TL_ID     (const book& b) { return { lower(b.get_The_loai_name()),     b.get_ID() }; }
+    std::pair<string,long long> getKey_CN_ID     (const book& b) { return { lower(b.get_Chuyen_nganh_name()), b.get_ID() }; }
+    std::pair<int,long long>    getKey_DoCX_ID   (const book& b) { return { b.get_do_chinh_xac(),             b.get_ID() }; }
 }
 
 template<typename T, typename Key>
@@ -177,9 +200,13 @@ Node<T>* BST<T, Key>::delete_Node(Node<T>* node, T data, int &ok) {
 }
 
 template<typename T, typename Key>
-bool BST<T, Key>::remove(const T& value) {
+bool BST<T, Key>::remove_by_Key(const Key& id) {
+    T temp;
+    if (!find(id, temp)) {
+        return false;
+    }
     int ok = 0;
-    root = delete_Node(root, value, ok);
+    root = delete_Node(root, temp, ok);
     return ok == 1;
 }
 
@@ -274,6 +301,20 @@ Key BST<T, Key>::find_max_id() const{
     Key max_key = find_max_key(root);
     return max_key;
 }
+template <typename T, typename Key>
+void BST<T, Key>::in_order_recursive(Node<T>* node, std::function<void(T&)> visit_func) {
+    if (!node) return;
+    in_order_recursive(node->getLeft(), visit_func);
+    visit_func(node->getData());
+    in_order_recursive(node->getRight(), visit_func);
+}
+template <typename T, typename Key>
+void BST<T, Key>::pre_order_recursive(Node<T>* node, std::function<void(T&)> visit_func) {
+    if (!node) return;
+    visit_func(node->getData());
+    pre_order_recursive(node->getLeft(), visit_func);
+    pre_order_recursive(node->getRight(), visit_func);
+}
 
 /*
 template <typename T, typename Key>
@@ -322,107 +363,31 @@ template class BST<Author, int>;
 template class BST<Chuyen_nganh, int>;
 template class BST<The_loai, int>;
 template class BST<borrow, long long>;
+template class BST<string, string>;
 
 ////////////--for BST_string--//////////////
-BST_string::~BST_string() {
-    destroy_string(root);
-}
-void BST_string::destroy_string(Node_string* node) {
-    if (!node) return;
-    destroy_string(node->getLeft());
-    destroy_string(node->getRight());
-    delete node;
+bool BST_string::co_chua_string(string& key_word) {
+    Node<string>* node = search_Node(root, key_word);
+    return node != nullptr;
 }
 
-int BST_string::count(Node_string* node) const{
-    if (node == nullptr) {
-        return 0;
-    }
-    return 1 + count(node->getLeft()) + count(node->getRight());
-}
-int BST_string::count_string() const{
-    return count(root);
-}
-Node_string* BST_string::add_string(Node_string* node, string &value, int &ok) {
-    if (!node) {
-        int vt_new = count_string();
-        Node_string* newNode = new Node_string(value, vt_new);
-        ok = 1;
-        return newNode;
-    }
-    node->setRight(add_string(node->getRight(), value, ok));
-    return node;
-}
-bool BST_string::insert_string(string &value) {
-    int ok = 0;
-    root = add_string(root, value, ok);
-    return ok == 1;
-}
-Node_string* BST_string::search_string(Node_string* node, string id, int &ok, string &a) {
-    if (!node) {
-        ok = 0;
-        return nullptr;
-    }
-    if (id == node->getData()) {
-        ok = 1;
-        a = node->getData();
-        return node;
-    }
-    return search_string(node->getRight(), id, ok, a);
-}
-bool BST_string::find_string(string id, string &a) {
-    int ok = 0;
-    search_string(root, id, ok, a);
-    return ok == 1;
-}
-Node_string* BST_string::delete_string(Node_string* node, string data, int &ok) {
-    if (!node) return nullptr;
-    if (node->getData() == data) {
-        ok = 1;
-        Node_string* right = node->getRight();
-        delete node;
-        Node_string* nextNode = right;
-        while (nextNode) {
-            nextNode->setVt(nextNode->getVt() - 1);
-            nextNode = nextNode->getRight();
-        }
-        return right;
-    }
-    node->setRight(delete_string(node->getRight(), data, ok));
-    return node;
-}
-bool BST_string::remove_string(string &value) {
-    int ok = 0;
-    root = delete_string(root, value, ok);
-    return ok == 1;
-}
-void BST_string::write(Node_string* node, QTextStream &out) const {
+void BST_string::search_co_chua_helper(Node<string>* node, BST_string &full, int &count_) {
     if (!node) return;
-    write(node->getLeft(), out);
+    search_co_chua_helper(node->getLeft(), full, count_);
     string& a = node->getData();
-    out << QString::fromStdString(a) << '\n';
-    write(node->getRight(), out);
-}
-void BST_string::write_string(QTextStream &out) const {
-    write(root, out);
-}
-string BST_string::operator[](int index) {
-    if (index < 0 || index >= count_string()) {
-        qDebug() << "Loi index";
-        return "";
+    if (full.co_chua_string(a)) {
+        count_++;
     }
-    
-    Node_string* current = root;
-    while (current) {
-        if (current->getVt() == index) {
-            return current->getData();
-        }
-        current = current->getRight();
-    }
-    
-    qDebug() << "Khong tim thay node voi index:" << index;
-    return "";
+    search_co_chua_helper(node->getRight(), full, count_);
 }
+
+ void BST_string::search_co_chua(BST_string &key, BST_string &full, int &count_){
+    count_ = 0;
+    Node<string>* node = key.root;
+    if (!node) return;
+    search_co_chua_helper(node, full, count_);
+}
+
 /////////////--for BST_Accout--//////////////
 
 
@@ -442,6 +407,8 @@ Node<accout>* BST_Accout::check_accout_helper(Node<accout>* node, string ten_dan
     if (ten_dang_nhap > node->getData().get_ten_dang_nhap()){
         return check_accout_helper(node->getRight(), ten_dang_nhap, pass, ok, a);
     }
+    ok = 0;
+    return nullptr;
 }
 
 
@@ -541,6 +508,270 @@ void BST_Book::find_some_id_book(string& id_chuoi, const BST_Book &book_data_){
 }
     */
 
+bool BST_Book::search_custom_trung_gian(int type_tuy_chon, int& type_bieu_ghi, string& key_word, book& a){
+    //type_tuy_chon: tùy chọn vùng tìm kiếm
+    //    - type_tuy_chon == 0: tìm kiếm sách có trường chứa key
+    //    - type_tuy_chon == 1: tìm kiếm sách có trường chính xác trong key
+    //    - type_tuy_chon == 2: tìm kiếm sách có trường bắt đầu bằng key
+    //type_bieu_ghi: tùy chọn trường cần tìm kiếm
+    //    - type_bieu_ghi == 0: tìm kiếm theo tất cả các trường
+    //    - type_bieu_ghi == 1: tìm kiếm theo trường TÊN SÁCH
+    //    - type_bieu_ghi == 2: tìm kiếm theo trường TÁC GIẢ
+    //    - type_bieu_ghi == 3: tìm kiếm theo trường NHÀ XUẤT BẢN
+    //    - type_bieu_ghi == 4: tìm kiếm theo trường NĂM XUẤT BẢN
+    //    - type_bieu_ghi == 5: tìm kiếm theo trường ISBN
+    //    - type_bieu_ghi == 6: tìm kiếm theo trường NGÔN NGỮ
+    //    - type_bieu_ghi == 7: tìm kiếm theo trường TÓM TẮT
+    //    - type_bieu_ghi == 8: tìm kiếm theo trường CHUYÊN NGÀNH
+    int count = 0;
+    switch (type_bieu_ghi)
+    {
+    case 0:{
+        
+        break;
+    }
+    case 1:{
+        if (type_tuy_chon == 0) {
+            int count_temp = tim_kiem_co_chua(key_word, a.get_Name());
+            if (!count_temp) {
+                return false;
+            }
+            if (count_temp > a.get_do_chinh_xac()) count = count_temp;
+            a.set_do_chinh_xac(count);
+            return true;
+            break;
+        }
+        else if (type_tuy_chon == 1) {
+            count = tim_kiem_chinh_xac(key_word, a.get_Name());
+            if (!count) {
+                return false;
+            }
+            a.set_do_chinh_xac(count);
+            return true;
+            break;
+        }
+        else if (type_tuy_chon == 2) {
+            count = tim_kiem_bat_dau_bang(key_word, a.get_Name());
+            if (!count) {
+                return false;
+            }
+            a.set_do_chinh_xac(count);
+            return true;
+            break;
+        }
+    }
+    case 2:{
+        /* code */
+        break;
+    }
+    case 3:{
+        /* code */
+        break;
+    }
+    case 4:{
+        /* code */
+        break;
+    }
+    case 5:{
+        /* code */
+        break;
+    }
+    case 6:{
+        /* code */
+        break;
+    }
+    case 7:{
+        /* code */
+        break;
+    }
+    case 8:{
+        /* code */
+        break;
+    }
+    default:
+        break;
+    }
+    return false;
+}
+
+Node<book>* BST_Book::search_help(int type_the_loai, int type_tuy_chon, int& type_bieu_ghi, string& key_word, Node<book>* node, BST_Book &kq_return){
+    /*
+    type_the_loai: tuy chon the loai
+        - Neu type_the_loai == 0 : tim kiem theo tat ca the loai
+        - Neu type_the_loai != 0 : tim kiem theo danh sach the loai [type_the_loai-1]
+    type_tuy_chon: tùy chọn vùng tìm kiếm
+        - type_tuy_chon == 0: tìm kiếm sách có trường chứa key
+        - type_tuy_chon == 1: tìm kiếm sách có trường chính xác trong key
+        - type_tuy_chon == 2: tìm kiếm sách có trường bắt đầu bằng key
+    type_bieu_ghi: tùy chọn trường cần tìm kiếm
+        - type_bieu_ghi == 0: tìm kiếm theo tất cả các trường
+        - type_bieu_ghi == 1: tìm kiếm theo trường TÊN SÁCH
+        - type_bieu_ghi == 2: tìm kiếm theo trường TÁC GIẢ
+        - type_bieu_ghi == 3: tìm kiếm theo trường NHÀ XUẤT BẢN
+        - type_bieu_ghi == 4: tìm kiếm theo trường NĂM XUẤT BẢN
+        - type_bieu_ghi == 5: tìm kiếm theo trường ISBN
+        - type_bieu_ghi == 6: tìm kiếm theo trường NGÔN NGỮ
+        - type_bieu_ghi == 7: tìm kiếm theo trường TÓM TẮT
+        - type_bieu_ghi == 8: tìm kiếm theo trường CHUYÊN NGÀNH
+    */
+
+    if (!node) return nullptr;
+    book& a = node->getData();
+    if (type_the_loai != 0){
+        if (a.get_The_loai_ID() == type_the_loai){
+
+            
+        }
+            return nullptr;
+        
+    }
+    search_help(type_the_loai, type_tuy_chon, type_bieu_ghi, key_word, node->getLeft(), kq_return);
+    search_help(type_the_loai, type_tuy_chon, type_bieu_ghi, key_word, node->getRight(), kq_return);
+    return nullptr;
+}
+
+void BST_Book::search(int type_the_loai, int type_tuy_chon, int& type_bieu_ghi, string& key_word, BST_Book &book_data_, BST_Book &kq_return){
+    Node<book>* node = book_data_.root;
+    if (key_word.empty()) return;
+    if (!node) return;
+    search_help(type_the_loai, type_tuy_chon, type_bieu_ghi, key_word, node, kq_return);
+}
+
+Node<book>* BST_Book::write_book_helper(Node<book>* node, QTextStream &out) const {
+    if (!node) return nullptr;
+    write_book_helper(node->getLeft(), out);
+    book& a = node->getData();
+    out << a.get_ID() << "," 
+        << QString::number(a.get_ID()) << "," 
+        << QString::fromStdString(a.get_Name()) << "," << "\""
+        << QString::fromStdString(a.get_Author()) << "\"" << "," 
+        << QString::fromStdString(a.get_NXB()) << ","
+        << QString::number(a.get_NamXB()) << ","
+        << QString::number(a.get_So_trang()) << ","
+        << QString::fromStdString(a.get_ISBN()) << ","
+        << QString::fromStdString(a.get_Language()) << "," << " \""
+        << QString::fromStdString(a.get_Tom_tat()) << "\","
+        << QString::fromStdString(a.get_Link_png()) << ","
+        << QString::fromStdString(a.get_Link_pdf()) << ","
+        << QString::number(a.get_The_loai_ID()) << ","
+        << QString::number(a.get_Chuyen_nganh_ID()) << ","
+        << QString::number(to_int(a.get_is_Read_online())) << ","
+        << QString::number(to_int(a.get_is_Download())) << ","
+        << QString::number(to_int(a.get_is_Borrow())) << ","
+        << QString::number(a.get_limit_borrow()) << ","
+        << QString::number(a.get_luot_xem()) << ","
+        << QString::number(a.get_luot_muon()) << ","
+        << QString::number(a.get_luot_tai()) << ","
+        << QString::number(a.get_tong_sach()) << ","
+        << QString::number(a.get_tong_sach_dang_muon()) << ","
+        << QString::number(a.get_tong_sach_dang_dat()) << ","
+        << QString::number(a.get_tong_sach_ranh()) << ","
+        << QString::fromStdString(a.get_Date_created().get_datetime()) << ","
+        << QString::fromStdString(a.get_Created_by()) << "\n";
+    write_book_helper(node->getRight(), out);
+    return nullptr;
+}
+
+void BST_Book::write_book(QTextStream &out) const {
+    out << "ID, Name, Author, NXB, NamXB, So_Trang, ISBN, Language, Tom_tat, Link_png, Link_pdf, The_loai_ID, Chuyen_nganh_ID, is_Read_online, is_Download, is_Borrow, limit_borrow, luot_xem, luot_muon, luot_tai, tong_sach, tong_sach_dang_muon, tong_sach_dang_dat, tong_sach_ranh, Date_created, Created_by\n";
+    write_book_helper(root, out);
+}
+
+Node<book>* BST_Book::author_of_book_helper(int author_id, Node<book>* node, BST_Book &b) {
+    if (!node) return nullptr;
+    author_of_book_helper(author_id, node->getLeft(), b);
+    book& a = node->getData();
+    //if (a.get_Author_ID() == author_id){
+    //    b.insert(a);
+    //}
+    author_of_book_helper(author_id, node->getRight(), b);
+    return nullptr;
+}
+BST_Book& BST_Book::author_of_book(int author_id){
+    BST_Book* b = new BST_Book();
+    author_of_book_helper(author_id, root, *b);
+    return *b;
+}
+Node<book>* BST_Book::the_loai_of_book_helper(int the_loai_id, Node<book>* node, BST_Book &b) {
+    if (!node) return nullptr;
+    the_loai_of_book_helper(the_loai_id, node->getLeft(), b);
+    book& a = node->getData();
+    if (a.get_The_loai_ID() == the_loai_id){
+        b.insert(a);
+    }
+    the_loai_of_book_helper(the_loai_id, node->getRight(), b);
+    return nullptr;
+}
+BST_Book& BST_Book::the_loai_of_book(int the_loai_id){
+    BST_Book* b = new BST_Book();
+    the_loai_of_book_helper(the_loai_id, root, *b);
+    return *b;
+}
+Node<book>* BST_Book::chuyen_nganh_of_book_helper(int chuyen_nganh_id, Node<book>* node, BST_Book &b) {
+    if (!node) return nullptr;
+    chuyen_nganh_of_book_helper(chuyen_nganh_id, node->getLeft(), b);
+    book& a = node->getData();
+    if (a.get_Chuyen_nganh_ID() == chuyen_nganh_id){
+        b.insert(a);
+    }
+    chuyen_nganh_of_book_helper(chuyen_nganh_id, node->getRight(), b);
+    return nullptr;
+}
+BST_Book& BST_Book::chuyen_nganh_of_book(int chuyen_nganh_id){
+    BST_Book* b = new BST_Book();
+    chuyen_nganh_of_book_helper(chuyen_nganh_id, root, *b);
+    return *b;
+}
+
+///////////////--for BST_Book_copies--///////////////
+
+
+/////////////--for BST_Author--/////////////
+
+Node<Author>* BST_Author::return_name_helper(Node<Author>* node, int id, int &ok, string &name) {
+    if (node == nullptr) {
+        ok = 0;
+        return nullptr;
+    }
+    Node<Author>* found = nullptr;
+    if (node->getData().get_ID() == id) {
+        ok = 1;
+        name = node->getData().get_name();
+        return node;
+    }
+    found = return_name_helper(node->getLeft(), id, ok, name);
+    if (ok == 1) return found;
+    return return_name_helper(node->getRight(), id, ok, name);
+}
+Node<Author>* BST_Author::return_id_helper(Node<Author>* node, string name, int &ok, int &id) {
+    if (node == nullptr) {
+        ok = 0;
+        return nullptr;
+    }
+     Node<Author>* found = nullptr;
+    if (node->getData().get_name() == name) {
+        ok = 1;
+        id = node->getData().get_ID();
+        return node;
+    }
+    found = return_id_helper(node->getLeft(), name, ok, id);
+    if (ok == 1) return found;
+    return return_id_helper(node->getRight(), name, ok, id);
+}
+
+bool BST_Author::return_id(string name, int &id){
+    int ok = 0;
+    id = -1;
+    Node<Author>* node = return_id_helper(root, name, ok, id);
+    return ok == 1;
+}
+bool BST_Author::return_name(int id, string &name){
+    int ok = 0;
+    name = "";
+    Node<Author>* node = return_name_helper(root, id, ok, name);
+    return ok == 1;
+}
+
 /////////////--for BST_Chuyen_nganh--//////////////
 
 Node<Chuyen_nganh>* BST_Chuyen_nganh::return_name_helper(Node<Chuyen_nganh>* node, int id, int &ok, string &name) {
@@ -575,23 +806,17 @@ Node<Chuyen_nganh>* BST_Chuyen_nganh::return_id_helper(Node<Chuyen_nganh>* node,
     return return_id_helper(node->getRight(), name, ok, id);
 }
 
-int BST_Chuyen_nganh::return_id(string name){
+bool BST_Chuyen_nganh::return_id(string name, int &id){
     int ok = 0;
-    int id = -1;
+    id = -1;
     Node<Chuyen_nganh>* node = return_id_helper(root, name, ok, id);
-    if (ok == 1){
-        return id;
-    }
-    return -1;
+    return ok == 1;
 }
-string BST_Chuyen_nganh::return_name(int id){
+bool BST_Chuyen_nganh::return_name(int id, string &name){
     int ok = 0;
-    string name = "";
+    name = "";
     Node<Chuyen_nganh>* node = return_name_helper(root, id, ok, name);
-    if (ok == 1){
-        return name;
-    }
-    return "";
+    return ok == 1;
 }
 
 ////////////--for BST_The_loai--//////////////
@@ -629,21 +854,15 @@ Node<The_loai>* BST_The_loai::return_id_helper(Node<The_loai>* node, string name
     return return_id_helper(node->getRight(), name, ok, id);
 }
 
-int BST_The_loai::return_id(string name){
+bool BST_The_loai::return_id(string name, int &id){
     int ok = 0;
-    int id = -1;
+    id = -1;
     Node<The_loai>* node = return_id_helper(root, name, ok, id);
-    if (ok == 1){
-        return id;
-    }
-    return -1;
+    return ok == 1;
 }
-string BST_The_loai::return_name(int id){
+bool BST_The_loai::return_name(int id, string &name){
     int ok = 0;
-    string name = "";
+    name = "";
     Node<The_loai>* node = return_name_helper(root, id, ok, name);
-    if (ok == 1){
-        return name;
-    }
-    return "";
+    return ok == 1;
 }

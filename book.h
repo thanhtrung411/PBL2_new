@@ -11,7 +11,7 @@ private:
     string Name;
     string Author;
     string NXB;
-    string NamXB;
+    int NamXB;
     int So_trang;
     string ISBN;
     string Language;
@@ -27,17 +27,22 @@ private:
     int luot_xem;
     int luot_muon;
     int luot_tai;
+    int tong_sach;
+    int tong_sach_dang_muon;
+    int tong_sach_dang_dat;
+    int tong_sach_ranh;
     my_time Date_created;
     string Created_by;
+    int do_chinh_xac; ///for search accuracy
 public:
     book();
-    book(long long ID, string Name, string Author, string NXB, string NamXB, int So_trang, string ISBN, string Language, string Tom_tat, string Link_png, string Link_pdf, int The_loai_ID, int Chuyen_nganh_ID, bool is_Read_online, bool is_Download, bool is_Borrow, int limit_borrow, int luot_xem, int luot_muon, int luot_tai, my_time Date_created, string Created_by);
+    book(long long ID, string Name, string Author, string NXB, int NamXB, int So_trang, string ISBN, string Language, string Tom_tat, string Link_png, string Link_pdf, int The_loai_ID, int Chuyen_nganh_ID, bool is_Read_online, bool is_Download, bool is_Borrow, int limit_borrow, int luot_xem, int luot_muon, int luot_tai,int tong_sach, int tong_sach_dang_muon, int tong_sach_dang_dat, int tong_sach_ranh, my_time Date_created, string Created_by);
     ~book();
     void set_ID(long long ID);
     void set_Name(string Name);
     void set_Author(string Author);
     void set_NXB(string NXB);
-    void set_NamXB(string NamXB);
+    void set_NamXB(int NamXB);
     void set_So_trang(int So_trang);
     void set_ISBN(string ISBN);
     void set_Language(string Language);
@@ -53,14 +58,19 @@ public:
     void set_luot_xem(int luot_xem);
     void set_luot_muon(int luot_muon);
     void set_luot_tai(int luot_tai);
+    void set_tong_sach(int tong_sach);
+    void set_tong_sach_dang_muon(int tong_sach_dang_muon);
+    void set_tong_sach_dang_dat(int tong_sach_dang_dat);
+    void set_tong_sach_ranh(int tong_sach_ranh);
     void set_Date_created(my_time Date_created);
     void set_Created_by(string Created_by);
+    void set_do_chinh_xac(int dcx);
 
     long long get_ID() const;
     string get_Name() const;
     string get_Author() const;
     string get_NXB() const;
-    string get_NamXB() const;
+    int get_NamXB() const;
     int get_So_trang() const;
     string get_ISBN() const;
     string get_Language() const;
@@ -69,6 +79,8 @@ public:
     string get_Link_pdf() const;
     int get_The_loai_ID() const;
     int get_Chuyen_nganh_ID() const;
+    string get_The_loai_name() const;
+    string get_Chuyen_nganh_name() const;
     bool get_is_Read_online() const;
     bool get_is_Download() const;
     bool get_is_Borrow() const;
@@ -76,8 +88,13 @@ public:
     int get_luot_xem() const;
     int get_luot_muon() const;
     int get_luot_tai() const;
+    int get_tong_sach() const;
+    int get_tong_sach_dang_muon() const;
+    int get_tong_sach_dang_dat() const;
+    int get_tong_sach_ranh() const;
     my_time get_Date_created() const;
     string get_Created_by() const;
+    int get_do_chinh_xac() const;
 };
 
 #endif // BOOK_H
