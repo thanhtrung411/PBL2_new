@@ -12,6 +12,10 @@ bool kiem_tra_nam_nhuan(int year) {
         days_per_month[2] = 28;
         return false;
     }
+    // days_per_month[2] = ((year % 4 == 0 && year % 100 != 0) || (year % 400 == 0)) ? 29 : 28;
+    // if(days_per_month [2] == 29) return true;
+    // return false;
+
 }
 
 my_time::my_time() : year(1970), month(1), day(1), hour(0), minute(0), second(0) {}
@@ -183,4 +187,29 @@ my_time& my_time::operator=(const my_time& t) {
         second = t.second;
     }
     return *this;
+}
+bool diff(const my_time &t1, const my_time &t2){
+    if(t1 == t2) return false;
+    return true;
+}
+
+my_time my_time :: operator+(int day)const{
+    my_time t1= *this;
+    while(day > 0){
+        if(t1.day <= days_per_month[t1.get_month()]){
+            t1.day++;
+        }else{
+            t1.day= 1;
+            t1.month++;
+            if(t1.month == 12){
+                t1.month = 1;
+                t1.year++;
+            }
+        }
+    }
+    return t1;
+}
+my_time my_time :: extend_date(int day)const{
+    my_time t= *this;
+    return t+day;
 }

@@ -35,8 +35,8 @@ void box_thong_bao(string s){
     box.setText(QString::fromStdString(s));
     box.setIconPixmap(QPixmap(":/icons/icons_/error.png").scaled(16,16, Qt::KeepAspectRatio, Qt::SmoothTransformation));
     box.setStyleSheet(R"(
-    QMessageBox { background: rgb(243,246,255); }           
-    QMessageBox QLabel { color:#0868ad; }           
+    QMessageBox { background: rgb(243,246,255); }
+    QMessageBox QLabel { color:#0868ad; }
     QMessageBox QPushButton {
     background:#fff; color:#0868ad;
     border:1px solid #d0d0d0; border-radius:8px; padding:6px 12px;
@@ -110,7 +110,6 @@ void pbl2::on_dang_ky_button_clicked()
         this->raise();
         this->activateWindow();
     });
-   win->show();
+    win->show();
     this->hide(); // Ẩn cửa sổ chính
 }
-
