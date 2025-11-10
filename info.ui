@@ -226,7 +226,7 @@ QLabel{
 }</string>
           </property>
           <property name="currentIndex">
-           <number>1</number>
+           <number>0</number>
           </property>
           <widget class="QWidget" name="page">
            <widget class="QLabel" name="label">
@@ -533,7 +533,7 @@ font: 11pt &quot;Segoe UI&quot;;</string>
              <string notr="true">background-color: rgb(255, 180, 155);</string>
             </property>
             <property name="currentIndex">
-             <number>0</number>
+             <number>1</number>
             </property>
             <widget class="QWidget" name="page_9">
              <widget class="QPushButton" name="pushButton_14">
@@ -592,13 +592,13 @@ font: 9pt &quot;Segoe UI&quot;;</string>
                <rect>
                 <x>0</x>
                 <y>80</y>
-                <width>800</width>
+                <width>1200</width>
                 <height>180</height>
                </rect>
               </property>
               <property name="minimumSize">
                <size>
-                <width>700</width>
+                <width>1200</width>
                 <height>153</height>
                </size>
               </property>
@@ -610,9 +610,15 @@ font: 9pt &quot;Segoe UI&quot;;</string>
                 <rect>
                  <x>0</x>
                  <y>0</y>
-                 <width>798</width>
+                 <width>1198</width>
                  <height>178</height>
                 </rect>
+               </property>
+               <property name="minimumSize">
+                <size>
+                 <width>800</width>
+                 <height>0</height>
+                </size>
                </property>
                <widget class="QLabel" name="label_23">
                 <property name="geometry">
@@ -930,7 +936,7 @@ font: 9pt &quot;Segoe UI&quot;;</string>
               <widget class="QWidget" name="scrollAreaWidgetContents_2">
                <property name="geometry">
                 <rect>
-                 <x>-32</x>
+                 <x>0</x>
                  <y>0</y>
                  <width>800</width>
                  <height>161</height>
@@ -1021,6 +1027,289 @@ font: 9pt &quot;Segoe UI&quot;;</string>
                </widget>
               </widget>
              </widget>
+            </widget>
+           </widget>
+          </widget>
+          <widget class="QWidget" name="page_12"/>
+          <widget class="QWidget" name="page_13">
+           <widget class="QWidget" name="widget" native="true">
+            <property name="geometry">
+             <rect>
+              <x>100</x>
+              <y>40</y>
+              <width>681</width>
+              <height>601</height>
+             </rect>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">font: 10pt &quot;Segoe UI&quot;;</string>
+            </property>
+            <widget class="QLabel" name="label_28">
+             <property name="geometry">
+              <rect>
+               <x>30</x>
+               <y>20</y>
+               <width>291</width>
+               <height>41</height>
+              </rect>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">color: rgb(0, 0, 0);
+font: 20pt &quot;Segoe UI&quot;;
+
+</string>
+             </property>
+             <property name="text">
+              <string>Cài đặt &amp; Bảo mật</string>
+             </property>
+            </widget>
+            <widget class="QLabel" name="label_29">
+             <property name="geometry">
+              <rect>
+               <x>40</x>
+               <y>60</y>
+               <width>211</width>
+               <height>41</height>
+              </rect>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">color: rgb(0, 0, 0);
+font: 12pt &quot;Segoe UI&quot;;</string>
+             </property>
+             <property name="text">
+              <string>Thông tin tài khoản</string>
+             </property>
+            </widget>
+            <widget class="QLabel" name="label_30">
+             <property name="geometry">
+              <rect>
+               <x>50</x>
+               <y>110</y>
+               <width>121</width>
+               <height>31</height>
+              </rect>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">color: rgb(0, 0, 0);
+font: 10pt &quot;Segoe UI&quot;;</string>
+             </property>
+             <property name="text">
+              <string>Tên đăng nhập</string>
+             </property>
+            </widget>
+            <widget class="QLabel" name="label_31">
+             <property name="geometry">
+              <rect>
+               <x>50</x>
+               <y>180</y>
+               <width>63</width>
+               <height>21</height>
+              </rect>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">color: rgb(0, 0, 0);
+font: 10pt &quot;Segoe UI&quot;;
+</string>
+             </property>
+             <property name="text">
+              <string>Email</string>
+             </property>
+            </widget>
+            <widget class="QLabel" name="label_32">
+             <property name="geometry">
+              <rect>
+               <x>50</x>
+               <y>230</y>
+               <width>111</width>
+               <height>21</height>
+              </rect>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">color: rgb(0, 0, 0);
+font: 10pt &quot;Segoe UI&quot;;</string>
+             </property>
+             <property name="text">
+              <string>Số điện thoại</string>
+             </property>
+            </widget>
+            <widget class="QLineEdit" name="lineEdit_8">
+             <property name="geometry">
+              <rect>
+               <x>210</x>
+               <y>110</y>
+               <width>300</width>
+               <height>30</height>
+              </rect>
+             </property>
+            </widget>
+            <widget class="QLineEdit" name="lineEdit_9">
+             <property name="geometry">
+              <rect>
+               <x>210</x>
+               <y>170</y>
+               <width>300</width>
+               <height>30</height>
+              </rect>
+             </property>
+            </widget>
+            <widget class="QLineEdit" name="lineEdit_10">
+             <property name="geometry">
+              <rect>
+               <x>210</x>
+               <y>230</y>
+               <width>300</width>
+               <height>30</height>
+              </rect>
+             </property>
+            </widget>
+            <widget class="QPushButton" name="pushButton_17">
+             <property name="geometry">
+              <rect>
+               <x>250</x>
+               <y>280</y>
+               <width>161</width>
+               <height>35</height>
+              </rect>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">color: rgb(0, 0, 0);</string>
+             </property>
+             <property name="text">
+              <string>Chỉnh sửa thông tin</string>
+             </property>
+            </widget>
+            <widget class="QLabel" name="label_33">
+             <property name="geometry">
+              <rect>
+               <x>50</x>
+               <y>320</y>
+               <width>201</width>
+               <height>41</height>
+              </rect>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">color: rgb(0, 0, 0);
+font: 20pt &quot;Times New Roman&quot;;</string>
+             </property>
+             <property name="text">
+              <string>Đổi mật khẩu</string>
+             </property>
+            </widget>
+            <widget class="QLabel" name="label_34">
+             <property name="geometry">
+              <rect>
+               <x>50</x>
+               <y>380</y>
+               <width>171</width>
+               <height>31</height>
+              </rect>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">color: rgb(0, 0, 0);
+font: 10pt &quot;Segoe UI&quot;;
+
+</string>
+             </property>
+             <property name="text">
+              <string>Mật khẩu hiện tại</string>
+             </property>
+            </widget>
+            <widget class="QLabel" name="label_35">
+             <property name="geometry">
+              <rect>
+               <x>50</x>
+               <y>430</y>
+               <width>141</width>
+               <height>31</height>
+              </rect>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">color: rgb(0, 0, 0);
+font: 10pt &quot;Segoe UI&quot;;</string>
+             </property>
+             <property name="text">
+              <string>Mật khẩu mới</string>
+             </property>
+            </widget>
+            <widget class="QLabel" name="label_36">
+             <property name="geometry">
+              <rect>
+               <x>50</x>
+               <y>490</y>
+               <width>191</width>
+               <height>20</height>
+              </rect>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">color: rgb(0, 0, 0);
+font: 10pt &quot;Segoe UI&quot;;</string>
+             </property>
+             <property name="text">
+              <string>Xác nhận mật khẩu mới</string>
+             </property>
+            </widget>
+            <widget class="QLineEdit" name="lineEdit_11">
+             <property name="geometry">
+              <rect>
+               <x>260</x>
+               <y>380</y>
+               <width>300</width>
+               <height>30</height>
+              </rect>
+             </property>
+            </widget>
+            <widget class="QLineEdit" name="lineEdit_12">
+             <property name="geometry">
+              <rect>
+               <x>260</x>
+               <y>430</y>
+               <width>300</width>
+               <height>30</height>
+              </rect>
+             </property>
+            </widget>
+            <widget class="QLineEdit" name="lineEdit_13">
+             <property name="geometry">
+              <rect>
+               <x>260</x>
+               <y>480</y>
+               <width>300</width>
+               <height>30</height>
+              </rect>
+             </property>
+            </widget>
+            <widget class="QPushButton" name="pushButton_18">
+             <property name="geometry">
+              <rect>
+               <x>160</x>
+               <y>538</y>
+               <width>140</width>
+               <height>35</height>
+              </rect>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">color: rgb(0, 0, 0);</string>
+             </property>
+             <property name="text">
+              <string>Đổi mật khẩu</string>
+             </property>
+            </widget>
+            <widget class="QPushButton" name="pushButton_19">
+             <property name="geometry">
+              <rect>
+               <x>380</x>
+               <y>540</y>
+               <width>120</width>
+               <height>35</height>
+              </rect>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">
+color: rgb(0, 0, 0);</string>
+             </property>
+             <property name="text">
+              <string>Lưu thay đổi</string>
+             </property>
             </widget>
            </widget>
           </widget>
