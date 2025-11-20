@@ -54,7 +54,7 @@ color: rgb(15, 15, 15);</string>
      <string notr="true"/>
     </property>
     <property name="currentIndex">
-     <number>2</number>
+     <number>0</number>
     </property>
     <widget class="QWidget" name="page">
      <widget class="QPushButton" name="dang_ky_2_button">
@@ -1027,7 +1027,7 @@ font: 20pt &quot;Times New Roman&quot;;</string>
      <x>0</x>
      <y>0</y>
      <width>1317</width>
-     <height>25</height>
+     <height>26</height>
     </rect>
    </property>
   </widget>
