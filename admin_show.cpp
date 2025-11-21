@@ -64,7 +64,7 @@ void admin_show::return_null_all(){
 
 void admin_show::on_them_button_clicked()
 {
-    int id;
+    long long id;
     string id_book = ui_3->ID_Sach_input->text().trimmed().toUtf8().toStdString();
     string ten_sach = ui_3->ten_sach_input->text().trimmed().toUtf8().toStdString();
     string tac_gia = ui_3->tac_gia_input->text().trimmed().toUtf8().toStdString();
@@ -78,9 +78,11 @@ void admin_show::on_them_button_clicked()
     string link_pdf_ = ui_3->link_pdf_layout->text().trimmed().toUtf8().toStdString();
     string the_loai = ui_3->the_loai_sach_input->currentText().trimmed().toStdString();
     string chuyen_nganh = ui_3->chuyen_nganh_input->currentText().trimmed().toStdString();
-    bool is_read = ui_3->is_read_online_check->isCheckable() ? true : false;
-    bool is_borrow = ui_3->is_borrow_check->isCheckable() ? true : false;
-    bool is_download = ui_3->is_download_check->isCheckable() ? true : false;
+    bool is_read = ui_3->is_read_online_check->isChecked() ? true : false;
+    bool is_borrow = ui_3->is_borrow_check->isChecked() ? true : false;
+    bool is_download = ui_3->is_download_check->isChecked() ? true : false;
+    int limit_borrow = ui_3->so_ngay_muon_input->value();
+    int number_of_book = ui_3->number_of_book->value();
     string date_created;
     string user_created;
     int check = 1;
@@ -128,22 +130,28 @@ void admin_show::on_them_button_clicked()
     else;
     if (check){
         book b;
-        b.set_ID(to_int(id_book));
+        b.set_ID(to_long_long(id_book));
         b.set_Name(ten_sach);
         b.set_Author(tac_gia);
-        //b.set_The_loai_ID(the_loai_data.return_id(the_loai));
+        int the_loai_id;
+        the_loai_data.return_id(the_loai, the_loai_id);
+        b.set_The_loai_ID(the_loai_id);
         b.set_NXB(nha_xuat_ban);
         b.set_NamXB(nam_xuat_ban);
         b.set_So_trang(so_trang);
         b.set_ISBN(ISBN);
         b.set_Language(ngon_ngu);
-        //b.set_Chuyen_nganh_ID(chuyen_nganh_data.return_id(chuyen_nganh));
+        int chuyen_nganh_id;
+        chuyen_nganh_data.return_id(chuyen_nganh, chuyen_nganh_id);
+        b.set_Chuyen_nganh_ID(chuyen_nganh_id);
         b.set_Tom_tat(tom_tat);
-        my_time d;
-        d.now();
+        my_time d = my_time::now();
         b.set_is_Borrow(is_borrow);
         b.set_is_Download(is_download);
         b.set_is_Read_online(is_read);
+        b.set_tong_sach(number_of_book);
+        b.set_limit_borrow(limit_borrow);
+        b.set_tong_sach_ranh(number_of_book);
         b.set_Date_created(d);
         b.set_Created_by(acc_sign_in.get_ten_dang_nhap());
         QString path = getDataFilePath("png_background\\");
@@ -157,25 +165,36 @@ void admin_show::on_them_button_clicked()
         b.set_Link_pdf(rel.toStdString() +"/"+ to_string(b.get_ID()) + ".pdf");
         book_data.insert(b);
         for (int i = 0 ; i < ui_3->number_of_book->value();i++){
-            /*
             Book_copies bc;
+            long long id_copy = book_copy_data.find_max_id() + 1;
+            bc.set_id(id_copy);
             bc.set_id_book(b.get_ID());
-            string id_ = id_book +"." + toFixedString(i+1,3);
-            bc.set_id(id_);
-            qDebug() << id_;
-            if (i == 0) bc.set_status("Chỉ đọc");
-            else if (to_int(b.get_is_Borrow())){
-                bc.set_status("Có sẵn");
+            if (is_read){
+                bc.set_status("available");
             }
-            else bc.set_status("Chỉ đọc");
-            book_copy_data.insert_book_copy(bc);
-            */
+            else {
+                bc.set_status("not available");
+            }
+            book_copy_data.insert(bc);
         }
-        ghi_copy_book(book_copy_data);
-        ghi_book(book_data);
-        box_thong_bao("Thêm sách thành công");
+        //ghi_copy_book(book_copy_data);
+        //ghi_book(book_data);
+        QMessageBox box(this);
+        box.setWindowTitle("Thông báo");
+        box.setText("Thêm sách thành công !");
+        //box.setIconPixmap(QPixmap(":/icons/icons_/error.png").scaled(16,16, Qt::KeepAspectRatio, Qt::SmoothTransformation));
+        box.setStyleSheet(R"(
+            QMessageBox { background: rgb(243,246,255); }
+            QMessageBox QLabel { color:#0868ad; }
+            QMessageBox QPushButton {
+            background:#fff; color:#0868ad;
+            border:1px solid #d0d0d0; border-radius:8px; padding:6px 12px;
+            }
+            QMessageBox QPushButton:hover  { background:#f5f5f5; }
+            QMessageBox QPushButton:default{ border-color:#0078d7; }
+            )");
+        box.exec();
         return_null_all();
-
     }
     else {
         return;

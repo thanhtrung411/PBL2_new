@@ -1,1 +1,27 @@
-﻿ID,ID_BOOK,Status
+ID, Book_id,Status
+1,637637089,available
+2,637637089,available
+3,637637089,available
+4,637637089,available
+5,637637089,available
+6,637637089,available
+7,637637089,available
+8,637637089,available
+9,637637089,not available
+10,639937089,not available
+11,202501200001,not available
+12,202501200001,not available
+13,202501200001,not available
+14,202501200001,not available
+15,202501200001,not available
+16,202501200005,available
+17,202501200005,available
+18,202501200005,available
+19,202501200005,available
+20,202501200005,available
+21,202501200005,available
+22,202501200006,not available
+23,202501200006,not available
+24,202501200006,not available
+25,202501200006,not available
+26,202501200006,not available

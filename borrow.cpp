@@ -91,3 +91,4 @@ string borrow::get_status() const{
 int borrow::get_tien_phat() const{
     return Tien_phat;
 }
+

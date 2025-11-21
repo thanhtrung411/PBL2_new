@@ -1,6 +1,10 @@
 #include "my_string.h"
 #include "my_time.h"
 #include "tree.h"
+#include <locale>
+#include <codecvt>
+#include <algorithm>
+#include <cctype>
 void getline(std::istream& is, std::string& str) {
     std::getline(is, str);
     if (!str.empty() && str.back() == '\r') {
@@ -8,11 +12,7 @@ void getline(std::istream& is, std::string& str) {
     }
 }
 int do_dai_str(string str) {
-    int len = 0;
-    while (str[len] != '\0') {
-        len++;
-    }
-    return len;
+    return str.size();
 }
 
 int is_chua_chuoi(const string& key, const string& full){
@@ -23,70 +23,107 @@ int is_chua_chuoi(const string& key, const string& full){
 }
 
 int tim_kiem_co_chua(const string& key, const string& full) {
+    string key_lower = xoa_dau_lower(key);
+    string full_lower = xoa_dau_lower(full);
     int count = 0;
-    int key_len = do_dai_str(key);
-    int full_len = do_dai_str(full);
-    BST_string key_words;
-    BST_string full_words;
-    for (int i = 0 ; i < key_len ; i++){
-        string res = "";
-        while (i < key_len && key[i] != ' '){
-            char c = key[i];
-            if (c >= 'A' && c <= 'Z'){
-                c = c - 'A' + 'a';
-            }
-            res += c;
+    int key_len = do_dai_str(key_lower);
+    int full_len = do_dai_str(full_lower);
+
+    BST_string key_word;
+    BST_string full_word;
+
+    for (int i = 0 ; i < key_len; i++){
+        string temp = "";
+        while (i < key_len && key_lower[i] != ' '){
+            temp += key_lower[i];
             i++;
         }
-        if (res != "") {
-
-            key_words.insert(res); 
+        if (temp != ""){
+            key_word.insert(temp);
         }
     }
 
-    for (int i = 0 ; i < full_len ; i++){
-        string res = "";
-        while (i < full_len && full[i] != ' '){
-            char c = full[i];
-            if (c >= 'A' && c <= 'Z'){
-                c = c - 'A' + 'a';
-            }
-            res += c;
+    for (int i = 0 ; i < full_len; i++){
+        string temp = "";
+        while (i < full_len && full_lower[i] != ' '){
+            temp += full_lower[i];
             i++;
         }
-        if (res != "") {
-            full_words.insert(res);
+        if (temp != ""){
+            full_word.insert(temp);
         }
     }
-    full_words.search_co_chua(key_words, full_words, count);
+    key_word.search_co_chua(key_word, full_word, count);
     return count;
+
 }
 
 int tim_kiem_chinh_xac(const string& key, const string& full) {
-    int count = tim_kiem_co_chua(key, full);
-    if (count == count_string(key) && count == count_string(full)) return 1;
+    string key_lower = xoa_dau_lower(key);
+    string full_lower = xoa_dau_lower(full);
+    if (key_lower == full_lower) {
+        return 1;
+    }
     return 0;
 }
 int tim_kiem_bat_dau_bang(const string& key, const string& full) {
-    int key_len = do_dai_str(key);
-    int full_len = do_dai_str(full);
-    if (key_len > full_len) return 0;
-    for (int i = 0; i < key_len; i++) {
-        char c1 = key[i];
-        char c2 = full[i];
-        if (c1 >= 'A' && c1 <= 'Z') {
-            c1 = c1 - 'A' + 'a';
-        }
-        if (c2 >= 'A' && c2 <= 'Z') {
-            c2 = c2 - 'A' + 'a';
-        }
-        if (c1 != c2) {
-            return 0;
-        }
+    string key_lower = xoa_dau_lower(key);
+    string full_lower = xoa_dau_lower(full);
+    int key_len = do_dai_str(key_lower);
+    int full_len = do_dai_str(full_lower);
+    if (key_len == 0) return 0;
+    if (full_len < key_len) return 0;
+    if (full_lower.compare(0, key_len, key_lower) == 0) {
+        return 1;
     }
-    return 1;
+    return 0;
 }
 
+wstring utf8_to_wstring(const string& str) {
+    try{
+        std::wstring_convert<std::codecvt_utf8<wchar_t>> converter;
+        return converter.from_bytes(str);
+    }
+    catch(...){
+        return L"";
+    }
+}
+string wstring_to_utf8(const wstring& wstr) {
+    try{
+        std::wstring_convert<std::codecvt_utf8<wchar_t>> converter;
+        return converter.to_bytes(wstr);
+    }
+    catch(...){
+        return "";
+    }
+}
+
+string xoa_dau_lower(const string& s){
+    wstring w_str = utf8_to_wstring(s);
+    wstring w_kq = L"";
+    std::locale loc;
+    try {
+        loc = std::locale("");
+    } catch (const std::exception& e) {
+        loc = std::locale::classic();
+    }
+
+    static const wstring VIET_NAM_CHARS =
+        L"áàảãạăắằẳẵặâấầẩẫậéèẻẽẹêếềểễệíìỉĩịóòỏõọôốồổỗộơớờởỡợúùủũụưứừửữựýỳỷỹỵđ"
+        L"ÁÀẢÃẠĂẮẰẲẴẶÂẤẦẨẪẬÉÈẺẼẸÊẾỀỂỄỆÍÌỈĨỊÓÒỎÕỌÔỐỒỔỖỘƠỚỜỞỠỢÚÙỦŨỤƯỨỪỬỮỰÝỲỶỸỴĐ";
+    static const wstring BASE_CHARS =
+        L"aaaaaaaaaaaaaaaaaeeeeeeeeeeeiiiiiooooooooooooooooouuuuuuuuuuuyyyyyd"
+        L"aaaaaaaaaaaaaaaaaeeeeeeeeeeeiiiiiooooooooooooooooouuuuuuuuuuuyyyyyd";
+    for (wchar_t wc : w_str) {
+        size_t pos = VIET_NAM_CHARS.find(wc);
+        if (pos != wstring::npos) {
+            w_kq += BASE_CHARS[pos];
+        } else {
+            w_kq += std::tolower(wc, loc);
+        }
+    }
+    return wstring_to_utf8(w_kq);
+}
 
 static inline void rtrim_inplace(string &s){
     while (!s.empty() && (s.back()==' '||s.back()=='\t'||s.back()=='\r')){

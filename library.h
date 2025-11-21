@@ -59,6 +59,8 @@ public:
     // BST<The_loai, int>& the_loais_of_book(long long book_id);
     // BST<borrow, long long>& borrows_of_book(long long book_id);
 
+    int dat_sach(long long id_book_, int id_user_, my_time booking_date, int limit_borrow, int score_user);
+    friend void search(int type_the_loai, int type_tuy_chon, int& type_bieu_ghi, string& key_word, BST_Book &book_data_, BST_Book &kq_return);
 };
 
 #endif // LIBRARY_H

@@ -22,6 +22,7 @@ BST_Accout accout_data;
 BST_Book book_data;
 BST_book_copy book_copy_data;
 BST_Borrow borrow_data;
+BST_Borrow borrow_user_data;
 BST_The_loai the_loai_data;
 BST_Chuyen_nganh chuyen_nganh_data;
 BST_string string_data;
@@ -33,7 +34,7 @@ void box_thong_bao(string s){
     QMessageBox box;
     box.setWindowTitle("Thông báo");
     box.setText(QString::fromStdString(s));
-    box.setIconPixmap(QPixmap(":/icons/icons_/error.png").scaled(16,16, Qt::KeepAspectRatio, Qt::SmoothTransformation));
+    //box.setIconPixmap(QPixmap(":/icons/icons_/error.png").scaled(16,16, Qt::KeepAspectRatio, Qt::SmoothTransformation));
     box.setStyleSheet(R"(
     QMessageBox { background: rgb(243,246,255); }
     QMessageBox QLabel { color:#0868ad; }
@@ -76,9 +77,20 @@ int main(int argc, char *argv[])
     doc_borrow(borrow_data);
     doc_the_loai(the_loai_data);
     doc_chuyen_nganh(chuyen_nganh_data);
+
+
+    BST_Book_by_Author author_book_data;
+    book_data.traverse_ascending([&author_book_data](book &a){
+        author_book_data.insert(a);
+    });
+    BST_Book_by_DateCreated date_created_book_data;
+    book_data.traverse_ascending([&date_created_book_data](book &a){
+        date_created_book_data.insert(a);
+    });
+
     //cout << borrow_data.find_new_id_borrow();
     //applyFusionDark(a);   
-
+    qDebug() << xoa_dau_lower("Như bác ơi đó");
     qDebug() << tim_kiem_co_chua("Như bác ơi đó","Như có Bác Hồ trong Như hrhr Như ơi");
     qDebug() << tim_kiem_chinh_xac("Như bác ơi đó","Như có Bác Hồ trong Như hrhr Như ơi");
     qDebug() << tim_kiem_chinh_xac("Một hai ba","một hai ba");

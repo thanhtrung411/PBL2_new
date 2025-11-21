@@ -20,6 +20,12 @@ private slots:
 
     void on_quyen_quan_tri_clicked();
 
+    void on_tu_sach_cua_toi_clicked();
+
+    void on_lich_su_hoat_dong_clicked();
+
+    void on_ho_so_ca_nhan_clicked();
+
 private:
     Ui::info *ui;
 protected:
