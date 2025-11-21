@@ -1,6 +1,7 @@
 #include "dang_ky_dialog.h"
 #include "ui_dang_ky_dialog.h"
 #include "my_string.h"
+#include "history.h"
 #include "global.h"
 #include <QStackedWidget>
 #include <QWidget>
@@ -112,6 +113,8 @@ void dang_ky_dialog::on_sign_in_button_clicked()
             ui_2->password_input->setFocus();
         }
         else{
+            history his;
+            his.log_action(giai_ma_str_(ten_dang_nhap), LOGIN, 0, "");
             emit registered(acc_sign_in);
             //ui->info->setCurrentIndex(1);
             ui_2->username_input->setText("");
@@ -213,6 +216,8 @@ void dang_ky_dialog::on_dang_ky_2_button_clicked()
         p.set_pass(mat_khau);
         p.set_level("Admin");
         p.ma_hoa_();
+        history his;
+        his.log_action(ten_dang_nhap, REGISTER, 0, "");
         acc_sign_in = p;
         accout_data.insert(p);
         ghi_accout(accout_data);

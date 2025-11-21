@@ -28,6 +28,12 @@ constexpr int Z = 3;  // tren
 //ti le anh
 constexpr int IMG_W_RATIO = 4;
 constexpr int IMG_H_RATIO = 5;
+
+constexpr int CARD_MUON_H = 200;
+constexpr int IMG_W = 140;
+constexpr int IMG_H = 180;
+
+
 }
 
 ProductCard::ProductCard(const book& b,
@@ -151,6 +157,80 @@ void ProductCard::enterEvent(QEnterEvent* e)  { QFrame::enterEvent(e); }
 void ProductCard::leaveEvent(QEvent* e)       { QFrame::leaveEvent(e); }
 
 QPixmap ProductCard::loadScaled(const QString& path, const QSize& toSize) const
+{
+    QPixmap pm(path);
+    if (pm.isNull()) {
+        // placeholder nếu không tìm thấy ảnh
+        QPixmap ph(toSize);
+        ph.fill(Qt::lightGray);
+        return ph;
+    }
+    return pm.scaled(toSize, Qt::KeepAspectRatio, Qt::SmoothTransformation);
+}
+
+
+
+ProductCard_Tim_kiem::ProductCard_Tim_kiem(const book& b,
+                         QWidget* parent)
+    : QFrame(parent)
+{
+    set_ID(b);
+    setObjectName("ProductCard_tim_kiem");
+    setFixedSize(CARD_W, CARD_H);
+    setStyleSheet(R"(
+        #ProductCard_tim_kiem:hover {
+            border:1px solid #617fb9;
+        }
+        #ProductCard_tim_kiem {
+            background:#fff;
+        }
+        #ProductCard_tim_kiem QLabel[role="title"] {
+            color:#0f172a;
+        }
+        #ProductCard_tim_kiem QPushButton {
+            background:#fff;
+            color:#4568ad;
+            border:2px solid #4568ad;
+            border-radius:8px;
+            padding:6px 8px;
+        }
+        #ProductCard_tim_kiem QLabel {
+            background:#fff;
+        }
+        #ProductCard_tim_kiem QPushButton:hover   { background:#e9ecf5; }
+        #ProductCard_tim_kiem QPushButton:pressed { background:#d6d8e0; }
+    )");
+
+    auto shadow = new QGraphicsDropShadowEffect(this);
+    shadow->setBlurRadius(16);
+    shadow->setOffset(0, 4);
+    shadow->setColor(QColor(0,0,0,50));
+    setGraphicsEffect(shadow);
+
+    // ========== Layout tổng ==========
+    auto hMain = new QHBoxLayout(this);
+    hMain->setContentsMargins(X, Z, X, X);
+    hMain->setSpacing(6);
+
+    imageLabel = new QLabel(this);
+    imageLabel->setFixedSize(IMG_W, IMG_H);
+    imageLabel->setAlignment(Qt::AlignCenter);
+    QString imgPath =QString::fromUtf8(b.get_Link_png().c_str());
+    imageLabel->setPixmap(loadScaled(imgPath, imageLabel->size()));
+    hMain->addWidget(imageLabel);
+
+    auto VInfo = new QVBoxLayout();
+    VInfo->setSpacing(4);
+
+    titleLabel = new QLabel(QString::fromUtf8(b.get_Name().c_str()));
+    titleLabel->setProperty("role","tittle");
+    titleLabel->setWordWrap(true);
+    titleLabel->setMaximumHeight(QFontMetrics(titleLabel->font()).lineSpacing() * 2);
+    VInfo->addWidget(titleLabel);
+
+}
+
+QPixmap ProductCard_Tim_kiem::loadScaled(const QString& path, const QSize& toSize) const
 {
     QPixmap pm(path);
     if (pm.isNull()) {

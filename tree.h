@@ -9,6 +9,7 @@
 #include "author.h"
 #include "book_copies.h"
 #include "borrow.h"
+#include "history_record.h"
 #include "description.h"
 using namespace std;
 
@@ -89,6 +90,7 @@ protected:
     Node<T>* add_Node(Node<T>* node, const T& value, int &ok);
     Node<T>* search_Node(Node<T>* node, const Key& key);
     Node<T>* delete_Node(Node<T>* node, T data, int &ok);
+    Node<T>* copy_tree(Node<T>* node);
 
     void in_order_recursive(Node<T>* node, std::function<void(T&)> visit_func);
     void pre_order_recursive(Node<T>* node, std::function<void(T&)> visit_func);
@@ -97,6 +99,17 @@ protected:
     Key find_max_key(Node<T>* node) const;
 public:
     BST(Key (*getter)(const T&)): root(nullptr), getKey(getter) {}
+    BST(const BST& other): getKey(other.getKey) {
+        root = copy_tree(other.root);
+    }
+    BST& operator=(const BST& other) {
+        if (this != &other) {
+            destroy_Node(root);
+            root = copy_tree(other.root);
+            getKey = other.getKey;
+        }
+        return *this;
+    }
     ~BST();
     bool insert(const T& value);
     bool remove_by_Key(const Key& id);
@@ -127,11 +140,16 @@ namespace KeyGetters {
     string getStringID(const string& s);
     string getNameBook(const book& b);
     string getAuthorName(const book& b);
+    my_time getMyTimeID(const history_record& t);
+    inline string lower(string s);
     std::pair<string,long long> getKey_Name_ID   (const book& b);
     std::pair<string,long long> getKey_Author_ID (const book& b);
     std::pair<string,long long> getKey_TL_ID     (const book& b);
     std::pair<string,long long> getKey_CN_ID     (const book& b);
     std::pair<int,long long>    getKey_DoCX_ID   (const book& b);
+    std::pair<my_time,long long> getKey_History_ID(const history_record& h);
+    std::pair<my_time,long long>getKey_DateCreated_ID   (const book& b);
+
 }
 
 class BST_Accout : public BST<accout, int> {
@@ -155,9 +173,9 @@ private:
     Node<book>* the_loai_of_book_helper(int the_loai_id, Node<book>* node, BST_Book &b);
     Node<book>* chuyen_nganh_of_book_helper(int chuyen_nganh_id, Node<book>* node, BST_Book &b);
 public:
-    BST_Book& author_of_book(int author_id);
-    BST_Book& the_loai_of_book(int the_loai_id);
-    BST_Book& chuyen_nganh_of_book(int chuyen_nganh_id);
+    void author_of_book(int author_id, BST_Book &b);
+    void the_loai_of_book(int the_loai_id, BST_Book &b);
+    void chuyen_nganh_of_book(int chuyen_nganh_id, BST_Book &b);
     void search(int type_the_loai, int type_tuy_chon, int& type_bieu_ghi, string& key_word, BST_Book &book_data_, BST_Book &kq_return);
     void tong_hop_sach_TL_CN(int The_loai_ID, int Chuyen_nganh_ID, BST_Book &b, BST_Book &book_data_);
     long long tong_hop_sach_find_max_id(BST_Book &b);
@@ -192,19 +210,53 @@ private:
 public:
     BST_Book_by_Do_chinh_xac() : BST(KeyGetters::getKey_DoCX_ID) {}
 };
+class BST_Book_by_DateCreated : public BST<book, std::pair<my_time,long long>>{
+private:
+public:
+    BST_Book_by_DateCreated() : BST(KeyGetters::getKey_DateCreated_ID) {}
+};
+
+class BST_Book_by_DateCreated_10 : public BST<book, std::pair<my_time,long long>>{
+private:
+    static constexpr int MAX_SIZE = 10;
+    std::pair<my_time,long long> min_key_in_tree(Node<book>* node) const {
+        Node<book>* current = node;
+        while (current && current->getLeft() != nullptr) {
+            current = current->getLeft();
+        }
+        return current ? KeyGetters::getKey_DateCreated_ID(current->getData()) : std::pair<my_time,long long>{my_time(), 0};
+    }
+    void trim_to_size(){
+        while (this->count_data() > MAX_SIZE){
+            auto min_key = min_key_in_tree(this->root);
+            this->remove_by_Key(min_key);
+        }
+    }
+public:
+    BST_Book_by_DateCreated_10() : BST(KeyGetters::getKey_DateCreated_ID) {}
+    bool insert(const book& value) {
+        bool inserted = BST<book, std::pair<my_time,long long>>::insert(value);
+        if (inserted) {
+            trim_to_size();
+        }
+        return inserted;
+    }
+};
+
 
 class BST_book_copy : public BST<Book_copies, long long> {
 private:
     Node<Book_copies>* copies_of_book_helper(long long book_id, Node<Book_copies>* node, BST_book_copy &b);
+    Node<Book_copies>* find_available_copy_helper(long long book_id, Node<Book_copies>* node);
 public:
     BST_book_copy& copies_of_book(long long book_id);
+    long long find_id_available_copy(long long book_id);
     BST_book_copy() : BST<Book_copies, long long>(KeyGetters::getBookCopiesID) {}
-    //void write_book_copy(QTextStream &out) const;
+    void write_book_copy(QTextStream &out) const;
 };
 
 class BST_Author : public BST<Author, int> {
 private:
-    Node<Author>* return_name_helper(Node<Author>* node, int id, int &ok, string &name);
     Node<Author>* return_id_helper(Node<Author>* node, string name, int &ok, int &id);
 public:
     BST_Author() : BST<Author, int>(KeyGetters::getAuthorID) {}
@@ -216,7 +268,6 @@ public:
 
 class BST_Chuyen_nganh : public BST<Chuyen_nganh, int> {
 private:
-    Node<Chuyen_nganh>* return_name_helper(Node<Chuyen_nganh>* node, int id, int &ok, string &name);
     Node<Chuyen_nganh>* return_id_helper(Node<Chuyen_nganh>* node, string name, int &ok, int &id);
 public:
     BST_Chuyen_nganh() : BST<Chuyen_nganh, int>(KeyGetters::getChuyenNganhID) {}
@@ -227,7 +278,6 @@ public:
 
 class BST_The_loai : public BST<The_loai, int> {
 private:
-    Node<The_loai>* return_name_helper(Node<The_loai>* node, int id, int &ok, string &name);
     Node<The_loai>* return_id_helper(Node<The_loai>* node, string name, int &ok, int &id);
 public:
     BST_The_loai() : BST<The_loai, int>(KeyGetters::getTheLoaiID) {}
@@ -241,11 +291,17 @@ private:
 public:
     BST_string() : BST<string, string>(KeyGetters::getStringID) {}
     bool co_chua_string(string& key_word);
+    bool co_chua_string_helper(Node<string>* node, const string& key_word);
     void search_co_chua(BST_string &key, BST_string &full, int &count_);
     void search_co_chua_helper(Node<string>* node, BST_string &full, int &count_);
 };
 
 class BST_Borrow : public BST<borrow, long long> {
+private:
+    Node<borrow>* sach_dang_muon_helper(int user_id, Node<borrow>* node, int &count);
+    Node<borrow>* check_book_copy_borrowed_helper(int user_id, long long book_id, Node<borrow>* node);
+    Node<borrow>* info_user_helper(int user_id, Node<borrow>* node, BST_Borrow &b);
+    Node<borrow>* sach_qua_han_helper(int user_id, my_time current_date, Node<borrow>* node, BST_Borrow &b);
 public:
     BST_Borrow() : BST<borrow, long long>(KeyGetters::getBorrowID) {}
     ~BST_Borrow() = default;
@@ -260,6 +316,17 @@ public:
     int count_borrow() const { return count_data(); }
     void write_csv(Node<borrow>* node, QTextStream &out) const; // Cần thay đổi tham số
     void write_borrow(QTextStream &out) const;
+    int sach_dang_muon(int user_id);
+    bool check_borrowed(int user_id, long long book_id);
+    void info_user(int user_id, BST_Borrow &b);
+    void sach_qua_han(int user_id, my_time current_date, BST_Borrow &b);
+};
+
+class BST_History : public BST<history_record, my_time> {
+private:
+public:
+    BST_History() : BST<history_record, my_time>(KeyGetters::getMyTimeID) {}
+    ~BST_History() = default;
 };
 
 #endif // TREE_H

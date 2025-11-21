@@ -1,6 +1,7 @@
 #include "tree.h"
 #include "global.h"
 #include "my_string.h"
+#include "history_record.h"
 #include <iostream>
 #include <QTextStream>
 #include <QString>
@@ -43,6 +44,9 @@ namespace KeyGetters{
     string getAuthorName(const book& b){
         return b.get_Author();
     }
+    my_time getMyTimeID(const history_record& t){
+        return t.date_action;
+    }
     inline string lower(string s){
         for(char &c: s) c = std::tolower((unsigned char)c);
         return s;
@@ -52,6 +56,7 @@ namespace KeyGetters{
     std::pair<string,long long> getKey_TL_ID     (const book& b) { return { lower(b.get_The_loai_name()),     b.get_ID() }; }
     std::pair<string,long long> getKey_CN_ID     (const book& b) { return { lower(b.get_Chuyen_nganh_name()), b.get_ID() }; }
     std::pair<int,long long>    getKey_DoCX_ID   (const book& b) { return { b.get_do_chinh_xac(),             b.get_ID() }; }
+    std::pair<my_time,long long>getKey_DateCreated_ID   (const book& b) { return { b.get_Date_created(),      b.get_ID() }; }
 }
 
 template<typename T, typename Key>
@@ -198,6 +203,17 @@ Node<T>* BST<T, Key>::delete_Node(Node<T>* node, T data, int &ok) {
     }
     return balance(node);
 }
+template<typename T, typename Key>
+Node<T>* BST<T, Key>::copy_tree(Node<T>* node) {
+    if (node == nullptr) {
+        return nullptr;
+    }
+    Node<T>* new_node = new Node<T>(node->getData());
+    new_node->setLeft(copy_tree(node->getLeft()));
+    new_node->setRight(copy_tree(node->getRight()));
+    updateHeight(new_node);
+    return new_node;
+}
 
 template<typename T, typename Key>
 bool BST<T, Key>::remove_by_Key(const Key& id) {
@@ -224,7 +240,7 @@ Node<T>* BST<T, Key>::search_Node(Node<T>* node, const Key& key) {
 template<typename T, typename Key>
 Key BST<T, Key>::find_max_key(Node<T>* node) const {
     if (node == nullptr) {
-        return (Key)0;
+        return Key{};
     }
     Node<T>* current = node;
     while (current->getRight() != nullptr) {
@@ -296,7 +312,7 @@ T BST<T, Key>::operator[](int index) {
 template<typename T, typename Key>
 Key BST<T, Key>::find_max_id() const{
     if (root == nullptr) {
-        return Key(0);
+        return Key{};
     }
     Key max_key = find_max_key(root);
     return max_key;
@@ -364,11 +380,24 @@ template class BST<Chuyen_nganh, int>;
 template class BST<The_loai, int>;
 template class BST<borrow, long long>;
 template class BST<string, string>;
+template class BST<history_record, my_time>;
+template class BST<book, std::pair<string,long long>>;
+template class BST<book, std::pair<my_time,long long>>;
 
 ////////////--for BST_string--//////////////
 bool BST_string::co_chua_string(string& key_word) {
-    Node<string>* node = search_Node(root, key_word);
-    return node != nullptr;
+    return co_chua_string_helper(root, key_word);
+}
+bool BST_string::co_chua_string_helper(Node<string>* node, const string& key_word) {
+    if (!node) return false;
+    if (co_chua_string_helper(node->getLeft(), key_word)) return true;
+
+    const string& word = node->getData();
+    if (word.find(key_word) != string::npos) {
+        return true;
+    }
+
+    return co_chua_string_helper(node->getRight(), key_word);
 }
 
 void BST_string::search_co_chua_helper(Node<string>* node, BST_string &full, int &count_) {
@@ -448,6 +477,16 @@ void BST_Borrow::write_csv(Node<borrow>* node, QTextStream &out) const {
     if (!node) return;
     write_csv(node->getLeft(), out);
     borrow& a = node->getData();
+    out << a.get_id() << ","
+        << a.get_book_copy_id() << ","
+        << a.get_id_user() << ","
+        << a.get_id_admin() << ","
+        << QString::fromStdString(a.get_booking_date().get_datetime()) << ","
+        << QString::fromStdString(a.get_borrow_date().get_datetime()) << ","
+        << QString::fromStdString(a.get_due_date().get_datetime()) << ","
+        << QString::fromStdString(a.get_return_date().get_datetime()) << ","
+        << QString::fromStdString(a.get_status()) << ","
+        << a.get_tien_phat() << "\n";
     write_csv(node->getRight(), out);
 }
 void BST_Borrow::write_borrow(QTextStream &out) const {
@@ -524,72 +563,100 @@ bool BST_Book::search_custom_trung_gian(int type_tuy_chon, int& type_bieu_ghi, s
     //    - type_bieu_ghi == 7: tìm kiếm theo trường TÓM TẮT
     //    - type_bieu_ghi == 8: tìm kiếm theo trường CHUYÊN NGÀNH
     int count = 0;
+    string check_str = "";
     switch (type_bieu_ghi)
     {
-    case 0:{
-        
-        break;
-    }
-    case 1:{
+    case 0:{//tất cả các trường
         if (type_tuy_chon == 0) {
-            int count_temp = tim_kiem_co_chua(key_word, a.get_Name());
-            if (!count_temp) {
+            count += tim_kiem_co_chua(key_word, a.get_Name());
+            count += tim_kiem_co_chua(key_word, a.get_Author());
+            count += tim_kiem_co_chua(key_word, a.get_NXB());
+            count += tim_kiem_co_chua(key_word, to_string_(a.get_NamXB()));
+            count += tim_kiem_co_chua(key_word, a.get_ISBN());
+            count += tim_kiem_co_chua(key_word, a.get_Language());
+            count += tim_kiem_co_chua(key_word, a.get_Tom_tat());
+            count += tim_kiem_co_chua(key_word, a.get_Chuyen_nganh_name());
+            if (!count) {
                 return false;
             }
-            if (count_temp > a.get_do_chinh_xac()) count = count_temp;
-            a.set_do_chinh_xac(count);
-            return true;
-            break;
         }
         else if (type_tuy_chon == 1) {
-            count = tim_kiem_chinh_xac(key_word, a.get_Name());
+            count += tim_kiem_chinh_xac(key_word, a.get_Name());
+            count += tim_kiem_chinh_xac(key_word, a.get_Author());
+            count += tim_kiem_chinh_xac(key_word, a.get_NXB());
+            count += tim_kiem_chinh_xac(key_word, to_string_(a.get_NamXB()));
+            count += tim_kiem_chinh_xac(key_word, a.get_ISBN());
+            count += tim_kiem_chinh_xac(key_word, a.get_Language());
+            count += tim_kiem_chinh_xac(key_word, a.get_Tom_tat());
+            count += tim_kiem_chinh_xac(key_word, a.get_Chuyen_nganh_name());
             if (!count) {
                 return false;
             }
-            a.set_do_chinh_xac(count);
-            return true;
-            break;
         }
         else if (type_tuy_chon == 2) {
-            count = tim_kiem_bat_dau_bang(key_word, a.get_Name());
+            count += tim_kiem_bat_dau_bang(key_word, a.get_Name());
+            count += tim_kiem_bat_dau_bang(key_word, a.get_Author());
+            count += tim_kiem_bat_dau_bang(key_word, a.get_NXB());
+            count += tim_kiem_bat_dau_bang(key_word, to_string_(a.get_NamXB()));
+            count += tim_kiem_bat_dau_bang(key_word, a.get_ISBN());
+            count += tim_kiem_bat_dau_bang(key_word, a.get_Language());
+            count += tim_kiem_bat_dau_bang(key_word, a.get_Tom_tat());
+            count += tim_kiem_bat_dau_bang(key_word, a.get_Chuyen_nganh_name());
             if (!count) {
                 return false;
             }
-            a.set_do_chinh_xac(count);
-            return true;
-            break;
         }
-    }
-    case 2:{
-        /* code */
+        a.set_do_chinh_xac(count);
+        return true;
         break;
     }
-    case 3:{
-        /* code */
+    case 1:{//tên sách
+        check_str = a.get_Name();
         break;
     }
-    case 4:{
-        /* code */
+    case 2:{//tác giả
+        check_str = a.get_Author();
         break;
     }
-    case 5:{
-        /* code */
+    case 3:{//nhà xuất bản
+        check_str = a.get_NXB();
         break;
     }
-    case 6:{
-        /* code */
+    case 4:{//năm xuất bản
+        check_str = to_string_(a.get_NamXB());
         break;
     }
-    case 7:{
-        /* code */
+    case 5:{//ISBN
+        check_str = a.get_ISBN();
         break;
     }
-    case 8:{
-        /* code */
+    case 6:{//ngôn ngữ
+        check_str = a.get_Language();
+        break;
+    }
+    case 7:{//tóm tắt
+        check_str = a.get_Tom_tat();
+        break;
+    }
+    case 8:{//chuyên ngành
+        check_str = a.get_Chuyen_nganh_name();
         break;
     }
     default:
-        break;
+        return false;
+    }
+    if (type_tuy_chon == 0) {
+        count = tim_kiem_co_chua(key_word, check_str);
+    }
+    else if (type_tuy_chon == 1) {
+        count = tim_kiem_chinh_xac(key_word, check_str);
+    }
+    else if (type_tuy_chon == 2) {
+        count = tim_kiem_bat_dau_bang(key_word, check_str);
+    }
+    if (count) {
+        a.set_do_chinh_xac(count);
+        return true;
     }
     return false;
 }
@@ -616,16 +683,20 @@ Node<book>* BST_Book::search_help(int type_the_loai, int type_tuy_chon, int& typ
     */
 
     if (!node) return nullptr;
+    search_help(type_the_loai, type_tuy_chon, type_bieu_ghi, key_word, node->getLeft(), kq_return);
     book& a = node->getData();
     if (type_the_loai != 0){
         if (a.get_The_loai_ID() == type_the_loai){
-
-            
+            if (search_custom_trung_gian(type_tuy_chon, type_bieu_ghi, key_word, a)){
+                kq_return.insert(a);
+            }  
         }
-            return nullptr;
-        
     }
-    search_help(type_the_loai, type_tuy_chon, type_bieu_ghi, key_word, node->getLeft(), kq_return);
+    else{
+        if (search_custom_trung_gian(type_tuy_chon, type_bieu_ghi, key_word, a)){
+            kq_return.insert(a);
+        }
+    }
     search_help(type_the_loai, type_tuy_chon, type_bieu_ghi, key_word, node->getRight(), kq_return);
     return nullptr;
 }
@@ -642,7 +713,6 @@ Node<book>* BST_Book::write_book_helper(Node<book>* node, QTextStream &out) cons
     write_book_helper(node->getLeft(), out);
     book& a = node->getData();
     out << a.get_ID() << "," 
-        << QString::number(a.get_ID()) << "," 
         << QString::fromStdString(a.get_Name()) << "," << "\""
         << QString::fromStdString(a.get_Author()) << "\"" << "," 
         << QString::fromStdString(a.get_NXB()) << ","
@@ -687,10 +757,8 @@ Node<book>* BST_Book::author_of_book_helper(int author_id, Node<book>* node, BST
     author_of_book_helper(author_id, node->getRight(), b);
     return nullptr;
 }
-BST_Book& BST_Book::author_of_book(int author_id){
-    BST_Book* b = new BST_Book();
-    author_of_book_helper(author_id, root, *b);
-    return *b;
+void BST_Book::author_of_book(int author_id, BST_Book &b){
+    author_of_book_helper(author_id, root, b);
 }
 Node<book>* BST_Book::the_loai_of_book_helper(int the_loai_id, Node<book>* node, BST_Book &b) {
     if (!node) return nullptr;
@@ -702,10 +770,8 @@ Node<book>* BST_Book::the_loai_of_book_helper(int the_loai_id, Node<book>* node,
     the_loai_of_book_helper(the_loai_id, node->getRight(), b);
     return nullptr;
 }
-BST_Book& BST_Book::the_loai_of_book(int the_loai_id){
-    BST_Book* b = new BST_Book();
-    the_loai_of_book_helper(the_loai_id, root, *b);
-    return *b;
+void BST_Book::the_loai_of_book(int the_loai_id, BST_Book &b){
+     the_loai_of_book_helper(the_loai_id, root, b);
 }
 Node<book>* BST_Book::chuyen_nganh_of_book_helper(int chuyen_nganh_id, Node<book>* node, BST_Book &b) {
     if (!node) return nullptr;
@@ -717,32 +783,38 @@ Node<book>* BST_Book::chuyen_nganh_of_book_helper(int chuyen_nganh_id, Node<book
     chuyen_nganh_of_book_helper(chuyen_nganh_id, node->getRight(), b);
     return nullptr;
 }
-BST_Book& BST_Book::chuyen_nganh_of_book(int chuyen_nganh_id){
-    BST_Book* b = new BST_Book();
-    chuyen_nganh_of_book_helper(chuyen_nganh_id, root, *b);
-    return *b;
+void BST_Book::chuyen_nganh_of_book(int chuyen_nganh_id, BST_Book &b){
+     chuyen_nganh_of_book_helper(chuyen_nganh_id, root, b);
 }
 
 ///////////////--for BST_Book_copies--///////////////
-
-
-/////////////--for BST_Author--/////////////
-
-Node<Author>* BST_Author::return_name_helper(Node<Author>* node, int id, int &ok, string &name) {
-    if (node == nullptr) {
-        ok = 0;
-        return nullptr;
-    }
-    Node<Author>* found = nullptr;
-    if (node->getData().get_ID() == id) {
-        ok = 1;
-        name = node->getData().get_name();
+Node<Book_copies>* BST_book_copy::find_available_copy_helper(long long book_id, Node<Book_copies>* node){
+    if (!node) return nullptr;
+    Node<Book_copies>* found = find_available_copy_helper(book_id, node->getLeft());
+    Book_copies& a = node->getData();
+    if (a.get_status() == "available" && a.get_id_book() == book_id){
         return node;
     }
-    found = return_name_helper(node->getLeft(), id, ok, name);
-    if (ok == 1) return found;
-    return return_name_helper(node->getRight(), id, ok, name);
+    return find_available_copy_helper(book_id, node->getRight());
 }
+long long BST_book_copy::find_id_available_copy(long long book_id){
+    Node<Book_copies>* node = find_available_copy_helper(book_id, root);
+    if (node != nullptr){
+        return node->getData().get_id();
+    }
+    return -1;
+}
+
+void BST_book_copy::write_book_copy(QTextStream &out) const {
+    out << "ID, Book_id,Status" << "\n";
+    book_copy_data.traverse_ascending([&out](Book_copies& a) {
+        out << a.get_id() << ","
+            << a.get_id_book() << ","
+            << QString::fromStdString(a.get_status()) << "\n";
+    });
+}
+
+/////////////--for BST_Author--/////////////
 Node<Author>* BST_Author::return_id_helper(Node<Author>* node, string name, int &ok, int &id) {
     if (node == nullptr) {
         ok = 0;
@@ -766,29 +838,16 @@ bool BST_Author::return_id(string name, int &id){
     return ok == 1;
 }
 bool BST_Author::return_name(int id, string &name){
-    int ok = 0;
+    Author temp;
+    if (this->find(id, temp)){
+        name = temp.get_name();
+        return true;
+    }
     name = "";
-    Node<Author>* node = return_name_helper(root, id, ok, name);
-    return ok == 1;
+    return false;
 }
 
 /////////////--for BST_Chuyen_nganh--//////////////
-
-Node<Chuyen_nganh>* BST_Chuyen_nganh::return_name_helper(Node<Chuyen_nganh>* node, int id, int &ok, string &name) {
-    if (node == nullptr) {
-        ok = 0;
-        return nullptr;
-    }
-    Node<Chuyen_nganh>* found = nullptr;
-    if (node->getData().get_id() == id) {
-        ok = 1;
-        name = node->getData().get_name();
-        return node;
-    }
-    found = return_name_helper(node->getLeft(), id, ok, name);
-    if (ok == 1) return found;
-    return return_name_helper(node->getRight(), id, ok, name);
-}
 
 Node<Chuyen_nganh>* BST_Chuyen_nganh::return_id_helper(Node<Chuyen_nganh>* node, string name, int &ok, int &id) {
     if (node == nullptr) {
@@ -813,30 +872,16 @@ bool BST_Chuyen_nganh::return_id(string name, int &id){
     return ok == 1;
 }
 bool BST_Chuyen_nganh::return_name(int id, string &name){
-    int ok = 0;
+    Chuyen_nganh temp;
+    if (this->find(id, temp)){
+        name = temp.get_name();
+        return true;
+    }
     name = "";
-    Node<Chuyen_nganh>* node = return_name_helper(root, id, ok, name);
-    return ok == 1;
+    return false;
 }
 
 ////////////--for BST_The_loai--//////////////
-
-Node<The_loai>* BST_The_loai::return_name_helper(Node<The_loai>* node, int id, int &ok, string &name) {
-    if (node == nullptr) {
-        ok = 0;
-        return nullptr;
-    }
-     Node<The_loai>* found = nullptr;
-    if (node->getData().get_id() == id) {
-        ok = 1;
-        name = node->getData().get_name();
-        return node;
-    }
-    found = return_name_helper(node->getLeft(), id, ok, name);
-    if (ok == 1) return found;
-    return return_name_helper(node->getRight(), id, ok, name);
-    
-}
 
 Node<The_loai>* BST_The_loai::return_id_helper(Node<The_loai>* node, string name, int &ok, int &id) {
     if (node == nullptr) {
@@ -861,8 +906,72 @@ bool BST_The_loai::return_id(string name, int &id){
     return ok == 1;
 }
 bool BST_The_loai::return_name(int id, string &name){
-    int ok = 0;
+    The_loai temp;
+    if (this->find(id, temp)){
+        name = temp.get_name();
+        return true;
+    }
     name = "";
-    Node<The_loai>* node = return_name_helper(root, id, ok, name);
-    return ok == 1;
+    return false;
+}
+//////////////--for BST_Borrow--//////////////
+
+Node<borrow>* BST_Borrow::sach_dang_muon_helper(int user_id, Node<borrow>* node, int &count){
+    if (!node) return nullptr;
+    sach_dang_muon_helper(user_id, node->getLeft(), count);
+    borrow& a = node->getData();
+    if (a.get_id_user() == user_id && a.get_status() == "Dang muon"){
+        count++;
+    }
+    sach_dang_muon_helper(user_id, node->getRight(), count);
+    return nullptr;
+}
+int BST_Borrow::sach_dang_muon(int user_id){
+    int count = 0;
+    sach_dang_muon_helper(user_id, root, count);
+    return count;
+}
+
+Node<borrow>* BST_Borrow::check_book_copy_borrowed_helper(int id_user, long long id_book, Node<borrow>* node){
+    if (!node) return nullptr;
+    Node<borrow>* found = check_book_copy_borrowed_helper(id_user, id_book, node->getLeft());
+    if (found) return found;
+    borrow& a = node->getData();
+    if (a.get_id_user() == id_user && a.get_book_copy_id() == id_book && a.get_status() == "Dang muon"){
+        return node;
+    }
+    return check_book_copy_borrowed_helper(id_user, id_book, node->getRight());
+}
+
+bool BST_Borrow::check_borrowed(int id_user, long long id_book){
+    Node<borrow>* node = root;
+    return check_book_copy_borrowed_helper(id_user,id_book, node);
+}
+Node<borrow>* BST_Borrow::info_user_helper(int user_id, Node<borrow>* node, BST_Borrow &b){
+    if (!node) return nullptr;
+    borrow& a = node->getData();
+    if (a.get_id_user() == user_id){
+        b.insert(a);
+    }
+    info_user_helper(user_id, node->getLeft(), b);
+    info_user_helper(user_id, node->getRight(), b);
+    return nullptr;
+}
+void BST_Borrow::info_user(int user_id, BST_Borrow &b){
+    info_user_helper(user_id, root, b);
+}
+
+Node<borrow>* BST_Borrow::sach_qua_han_helper(int user_id, my_time current_date, Node<borrow>* node, BST_Borrow &b){
+    if (!node) return nullptr;
+    sach_qua_han_helper(user_id, current_date, node->getLeft(), b);
+    borrow& a = node->getData();
+    if (a.get_id_user() == user_id && a.get_status() == "Dang muon" && current_date > a.get_due_date()){
+        b.insert(a);
+    }
+    sach_qua_han_helper(user_id, current_date, node->getRight(), b);
+    return nullptr;
+}
+
+void BST_Borrow::sach_qua_han(int user_id, my_time current_date, BST_Borrow &b){
+    sach_qua_han_helper(user_id, current_date, root, b);
 }

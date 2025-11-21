@@ -16,9 +16,10 @@ private:
     string phone_number;
     string pass;
     string level;
+    int score;
     my_time date_created;
 public:
-    accout(int ID,string ten_dang_nhap,string ten_tai_khoan, int gioi_tinh,my_time ngay_sinh,string email,int doi_tuong, string phone_number,string pass,string level, my_time date_created){
+    accout(int ID,string ten_dang_nhap,string ten_tai_khoan, int gioi_tinh,my_time ngay_sinh,string email,int doi_tuong, string phone_number,string pass,string level,int score,my_time date_created){
         this->ID = ID;
         this->ten_dang_nhap=ten_dang_nhap;
         this->ten_tai_khoan=ten_tai_khoan;
@@ -29,6 +30,7 @@ public:
         this->phone_number=phone_number;
         this->pass=pass;
         this->level=level;
+        this->score=score;
         this->date_created=date_created;
     };
     accout() {}
@@ -95,12 +97,19 @@ public:
     string get_level() const{
         return level;
     };
+    void set_score(int score){
+        this->score = score;
+    };
+    int get_score() const{
+        return score;
+    };
     void set_date_created(my_time date_created){
         this->date_created = date_created;
     };
     my_time get_date_created() const{
         return date_created;
     };
+    int max_book_borrow();
 };
 
 #endif // ACCOUT_H

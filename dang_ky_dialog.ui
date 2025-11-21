@@ -54,7 +54,7 @@ color: rgb(15, 15, 15);</string>
      <string notr="true"/>
     </property>
     <property name="currentIndex">
-     <number>2</number>
+     <number>0</number>
     </property>
     <widget class="QWidget" name="page">
      <widget class="QPushButton" name="dang_ky_2_button">
