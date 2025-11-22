@@ -132,6 +132,18 @@ void book::set_luot_muon(int luot_muon){
 void book::set_luot_tai(int luot_tai){
     this->luot_tai = luot_tai;
 }
+void book::set_tong_sach(int tong_sach){
+    this->tong_sach = tong_sach;
+}
+void book::set_tong_sach_dang_muon(int tong_sach_dang_muon){
+    this->tong_sach_dang_muon = tong_sach_dang_muon;
+}
+void book::set_tong_sach_dang_dat(int tong_sach_dang_dat){
+    this->tong_sach_dang_dat = tong_sach_dang_dat;
+}
+void book::set_tong_sach_ranh(int tong_sach_ranh){
+    this->tong_sach_ranh = tong_sach_ranh;
+}
 void book::set_Date_created(my_time Date_created){
     this->Date_created = Date_created;
 }

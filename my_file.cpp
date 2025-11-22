@@ -209,13 +209,25 @@ void doc_book(BST_Book &book_data){
                 b.set_luot_tai(to_int(res));
                 break;
             case 20:
+                b.set_tong_sach(to_int(res));
+                break;
+            case 21:
+                b.set_tong_sach_dang_muon(to_int(res));
+                break;
+            case 22:
+                b.set_tong_sach_dang_dat(to_int(res));
+                break;
+            case 23:
+                b.set_tong_sach_ranh(to_int(res));
+                break;
+            case 24:
                 {
                     my_time res_time;
                     res_time.set_time_datetime(res);
                     b.set_Date_created(res_time);
                 }
                 break;
-            case 21:
+            case 25:
                 b.set_Created_by(res);
                 break;
             default:
@@ -238,6 +250,7 @@ void ghi_book(BST_Book &book_data){
         return;
     }
     QTextStream out(&file);
+    book_data.write_book(out);
     qDebug() << "Ghi file thanh cong:" << path;
 }
 
@@ -304,7 +317,7 @@ void ghi_copy_book(BST_book_copy &book_copy_data){
         return;
     }
     QTextStream out(&file);
-    //book_copy_data.write_book_copy(out); // cần overload với QTextStream (bên dưới)
+    book_copy_data.write_book_copy(out); // cần overload với QTextStream (bên dưới)
     qDebug() << "Ghi file thanh cong:" << path;
 }
 

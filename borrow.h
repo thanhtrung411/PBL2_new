@@ -45,6 +45,7 @@ public:
     my_time get_return_date() const;
     string get_status() const;
     int get_tien_phat() const;
+
 };
 
 #endif // BORROW_H

@@ -31,6 +31,7 @@ void accout::ma_hoa_(){
     phone_number = ma_hoa_str_(phone_number);
     pass = ma_hoa_str_(pass);
     level = ma_hoa_str_(level);
+    score = to_int(ma_hoa_str_(to_string(score)));
 }
 
 void accout::giai_ma_(){
@@ -40,7 +41,16 @@ void accout::giai_ma_(){
     phone_number = giai_ma_str_(phone_number);
     pass = giai_ma_str_(pass);
     level = giai_ma_str_(level);
+    score = to_int(giai_ma_str_(to_string(score)));
 }
+
+int accout::max_book_borrow(){
+    if (score >= 0 && score < 4) return 2;
+    else if (score >= 4 && score < 8) return 4;
+    else if (score >= 8) return 6;
+    return 0;
+}
+
 /*
 accout accout::check_accout(string id, string pass){
     FILE *accout = fopen("accout.txt","r");

@@ -12,6 +12,12 @@
         <file>icons_/borrow.png</file>
         <file>icons_/download.png</file>
         <file>icons_/read.png</file>
+        <file>icons_/down-chevron.png</file>
+        <file>icons_/open-book.png</file>
+        <file>icons_/copy.png</file>
+        <file>icons_/multiple-users.png</file>
+        <file>icons_/user_admin.png</file>
+        <file>icons_/statistics.png</file>
     </qresource>
     <qresource prefix="/data_">
         <file>data/accout.txt</file>

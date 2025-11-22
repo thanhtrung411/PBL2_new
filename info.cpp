@@ -1,6 +1,7 @@
 #include "info.h"
 #include "ui_info.h"
 #include "admin_show.h"
+#include "admin.h"
 
 info::info(QWidget *parent)
     : QMainWindow(parent)
@@ -28,7 +29,7 @@ info::~info()
 
 void info::on_quyen_quan_tri_clicked()
 {
-    auto win = new admin_show(this);
+    auto win = new admin(this);
     win->setAttribute(Qt::WA_DeleteOnClose, true);
     win->show();
     this->hide();
@@ -58,5 +59,24 @@ void info::closeEvent(QCloseEvent *event)
     }
     this->deleteLater();
     event->accept();
+}
+
+
+
+void info::on_tu_sach_cua_toi_clicked()
+{
+    ui->vung_hien_thi->setCurrentIndex(0);
+}
+
+
+void info::on_lich_su_hoat_dong_clicked()
+{
+    ui->vung_hien_thi->setCurrentIndex(1);
+}
+
+
+void info::on_ho_so_ca_nhan_clicked()
+{
+    ui->vung_hien_thi->setCurrentIndex(2);
 }
 

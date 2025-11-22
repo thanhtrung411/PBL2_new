@@ -6,29 +6,750 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1385</width>
-    <height>790</height>
+    <width>851</width>
+    <height>666</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>Thêm sách</string>
   </property>
   <property name="styleSheet">
-   <string notr="true">background-color: rgb(243, 246, 255);
-color: rgb(69, 104, 173);</string>
+   <string notr="true">
+QWidget { background: #f3f6ff; color: #0f172a; }
+
+
+QLineEdit, QComboBox, QSpinBox, QDateEdit {
+  background: #ffffff;
+  color: #0f172a;
+  border: 1px solid #e0e2eb;
+  border-radius: 8px;
+  padding: 6px 8px;
+}
+QLineEdit:focus, QComboBox:focus, QSpinBox:focus, QDateEdit:focus {
+  border-color: #617fb9;            
+  outline: none;
+}
+
+
+QPushButton {
+  background: #ffffff;
+  color: #4568ad;
+  border: 2px solid #4568ad;
+}
+QPushButton:hover   { background: #e9ecf5; border-color: #3e5e9c; }
+QPushButton:pressed { background: #d6d8e0; border-color: #37538a; }
+QPushButton:disabled{
+  background: #f1f3f9; color: #9aa0a6; border-color: #e0e2eb;
+}
+
+QPushButton#primaryBtn { background:#4568ad; color:#fff; border-color:#4568ad; }
+QPushButton#primaryBtn:hover   { background:#3e5e9c; }
+QPushButton#primaryBtn:pressed { background:#37538a; }
+
+QTableView {
+  background: #ffffff;
+  alternate-background-color: #e9ecf5;
+  gridline-color: #e0e2eb;
+  selection-background-color: #4568ad;
+  selection-color: #ffffff;
+}
+
+
+QToolTip {
+  color: #ffffff;
+  background: #1f2937;
+  border: 1px solid #0b1220;
+  border-radius: 8px;
+  padding: 6px;
+}
+</string>
   </property>
-  <widget class="QWidget" name="centralwidget"/>
-  <widget class="QMenuBar" name="menubar">
-   <property name="geometry">
-    <rect>
-     <x>0</x>
-     <y>0</y>
-     <width>1385</width>
-     <height>25</height>
-    </rect>
-   </property>
+  <widget class="QWidget" name="centralwidget">
+   <widget class="QScrollArea" name="scrollArea">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>0</y>
+      <width>831</width>
+      <height>661</height>
+     </rect>
+    </property>
+    <property name="widgetResizable">
+     <bool>true</bool>
+    </property>
+    <widget class="QWidget" name="scrollAreaWidgetContents">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>-18</y>
+       <width>812</width>
+       <height>1123</height>
+      </rect>
+     </property>
+     <property name="minimumSize">
+      <size>
+       <width>0</width>
+       <height>1123</height>
+      </size>
+     </property>
+     <widget class="QWidget" name="verticalLayoutWidget_3">
+      <property name="geometry">
+       <rect>
+        <x>9</x>
+        <y>9</y>
+        <width>802</width>
+        <height>1111</height>
+       </rect>
+      </property>
+      <layout class="QVBoxLayout" name="verticalLayout_3">
+       <item>
+        <widget class="QLabel" name="them_sach_layout">
+         <property name="font">
+          <font>
+           <pointsize>15</pointsize>
+           <bold>true</bold>
+          </font>
+         </property>
+         <property name="text">
+          <string>Thêm sách</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignmentFlag::AlignCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="label_3">
+         <property name="text">
+          <string/>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="ten_sach_layout">
+         <property name="font">
+          <font>
+           <pointsize>9</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>Tên sách</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignmentFlag::AlignBottom|Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft</set>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLineEdit" name="ten_sach_input">
+         <property name="placeholderText">
+          <string>Vui lòng nhập tên sách</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="tac_gia_layout">
+         <property name="font">
+          <font>
+           <pointsize>9</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>Tên tác giả</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignmentFlag::AlignBottom|Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft</set>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLineEdit" name="tac_gia_input">
+         <property name="placeholderText">
+          <string>Vui lòng nhập tên tác giả/đồng tác giả</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="the_loai_layout">
+         <property name="font">
+          <font>
+           <pointsize>9</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>Thể loại sách</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignmentFlag::AlignBottom|Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft</set>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QComboBox" name="the_loai_sach_input">
+         <property name="font">
+          <font>
+           <pointsize>9</pointsize>
+          </font>
+         </property>
+         <property name="placeholderText">
+          <string/>
+         </property>
+         <item>
+          <property name="text">
+           <string>Vui lòng chọn thể loại...</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Sách giáo trình &amp; Tài liệu học tập</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Sách chuyên ngành</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Sách tham khảo ngoại văn</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Luận văn - Khóa luận - báo cáo</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Tài liệu phổ thông - bổ trợ</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Báo - Tạp chí - ấn phẩm định kỳ</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Sách kỹ năng mềm</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Khác...</string>
+          </property>
+         </item>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="chuyen_nganh_layout">
+         <property name="font">
+          <font>
+           <pointsize>9</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>Chuyên ngành </string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignmentFlag::AlignBottom|Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft</set>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QComboBox" name="chuyen_nganh_input">
+         <property name="font">
+          <font>
+           <pointsize>9</pointsize>
+          </font>
+         </property>
+         <item>
+          <property name="text">
+           <string>Vui lòng chọn chuyên ngành...</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Máy tính và công nghệ thông tin</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Khoa học sự sống</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Công nghệ kỹ thuật</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Kỹ thuật </string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Sản xuất và chế biến</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Kiến trúc và xây dựng</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Môi trường và bảo vệ môi trường</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Khác...</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string/>
+          </property>
+         </item>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="ID_Sach_layout">
+         <property name="font">
+          <font>
+           <pointsize>9</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>ID Sách</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignmentFlag::AlignBottom|Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft</set>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLineEdit" name="ID_Sach_input">
+         <property name="text">
+          <string/>
+         </property>
+         <property name="placeholderText">
+          <string>ID Sách sẽ tự động hiển thị</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_2" stretch="1,0">
+         <item>
+          <layout class="QVBoxLayout" name="verticalLayout_5">
+           <item>
+            <widget class="QLabel" name="nha_xuat_ban_layout">
+             <property name="font">
+              <font>
+               <pointsize>9</pointsize>
+              </font>
+             </property>
+             <property name="text">
+              <string>Nhà xuất bản</string>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft|Qt::AlignmentFlag::AlignVCenter</set>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLineEdit" name="nha_xuat_ban_input">
+             <property name="placeholderText">
+              <string>Vui lòng nhập nhà xuất bản</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+         <item>
+          <layout class="QVBoxLayout" name="verticalLayout_6">
+           <item>
+            <widget class="QLabel" name="nam_xuat_ban_layout">
+             <property name="font">
+              <font>
+               <pointsize>9</pointsize>
+              </font>
+             </property>
+             <property name="text">
+              <string>Năm xuất bản</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLineEdit" name="nam_xuat_ban_input">
+             <property name="minimumSize">
+              <size>
+               <width>246</width>
+               <height>0</height>
+              </size>
+             </property>
+             <property name="placeholderText">
+              <string>Vui lòng nhập năm xuất bản</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_3" stretch="1,0">
+         <item>
+          <layout class="QVBoxLayout" name="verticalLayout_7">
+           <item>
+            <widget class="QLabel" name="so_trang_layout">
+             <property name="font">
+              <font>
+               <pointsize>9</pointsize>
+              </font>
+             </property>
+             <property name="text">
+              <string>Số trang</string>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignmentFlag::AlignBottom|Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft</set>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLineEdit" name="so_trang_input">
+             <property name="placeholderText">
+              <string>Vui lòng nhập số trang</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+         <item>
+          <layout class="QVBoxLayout" name="verticalLayout_8">
+           <item>
+            <widget class="QLabel" name="ISBN_layout">
+             <property name="font">
+              <font>
+               <pointsize>9</pointsize>
+              </font>
+             </property>
+             <property name="text">
+              <string>Số ISBN</string>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignmentFlag::AlignBottom|Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft</set>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLineEdit" name="ISBN_input">
+             <property name="minimumSize">
+              <size>
+               <width>247</width>
+               <height>0</height>
+              </size>
+             </property>
+             <property name="placeholderText">
+              <string>Nhập mã số sách quốc tế (nếu có)</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <widget class="QLabel" name="language_layout">
+         <property name="font">
+          <font>
+           <pointsize>9</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>Ngôn ngữ</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignmentFlag::AlignBottom|Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft</set>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLineEdit" name="language_input">
+         <property name="placeholderText">
+          <string>Vui lòng nhập ngôn ngữ</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="tom_tat_layout">
+         <property name="font">
+          <font>
+           <pointsize>9</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>Tóm tắt</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignmentFlag::AlignBottom|Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft</set>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPlainTextEdit" name="tom_tat_input">
+         <property name="maximumSize">
+          <size>
+           <width>16777215</width>
+           <height>125</height>
+          </size>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">background-color: rgb(255, 255, 255);</string>
+         </property>
+         <property name="placeholderText">
+          <string>Nhập nội dung ngắn gọn của sách</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_8">
+         <item>
+          <layout class="QVBoxLayout" name="verticalLayout_11">
+           <item>
+            <widget class="QLabel" name="label_2">
+             <property name="text">
+              <string>Nhập số lượng</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QSpinBox" name="number_of_book">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="minimumSize">
+              <size>
+               <width>165</width>
+               <height>0</height>
+              </size>
+             </property>
+             <property name="minimum">
+              <number>1</number>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+         <item>
+          <layout class="QVBoxLayout" name="verticalLayout_9">
+           <item>
+            <widget class="QLabel" name="so_ngay_muon_layout">
+             <property name="text">
+              <string>Số ngày mượn</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QSpinBox" name="so_ngay_muon_input">
+             <property name="minimumSize">
+              <size>
+               <width>136</width>
+               <height>0</height>
+              </size>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+         <item>
+          <widget class="QCheckBox" name="is_borrow_check">
+           <property name="maximumSize">
+            <size>
+             <width>999999</width>
+             <height>16777215</height>
+            </size>
+           </property>
+           <property name="text">
+            <string>Cho phép mượn</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QCheckBox" name="is_read_online_check">
+           <property name="maximumSize">
+            <size>
+             <width>9999999</width>
+             <height>16777215</height>
+            </size>
+           </property>
+           <property name="text">
+            <string>Cho phép đọc trực tuyến</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QCheckBox" name="is_download_check">
+           <property name="text">
+            <string>Cho phép tải về</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <spacer name="horizontalSpacer">
+           <property name="orientation">
+            <enum>Qt::Orientation::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>40</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <widget class="QLabel" name="link_png_name">
+         <property name="font">
+          <font>
+           <pointsize>9</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>Nhập hình ảnh sách</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignmentFlag::AlignBottom|Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft</set>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_6">
+         <item>
+          <widget class="QPushButton" name="link_png_button">
+           <property name="maximumSize">
+            <size>
+             <width>135</width>
+             <height>16777215</height>
+            </size>
+           </property>
+           <property name="font">
+            <font>
+             <pointsize>10</pointsize>
+            </font>
+           </property>
+           <property name="text">
+            <string>Chọn file...</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="link_png_layout">
+           <property name="text">
+            <string/>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <widget class="QLabel" name="link_pdf_name">
+         <property name="font">
+          <font>
+           <pointsize>9</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>Nhập file PDF</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignmentFlag::AlignBottom|Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft</set>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_7">
+         <item>
+          <widget class="QPushButton" name="link_pdf_button">
+           <property name="maximumSize">
+            <size>
+             <width>135</width>
+             <height>16777215</height>
+            </size>
+           </property>
+           <property name="font">
+            <font>
+             <pointsize>10</pointsize>
+            </font>
+           </property>
+           <property name="text">
+            <string>Chọn file...</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="link_pdf_layout">
+           <property name="text">
+            <string/>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_9">
+         <item>
+          <widget class="QPushButton" name="them_button">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>200</width>
+             <height>16777215</height>
+            </size>
+           </property>
+           <property name="font">
+            <font>
+             <pointsize>14</pointsize>
+             <bold>true</bold>
+            </font>
+           </property>
+           <property name="text">
+            <string>THÊM</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <spacer name="verticalSpacer_2">
+         <property name="orientation">
+          <enum>Qt::Orientation::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>40</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+      </layout>
+     </widget>
+    </widget>
+   </widget>
   </widget>
-  <widget class="QStatusBar" name="statusbar"/>
  </widget>
  <resources/>
  <connections/>
