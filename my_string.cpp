@@ -274,3 +274,40 @@ string lay_n_chu_dau(const string& s, size_t n) {
     }
     return result;
 }
+
+string tien_te_vnd(long long amount) {
+    string result = to_stringll_(amount);
+    int len = result.length();
+    if (len <= 3) return result;
+    string formatted = "";
+    int count = 0;
+    for (int i = len - 1; i >= 0; i--) {
+        formatted = result[i] + formatted;
+        count++;
+        if (count == 3 && i != 0) {
+            formatted = '.' + formatted;
+            count = 0;
+        }
+    }
+    return formatted;
+}
+
+bool is_valid_email(const string& email) {
+    const auto at_pos = email.find('@');
+    if (at_pos == string::npos || at_pos == 0 || at_pos == email.size() - 1) {
+        return false; 
+    }
+
+    const auto dot_pos = email.find('.', at_pos);
+    if (dot_pos == string::npos || dot_pos == at_pos + 1 || dot_pos == email.size() - 1) {
+        return false; 
+    }
+
+    for (char c : email) {
+        if (!(isalnum(c) || c == '.' || c == '_' || c == '-' || c == '@')) {
+            return false; 
+        }
+    }
+
+    return true; 
+}

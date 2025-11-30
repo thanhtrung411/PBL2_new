@@ -10,6 +10,7 @@
 #include "my_file.h"
 #include "my_time.h"
 #include "global.h"
+#include "settings_file.h"
 #include <QApplication>
 #include <QMessageBox>
 #include <QStyleFactory>
@@ -26,6 +27,7 @@ BST_Borrow borrow_user_data;
 BST_The_loai the_loai_data;
 BST_Chuyen_nganh chuyen_nganh_data;
 BST_string string_data;
+BST_History record;
 accout acc_sign_in;
 int is_sign_in = 0;
 
@@ -75,8 +77,14 @@ int main(int argc, char *argv[])
     doc_book(book_data);
     doc_copy_book(book_copy_data);
     doc_borrow(borrow_data);
+    borrow_data.kiem_tra_sach_qua_han(borrow_data);
     doc_the_loai(the_loai_data);
     doc_chuyen_nganh(chuyen_nganh_data);
+
+    string s = giai_ma_str_("242A2D5C2A0D5F310138654052");
+
+    settings_file::getInstance()->doc_file_settings();
+
 
 
     BST_Book_by_Author author_book_data;

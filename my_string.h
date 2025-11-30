@@ -64,11 +64,13 @@ long long to_long_long(const string& s);
 string toFixedString(int index, int longs);
 int count_string(const string &s);
 string lay_n_chu_dau(const string& s, size_t n);
+string tien_te_vnd(long long amount);
 inline unsigned int get_next_random(unsigned int& seed){
     const unsigned int a = 1664525;
     const unsigned int c = 1013904223;
     seed = (static_cast<unsigned long long>(seed) * a + c) % 4294967296ULL;
     return seed;
 }
+bool is_valid_email(const string& email);
 
 #endif // MY_STRING_H

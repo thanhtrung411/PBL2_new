@@ -8,6 +8,7 @@ using namespace std;
 enum ActionType{
     LOGIN,          // Đăng nhập
     REGISTER,       // Đăng ký
+    RESET_PASSWORD, // Đặt lại mật khẩu
     VIEW_BOOK,      // Xem một sách
     DOWNLOAD_BOOK,  // Tải một sách
     READ_ONLINE,    // Đọc online

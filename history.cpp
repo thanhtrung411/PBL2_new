@@ -13,6 +13,7 @@ string history::action_to_string(ActionType action) {
     switch (action) {
         case LOGIN: return "LOGIN";
         case REGISTER: return "REGISTER";
+        case RESET_PASSWORD: return "RESET_PASSWORD";
         case VIEW_BOOK: return "VIEW_BOOK";
         case DOWNLOAD_BOOK: return "DOWNLOAD_BOOK";
         case READ_ONLINE: return "READ_ONLINE";
@@ -28,6 +29,7 @@ string history::action_to_string(ActionType action) {
 ActionType history::string_to_action(const string& action_str) {
     if (action_str == "LOGIN") return LOGIN;
     if (action_str == "REGISTER") return REGISTER;
+    if (action_str == "RESET_PASSWORD") return RESET_PASSWORD;
     if (action_str == "VIEW_BOOK") return VIEW_BOOK;
     if (action_str == "DOWNLOAD_BOOK") return DOWNLOAD_BOOK;
     if (action_str == "READ_ONLINE") return READ_ONLINE;
@@ -83,4 +85,22 @@ void history::load_from_file() {
         }
         file.close();
     }
+}
+
+void history::luot_xem_muon_tai_thang(int month, int year, int &so_luot_xem, int &so_luot_muon, int &so_luot_tai){
+    so_luot_xem = 0;
+    so_luot_muon = 0;
+    so_luot_tai = 0;
+    record.traverse_ascending([&](history_record& hr) {
+        my_time date = hr.date_action;
+        if (date.get_year() == year && date.get_month() == month) {
+            if (hr.action_type == VIEW_BOOK) {
+                so_luot_xem++;
+            } else if (hr.action_type == BORROW_BOOK) {
+                so_luot_muon++;
+            } else if (hr.action_type == DOWNLOAD_BOOK) {
+                so_luot_tai++;
+            }
+        }
+    });
 }

@@ -114,124 +114,70 @@ void ghi_accout(BST_Accout &accout_data){
 
 
 
-void doc_book(BST_Book &book_data){
+void doc_book(BST_Book &book_data) {
     const QString path = getDataFilePath("data/CSDL.csv");
     QFile file(path);
     if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
-        qDebug() << "Khong the mo file de doc:" << path;
         return;
     }
     QTextStream in(&file);
-    in.readLine(); //doc tieu de va bo qua
+    in.readLine();
     while (!in.atEnd()) {
         QString qline = in.readLine();
         if (qline.trimmed().isEmpty()) continue;
-        qDebug() << qline;
-        string line = qline.toUtf8().toStdString();
+        string line = qline.toStdString() + ",";
         book b;
         int idx = 0;
-        for (int i = 0 ; i < line.size() ; i++){
+        int i = 0;
+        while (i < line.size()) {
             string res = "";
-            if (line[i] == '"'){
+            if (line[i] == '"') {
                 i++;
-                while (i < line.size() && line[i] != '"'){
+                while (i < line.size() && line[i] != '"') {
                     res += line[i];
                     i++;
                 }
                 i++;
-            }
-            else{
-                while (i < line.size() && line[i] != ','){
+            } else {
+                while (i < line.size() && line[i] != ',') {
                     res += line[i];
                     i++;
                 }
             }
-            switch (idx)
-            {
-            case 0:
-                b.set_ID(to_long_long(res));
+            i++;
+            switch (idx) {
+            case 0: b.set_ID(to_long_long(res)); break;
+            case 1: b.set_Name(res); break;
+            case 2: b.set_Author(res); break;
+            case 3: b.set_NXB(res); break;
+            case 4: b.set_NamXB(to_int(res)); break;
+            case 5: b.set_So_trang(to_int(res)); break;
+            case 6: b.set_ISBN(res); break;
+            case 7: b.set_Language(res); break;
+            case 8: b.set_Tom_tat(res); break;
+            case 9: b.set_Link_png(res); break;
+            case 10: b.set_Link_pdf(res); break;
+            case 11: b.set_The_loai_ID(to_int(res)); break;
+            case 12: b.set_Chuyen_nganh_ID(to_int(res)); break;
+            case 13: b.set_is_Read_online(to_bool(res)); break;
+            case 14: b.set_is_Download(to_bool(res)); break;
+            case 15: b.set_is_Borrow(to_bool(res)); break;
+            case 16: b.set_limit_borrow(to_int(res)); break;
+            case 17: b.set_luot_xem(to_int(res)); break;
+            case 18: b.set_luot_muon(to_int(res)); break;
+            case 19: b.set_luot_tai(to_int(res)); break;
+            case 20: b.set_tong_sach(to_int(res)); break;
+            case 21: b.set_tong_sach_dang_muon(to_int(res)); break;
+            case 22: b.set_tong_sach_dang_dat(to_int(res)); break;
+            case 23: b.set_tong_sach_ranh(to_int(res)); break;
+            case 24: {
+                my_time res_time;
+                res_time.set_time_datetime(res);
+                b.set_Date_created(res_time);
                 break;
-            case 1:
-                b.set_Name(res);
-                break;
-            case 2:
-                b.set_Author(res);
-                break;
-            case 3:
-                b.set_NXB(res);
-                break;
-            case 4:
-                b.set_NamXB(to_int(res));
-                break;
-            case 5: 
-                b.set_So_trang(to_int(res));
-                break;
-            case 6:
-                b.set_ISBN(res);
-                break;
-            case 7:
-                b.set_Language(res);
-                break;
-            case 8:
-                b.set_Tom_tat(res);
-                break;
-            case 9:
-                b.set_Link_png(res);
-                break;
-            case 10:
-                b.set_Link_pdf(res);
-                break;
-            case 11:
-                b.set_The_loai_ID(to_int(res));
-                break;
-            case 12:
-                b.set_Chuyen_nganh_ID(to_int(res));
-                break;
-            case 13:
-                b.set_is_Read_online(to_bool(res));
-                break;
-            case 14:
-                b.set_is_Download(to_bool(res));
-                break;
-            case 15:
-                b.set_is_Borrow(to_bool(res));
-                break;
-            case 16:
-                b.set_limit_borrow(to_int(res));
-                break;
-            case 17:
-                b.set_luot_xem(to_int(res));
-                break;
-            case 18:
-                b.set_luot_muon(to_int(res));
-                break;
-            case 19:
-                b.set_luot_tai(to_int(res));
-                break;
-            case 20:
-                b.set_tong_sach(to_int(res));
-                break;
-            case 21:
-                b.set_tong_sach_dang_muon(to_int(res));
-                break;
-            case 22:
-                b.set_tong_sach_dang_dat(to_int(res));
-                break;
-            case 23:
-                b.set_tong_sach_ranh(to_int(res));
-                break;
-            case 24:
-                {
-                    my_time res_time;
-                    res_time.set_time_datetime(res);
-                    b.set_Date_created(res_time);
-                }
-                break;
-            case 25:
-                b.set_Created_by(res);
-                break;
-            default:
-                break;
+            }
+            case 25: b.set_Created_by(res); break;
+            default: break;
             }
             idx++;
         }
@@ -261,48 +207,49 @@ void doc_copy_book(BST_book_copy &book_copy_data){
         qDebug() << "Khong the mo file de doc:" << path;
         return;
     }
+
     QTextStream in(&file);
-    in.readLine(); //doc tieu de va bo qua
+    if (!in.atEnd()) in.readLine(); 
+
     while (!in.atEnd()) {
-        QString qline = in.readLine();
-        if (qline.trimmed().isEmpty()) continue;
-        qDebug() << qline;
-        string line = qline.toUtf8().toStdString();
-        Book_copies b;
-        int idx = 0;
-        for (int i = 0 ; i < line.size() ; i++){
-            string res = "";
-            if (line[i] == '"'){
-                i++;
-                while (i < line.size() && line[i] != '"'){
-                    res += line[i];
-                    i++;
+        QString line = in.readLine();
+        if (line.trimmed().isEmpty()) continue;
+        QStringList fields;
+        QString currentField;
+        bool inQuote = false;
+
+        for (int i = 0; i < line.length(); ++i) {
+            QChar c = line[i];
+            
+            if (c == '"') {
+                // Nếu gặp 2 dấu "" liền nhau -> coi là 1 dấu "
+                if (inQuote && i + 1 < line.length() && line[i + 1] == '"') {
+                    currentField.append('"');
+                    i++; // Bỏ qua dấu " tiếp theo
+                } else {
+                    inQuote = !inQuote; // Bật/tắt trạng thái đang trong ngoặc
                 }
-                i++;
+            } 
+            else if (c == ',' && !inQuote) {
+                // Gặp dấu phẩy mà KHÔNG nằm trong ngoặc -> Kết thúc trường
+                fields.append(currentField);
+                currentField.clear();
+            } 
+            else {
+                currentField.append(c);
             }
-            else{
-                while (i < line.size() && line[i] != ','){
-                    res += line[i];
-                    i++;
-                }
-            }
-            switch (idx)
-            {
-            case 0:
-                b.set_id(to_long_long(res));
-                break;
-            case 1:
-                b.set_id_book(to_long_long(res));
-                break;
-            case 2:
-                b.set_status(res);
-                break;
-            default:
-                break;
-            }
-            idx++;
         }
-        book_copy_data.insert(b);
+        fields.append(currentField); // Thêm trường cuối cùng
+
+        if (fields.size() >= 4) { // Đảm bảo đủ cột
+            Book_copies b;
+            b.set_id(fields[0].toLongLong());
+            b.set_id_book(fields[1].toLongLong());
+            b.set_status(fields[2].toStdString());
+            b.set_ghi_chu(fields[3].toStdString());
+
+            book_copy_data.insert(b);
+        }
     }
     file.close();
 }
@@ -562,34 +509,41 @@ void doc_borrow(BST_Borrow &borrow_data){
                 b.set_id(to_long_long(res));
                 break;
             case 1:
-                b.set_book_copy_id(to_long_long(res));
+                b.set_book_id(to_long_long(res));
                 break;
             case 2:
-                b.set_id_user(to_long_long(res));
+                b.set_book_copy_id(to_long_long(res));
                 break;
             case 3:
-                b.set_id_admin(to_long_long(res));
+                b.set_user_id(to_long_long(res));
                 break;
             case 4:
                 tmp.set_time_datetime(res);
-                b.set_booking_date(tmp);
+                b.set_ngay_dat(tmp);
                 break;
             case 5:
                 tmp.set_time_datetime(res);
-                b.set_borrow_date(tmp);
+                b.set_ngay_muon(tmp);
                 break;
             case 6:
                 tmp.set_time_datetime(res);
-                b.set_due_date(tmp);
+                b.set_ngay_phai_tra(tmp);
                 break;
             case 7:
                 tmp.set_time_datetime(res);
-                b.set_return_date(tmp);
+                b.set_ngay_tra(tmp);
                 break;
             case 8:
                 b.set_status(res);
                 break;
             case 9:
+                b.set_lan_gia_han(to_int(res));
+                break;
+            
+            case 10:
+                b.set_ghi_chu(res);
+                break;
+            case 11:
                 b.set_tien_phat(to_int(res));
                 break;
             default:

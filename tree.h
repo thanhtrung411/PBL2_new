@@ -155,9 +155,15 @@ namespace KeyGetters {
 class BST_Accout : public BST<accout, int> {
 private:
     bool search_custom(int type_tuy_chon, string& type_bieu_ghi, string& key_word, accout& a);
+    int count_doc_gia_helper(Node<accout>* node);
+    int count_thu_thu_helper(Node<accout>* node);
     Node<accout>* check_accout_helper(Node<accout>* node, string ten_dang_nhap, string pass, int &ok, accout &a);
 public:
     BST_Accout() : BST<accout, int>(KeyGetters::getAccoutID) {}
+    int count_doc_gia();
+    bool check_ten_dang_nhap(string ten_dang_nhap);
+    bool check_quen_mat_khau(string so_dien_thoai, string email, accout &a);
+    int count_thu_thu();
     bool check_accout(string ten_dang_nhap, string pass, accout& a); 
     void write_csv(Node<accout>* node, QTextStream &out) const;
     void write_accout(QTextStream &out) const;
@@ -302,14 +308,17 @@ private:
     Node<borrow>* check_book_copy_borrowed_helper(int user_id, long long book_id, Node<borrow>* node);
     Node<borrow>* info_user_helper(int user_id, Node<borrow>* node, BST_Borrow &b);
     Node<borrow>* sach_qua_han_helper(int user_id, my_time current_date, Node<borrow>* node, BST_Borrow &b);
-public:
+    Node<borrow>* kiem_tra_sach_qua_han_helper(Node<borrow>* node, BST_Borrow &b, my_time current_date);
+    Node<borrow>* tong_sach_dat_muon_qua_han_helper(Node<borrow>* node, int &tong_sach_dat, int &tong_sach_muon, int &tong_sach_qua_han, my_time current_date);
+    public:
     BST_Borrow() : BST<borrow, long long>(KeyGetters::getBorrowID) {}
     ~BST_Borrow() = default;
 
     long long find_new_id_borrow() const {
         return find_max_id() + 1;
     }
-
+    void tong_sach_dat_muon_qua_han(int &tong_sach_dat, int &tong_sach_muon, int &tong_sach_qua_han);
+    void kiem_tra_sach_qua_han(BST_Borrow &b);
     bool find_Borrow(long long id, borrow &a) { return find(id, a); }
     bool update_Borrow(borrow &old_, borrow &new_) { return update(old_, new_); }
     borrow operator[](int index) { return BST::operator[](index); }
@@ -319,7 +328,15 @@ public:
     int sach_dang_muon(int user_id);
     bool check_borrowed(int user_id, long long book_id);
     void info_user(int user_id, BST_Borrow &b);
+
+    void tim_sach_dat_thu_thu(BST_Borrow &b);
+    void tim_sach_muon_thu_thu(BST_Borrow &b);
+    void tim_sach_tra_thu_thu(BST_Borrow &b);
+
     void sach_qua_han(int user_id, my_time current_date, BST_Borrow &b);
+    void thong_ke_sach_dat(int &xu_ly, int &san_sang, int &qua_han, BST_Borrow &b);
+    void thong_ke_sach_muon(int &dang_muon, int &qua_han, BST_Borrow &b);
+    void thong_ke_sach_tra(int &tong_luot_tra, int &tra_qua_han, int &hu_hong_mat, long long &tong_tien_phat, BST_Borrow &b);
 };
 
 class BST_History : public BST<history_record, my_time> {

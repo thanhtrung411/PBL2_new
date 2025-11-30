@@ -9,235 +9,223 @@
 #include <QStyle>
 #include <QMouseEvent>
 #include <QEvent>
-#include <QCursor>
+#include <QFont>
+#include <QSize>
 #include <QPainter>
 #include <QPainterPath>
-#include <QLabel>
 #include <QFontMetrics>
-#include <iostream>
-using namespace std;
+#include <QApplication>
+#include <QScreen>
 
 namespace {
-//kich thuoc card
-constexpr int CARD_W = 150;
-constexpr int CARD_H = 265;
-
-//trai/phai: x
-constexpr int X = 3;
-constexpr int Z = 3;  // tren
-//ti le anh
-constexpr int IMG_W_RATIO = 4;
-constexpr int IMG_H_RATIO = 5;
-
-constexpr int CARD_MUON_H = 200;
-constexpr int IMG_W = 140;
-constexpr int IMG_H = 180;
-
-
+    // Kích thước Card
+    constexpr int CARD_W = 180;
+    // Padding (lề trong)
+    constexpr int PADDING = 10;
+    // Tỉ lệ ảnh 4:5
+    constexpr double IMG_RATIO = 5.0 / 4.0; 
 }
 
-ProductCard::ProductCard(const book& b,
-                         QWidget* parent)
+ProductCard::ProductCard(const book& b, QWidget* parent)
     : QFrame(parent)
 {
-    set_ID(b);
+    this->b = b;
     setObjectName("ProductCard");
-    setFixedSize(CARD_W, CARD_H);
+    
+    // --- 1. QUAN TRỌNG: CHỈ FIX CHIỀU RỘNG, KHÔNG FIX CHIỀU CAO ---
+    // Để layout tự tính chiều cao, tránh việc chữ đè lên ảnh
+    setFixedWidth(CARD_W);
+    // setFixedSize(...) -> XÓA DÒNG NÀY ĐI
+
+    // --- 2. STYLESHEET ---
     setStyleSheet(R"(
-        #ProductCard:hover {
-            border:1px solid #617fb9;
-        }
         #ProductCard {
-            background:#fff;
+            background-color: #ffffff;
+            border-radius: 12px;
+            border: 1px solid #d0d0d0;
         }
-        #ProductCard QLabel[role="title"] {
-            color:#0f172a;
+        #ProductCard:hover {
+            border: 1px solid #3b82f6;
+            background-color: #f8fafc;
         }
-        #ProductCard QPushButton {
-            background:#fff;
-            color:#4568ad;
-            border:2px solid #4568ad;
-            border-radius:8px;
-            padding:6px 8px;
+        QLabel {
+            background-color: transparent; /* Đảm bảo nền label trong suốt */
+            border: none;
         }
-        #ProductCard QLabel {
-            background:#fff;
+        QLabel[role="title"] {
+            color: #1e293b;
+            font-family: 'Segoe UI', sans-serif;
+            font-weight: 700;
+            font-size: 14px;
+            margin-top: 6px;
         }
-        #ProductCard QPushButton:hover   { background:#e9ecf5; }
-        #ProductCard QPushButton:pressed { background:#d6d8e0; }
+        QLabel[role="author"] {
+            color: #64748b;
+            font-family: 'Segoe UI', sans-serif;
+            font-size: 12px;
+            margin-bottom: 4px;
+        }
+        QLabel[role="status"] {
+            background-color: #dbeafe;
+            color: #1d4ed8;
+            border-radius: 4px;
+            padding: 2px 8px;
+            font-weight: 600;
+            font-size: 10px;
+        }
     )");
 
     auto shadow = new QGraphicsDropShadowEffect(this);
-    shadow->setBlurRadius(16);
+    shadow->setBlurRadius(20);
     shadow->setOffset(0, 4);
-    shadow->setColor(QColor(0,0,0,50));
+    shadow->setColor(QColor(0, 0, 0, 20));
     setGraphicsEffect(shadow);
 
-    // ========== Layout tổng ==========
-    auto v = new QVBoxLayout(this);
-    v->setContentsMargins(X, Z, X, X);
-    v->setSpacing(10);
+    // --- 3. LAYOUT ---
+    auto mainLayout = new QVBoxLayout(this);
+    mainLayout->setContentsMargins(PADDING, PADDING, PADDING, PADDING);
+    mainLayout->setSpacing(4); 
+    
+    // Dòng này giúp Card tự động co lại vừa khít với nội dung bên trong
+    mainLayout->setSizeConstraint(QLayout::SetFixedSize); 
 
-    // Tính kích thước ảnh theo tỉ lệ 4:5
-    const int imgW = CARD_W - 2*X;
-    const int imgH = imgW * IMG_H_RATIO / IMG_W_RATIO;
+    // === XỬ LÝ ẢNH (GIỮ NGUYÊN CODE NÉT + ASYNC - ĐA LUỒNG) ===
+    int logicalW = CARD_W - (2 * PADDING);
+    int logicalH = static_cast<int>(logicalW * IMG_RATIO);
+    QSize logicalSize(logicalW, logicalH);
 
-    // Ảnh
     imageLabel = new QLabel(this);
-    imageLabel->setFixedSize(imgW, imgH);
+    imageLabel->setFixedSize(logicalSize); // Cố định khung ảnh để không bị layout ép nhỏ
     imageLabel->setAlignment(Qt::AlignCenter);
-    QString imgPath =QString::fromUtf8(b.get_Link_png().c_str());
-    imageLabel->setPixmap(loadScaled(imgPath, imageLabel->size()));
-    v->addWidget(imageLabel);
+    // Quan trọng: Set policy để ảnh không bị co giãn linh tinh
+    imageLabel->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
 
-    // Tieu de
-    QString title_ = QString::fromUtf8(b.get_Name().c_str());
-    titleLabel = new QLabel(title_, this);
-    titleLabel->setFixedWidth(CARD_W-5);
-    QFontMetrics fmTitle(titleLabel->font());
-    QString elided_title = fmTitle.elidedText(title_, Qt::ElideRight, titleLabel->width()*2 - 10);
-    titleLabel->setText(elided_title);
-    int line = fmTitle.lineSpacing();
+    imageLabel->setStyleSheet("background-color: #f1f5f9; border-radius: 12px;");
+    mainLayout->addWidget(imageLabel);
+
+    // === CÁC PHẦN TEXT ===
+    QString titleText = QString::fromUtf8(b.get_Name().c_str());
+    titleLabel = new QLabel(titleText, this);
     titleLabel->setProperty("role", "title");
     titleLabel->setWordWrap(true);
     titleLabel->setAlignment(Qt::AlignLeft | Qt::AlignTop);
-    titleLabel->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
-    // Gioi han chieu cao
-    titleLabel->setFixedHeight(line*2);
-    v->addWidget(titleLabel);
-    QString Auth = QString::fromUtf8(b.get_Author().c_str());
-    Auth_label = new QLabel (Auth, this);
-    Auth_label->setFixedWidth(CARD_W-10);
-    QFontMetrics fmAuthor(Auth_label->font());
-    QString elided_Author = fmAuthor.elidedText(Auth, Qt::ElideRight, Auth_label->width());
-    Auth_label->setText(elided_Author);
-    Auth_label->setProperty("role", "title");
-    Auth_label->setWordWrap(true);
+    
+    // Giới hạn chiều cao text title (tối đa 2 dòng)
+    QFont f = titleLabel->font();
+    f.setFamily("Segoe UI");
+    f.setPixelSize(14);
+    f.setBold(true);
+    titleLabel->setFont(f);
+
+    QFontMetrics fmTitle(titleLabel->font());
+    int lineHeight = fmTitle.lineSpacing();
+    titleLabel->setFixedHeight(lineHeight * 2 + 10);// +10 để có chút padding
+
+    titleLabel->setText(titleText);
+    mainLayout->addWidget(titleLabel);
+
+    QString authText = QString::fromUtf8(b.get_Author().c_str());
+    Auth_label = new QLabel(authText, this);
+    Auth_label->setProperty("role", "author");
     Auth_label->setAlignment(Qt::AlignLeft | Qt::AlignTop);
-    Auth_label->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
-    Auth_label->setFixedHeight(line);
-    v->addWidget(Auth_label);
-    // Hang duoi cung
-    auto h = new QHBoxLayout();
-    h->setSpacing(0);
+    QFontMetrics fmAuth(Auth_label->font());
+    QString elidedAuth = fmAuth.elidedText(authText, Qt::ElideRight, logicalW);
+    Auth_label->setText(elidedAuth);
+    // Tác giả chỉ 1 dòng thì không cần fixHeight, để nó tự nhiên
+    mainLayout->addWidget(Auth_label);
 
-    btnBorrowed = new QLabel(QStringLiteral("Sách mới"), this);
-    btnRemove   = new QLabel(QStringLiteral(""),  this);
+    // Spacer đẩy footer xuống
+    mainLayout->addStretch();
 
-    btnBorrowed->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
-    btnRemove->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
+    // Footer
+    auto footerLayout = new QHBoxLayout();
+    footerLayout->setSpacing(0);
+    footerLayout->setContentsMargins(0, 0, 0, 0);
+    btnBorrowed = new QLabel("MỚI", this); 
+    btnBorrowed->setProperty("role", "status"); 
+    btnBorrowed->setAlignment(Qt::AlignCenter);
+    btnBorrowed->setFixedSize(40, 20);
+    footerLayout->addWidget(btnBorrowed);
+    footerLayout->addStretch();
+    mainLayout->addLayout(footerLayout);
 
-    h->addWidget(btnBorrowed);
-    h->addWidget(btnRemove);
-    v->addLayout(h);
     setCursor(Qt::PointingHandCursor);
     imageLabel->installEventFilter(this);
     titleLabel->installEventFilter(this);
-    btnBorrowed->installEventFilter(this);
-    btnRemove->installEventFilter(this);
+
+    // --- 4. LOAD ẢNH ASYNC ---
+    qreal dpr = QGuiApplication::primaryScreen()->devicePixelRatio();
+    QSize physicalSize = logicalSize * dpr;
+    int physicalRadius = 12 * dpr;
+
+    QString imgPath = QString::fromUtf8(b.get_Link_png().c_str());
+    connect(&watcher, &QFutureWatcher<QPixmap>::finished, this, &ProductCard::onImageLoaded);
+    QFuture<QPixmap> future = QtConcurrent::run(
+        &ProductCard::loadScaled, // Gọi hàm static loadScaled
+        imgPath, physicalSize, physicalRadius // Truyền tham số vào
+    );
+    watcher.setFuture(future);
+}
+
+void ProductCard::onImageLoaded() {
+    QPixmap result = watcher.result();
+    if (!result.isNull()) {
+        // Lấy lại DPR màn hình hiện tại để set cho ảnh (quan trọng để ảnh nét)
+        qreal dpr = QGuiApplication::primaryScreen()->devicePixelRatio();
+        result.setDevicePixelRatio(dpr);
+
+        imageLabel->setPixmap(result);
+        // Xóa màu nền xám đi
+        imageLabel->setStyleSheet("background-color: transparent; border: none;");
+    }
 }
 
 void ProductCard::mousePressEvent(QMouseEvent* e) {
     if (e->button() == Qt::LeftButton) emit clicked(b);
     QFrame::mousePressEvent(e);
 }
-
 bool ProductCard::eventFilter(QObject* obj, QEvent* ev) {
     if (ev->type() == QEvent::MouseButtonPress) {
         auto *me = static_cast<QMouseEvent*>(ev);
-        if (me->button() == Qt::LeftButton) {
-            emit clicked(b);
-            return true;                 // đã xử lý
-        }
+        if (me->button() == Qt::LeftButton) { emit clicked(b); return true; }
     }
     return QFrame::eventFilter(obj, ev);
 }
-
 void ProductCard::enterEvent(QEnterEvent* e)  { QFrame::enterEvent(e); }
 void ProductCard::leaveEvent(QEvent* e)       { QFrame::leaveEvent(e); }
 
-QPixmap ProductCard::loadScaled(const QString& path, const QSize& toSize) const
+// ... (Giữ nguyên hàm loadScaled mới nhất) ...
+QPixmap ProductCard::loadScaled(const QString& path, const QSize& physicalSize, int radius)
 {
-    QPixmap pm(path);
-    if (pm.isNull()) {
-        // placeholder nếu không tìm thấy ảnh
-        QPixmap ph(toSize);
-        ph.fill(Qt::lightGray);
+    QPixmap src(path);
+    if (src.isNull()) {
+        QPixmap ph(physicalSize);
+        ph.fill(QColor("#f1f5f9"));
         return ph;
     }
-    return pm.scaled(toSize, Qt::KeepAspectRatio, Qt::SmoothTransformation);
-}
+    QPixmap scaled = src.scaled(physicalSize, Qt::KeepAspectRatioByExpanding, Qt::SmoothTransformation);
+    int x = (scaled.width() - physicalSize.width()) / 2;
+    int y = (scaled.height() - physicalSize.height()) / 2;
+    QPixmap cropped = scaled.copy(x, y, physicalSize.width(), physicalSize.height());
 
+    QPixmap dest(physicalSize);
+    dest.fill(Qt::transparent);
 
+    QPainter painter(&dest);
+    painter.setRenderHint(QPainter::Antialiasing, true);
+    painter.setRenderHint(QPainter::SmoothPixmapTransform, true);
 
-ProductCard_Tim_kiem::ProductCard_Tim_kiem(const book& b,
-                         QWidget* parent)
-    : QFrame(parent)
-{
-    set_ID(b);
-    setObjectName("ProductCard_tim_kiem");
-    setFixedSize(CARD_W, CARD_H);
-    setStyleSheet(R"(
-        #ProductCard_tim_kiem:hover {
-            border:1px solid #617fb9;
-        }
-        #ProductCard_tim_kiem {
-            background:#fff;
-        }
-        #ProductCard_tim_kiem QLabel[role="title"] {
-            color:#0f172a;
-        }
-        #ProductCard_tim_kiem QPushButton {
-            background:#fff;
-            color:#4568ad;
-            border:2px solid #4568ad;
-            border-radius:8px;
-            padding:6px 8px;
-        }
-        #ProductCard_tim_kiem QLabel {
-            background:#fff;
-        }
-        #ProductCard_tim_kiem QPushButton:hover   { background:#e9ecf5; }
-        #ProductCard_tim_kiem QPushButton:pressed { background:#d6d8e0; }
-    )");
+    QPainterPath pathObj;
+    pathObj.addRoundedRect(0, 0, physicalSize.width(), physicalSize.height(), radius, radius);
+    
+    painter.setClipPath(pathObj);
+    painter.drawPixmap(0, 0, cropped);
 
-    auto shadow = new QGraphicsDropShadowEffect(this);
-    shadow->setBlurRadius(16);
-    shadow->setOffset(0, 4);
-    shadow->setColor(QColor(0,0,0,50));
-    setGraphicsEffect(shadow);
+    // Viền mờ
+    painter.setClipping(false);
+    painter.setPen(QPen(QColor(0, 0, 0, 20), 1)); 
+    painter.setBrush(Qt::NoBrush);
+    painter.drawRoundedRect(0, 0, physicalSize.width()-1, physicalSize.height()-1, radius, radius);
 
-    // ========== Layout tổng ==========
-    auto hMain = new QHBoxLayout(this);
-    hMain->setContentsMargins(X, Z, X, X);
-    hMain->setSpacing(6);
-
-    imageLabel = new QLabel(this);
-    imageLabel->setFixedSize(IMG_W, IMG_H);
-    imageLabel->setAlignment(Qt::AlignCenter);
-    QString imgPath =QString::fromUtf8(b.get_Link_png().c_str());
-    imageLabel->setPixmap(loadScaled(imgPath, imageLabel->size()));
-    hMain->addWidget(imageLabel);
-
-    auto VInfo = new QVBoxLayout();
-    VInfo->setSpacing(4);
-
-    titleLabel = new QLabel(QString::fromUtf8(b.get_Name().c_str()));
-    titleLabel->setProperty("role","tittle");
-    titleLabel->setWordWrap(true);
-    titleLabel->setMaximumHeight(QFontMetrics(titleLabel->font()).lineSpacing() * 2);
-    VInfo->addWidget(titleLabel);
-
-}
-
-QPixmap ProductCard_Tim_kiem::loadScaled(const QString& path, const QSize& toSize) const
-{
-    QPixmap pm(path);
-    if (pm.isNull()) {
-        // placeholder nếu không tìm thấy ảnh
-        QPixmap ph(toSize);
-        ph.fill(Qt::lightGray);
-        return ph;
-    }
-    return pm.scaled(toSize, Qt::KeepAspectRatio, Qt::SmoothTransformation);
+    return dest;
 }

@@ -12,6 +12,7 @@
 #include "my_file.h"
 #include "my_string.h"
 #include "the_loai_chuyen_nganh.h"
+#include "settings_file.h"
 #include <QDir>
 #include <QLabel>
 #include <QPushButton>
@@ -57,6 +58,7 @@ pbl2::pbl2(QWidget *parent)
     , ui(new Ui::pbl2)
 {
     ui->setupUi(this);
+    
     random_seed = std::chrono::system_clock::now().time_since_epoch().count();
     Qt::WindowFlags f = Qt::Window
                         | Qt::WindowTitleHint
@@ -71,7 +73,7 @@ pbl2::pbl2(QWidget *parent)
     ui->noi_dung_layout->setCurrentIndex(0);
     ui->dang_tim_kiem_layout->setVisible(false);
     ui->trich_dan_tom_tat_stack->setCurrentIndex(0);
-    ui->dang_nhap_button->setIcon(QIcon(":/icons/icons_/user-interface.png"));
+    //ui->dang_nhap_button->setIcon(QIcon(":/icons/icons_/user-interface.png"));
     set_up(book_data);
     connect(ui->muon_button, &QPushButton::clicked, this, [this](){
         if (current_selected_book.get_ID() == 0) return;
@@ -119,12 +121,12 @@ pbl2::pbl2(QWidget *parent)
     connect(ui->return_home_button, &QPushButton::clicked, this, [this](){
         ui->noi_dung_layout->setCurrentIndex(0);
         QLayoutItem *child;
-        while ((child = ui->muon_sach_layout->takeAt(0)) != nullptr) {
-            if (child->widget()) {
-                child->widget()->deleteLater();
-            }
-            delete child;
-        }
+        // while ((child = ui->muon_sach_layout->takeAt(0)) != nullptr) {
+        //     if (child->widget()) {
+        //         child->widget()->deleteLater();
+        //     }
+        //     delete child;
+        // }
 
         current_selected_book = book();
     });
@@ -172,25 +174,25 @@ void pbl2::set_up(BST_Book& book_data_){
     if (id_muon_nhieu_nhat != -1){
         book b;
         if (book_data_.find(id_muon_nhieu_nhat, b)){
-            ui->yeu_thich_name->setText(QString::fromStdString(b.get_Name()));
-            ui->yeu_thich_author->setText(QString::fromStdString(b.get_Author()));
-            ui->yeu_thich_luot_Xem->setText(QString::number(b.get_luot_xem()));
-            ui->yeu_thich_back->setFixedSize(225, 250);
-            ui->yeu_thich_back->setAlignment(Qt::AlignCenter);
-            QString imgPath =QString::fromUtf8(b.get_Link_png().c_str());
-            ui->yeu_thich_back->setPixmap(loadScaled(imgPath, ui->yeu_thich_back->size()));
+            // ui->yeu_thich_name->setText(QString::fromStdString(b.get_Name()));
+            // ui->yeu_thich_author->setText(QString::fromStdString(b.get_Author()));
+            // ui->yeu_thich_luot_Xem->setText(QString::number(b.get_luot_xem()));
+            // ui->yeu_thich_back->setFixedSize(225, 250);
+            // ui->yeu_thich_back->setAlignment(Qt::AlignCenter);
+            // QString imgPath =QString::fromUtf8(b.get_Link_png().c_str());
+            // ui->yeu_thich_back->setPixmap(loadScaled(imgPath, ui->yeu_thich_back->size()));
         }
     }
     if (id_doc_nhieu_nhat != -1){
         book b;
         if (book_data_.find(id_doc_nhieu_nhat, b)){
-            ui->doc_nhieu_name->setText(QString::fromStdString(b.get_Name()));
-            ui->doc_nhieu_author->setText(QString::fromStdString(b.get_Author()));
-            ui->doc_nhieu_so_luong->setText(QString::number(b.get_luot_xem()));
-            ui->doc_nhieu_back->setFixedSize(225, 250);
-            ui->doc_nhieu_back->setAlignment(Qt::AlignCenter);
-            QString imgPath =QString::fromUtf8(b.get_Link_png().c_str());
-            ui->doc_nhieu_back->setPixmap(loadScaled(imgPath, ui->doc_nhieu_back->size()));
+            // ui->doc_nhieu_name->setText(QString::fromStdString(b.get_Name()));
+            // ui->doc_nhieu_author->setText(QString::fromStdString(b.get_Author()));
+            // ui->doc_nhieu_so_luong->setText(QString::number(b.get_luot_xem()));
+            // ui->doc_nhieu_back->setFixedSize(225, 250);
+            // ui->doc_nhieu_back->setAlignment(Qt::AlignCenter);
+            // QString imgPath =QString::fromUtf8(b.get_Link_png().c_str());
+            // ui->doc_nhieu_back->setPixmap(loadScaled(imgPath, ui->doc_nhieu_back->size()));
         }
     }
 }
@@ -248,14 +250,16 @@ void pbl2::set_scroll(QScrollArea* p, int width){
 
 template<typename Tree>
 void pbl2::set_up_card_moi(Tree &b,QGridLayout* path_link){
-    path_link->setContentsMargins(0,0,0,0);
-    path_link->setHorizontalSpacing(5);
-    path_link->setVerticalSpacing(5);
-    const int k = 8;
+    //path_link->setContentsMargins(0,0,0,0);
+    path_link->setHorizontalSpacing(10);
+    path_link->setVerticalSpacing(0);
+    const int k = settings_file::getInstance()->get_so_sach_moi();
     qDebug() << QDir::currentPath();
 
     int n = b.count_data();
     int show = std::min(k, n);
+    if (!show) return;
+    ui->scroll_moi->setMinimumWidth( 15 + (180 + 12) * show);
     b.traverse_ascending([this, &show, &path_link](book &a){
         if (show == 0) return;
         auto card = new ProductCard(a);
@@ -280,16 +284,17 @@ template void pbl2::set_up_card_moi<BST_Book_by_The_loai>(BST_Book_by_The_loai &
 
 template<typename Tree>
 void pbl2::set_up_card_goi_y(Tree &b,QGridLayout* path_link){
-    path_link->setContentsMargins(0,0,0,0);
-    path_link->setHorizontalSpacing(5);
-    path_link->setVerticalSpacing(5);
-    const int k = 8;
+    //path_link->setContentsMargins(0,0,0,0);
+    path_link->setHorizontalSpacing(10);
+    path_link->setVerticalSpacing(0);
+    const int k = settings_file::getInstance()->get_so_sach_goi_y();
     qDebug() << QDir::currentPath();
 
     int n = b.count_data();
     int show = std::min(k, n);
     if (!show) return;
     std::set<int> random_indices;
+    ui->scroll_goi_y->setMinimumWidth( 15 + (180 + 12) * show);
     while (random_indices.size() < show) {
         unsigned int rand_index = get_next_random(random_seed) % n;
         random_indices.insert(rand_index);
@@ -319,29 +324,29 @@ void pbl2::clear_layout(QLayout* layout) {
 
 void pbl2::Reload_show_info(book& b){
     qDebug() << is_sign_in << "\nis sign in \n";
-    auto* canh_bao_label = new QLabel("Vui lòng đăng nhập để mượn sách !", this);
-    canh_bao_label->setFixedSize(999,32);
-    canh_bao_label->setStyleSheet(R"(
-    background-color: rgb(170, 0, 0);
-    color: rgb(255, 255, 255);
-    )");
-    ui->muon_sach_layout->addWidget(canh_bao_label);
-    canh_bao_label->setVisible(false);
-    if (!is_sign_in){
-        canh_bao_label->setVisible(true);
-    }
-    else{
-        canh_bao_label->setVisible(false);
-    }
+    // auto* canh_bao_label = new QLabel("Vui lòng đăng nhập để mượn sách !", this);
+    // canh_bao_label->setFixedSize(999,32);
+    // canh_bao_label->setStyleSheet(R"(
+    // background-color: rgb(170, 0, 0);
+    // color: rgb(255, 255, 255);
+    // )");
+    // //ui->muon_sach_layout->addWidget(canh_bao_label);
+    // canh_bao_label->setVisible(false);
+    // if (!is_sign_in){
+    //     canh_bao_label->setVisible(true);
+    // }
+    // else{
+    //     canh_bao_label->setVisible(false);
+    // }
     connect(ui->return_home_button, &QPushButton::clicked, this, [this, b](){
         ui->noi_dung_layout->setCurrentIndex(0);
         QLayoutItem *child;
-        while ((child = ui->muon_sach_layout->takeAt(0)) != nullptr) {
-            if (child->widget()) {
-                child->widget()->deleteLater();
-            }
-            delete child;
-        }
+        // while ((child = ui->muon_sach_layout->takeAt(0)) != nullptr) {
+        //     if (child->widget()) {
+        //         child->widget()->deleteLater();
+        //     }
+        //     delete child;
+        // }
     });
 }
 
@@ -368,32 +373,32 @@ void pbl2::show_info_sach(book& b){
     ui->PNG_BOOK->setFixedSize(200, 250);
     ui->PNG_BOOK->setAlignment(Qt::AlignCenter);
     ui->PNG_BOOK->setPixmap(loadScaled(png_path, ui->PNG_BOOK->size()));
-    //
+    //202501100001
     //
     qDebug() << is_sign_in << "\nis sign in \n";
-    auto* canh_bao_label = new QLabel("Vui lòng đăng nhập để mượn sách !", this);
-    canh_bao_label->setFixedSize(999,32);
-    canh_bao_label->setStyleSheet(R"(
-    background-color: rgb(170, 0, 0);
-    color: rgb(255, 255, 255);
-    )");
-    ui->muon_sach_layout->addWidget(canh_bao_label);
-    canh_bao_label->setVisible(false);
-    if (!is_sign_in){
-        canh_bao_label->setVisible(true);
-    }
-    else{
-        canh_bao_label->setVisible(false);
-    }
+    // auto* canh_bao_label = new QLabel("Vui lòng đăng nhập để mượn sách !", this);
+    // canh_bao_label->setFixedSize(999,32);
+    // canh_bao_label->setStyleSheet(R"(
+    // background-color: rgb(170, 0, 0);
+    // color: rgb(255, 255, 255);
+    // )");
+    // // ui->muon_sach_layout->addWidget(canh_bao_label);
+    // canh_bao_label->setVisible(false);
+    // if (!is_sign_in){
+    //     canh_bao_label->setVisible(true);
+    // }
+    // else{
+    //     canh_bao_label->setVisible(false);
+    // }
     connect(ui->return_home_button, &QPushButton::clicked, this, [this, b](){
         ui->noi_dung_layout->setCurrentIndex(page_previous);
         QLayoutItem *child;
-        while ((child = ui->muon_sach_layout->takeAt(0)) != nullptr) {
-            if (child->widget()) {
-                child->widget()->deleteLater();
-            }
-            delete child;
-        }
+        // while ((child = ui->muon_sach_layout->takeAt(0)) != nullptr) {
+        //     if (child->widget()) {
+        //         child->widget()->deleteLater();
+        //     }
+        //     delete child;
+        // }
         current_selected_book = book();
     });
 }

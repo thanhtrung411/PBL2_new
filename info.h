@@ -28,6 +28,7 @@ private slots:
 
 private:
     Ui::info *ui;
+    void set_anh_dai_dien();
 protected:
     void closeEvent(QCloseEvent *event) override;
 };

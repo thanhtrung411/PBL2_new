@@ -102,7 +102,7 @@ int Library::dat_sach(long long id_book_, int id_user_, my_time booking_date, in
         if (!accout_data.find(id_user_, a)) {
             throw 2; // tai khoan khong hop le
         }
-        if (a.get_score() == -1){
+        if (a.get_score() < 0){
             throw 2; // tai khoan khong hop le
         }
         if (a.max_book_borrow() <= borrow_data.sach_dang_muon(id_user_)){
@@ -124,11 +124,10 @@ int Library::dat_sach(long long id_book_, int id_user_, my_time booking_date, in
         long long new_id_borrow = borrow_data.find_new_id_borrow();
         my_time due_date = current_date + my_time(0,0,limit_borrow_day,0,0,0);
         br.set_id(new_id_borrow);
-        br.set_book_copy_id(id_book_copy);
-        br.set_id_user(id_user_);
-        br.set_id_admin(0); //mac dinh
-        br.set_booking_date(current_date);
-        br.set_status("Da dat");
+        br.set_book_id(id_book_);
+        br.set_user_id(id_user_);
+        br.set_ngay_dat(booking_date);
+        br.set_status("XU_LY");
         borrow_data.insert(br);
         b.set_tong_sach_dang_dat(b.get_tong_sach_dang_dat() + 1);
         b.set_tong_sach_ranh(b.get_tong_sach_ranh() - 1);
@@ -165,10 +164,3 @@ type_bieu_ghi: tùy chọn trường cần tìm kiếm
     - type_bieu_ghi == 7: tìm kiếm theo trường TÓM TẮT
     - type_bieu_ghi == 8: tìm kiếm theo trường CHUYÊN NGÀNH
 */
-void search(int type_the_loai, int type_tuy_chon, int& type_bieu_ghi, string& key_word, BST_Book &book_data_, BST_Book &kq_return){
-    book_data_.traverse_ascending([&](book &a){
-        if (type_the_loai != 0){
-
-        }
-    });
-}

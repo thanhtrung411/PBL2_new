@@ -43,10 +43,48 @@ private slots:
     void on_thu_thu_button_clicked();
     void closeEvent(QCloseEvent *event);
 
+    void on_muon_tra_button_clicked();
+
+    void onXuLyClicked();
+    void onXacNhanClicked();
+    void onXoaDatSachClicked();
+    void onXemChiTietMuonClicked();
+    void onGiaHanSachClicked();
+    void onXemChiTietTraClicked();
+
+    void on_dat_sach_button_clicked();
+
+    void on_muon_sach_button_clicked();
+
+    void on_tra_sach_button_clicked();
+
+    void on_comboBox_currentTextChanged(const QString &arg1);
+
+    void on_tim_kiem_dat_textChanged(const QString &arg1);
+
+    void on_nhan_tra_clicked();
+
+    void on_phieu_tra_sach_button_clicked();
+
+    void on_comboBox_2_currentIndexChanged(int index);
+
+    void on_trang_thai_tra_activated(int index);
+
+    void on_tim_kiem_muon_textChanged(const QString &arg1);
+
+    void on_tim_kiem_tra_textChanged(const QString &arg1);
+
 private:
     Ui::admin *ui;
     void set_thong_ke();
     void hien_thi_thong_ke();
+    void cau_hinh_dat_sach();
+    void cau_hinh_muon_sach();
+    void cau_hinh_tra_sach();
+
+    void hien_thi_sach_dat(BST_Borrow &b);
+    void hien_thi_sach_muon(BST_Borrow &b);
+    void hien_thi_sach_tra(BST_Borrow &b);
 
     QChartView* createLuotMuonChart();
     QChartView* createPhanboTheLoaiChart();
@@ -58,6 +96,12 @@ private:
 
     QTableWidgetItem* makeCheckItem(bool value);
     QWidget* createStatusWidget(bool isOnline, bool isDownloadable);
+    QWidget* createStatusDatWidget(StatusType trang_thai, int days);
+    QWidget* createNutDatWidget(StatusType trang_thai,long long id);
+    QWidget* createNutMuonWidget(StatusType trang_thai,long long id);
+    QWidget* createTinhTrangWidget(TinhTrangsach tinh_trang,long long id);
+    QWidget* createNutXemTraWidget(long long id);
+
 };
 
 #endif // ADMIN_H

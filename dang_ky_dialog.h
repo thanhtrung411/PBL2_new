@@ -24,6 +24,26 @@ private slots:
 
     void on_sign_up_button_clicked();
 
+    void on_dang_nhap_button_clicked();
+
+    void on_dang_ky_button_clicked();
+
+    void on_forget_button_clicked();
+
+    void on_forget_button_2_clicked();
+
+    void on_dang_ky_2_button_2_clicked();
+
+    void on_ten_dang_nhap_2_input_textChanged(const QString &arg1);
+
+    void on_email_2_input_textEdited(const QString &arg1);
+
+    void on_so_dien_thoai_2_input_textEdited(const QString &arg1);
+
+    void on_so_dien_thoai_2_input_textChanged(const QString &arg1);
+
+    void on_lay_lai_mat_khau_button_clicked();
+
 private:
     Ui::dang_ky_dialog *ui_2;
 signals:

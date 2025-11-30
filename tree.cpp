@@ -2,6 +2,7 @@
 #include "global.h"
 #include "my_string.h"
 #include "history_record.h"
+#include "settings_file.h"
 #include <iostream>
 #include <QTextStream>
 #include <QString>
@@ -419,31 +420,14 @@ void BST_string::search_co_chua_helper(Node<string>* node, BST_string &full, int
 
 /////////////--for BST_Accout--//////////////
 
-
-Node<accout>* BST_Accout::check_accout_helper(Node<accout>* node, string ten_dang_nhap, string pass, int &ok, accout &a){
-    if (node == nullptr){
-        ok = 0;
-        return nullptr;
-    }
-    if (ten_dang_nhap < node->getData().get_ten_dang_nhap()){
-        return check_accout_helper(node->getLeft(), ten_dang_nhap, pass, ok, a);
-    }
-    if (ten_dang_nhap == node->getData().get_ten_dang_nhap() && pass == node->getData().get_pass()){
-        ok = 1;
-        a = node->getData();
-        return node;
-    }
-    if (ten_dang_nhap > node->getData().get_ten_dang_nhap()){
-        return check_accout_helper(node->getRight(), ten_dang_nhap, pass, ok, a);
-    }
-    ok = 0;
-    return nullptr;
-}
-
-
 bool BST_Accout::check_accout(string ten_dang_nhap, string pass, accout& a){
     int ok = 0;
-    Node<accout>* node = check_accout_helper(root, ten_dang_nhap, pass, ok, a);
+    accout_data.traverse_ascending([&](accout &ac){
+        if (ac.get_ten_dang_nhap() == ten_dang_nhap && ac.get_pass() == pass){
+            ok = 1;
+            a = ac;
+        }
+    });
     return ok == 1;
 }
 
@@ -471,6 +455,49 @@ void BST_Accout::write_accout(QTextStream &out) const {
     write_csv(node, out);
 }
 
+int BST_Accout::count_doc_gia_helper(Node<accout>* node) {
+    if (!node) return 0;
+    int count = 0;
+    if (node->getData().get_doi_tuong() == 1) {
+        count = 1;
+    }
+    return count + count_doc_gia_helper(node->getLeft()) + count_doc_gia_helper(node->getRight());
+}
+int BST_Accout::count_thu_thu_helper(Node<accout>* node) {
+    if (!node) return 0;
+    int count = 0;
+    if (node->getData().get_doi_tuong() == 2) {
+        count = 1;
+    }
+    return count + count_thu_thu_helper(node->getLeft()) + count_thu_thu_helper(node->getRight());
+}
+int BST_Accout::count_doc_gia(){
+    return count_doc_gia_helper(root);
+}
+int BST_Accout::count_thu_thu(){
+    return count_thu_thu_helper(root);
+}
+bool BST_Accout::check_ten_dang_nhap(string ten_dang_nhap){
+    int ok = 0;
+    accout_data.traverse_ascending([&](accout &a){
+        if (a.get_ten_dang_nhap() == ten_dang_nhap){
+            ok = 1;
+        }
+    });
+    return ok;
+}
+bool BST_Accout::check_quen_mat_khau(string so_dien_thoai, string email, accout &a){
+    int ok = 0;
+    accout_data.traverse_ascending([&](accout &ac){
+        if (ac.get_phone_number() == so_dien_thoai && ac.get_email() == email){
+            ok = 1;
+            ac.set_pass(ma_hoa_str_(settings_file::getInstance()->get_mat_khau_quen()));
+            a = ac;
+        }
+    });
+    return ok;
+}
+
 /////////////--for BST_Borrow--//////////////
 
 void BST_Borrow::write_csv(Node<borrow>* node, QTextStream &out) const {
@@ -478,19 +505,21 @@ void BST_Borrow::write_csv(Node<borrow>* node, QTextStream &out) const {
     write_csv(node->getLeft(), out);
     borrow& a = node->getData();
     out << a.get_id() << ","
+        << a.get_book_id() << ","
         << a.get_book_copy_id() << ","
-        << a.get_id_user() << ","
-        << a.get_id_admin() << ","
-        << QString::fromStdString(a.get_booking_date().get_datetime()) << ","
-        << QString::fromStdString(a.get_borrow_date().get_datetime()) << ","
-        << QString::fromStdString(a.get_due_date().get_datetime()) << ","
-        << QString::fromStdString(a.get_return_date().get_datetime()) << ","
-        << QString::fromStdString(a.get_status()) << ","
+        << a.get_user_id() << ","
+        << QString::fromStdString(a.get_ngay_dat().get_datetime()) << ","
+        << QString::fromStdString(a.get_ngay_muon().get_datetime()) << ","
+        << QString::fromStdString(a.get_ngay_phai_tra().get_datetime()) << ","
+        << QString::fromStdString(a.get_ngay_tra().get_datetime()) << ","
+        << QString::fromStdString(a.get_status_string()) << ","
+        << a.get_lan_gia_han() << ","
+        << QString::fromStdString(a.get_ghi_chu()) << ","
         << a.get_tien_phat() << "\n";
     write_csv(node->getRight(), out);
 }
 void BST_Borrow::write_borrow(QTextStream &out) const {
-    out << "ID, Book_copy_id, User_id, Admin_id, Booking_date, Borrow_date, Due_date, Return_date, Status, Tien_phat\n";
+    out << "ID, Book_ID, Book_Copy_ID, User_ID, Ngay_dat, Ngay_muon, Ngay_phai_tra, Ngay_tra, Status,Lan_gia_han, Ghi_chu, Tien_phat\n";
     write_csv(root, out);
 }
 
@@ -719,7 +748,7 @@ Node<book>* BST_Book::write_book_helper(Node<book>* node, QTextStream &out) cons
         << QString::number(a.get_NamXB()) << ","
         << QString::number(a.get_So_trang()) << ","
         << QString::fromStdString(a.get_ISBN()) << ","
-        << QString::fromStdString(a.get_Language()) << "," << " \""
+        << QString::fromStdString(a.get_Language()) << "," << "\""
         << QString::fromStdString(a.get_Tom_tat()) << "\","
         << QString::fromStdString(a.get_Link_png()) << ","
         << QString::fromStdString(a.get_Link_pdf()) << ","
@@ -788,29 +817,24 @@ void BST_Book::chuyen_nganh_of_book(int chuyen_nganh_id, BST_Book &b){
 }
 
 ///////////////--for BST_Book_copies--///////////////
-Node<Book_copies>* BST_book_copy::find_available_copy_helper(long long book_id, Node<Book_copies>* node){
-    if (!node) return nullptr;
-    Node<Book_copies>* found = find_available_copy_helper(book_id, node->getLeft());
-    Book_copies& a = node->getData();
-    if (a.get_status() == "available" && a.get_id_book() == book_id){
-        return node;
-    }
-    return find_available_copy_helper(book_id, node->getRight());
-}
 long long BST_book_copy::find_id_available_copy(long long book_id){
-    Node<Book_copies>* node = find_available_copy_helper(book_id, root);
-    if (node != nullptr){
-        return node->getData().get_id();
-    }
-    return -1;
+    long long id_found = -1;
+    book_copy_data.traverse_ascending([&book_id, this,&id_found](Book_copies& a) {
+        if (a.get_status() == "available" && a.get_id_book() == book_id){
+            id_found = a.get_id();
+        }
+        if (id_found != -1) return;
+    });
+    return id_found;
 }
 
 void BST_book_copy::write_book_copy(QTextStream &out) const {
-    out << "ID, Book_id,Status" << "\n";
+    out << "ID, Book_id,Status,ghi_chu" << "\n";
     book_copy_data.traverse_ascending([&out](Book_copies& a) {
         out << a.get_id() << ","
             << a.get_id_book() << ","
-            << QString::fromStdString(a.get_status()) << "\n";
+            << QString::fromStdString(a.get_status()) << "," << "\""
+            << QString::fromStdString(a.get_ghi_chu()) << "\"\n";
     });
 }
 
@@ -920,7 +944,7 @@ Node<borrow>* BST_Borrow::sach_dang_muon_helper(int user_id, Node<borrow>* node,
     if (!node) return nullptr;
     sach_dang_muon_helper(user_id, node->getLeft(), count);
     borrow& a = node->getData();
-    if (a.get_id_user() == user_id && a.get_status() == "Dang muon"){
+    if (a.get_user_id() == user_id && a.get_status() == StatusType::DANG_MUON){
         count++;
     }
     sach_dang_muon_helper(user_id, node->getRight(), count);
@@ -937,7 +961,7 @@ Node<borrow>* BST_Borrow::check_book_copy_borrowed_helper(int id_user, long long
     Node<borrow>* found = check_book_copy_borrowed_helper(id_user, id_book, node->getLeft());
     if (found) return found;
     borrow& a = node->getData();
-    if (a.get_id_user() == id_user && a.get_book_copy_id() == id_book && a.get_status() == "Dang muon"){
+    if (a.get_user_id() == id_user && a.get_book_copy_id() == id_book && a.get_status() == StatusType::DANG_MUON){
         return node;
     }
     return check_book_copy_borrowed_helper(id_user, id_book, node->getRight());
@@ -950,7 +974,7 @@ bool BST_Borrow::check_borrowed(int id_user, long long id_book){
 Node<borrow>* BST_Borrow::info_user_helper(int user_id, Node<borrow>* node, BST_Borrow &b){
     if (!node) return nullptr;
     borrow& a = node->getData();
-    if (a.get_id_user() == user_id){
+    if (a.get_user_id() == user_id){
         b.insert(a);
     }
     info_user_helper(user_id, node->getLeft(), b);
@@ -965,7 +989,7 @@ Node<borrow>* BST_Borrow::sach_qua_han_helper(int user_id, my_time current_date,
     if (!node) return nullptr;
     sach_qua_han_helper(user_id, current_date, node->getLeft(), b);
     borrow& a = node->getData();
-    if (a.get_id_user() == user_id && a.get_status() == "Dang muon" && current_date > a.get_due_date()){
+    if (a.get_user_id() == user_id && a.get_status() == StatusType::DANG_MUON && current_date > a.get_ngay_phai_tra()){
         b.insert(a);
     }
     sach_qua_han_helper(user_id, current_date, node->getRight(), b);
@@ -974,4 +998,139 @@ Node<borrow>* BST_Borrow::sach_qua_han_helper(int user_id, my_time current_date,
 
 void BST_Borrow::sach_qua_han(int user_id, my_time current_date, BST_Borrow &b){
     sach_qua_han_helper(user_id, current_date, root, b);
+}
+
+Node<borrow>* BST_Borrow::kiem_tra_sach_qua_han_helper(Node<borrow>* node, BST_Borrow &b, my_time current_date){
+    if (!node) return nullptr;
+    kiem_tra_sach_qua_han_helper(node->getLeft(), b, current_date);
+    borrow& a = node->getData();
+    if (a.get_status() == StatusType::DANG_MUON && current_date > a.get_ngay_phai_tra()){
+        a.set_status(StatusType::QUA_HAN_MUON);
+    }
+    if ((a.get_status() == StatusType::XU_LY || a.get_status() == StatusType::SAN_SANG) && a.get_ngay_dat() + 4 < current_date){
+        a.set_status(StatusType::QUA_HAN_DAT);
+        book b;
+        book_data.find(a.get_book_id(), b);
+        b.set_tong_sach_ranh(b.get_tong_sach_ranh() + 1);
+        b.set_tong_sach_dang_dat(b.get_tong_sach_dang_dat() - 1);
+        book_data.update(b, b);
+        ghi_book(book_data);
+    }
+    kiem_tra_sach_qua_han_helper(node->getRight(), b, current_date);
+    return nullptr;
+}
+void BST_Borrow::kiem_tra_sach_qua_han(BST_Borrow &b){
+    my_time current_date = my_time::now();
+    kiem_tra_sach_qua_han_helper(root, b, current_date);
+}
+
+Node<borrow>* BST_Borrow::tong_sach_dat_muon_qua_han_helper(Node<borrow>* node, int &tong_sach_dat, int &tong_sach_muon, int &tong_sach_qua_han, my_time current_date){
+    if (!node) return nullptr;
+    tong_sach_dat_muon_qua_han_helper(node->getLeft(), tong_sach_dat, tong_sach_muon, tong_sach_qua_han, current_date);
+    borrow& a = node->getData();
+    if (a.get_status() == StatusType::XU_LY || a.get_status() == StatusType::SAN_SANG){
+        tong_sach_dat++;
+    }
+    if (a.get_status() == StatusType::DANG_MUON && current_date <= a.get_ngay_phai_tra()){
+        tong_sach_muon++;
+    }
+    if (a.get_status() == StatusType::DANG_MUON && current_date > a.get_ngay_phai_tra()){
+        tong_sach_qua_han++;
+    }
+    if (a.get_status() == StatusType::QUA_HAN_MUON){
+        tong_sach_qua_han++;
+    }
+    tong_sach_dat_muon_qua_han_helper(node->getRight(), tong_sach_dat, tong_sach_muon, tong_sach_qua_han, current_date);
+    return nullptr;
+}
+
+void BST_Borrow::tong_sach_dat_muon_qua_han(int &tong_sach_dat, int &tong_sach_muon, int &tong_sach_qua_han){
+    tong_sach_dat = 0;
+    tong_sach_muon = 0;
+    tong_sach_qua_han = 0;
+    my_time current_date = my_time::now();
+    tong_sach_dat_muon_qua_han_helper(root, tong_sach_dat, tong_sach_muon, tong_sach_qua_han, current_date);
+}
+
+void BST_Borrow::tim_sach_dat_thu_thu(BST_Borrow &b){
+    //xoa sach dat cua doc gia trong BST_borrow
+    while (b.count_data() > 0){
+        b.remove_by_Key(b.find_max_id());
+    }
+    borrow_data.traverse_ascending([&b](borrow& a) {
+        if (a.get_status() == StatusType::XU_LY || a.get_status() == StatusType::SAN_SANG || a.get_status() == StatusType::QUA_HAN_DAT){
+            b.insert(a);
+        }
+    });
+}
+
+void BST_Borrow::tim_sach_muon_thu_thu(BST_Borrow &b){
+    //xoa sach muon cua doc gia trong BST_borrow
+    while (b.count_data() > 0){
+        b.remove_by_Key(b.find_max_id());
+    }
+    borrow_data.traverse_ascending([&b](borrow& a) {
+        if (a.get_status() == StatusType::DANG_MUON || a.get_status() == StatusType::QUA_HAN_MUON){
+            b.insert(a);
+        }
+    });
+}
+
+void BST_Borrow::tim_sach_tra_thu_thu(BST_Borrow &b){
+    //xoa sach muon cua doc gia trong BST_borrow
+    while (b.count_data() > 0){
+        b.remove_by_Key(b.find_max_id());
+    }
+    borrow_data.traverse_ascending([&b](borrow& a) {
+        if (a.get_status() == StatusType::TRA_DUNG_HAN || a.get_status() == StatusType::TRA_QUA_HAN){
+            b.insert(a);
+        }
+    });
+}
+void BST_Borrow::thong_ke_sach_dat(int &xu_ly, int &san_sang, int &qua_han, BST_Borrow &b){
+    xu_ly = 0;
+    san_sang = 0;
+    qua_han = 0;
+    b.traverse_ascending([&xu_ly, &san_sang, &qua_han](borrow& a) {
+        if (a.get_status() == StatusType::XU_LY){
+            xu_ly++;
+        }
+        else if (a.get_status() == StatusType::SAN_SANG){
+            san_sang++;
+        }
+        else if (a.get_status() == StatusType::QUA_HAN_DAT){
+            qua_han++;
+        }
+    });
+}
+void BST_Borrow::thong_ke_sach_muon(int &dang_muon, int &qua_han, BST_Borrow &b){
+    dang_muon = 0;
+    qua_han = 0;
+    b.traverse_ascending([&dang_muon, &qua_han](borrow& a) {
+        if (a.get_status() == StatusType::DANG_MUON){
+            dang_muon++;
+        }
+        else if (a.get_status() == StatusType::QUA_HAN_MUON){
+            qua_han++;
+        }
+    });
+}
+
+void BST_Borrow::thong_ke_sach_tra(int &tong_luot_tra, int &tra_qua_han, int &hu_hong_mat, long long &tong_tien_phat, BST_Borrow &b){
+    tong_luot_tra = 0;
+    hu_hong_mat = 0;
+    tra_qua_han = 0;
+    tong_tien_phat = 0;
+    b.traverse_ascending([&tong_luot_tra, &hu_hong_mat, &tra_qua_han, &tong_tien_phat](borrow& a) {
+        if (a.get_status() == StatusType::TRA_DUNG_HAN || a.get_status() == StatusType::TRA_QUA_HAN){
+            tong_luot_tra++;
+            tong_tien_phat += a.get_tien_phat();
+            if (a.get_status() == StatusType::TRA_QUA_HAN){
+                tra_qua_han++;
+            }
+        }
+        if (a.get_tinh_trang_sach() == TinhTrangsach::HONG || a.get_tinh_trang_sach() == TinhTrangsach::MAT){
+            hu_hong_mat++;
+        }
+    });
 }

@@ -175,8 +175,8 @@ void add_book::on_them_button_clicked()
             }
             book_copy_data.insert(bc);
         }
-        //ghi_copy_book(book_copy_data);
-        //ghi_book(book_data);
+        ghi_copy_book(book_copy_data);
+        ghi_book(book_data);
         QMessageBox box(this);
         box.setWindowTitle("Thông báo");
         box.setText("Thêm sách thành công !");
