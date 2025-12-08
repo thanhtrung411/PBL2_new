@@ -10,6 +10,7 @@ private:
     static settings_file* instance;
     settings_file();
     int so_lan_gia_han;
+    int so_ngay_gia_han;
     int so_sach_moi;
     int so_sach_goi_y;
     int so_ngay_dat_sach;
@@ -30,6 +31,8 @@ public:
     long long get_tien_phat_hu_hong() const;
     long long get_phi_phat_moi_ngay() const;
     string get_mat_khau_quen() const;
+    int get_so_ngay_gia_han() const;
+    void set_so_ngay_gia_han(int x);
     void set_so_lan_gia_han(int x);
     void set_so_sach_moi(int x);
     void set_so_sach_goi_y(int x);

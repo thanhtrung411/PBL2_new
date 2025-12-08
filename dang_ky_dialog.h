@@ -13,10 +13,10 @@ class dang_ky_dialog : public QMainWindow
 
 public:
     explicit dang_ky_dialog(QWidget *parent = nullptr);
+    void set_up_register_mode(std::string role);
     ~dang_ky_dialog();
 
 private slots:
-    void on_dang_ky_2_button_clicked();
 
     void on_return_home_clicked();
 
@@ -46,6 +46,8 @@ private slots:
 
 private:
     Ui::dang_ky_dialog *ui_2;
+    std::string register_role = "User";
+    bool is_admin = false;
 signals:
     void registered(const accout& user);
     void returned();

@@ -5,6 +5,8 @@
 #include "tree.h"
 #include "global.h"
 #include "settings_file.h"
+#include "my_time.h"
+#include "my_file.h"
 
 #include <QMessageBox>
 
@@ -15,6 +17,7 @@ phieu_tra_sach::phieu_tra_sach(QWidget *parent)
     ui->setupUi(this);
     load_borrow_can_tra();
     hien_thi_borrow_can_tra();
+    this->setMaximumHeight(0);
 }
 
 phieu_tra_sach::~phieu_tra_sach()
@@ -107,6 +110,14 @@ void phieu_tra_sach::on_xac_nhan_clicked()
             b.set_tong_sach_ranh(b.get_tong_sach_ranh() + 1);
             book_data.update(b, b);
         }
+        Book_copies bc;
+        if (book_copy_data.find(br.get_book_copy_id(), bc)){
+            bc.set_status("available");
+            book_copy_data.update(bc, bc);
+        }
+        ghi_copy_book(book_copy_data);
+        ghi_borrow(borrow_data);
+        ghi_book(book_data);
         QMessageBox::information(this, "Thông báo", "Xác nhận phiếu trả sách thành công!");
         load_borrow_can_tra();
         hien_thi_borrow_can_tra();

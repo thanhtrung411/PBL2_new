@@ -99,7 +99,7 @@ ProductCard::ProductCard(const book& b, QWidget* parent)
     imageLabel->setAlignment(Qt::AlignCenter);
     // Quan trọng: Set policy để ảnh không bị co giãn linh tinh
     imageLabel->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
-
+    imageLabel->setScaledContents(true);
     imageLabel->setStyleSheet("background-color: #f1f5f9; border-radius: 12px;");
     mainLayout->addWidget(imageLabel);
 
@@ -120,8 +120,9 @@ ProductCard::ProductCard(const book& b, QWidget* parent)
     QFontMetrics fmTitle(titleLabel->font());
     int lineHeight = fmTitle.lineSpacing();
     titleLabel->setFixedHeight(lineHeight * 2 + 10);// +10 để có chút padding
-
-    titleLabel->setText(titleText);
+    titleLabel->setFixedWidth(logicalW);
+    QString elidedTitle = fmTitle.elidedText(titleText, Qt::ElideRight, logicalW*2 - 35);
+    titleLabel->setText(elidedTitle);
     mainLayout->addWidget(titleLabel);
 
     QString authText = QString::fromUtf8(b.get_Author().c_str());
@@ -199,9 +200,14 @@ QPixmap ProductCard::loadScaled(const QString& path, const QSize& physicalSize, 
 {
     QPixmap src(path);
     if (src.isNull()) {
-        QPixmap ph(physicalSize);
-        ph.fill(QColor("#f1f5f9"));
-        return ph;
+        // Thử load ảnh mặc định
+        src = QPixmap("../../png_background/default_book.png");
+        if (src.isNull()) {
+            // Nếu ảnh mặc định cũng không có, dùng màu nền
+            QPixmap ph(physicalSize);
+            ph.fill(QColor("#f1f5f9"));
+            return ph;
+        }
     }
     QPixmap scaled = src.scaled(physicalSize, Qt::KeepAspectRatioByExpanding, Qt::SmoothTransformation);
     int x = (scaled.width() - physicalSize.width()) / 2;

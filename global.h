@@ -13,6 +13,7 @@ extern BST_Borrow borrow_user_data;
 extern BST_The_loai the_loai_data;
 extern BST_Chuyen_nganh chuyen_nganh_data;
 extern BST_History record;
+extern BST_Yeu_thich yeu_thich_data;
 extern accout acc_sign_in;
 extern int is_sign_in;
 

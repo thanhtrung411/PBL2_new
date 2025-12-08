@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>648</width>
-    <height>1014</height>
+    <height>1016</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -22,7 +22,7 @@
      <number>7</number>
     </property>
     <property name="bottomMargin">
-     <number>0</number>
+     <number>11</number>
     </property>
     <item>
      <widget class="QStackedWidget" name="stackedWidget">
@@ -30,7 +30,7 @@
        <string notr="true"/>
       </property>
       <property name="currentIndex">
-       <number>2</number>
+       <number>1</number>
       </property>
       <widget class="QWidget" name="page">
        <widget class="QPushButton" name="dang_ky_2_button">
@@ -1071,9 +1071,11 @@ border: 0px solid rgb(255,255,255);</string>
             </widget>
            </item>
            <item>
-            <widget class="QDateEdit" name="ngay_sinh_2_input">
-             <property name="styleSheet">
-              <string notr="true">/* --- PHẦN 1: Ô NHẬP LIỆU (Giống ComboBox) --- */
+            <layout class="QHBoxLayout" name="dang_nhap_button_layout_2">
+             <item>
+              <widget class="QDateEdit" name="ngay_sinh_2_input">
+               <property name="styleSheet">
+                <string notr="true">/* --- PHẦN 1: Ô NHẬP LIỆU (Giống ComboBox) --- */
 QDateEdit {
     border: 2px solid transparent;
     border-radius: 8px;
@@ -1154,11 +1156,94 @@ QCalendarWidget QAbstractItemView:enabled {
 QCalendarWidget QAbstractItemView:disabled {
     color: #888; /* Màu chữ xám cho ngày không thuộc tháng hiện tại */
 }</string>
-             </property>
-             <property name="calendarPopup">
-              <bool>true</bool>
-             </property>
-            </widget>
+               </property>
+               <property name="calendarPopup">
+                <bool>true</bool>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QComboBox" name="gioi_tinh">
+               <property name="styleSheet">
+                <string notr="true">QComboBox {
+    background-color: #f3f4f6;
+    border: 1px solid #f3f4f6;
+    border-radius: 8px;
+    padding: 6px 12px;
+    color: #333;
+}
+
+QComboBox:hover {
+    background-color: #e4e6eb;
+    border-color: #e4e6eb;
+}
+
+QComboBox:on {
+    background-color: #e4e6eb;
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0px;
+}
+
+QComboBox::drop-down {
+    subcontrol-origin: padding;
+    subcontrol-position: top right;
+    width: 30px;
+    border-left-width: 0px;
+    border-top-right-radius: 8px;
+    border-bottom-right-radius: 8px;
+}
+
+QComboBox::down-arrow {
+    image: url(:/icons/icons_/down-chevron.png);
+    width: 12px;
+    height: 12px;
+}
+
+QComboBox QAbstractItemView {
+    background-color: white;
+    border: 1px solid #dcdcdc;
+    border-radius: 8px;
+    border-top-left-radius: 0px;
+    border-top-right-radius: 0px;
+    color: #333;
+    selection-background-color: #f3f4f6;
+    selection-color: #333;
+    outline: 0;
+}
+
+QComboBox QAbstractItemView::item {
+    padding: 8px 12px;
+    min-height: 25px;
+}
+
+QComboBox QAbstractItemView::item:hover {
+    background-color: #f0f5ff;
+    color: rgb(60, 91, 149);
+}
+
+QComboBox QAbstractItemView::item:selected {
+    background-color: #e4e6eb;
+    color: #333;
+}</string>
+               </property>
+               <item>
+                <property name="text">
+                 <string>Nam</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>Nữ</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>Khác</string>
+                </property>
+               </item>
+              </widget>
+             </item>
+            </layout>
            </item>
            <item>
             <widget class="QLabel" name="password_label_2">

@@ -6,14 +6,26 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>691</width>
-    <height>490</height>
+    <width>600</width>
+    <height>556</height>
    </rect>
+  </property>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
   </property>
   <property name="minimumSize">
    <size>
     <width>0</width>
-    <height>420</height>
+    <height>0</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>16777215</width>
+    <height>556</height>
    </size>
   </property>
   <property name="windowTitle">
@@ -114,59 +126,58 @@ QGroupBox::title {
 }</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QWidget" name="verticalLayoutWidget">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>10</y>
-      <width>671</width>
-      <height>930</height>
-     </rect>
-    </property>
-    <layout class="QVBoxLayout" name="verticalLayout">
-     <property name="spacing">
-      <number>8</number>
-     </property>
-     <property name="leftMargin">
-      <number>2</number>
-     </property>
-     <property name="topMargin">
-      <number>2</number>
-     </property>
-     <property name="rightMargin">
-      <number>2</number>
-     </property>
-     <property name="bottomMargin">
-      <number>2</number>
-     </property>
-     <item>
-      <widget class="QLabel" name="label_2">
-       <property name="font">
-        <font>
-         <family>Segoe UI</family>
-         <pointsize>12</pointsize>
-         <bold>true</bold>
-        </font>
-       </property>
-       <property name="text">
-        <string>Phiếu trả sách</string>
-       </property>
-       <property name="alignment">
-        <set>Qt::AlignmentFlag::AlignCenter</set>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QLabel" name="label">
-       <property name="text">
-        <string>Phiếu mượn (*)</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QComboBox" name="phieu_muon">
-       <property name="styleSheet">
-        <string notr="true">
+   <layout class="QVBoxLayout" name="verticalLayout_6">
+    <item>
+     <layout class="QVBoxLayout" name="verticalLayout">
+      <property name="spacing">
+       <number>8</number>
+      </property>
+      <property name="leftMargin">
+       <number>2</number>
+      </property>
+      <property name="topMargin">
+       <number>2</number>
+      </property>
+      <property name="rightMargin">
+       <number>2</number>
+      </property>
+      <property name="bottomMargin">
+       <number>2</number>
+      </property>
+      <item>
+       <widget class="QLabel" name="label_2">
+        <property name="font">
+         <font>
+          <family>Segoe UI</family>
+          <pointsize>16</pointsize>
+          <bold>true</bold>
+         </font>
+        </property>
+        <property name="text">
+         <string>Phiếu trả sách</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignmentFlag::AlignCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="label">
+        <property name="text">
+         <string>Phiếu mượn (*)</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QComboBox" name="phieu_muon">
+        <property name="font">
+         <font>
+          <family>Segoe UI</family>
+          <pointsize>10</pointsize>
+         </font>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">
 QComboBox {
     border: 1px solid #B0B0B0;
     border-radius: 8px;
@@ -225,240 +236,258 @@ QComboBox QAbstractItemView::item:hover {
     font-weight: bold;         /* Chữ đậm lên để nhấn mạnh */
     border: none;              /* Xóa viền nếu có */
 }</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QWidget" name="horizontalWidget" native="true">
-       <property name="styleSheet">
-        <string notr="true">QWidget{background-color: #ffffff;
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QWidget" name="horizontalWidget" native="true">
+        <property name="styleSheet">
+         <string notr="true">QWidget{background-color: #ffffff;
 border: 2px solid #E0E0E0;
 border-radius: 12px;
 }
 QLabel{
 	border: 0px solid #E0E0E0;
 }</string>
-       </property>
-       <layout class="QHBoxLayout" name="horizontalLayout">
-        <property name="spacing">
-         <number>15</number>
         </property>
-        <property name="leftMargin">
-         <number>11</number>
-        </property>
-        <property name="topMargin">
-         <number>11</number>
-        </property>
-        <property name="bottomMargin">
-         <number>11</number>
-        </property>
-        <item>
-         <layout class="QVBoxLayout" name="verticalLayout_3">
-          <property name="spacing">
-           <number>2</number>
-          </property>
-          <item>
-           <widget class="QLabel" name="label_3">
-            <property name="font">
-             <font>
-              <family>Segoe UI</family>
-              <bold>true</bold>
-             </font>
-            </property>
-            <property name="text">
-             <string>Ngày mượn</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QLabel" name="ngay_muon_date">
-            <property name="font">
-             <font>
-              <family>Segoe UI</family>
-              <bold>true</bold>
-             </font>
-            </property>
-            <property name="text">
-             <string>1/1/2000</string>
-            </property>
-           </widget>
-          </item>
-         </layout>
-        </item>
-        <item>
-         <widget class="Line" name="line">
-          <property name="orientation">
-           <enum>Qt::Orientation::Vertical</enum>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <layout class="QVBoxLayout" name="verticalLayout_2">
-          <property name="spacing">
-           <number>2</number>
-          </property>
-          <item>
-           <widget class="QLabel" name="label_5">
-            <property name="font">
-             <font>
-              <family>Segoe UI</family>
-              <bold>true</bold>
-             </font>
-            </property>
-            <property name="text">
-             <string>Hạn trả</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QLabel" name="han_tra_date">
-            <property name="font">
-             <font>
-              <family>Segoe UI</family>
-              <bold>true</bold>
-             </font>
-            </property>
-            <property name="text">
-             <string>1/1/2000</string>
-            </property>
-           </widget>
-          </item>
-         </layout>
-        </item>
-        <item>
-         <widget class="Line" name="line_2">
-          <property name="orientation">
-           <enum>Qt::Orientation::Vertical</enum>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <layout class="QVBoxLayout" name="verticalLayout_4">
-          <property name="spacing">
-           <number>2</number>
-          </property>
-          <item>
-           <widget class="QLabel" name="label_7">
-            <property name="font">
-             <font>
-              <family>Segoe UI</family>
-              <bold>true</bold>
-             </font>
-            </property>
-            <property name="text">
-             <string>Ngày trả thực tế</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QLabel" name="tra_thuc_te_date">
-            <property name="font">
-             <font>
-              <family>Segoe UI</family>
-              <bold>true</bold>
-             </font>
-            </property>
-            <property name="text">
-             <string>1/1/2000</string>
-            </property>
-           </widget>
-          </item>
-         </layout>
-        </item>
-       </layout>
-      </widget>
-     </item>
-     <item>
-      <widget class="QWidget" name="qua_han_muon" native="true">
-       <property name="styleSheet">
-        <string notr="true">QWidget{background-color:  #fff6ed;
+        <layout class="QHBoxLayout" name="horizontalLayout">
+         <property name="spacing">
+          <number>15</number>
+         </property>
+         <property name="leftMargin">
+          <number>11</number>
+         </property>
+         <property name="topMargin">
+          <number>11</number>
+         </property>
+         <property name="bottomMargin">
+          <number>11</number>
+         </property>
+         <item>
+          <layout class="QVBoxLayout" name="verticalLayout_3">
+           <property name="spacing">
+            <number>2</number>
+           </property>
+           <item>
+            <widget class="QLabel" name="label_3">
+             <property name="font">
+              <font>
+               <family>Segoe UI</family>
+               <bold>true</bold>
+              </font>
+             </property>
+             <property name="text">
+              <string>Ngày mượn</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="ngay_muon_date">
+             <property name="font">
+              <font>
+               <family>Segoe UI</family>
+               <bold>true</bold>
+              </font>
+             </property>
+             <property name="text">
+              <string>1/1/2000</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+         <item>
+          <widget class="Line" name="line">
+           <property name="orientation">
+            <enum>Qt::Orientation::Vertical</enum>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <layout class="QVBoxLayout" name="verticalLayout_2">
+           <property name="spacing">
+            <number>2</number>
+           </property>
+           <item>
+            <widget class="QLabel" name="label_5">
+             <property name="font">
+              <font>
+               <family>Segoe UI</family>
+               <bold>true</bold>
+              </font>
+             </property>
+             <property name="text">
+              <string>Hạn trả</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="han_tra_date">
+             <property name="font">
+              <font>
+               <family>Segoe UI</family>
+               <bold>true</bold>
+              </font>
+             </property>
+             <property name="text">
+              <string>1/1/2000</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+         <item>
+          <widget class="Line" name="line_2">
+           <property name="orientation">
+            <enum>Qt::Orientation::Vertical</enum>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <layout class="QVBoxLayout" name="verticalLayout_4">
+           <property name="spacing">
+            <number>2</number>
+           </property>
+           <item>
+            <widget class="QLabel" name="label_7">
+             <property name="font">
+              <font>
+               <family>Segoe UI</family>
+               <bold>true</bold>
+              </font>
+             </property>
+             <property name="text">
+              <string>Ngày trả thực tế</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="tra_thuc_te_date">
+             <property name="font">
+              <font>
+               <family>Segoe UI</family>
+               <bold>true</bold>
+              </font>
+             </property>
+             <property name="text">
+              <string>1/1/2000</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+        </layout>
+       </widget>
+      </item>
+      <item>
+       <widget class="QWidget" name="qua_han_muon" native="true">
+        <property name="styleSheet">
+         <string notr="true">QWidget{background-color:  #fff6ed;
 border: 2px solid rgb(255, 64, 0);
 border-radius: 12px;
 }
 QLabel{
 	border: 0px solid #E0E0E0;
 }</string>
-       </property>
-       <layout class="QHBoxLayout" name="horizontalLayout_2" stretch="0,1">
-        <property name="leftMargin">
-         <number>3</number>
         </property>
-        <property name="topMargin">
-         <number>8</number>
-        </property>
-        <property name="bottomMargin">
-         <number>8</number>
-        </property>
-        <item>
-         <widget class="QPushButton" name="pushButton_2">
-          <property name="maximumSize">
-           <size>
-            <width>35</width>
-            <height>35</height>
-           </size>
-          </property>
-          <property name="styleSheet">
-           <string notr="true">color: rgb(255, 255, 255);
+        <layout class="QHBoxLayout" name="horizontalLayout_2" stretch="0,1">
+         <property name="leftMargin">
+          <number>3</number>
+         </property>
+         <property name="topMargin">
+          <number>8</number>
+         </property>
+         <property name="bottomMargin">
+          <number>8</number>
+         </property>
+         <item>
+          <widget class="QPushButton" name="pushButton_2">
+           <property name="maximumSize">
+            <size>
+             <width>35</width>
+             <height>35</height>
+            </size>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">color: rgb(255, 255, 255);
 border: 0px;</string>
-          </property>
-          <property name="text">
-           <string/>
-          </property>
-          <property name="icon">
-           <iconset resource="resource.qrc">
-            <normaloff>:/icons/icons_/exclamation.png</normaloff>:/icons/icons_/exclamation.png</iconset>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <layout class="QVBoxLayout" name="verticalLayout_5">
-          <property name="spacing">
-           <number>6</number>
-          </property>
-          <item>
-           <widget class="QLabel" name="qua_han_muon_2">
-            <property name="font">
-             <font>
-              <family>Segoe UI</family>
-              <pointsize>10</pointsize>
-              <bold>true</bold>
-             </font>
-            </property>
-            <property name="text">
-             <string>Quá hạn mượn</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QLabel" name="tien_phat">
-            <property name="font">
-             <font>
-              <family>Segoe UI</family>
-              <pointsize>10</pointsize>
-              <bold>true</bold>
-             </font>
-            </property>
-            <property name="text">
-             <string>Tổng tiền phạt</string>
-            </property>
-           </widget>
-          </item>
-         </layout>
-        </item>
-       </layout>
-      </widget>
-     </item>
-     <item>
-      <widget class="QLabel" name="label_12">
-       <property name="text">
-        <string>Tình trạng sách (*)</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QComboBox" name="tinh_trang_sach">
-       <property name="styleSheet">
-        <string notr="true">
+           </property>
+           <property name="text">
+            <string/>
+           </property>
+           <property name="icon">
+            <iconset resource="resource.qrc">
+             <normaloff>:/icons/icons_/exclamation.png</normaloff>:/icons/icons_/exclamation.png</iconset>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <layout class="QVBoxLayout" name="verticalLayout_5">
+           <property name="spacing">
+            <number>6</number>
+           </property>
+           <item>
+            <widget class="QLabel" name="qua_han_muon_2">
+             <property name="font">
+              <font>
+               <family>Segoe UI</family>
+               <pointsize>10</pointsize>
+               <bold>true</bold>
+              </font>
+             </property>
+             <property name="text">
+              <string>Quá hạn mượn</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="tien_phat">
+             <property name="font">
+              <font>
+               <family>Segoe UI</family>
+               <pointsize>10</pointsize>
+               <bold>true</bold>
+              </font>
+             </property>
+             <property name="text">
+              <string>Tổng tiền phạt</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+        </layout>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="label_12">
+        <property name="text">
+         <string>Tình trạng sách (*)</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QComboBox" name="tinh_trang_sach">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="minimumSize">
+         <size>
+          <width>0</width>
+          <height>40</height>
+         </size>
+        </property>
+        <property name="font">
+         <font>
+          <family>Segoe UI</family>
+          <pointsize>10</pointsize>
+         </font>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">
 QComboBox {
     border: 1px solid #B0B0B0;
     border-radius: 8px;
@@ -517,154 +546,174 @@ QComboBox QAbstractItemView::item:hover {
     font-weight: bold;         /* Chữ đậm lên để nhấn mạnh */
     border: none;              /* Xóa viền nếu có */
 }</string>
-       </property>
-       <item>
-        <property name="text">
-         <string>Tốt</string>
         </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>Bình thường</string>
+        <item>
+         <property name="text">
+          <string>Tốt</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Bình thường</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Hư hỏng (phạt 50.000VND)</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Mất (phạt 100.000VND)</string>
+         </property>
+        </item>
+       </widget>
+      </item>
+      <item>
+       <widget class="Line" name="line_3">
+        <property name="minimumSize">
+         <size>
+          <width>0</width>
+          <height>10</height>
+         </size>
         </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>Hư hỏng (phạt 50.000VND)</string>
+        <property name="orientation">
+         <enum>Qt::Orientation::Horizontal</enum>
         </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>Mất (phạt 100.000VND)</string>
+       </widget>
+      </item>
+      <item>
+       <widget class="QWidget" name="horizontalWidget_2" native="true">
+        <property name="minimumSize">
+         <size>
+          <width>0</width>
+          <height>40</height>
+         </size>
         </property>
-       </item>
-      </widget>
-     </item>
-     <item>
-      <widget class="Line" name="line_3">
-       <property name="orientation">
-        <enum>Qt::Orientation::Horizontal</enum>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QWidget" name="horizontalWidget_2" native="true">
-       <property name="styleSheet">
-        <string notr="true">QWidget{background-color: #ffffff;
+        <property name="styleSheet">
+         <string notr="true">QWidget{background-color: #ffffff;
 border: 2px solid #E0E0E0;
 border-radius: 12px;
 }
 QLabel{
 	border: 0px solid #E0E0E0;
 }</string>
-       </property>
-       <layout class="QHBoxLayout" name="horizontalLayout_3">
-        <property name="leftMargin">
-         <number>15</number>
         </property>
-        <property name="topMargin">
-         <number>10</number>
+        <layout class="QHBoxLayout" name="horizontalLayout_3">
+         <property name="leftMargin">
+          <number>15</number>
+         </property>
+         <property name="topMargin">
+          <number>10</number>
+         </property>
+         <property name="rightMargin">
+          <number>15</number>
+         </property>
+         <property name="bottomMargin">
+          <number>10</number>
+         </property>
+         <item>
+          <widget class="QLabel" name="label_16">
+           <property name="font">
+            <font>
+             <family>Segoe UI</family>
+             <pointsize>11</pointsize>
+            </font>
+           </property>
+           <property name="text">
+            <string>Tổng phí phạt: </string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="tong_phi_phat">
+           <property name="font">
+            <font>
+             <family>Segoe UI</family>
+             <pointsize>11</pointsize>
+            </font>
+           </property>
+           <property name="text">
+            <string>0đ</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="label_13">
+        <property name="text">
+         <string>Ghi chú</string>
         </property>
-        <property name="rightMargin">
-         <number>15</number>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLineEdit" name="ghi_chu">
+        <property name="font">
+         <font>
+          <family>Segoe UI</family>
+          <pointsize>9</pointsize>
+         </font>
         </property>
-        <property name="bottomMargin">
-         <number>10</number>
-        </property>
+       </widget>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout_4">
         <item>
-         <widget class="QLabel" name="label_16">
-          <property name="font">
-           <font>
-            <family>Segoe UI</family>
-            <pointsize>11</pointsize>
-           </font>
+         <spacer name="horizontalSpacer_2">
+          <property name="orientation">
+           <enum>Qt::Orientation::Horizontal</enum>
           </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>40</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+        <item>
+         <widget class="QPushButton" name="xac_nhan">
           <property name="text">
-           <string>Tổng phí phạt: </string>
+           <string>Xác nhận trả sách</string>
           </property>
          </widget>
         </item>
         <item>
-         <widget class="QLabel" name="tong_phi_phat">
-          <property name="font">
-           <font>
-            <family>Segoe UI</family>
-            <pointsize>11</pointsize>
-           </font>
+         <spacer name="horizontalSpacer_3">
+          <property name="orientation">
+           <enum>Qt::Orientation::Horizontal</enum>
           </property>
-          <property name="text">
-           <string>0đ</string>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>40</width>
+            <height>20</height>
+           </size>
           </property>
-          <property name="alignment">
-           <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>
-          </property>
-         </widget>
+         </spacer>
         </item>
        </layout>
-      </widget>
-     </item>
-     <item>
-      <widget class="QLabel" name="label_13">
-       <property name="text">
-        <string>Ghi chú</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QLineEdit" name="ghi_chu"/>
-     </item>
-     <item>
-      <layout class="QHBoxLayout" name="horizontalLayout_4">
-       <item>
-        <spacer name="horizontalSpacer_2">
-         <property name="orientation">
-          <enum>Qt::Orientation::Horizontal</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>40</width>
-           <height>20</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
-       <item>
-        <widget class="QPushButton" name="xac_nhan">
-         <property name="text">
-          <string>Xác nhận trả sách</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <spacer name="horizontalSpacer_3">
-         <property name="orientation">
-          <enum>Qt::Orientation::Horizontal</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>40</width>
-           <height>20</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
-      </layout>
-     </item>
-     <item>
-      <spacer name="verticalSpacer">
-       <property name="orientation">
-        <enum>Qt::Orientation::Vertical</enum>
-       </property>
-       <property name="sizeHint" stdset="0">
-        <size>
-         <width>0</width>
-         <height>0</height>
-        </size>
-       </property>
-      </spacer>
-     </item>
-    </layout>
-   </widget>
+      </item>
+      <item>
+       <spacer name="verticalSpacer">
+        <property name="orientation">
+         <enum>Qt::Orientation::Vertical</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>0</width>
+          <height>0</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+     </layout>
+    </item>
+   </layout>
   </widget>
  </widget>
  <resources>

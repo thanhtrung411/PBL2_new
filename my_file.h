@@ -11,6 +11,7 @@
 #include "accout.h"
 #include "tree.h"
 #include "book.h"
+#include "global.h"
 
 static QString getDataFilePath(string link) {
     // Tìm data/accout.txt từ cạnh .exe, nếu không thấy thì đi lên tối đa 3 cấp
@@ -57,5 +58,11 @@ void doc_borrow(BST_Borrow &borrow_data);
 void ghi_borrow(BST_Borrow &borrow_data);
 
 void copy_file(const string& file1, const string& file2);
+
+void open_file_PDF(const string& file_path);
+
+void download_pdf(const string& file_path, const string& save_path);
+
+
 
 #endif // MY_FILE_H

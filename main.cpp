@@ -28,6 +28,7 @@ BST_The_loai the_loai_data;
 BST_Chuyen_nganh chuyen_nganh_data;
 BST_string string_data;
 BST_History record;
+BST_Yeu_thich yeu_thich_data;
 accout acc_sign_in;
 int is_sign_in = 0;
 
@@ -80,10 +81,12 @@ int main(int argc, char *argv[])
     borrow_data.kiem_tra_sach_qua_han(borrow_data);
     doc_the_loai(the_loai_data);
     doc_chuyen_nganh(chuyen_nganh_data);
+    yeu_thich_data.load_from_file();
 
     string s = giai_ma_str_("242A2D5C2A0D5F310138654052");
 
     settings_file::getInstance()->doc_file_settings();
+
 
 
 
@@ -106,7 +109,12 @@ int main(int argc, char *argv[])
 
     pbl2 w;
     w.show();
-    return a.exec();
+
+    int exitCode = a.exec();
+
+    // Lưu dữ liệu trước khi thoát
+
+    return exitCode;
 }
 
 void pbl2::on_dang_ky_button_clicked()

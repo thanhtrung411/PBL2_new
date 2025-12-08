@@ -55,6 +55,7 @@ string xoa_dau_lower(const string& s);
 string to_string_(int x);
 string to_string_(bool x);
 string to_stringll_(long long &x);
+string to_stringll_(const long long &x);
 string to_string_(my_time t);
 bool to_bool(const string& s);
 bool to_bool(const int& s);

@@ -35,6 +35,7 @@ settings_file::settings_file() {
     so_sach_moi = 8;
     so_sach_goi_y = 8;
     so_ngay_dat_sach = 3;
+    so_ngay_gia_han = 7;
     tien_phat_mat = 100000;
     tien_phat_hu_hong = 50000;
     phi_phat_moi_ngay = 5000;
@@ -63,6 +64,12 @@ long long settings_file::get_phi_phat_moi_ngay() const {
 }
 string settings_file::get_mat_khau_quen() const {
     return mat_khau_quen;
+}
+int settings_file::get_so_ngay_gia_han() const {
+    return so_ngay_gia_han;
+}
+void settings_file::set_so_ngay_gia_han(int x) {
+    so_ngay_gia_han = x;
 }
 void settings_file::set_mat_khau_quen(const string& x) {
     mat_khau_quen = x;
@@ -97,15 +104,15 @@ void settings_file::doc_file_settings() {
     }
     QTextStream in(&file);
     while (!in.atEnd()) {
-        QString qline = in.readLine();
-        if (qline.trimmed().isEmpty()) continue;
-        
-        QStringList parts = qline.split(',');
+        const QString qline = in.readLine().trimmed();
+        if (qline.isEmpty()) continue;
+
+        const QStringList parts = qline.split(',');
         if (parts.size() < 2) continue;
-        
-        QString key = parts[0].trimmed();
-        QString value = parts[1].trimmed();
-        
+
+        const QString key = parts[0].trimmed();
+        const QString value = parts[1].trimmed();
+
         if (key == "SO_LAN_GIA_HAN") {
             so_lan_gia_han = value.toInt();
         } else if (key == "SO_SACH_MOI") {
@@ -120,10 +127,15 @@ void settings_file::doc_file_settings() {
             tien_phat_hu_hong = value.toLongLong();
         } else if (key == "PHI_PHAT_MOI_NGAY") {
             phi_phat_moi_ngay = value.toLongLong();
+        } else if (key == "SO_NGAY_GIA_HAN") {
+            so_ngay_gia_han = value.toInt();
+        } else if (key == "MAT_KHAU_QUEN") {
+            mat_khau_quen = value.toStdString();
         }
     }
     file.close();
 }
+
 void settings_file::ghi_file_settings() const {
     const QString path = getDataFilePath("data/settings.csv");
     QDir().mkpath(QFileInfo(path).absolutePath());
@@ -141,6 +153,7 @@ void settings_file::ghi_file_settings() const {
     out << "TIEN_PHAT_MAT," << tien_phat_mat << "\n";
     out << "TIEN_PHAT_HU_HONG," << tien_phat_hu_hong << "\n";
     out << "PHI_PHAT_MOI_NGAY," << phi_phat_moi_ngay << "\n";
+    out << "SO_NGAY_GIA_HAN," << so_ngay_gia_han << "\n";
     out << "MAT_KHAU_QUEN," << QString::fromStdString(mat_khau_quen) << "\n";
     file.close();
 }

@@ -186,6 +186,23 @@ string to_stringll_(long long &x){
     return res;
 }
 
+string to_stringll_(const long long &x){
+    if (x == 0) return "0";
+    string res = "";
+    bool negative = false;
+    long long temp = x;
+    if (temp < 0) {
+        negative = true;
+        temp = -temp;
+    }
+    while (temp > 0) {
+        res = char((temp % 10) + '0') + res;
+        temp /= 10;
+    }
+    if (negative) res = '-' + res;
+    return res;
+}
+
 string to_string_(bool x){
     return x ? "1" : "0";
 }

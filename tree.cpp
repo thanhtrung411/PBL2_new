@@ -1,13 +1,13 @@
 #include "tree.h"
 #include "global.h"
 #include "my_string.h"
-#include "history_record.h"
 #include "settings_file.h"
 #include <iostream>
 #include <QTextStream>
 #include <QString>
 #include <QDebug>
 #include <fstream>
+#include <queue>
 
 namespace{
     BST_Chuyen_nganh* chuyen_nganh_tree = nullptr;
@@ -46,7 +46,7 @@ namespace KeyGetters{
         return b.get_Author();
     }
     my_time getMyTimeID(const history_record& t){
-        return t.date_action;
+        return t.get_date_action();
     }
     inline string lower(string s){
         for(char &c: s) c = std::tolower((unsigned char)c);
@@ -58,6 +58,9 @@ namespace KeyGetters{
     std::pair<string,long long> getKey_CN_ID     (const book& b) { return { lower(b.get_Chuyen_nganh_name()), b.get_ID() }; }
     std::pair<int,long long>    getKey_DoCX_ID   (const book& b) { return { b.get_do_chinh_xac(),             b.get_ID() }; }
     std::pair<my_time,long long>getKey_DateCreated_ID   (const book& b) { return { b.get_Date_created(),      b.get_ID() }; }
+    std::pair<long long,long long> getKey_YeuThich_ID(const yeu_thich& y) { return { y.get_user_id(), y.get_book_id() }; }
+    std::pair<int,long long> getKey_LuotXem_ID(const book& b) { return { b.get_luot_xem(), b.get_ID() }; }
+    std::pair<int,long long> getKey_LuotMuon_ID(const book& b) { return { b.get_luot_muon(), b.get_ID() }; }
 }
 
 template<typename T, typename Key>
@@ -333,6 +336,14 @@ void BST<T, Key>::pre_order_recursive(Node<T>* node, std::function<void(T&)> vis
     pre_order_recursive(node->getRight(), visit_func);
 }
 
+template <typename T, typename Key>
+void BST<T, Key>::in_order_reverse_recursive(Node<T>* node, std::function<void(T&)> visit_func) {
+    if (!node) return;
+    in_order_reverse_recursive(node->getRight(), visit_func);
+    visit_func(node->getData());
+    in_order_reverse_recursive(node->getLeft(), visit_func);
+}
+
 /*
 template <typename T, typename Key>
 
@@ -382,8 +393,10 @@ template class BST<The_loai, int>;
 template class BST<borrow, long long>;
 template class BST<string, string>;
 template class BST<history_record, my_time>;
+template class BST<yeu_thich, std::pair<long long, long long>>;
 template class BST<book, std::pair<string,long long>>;
 template class BST<book, std::pair<my_time,long long>>;
+template class BST<book, std::pair<int,long long>>;
 
 ////////////--for BST_string--//////////////
 bool BST_string::co_chua_string(string& key_word) {
@@ -435,6 +448,7 @@ void BST_Accout::write_csv(Node<accout>* node, QTextStream &out) const {
     if (!node) return;
     write_csv(node->getLeft(), out);
     accout& a = node->getData();
+    a.ma_hoa_();
     out << a.get_ID() << "," 
         << QString::fromStdString(a.get_ten_dang_nhap()) << "," 
         << QString::fromStdString(a.get_ten_tai_khoan()) << "," 
@@ -446,6 +460,7 @@ void BST_Accout::write_csv(Node<accout>* node, QTextStream &out) const {
         << QString::fromStdString(a.get_pass()) << "," 
         << QString::fromStdString(a.get_level()) << ","
         << QString::fromStdString(a.get_date_created().get_datetime()) << "\n";
+    a.giai_ma_();
     write_csv(node->getRight(), out);
 }
 
@@ -496,6 +511,22 @@ bool BST_Accout::check_quen_mat_khau(string so_dien_thoai, string email, accout 
         }
     });
     return ok;
+}
+
+void BST_Accout::tim_thu_thu(BST_Accout &u){
+    accout_data.traverse_ascending([&](accout &a){
+        if (a.get_level() == "Admin" || a.get_level() == "Librarian"){
+            u.insert(a);
+        }
+    });
+}
+
+void BST_Accout::tim_doc_gia(BST_Accout &u){
+    accout_data.traverse_ascending([&](accout &a){
+        if (a.get_level() == "User"){
+            u.insert(a);
+        }
+    });
 }
 
 /////////////--for BST_Borrow--//////////////
@@ -816,6 +847,75 @@ void BST_Book::chuyen_nganh_of_book(int chuyen_nganh_id, BST_Book &b){
      chuyen_nganh_of_book_helper(chuyen_nganh_id, root, b);
 }
 
+int BST_Book::count_sach_theo_chuyen_nganh(int chuyen_nganh_id){
+    int count = 0;
+    book_data.traverse_ascending([&chuyen_nganh_id, &count](book& a) {
+        if (a.get_Chuyen_nganh_ID() == chuyen_nganh_id){
+            count++;
+        }
+    });
+    return count;
+}
+int BST_Book::count_sach_theo_the_loai(int the_loai_id){
+    int count = 0;
+    book_data.traverse_ascending([&the_loai_id, &count](book& a) {
+        if (a.get_The_loai_ID() == the_loai_id){
+            count++;
+        }
+    });
+    return count;
+}
+
+void BST_Book_by_luot_xem::find_5_most_viewed(BST_Book_by_luot_xem &b){
+    b.clear();
+    
+    // Use a min-heap to maintain top 5 books efficiently
+    auto cmp = [](const book& a, const book& b) {
+        return a.get_luot_xem() > b.get_luot_xem();
+    };
+    std::priority_queue<book, std::vector<book>, decltype(cmp)> min_heap(cmp);
+    
+    book_data.traverse_ascending([&min_heap](book& bk) {
+        if (min_heap.size() < 5) {
+            min_heap.push(bk);
+        } else if (bk.get_luot_xem() > min_heap.top().get_luot_xem()) {
+            min_heap.pop();
+            min_heap.push(bk);
+        }
+    });
+    
+    // Insert into result tree
+    while (!min_heap.empty()) {
+        b.insert(min_heap.top());
+        min_heap.pop();
+    }
+}
+
+void BST_Book_by_luot_muon::find_5_most_borrowed(BST_Book_by_luot_muon &b){
+    b.clear();
+    
+    // Use a min-heap to maintain top 5 books efficiently
+    auto cmp = [](const book& a, const book& b) {
+        return a.get_luot_muon() > b.get_luot_muon();
+    };
+    std::priority_queue<book, std::vector<book>, decltype(cmp)> min_heap(cmp);
+    
+    book_data.traverse_ascending([&min_heap](book& bk) {
+        if (min_heap.size() < 5) {
+            min_heap.push(bk);
+        } else if (bk.get_luot_muon() > min_heap.top().get_luot_muon()) {
+            min_heap.pop();
+            min_heap.push(bk);
+        }
+    });
+    
+    // Insert into result tree
+    while (!min_heap.empty()) {
+        b.insert(min_heap.top());
+        min_heap.pop();
+    }
+}
+
 ///////////////--for BST_Book_copies--///////////////
 long long BST_book_copy::find_id_available_copy(long long book_id){
     long long id_found = -1;
@@ -836,6 +936,33 @@ void BST_book_copy::write_book_copy(QTextStream &out) const {
             << QString::fromStdString(a.get_status()) << "," << "\""
             << QString::fromStdString(a.get_ghi_chu()) << "\"\n";
     });
+}
+
+void BST_book_copy::copies_of_book(long long book_id, BST_book_copy &b){
+    book_copy_data.traverse_ascending([&book_id, this,&b](Book_copies& a) {
+        if (a.get_id_book() == book_id){
+            b.insert(a);
+        }
+    });
+    
+}
+bool BST_book_copy::remove_by_book_id(long long book_id){
+    bool any_removed = false;
+    std::vector<long long> ids_to_remove;
+    
+    book_copy_data.traverse_ascending([&book_id, &ids_to_remove](Book_copies& a) {
+        if (a.get_id_book() == book_id){
+            ids_to_remove.push_back(a.get_id());
+        }
+    });
+
+    for (long long id : ids_to_remove) {
+        if (this->remove_by_Key(id)) {
+            any_removed = true;
+        }
+    }
+    
+    return any_removed;
 }
 
 /////////////--for BST_Author--/////////////
@@ -952,36 +1079,46 @@ Node<borrow>* BST_Borrow::sach_dang_muon_helper(int user_id, Node<borrow>* node,
 }
 int BST_Borrow::sach_dang_muon(int user_id){
     int count = 0;
-    sach_dang_muon_helper(user_id, root, count);
+    borrow_data.traverse_ascending([&user_id,&count](borrow &a){
+        if (a.get_user_id() == user_id && a.get_status() == StatusType::DANG_MUON
+            || a.get_user_id() == user_id && a.get_status() == StatusType::QUA_HAN_MUON
+            || a.get_user_id() == user_id && a.get_status() == StatusType::SAN_SANG
+            || a.get_user_id() == user_id && a.get_status() == StatusType::XU_LY){
+            count++;
+        }
+    });
     return count;
 }
 
-Node<borrow>* BST_Borrow::check_book_copy_borrowed_helper(int id_user, long long id_book, Node<borrow>* node){
-    if (!node) return nullptr;
-    Node<borrow>* found = check_book_copy_borrowed_helper(id_user, id_book, node->getLeft());
-    if (found) return found;
-    borrow& a = node->getData();
-    if (a.get_user_id() == id_user && a.get_book_copy_id() == id_book && a.get_status() == StatusType::DANG_MUON){
-        return node;
-    }
-    return check_book_copy_borrowed_helper(id_user, id_book, node->getRight());
-}
-
 bool BST_Borrow::check_borrowed(int id_user, long long id_book){
-    Node<borrow>* node = root;
-    return check_book_copy_borrowed_helper(id_user,id_book, node);
+    int ok = 0;
+    borrow_data.traverse_ascending([this,&ok,id_user,id_book](borrow &a){
+        if (a.get_user_id() == id_user && a.get_book_id() == id_book && a.get_status() == StatusType::DANG_MUON 
+        || a.get_user_id() == id_user && a.get_book_id() == id_book && a.get_status() == StatusType::SAN_SANG
+        || a.get_user_id() == id_user && a.get_book_id() == id_book && a.get_status() == StatusType::XU_LY){
+            ok = 1;
+            return;
+        }
+    });
+    return ok == 1;
 }
-Node<borrow>* BST_Borrow::info_user_helper(int user_id, Node<borrow>* node, BST_Borrow &b){
-    if (!node) return nullptr;
-    borrow& a = node->getData();
-    if (a.get_user_id() == user_id){
+void BST_Borrow::info_user_helper(int user_id, Node<borrow>* node, BST_Borrow &b) {
+    if (node == nullptr) {
+        return; 
+    }
+
+    info_user_helper(user_id, node->getLeft(), b);
+
+    borrow a = node->getData();
+    if (a.get_user_id() == user_id) {
         b.insert(a);
     }
-    info_user_helper(user_id, node->getLeft(), b);
+
     info_user_helper(user_id, node->getRight(), b);
-    return nullptr;
 }
-void BST_Borrow::info_user(int user_id, BST_Borrow &b){
+
+void BST_Borrow::info_user(int user_id, BST_Borrow &b) {
+    b.clear(); 
     info_user_helper(user_id, root, b);
 }
 
@@ -989,7 +1126,8 @@ Node<borrow>* BST_Borrow::sach_qua_han_helper(int user_id, my_time current_date,
     if (!node) return nullptr;
     sach_qua_han_helper(user_id, current_date, node->getLeft(), b);
     borrow& a = node->getData();
-    if (a.get_user_id() == user_id && a.get_status() == StatusType::DANG_MUON && current_date > a.get_ngay_phai_tra()){
+    if (a.get_user_id() == user_id && a.get_status() == StatusType::DANG_MUON && current_date > a.get_ngay_phai_tra()
+    || a.get_user_id() == user_id && a.get_status() == StatusType::QUA_HAN_MUON){
         b.insert(a);
     }
     sach_qua_han_helper(user_id, current_date, node->getRight(), b);
@@ -1133,4 +1271,212 @@ void BST_Borrow::thong_ke_sach_tra(int &tong_luot_tra, int &tra_qua_han, int &hu
             hu_hong_mat++;
         }
     });
+}
+
+bool BST_Yeu_thich::is_like_book(long long book_id, long long user_id){
+    yeu_thich temp;
+    return this->find({user_id, book_id}, temp);
+}
+void BST_Yeu_thich::load_from_file(){
+    this->clear();
+    
+    QString path = getDataFilePath("data/YeuThich.csv");
+    QFile file(path);
+    
+    if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) return;
+    
+    QTextStream in(&file);
+    while (!in.atEnd()) {
+        QString line = in.readLine();
+        QStringList parts = line.split(',');
+        if (parts.size() < 3) continue;
+        my_time time_;
+        time_.set_time_date(parts[0].toStdString());
+        long long b_id = parts[1].toLongLong();
+        long long u_id = parts[2].toLongLong();
+        yeu_thich item(b_id, u_id, time_);
+        this->insert(item);
+    }
+    file.close();
+}
+
+void BST_Yeu_thich::write_to_file(){
+    QString path = getDataFilePath("data/YeuThich.csv");
+    QFile file(path);
+    
+    if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) return;
+    
+    QTextStream out(&file);
+    this->traverse_ascending([&out](yeu_thich& a) {
+        out << QString::fromStdString(a.get_date_favorited().get_datetime()) << ","
+            << a.get_book_id() << ","
+            << a.get_user_id() << "\n";
+    });
+    file.close();
+}
+void BST_Yeu_thich::add_like(long long book_id, long long user_id){
+    my_time current_time = my_time::now();
+    yeu_thich item(book_id, user_id, current_time);
+    this->insert(item);
+    write_to_file();
+}
+void BST_Yeu_thich::remove_like(long long book_id, long long user_id){
+    yeu_thich item(book_id, user_id, my_time());
+    this->remove_by_Key({user_id, book_id});
+    write_to_file();
+}
+void BST_History::log_action(const string& user_name, ActionType action_type, long long book_id, const string& ghi_chu) {
+    my_time date = my_time::now();
+    history_record record_entry(date, user_name, action_type, book_id, ghi_chu);
+    
+    save_to_file(record_entry);
+    record.insert(record_entry);
+}
+
+void BST_History::save_to_file(const history_record& data) {
+    QString filepath = getDataFilePath("data/history.csv"); 
+    ofstream file(filepath.toStdString(), ios::app); 
+    
+    if (file.is_open()) {
+        // Vì data là object history_record, giờ các biến là private
+        // nên phải dùng Getter để lấy dữ liệu ra ghi file
+        file << data.get_date_action().get_datetime() << ","
+             << data.get_user_name() << ","
+             << data.get_action_type_string() << ","
+             << data.get_book_id() << ","
+             << data.get_ghi_chu() << "\n";
+        file.close();
+    }
+}
+
+void BST_History::load_from_file() {
+    QString filepath = getDataFilePath("data/history.csv");
+    ifstream file(filepath.toStdString());
+    
+    record.clear(); 
+
+    if (file.is_open()) {
+        string line;
+        while (std::getline(file, line)) {
+            std::stringstream ss(line);
+            string date_str, user_name, action_str, book_id_str, ghi_chu;
+            
+            std::getline(ss, date_str, ',');
+            std::getline(ss, user_name, ',');
+            std::getline(ss, action_str, ',');
+            std::getline(ss, book_id_str, ',');
+            std::getline(ss, ghi_chu, ','); 
+            
+            history_record record_entry;
+            record_entry.set_user_name(user_name);
+            my_time date;
+            date.set_time_datetime(date_str); 
+            record_entry.set_date_action(date);
+            record_entry.set_action_type_string(action_str);
+            long long book_id = 0;
+            try {
+                if (!book_id_str.empty()) book_id = stoll(book_id_str);
+            } catch (...) { book_id = 0; }
+            record_entry.set_book_id(book_id);
+            record_entry.set_ghi_chu(ghi_chu);
+            // Constructor sẽ tự gán vào private member
+            record.insert(record_entry);
+        }
+        file.close();
+    }
+}
+
+void BST_History::luot_xem_muon_tai_thang(int month, int year, int &so_luot_xem, int &so_luot_muon, int &so_luot_tai){
+    so_luot_xem = 0;
+    so_luot_muon = 0;
+    so_luot_tai = 0;
+    
+    record.traverse_ascending([&](history_record& hr) {
+        // Dùng Getter thay vì truy cập trực tiếp
+        my_time date = hr.get_date_action();
+        ActionType act = hr.get_action_type();
+
+        if (date.get_year() == year && date.get_month() == month) {
+            if (act == VIEW_BOOK) {
+                so_luot_xem++;
+            } else if (act == BORROW_BOOK) {
+                so_luot_muon++;
+            } else if (act == DOWNLOAD_BOOK) {
+                so_luot_tai++;
+            }
+        }
+    });
+}
+
+void BST_History::loc_user(string user_name, BST_History &b){
+    b.clear();
+    record.traverse_ascending([&](history_record& hr) {
+        // Dùng Getter
+        if (hr.get_user_name() == user_name) {
+            b.insert(hr);
+        }
+    });
+}
+
+void BST_History::load_from_file(string user_name_filter, BST_History &b){
+    QString filepath = getDataFilePath("data/history.csv");
+    ifstream file(filepath.toStdString());
+    
+    b.clear();
+
+    if (file.is_open()) {
+        string line;
+        while (std::getline(file, line)) {
+            std::stringstream ss(line);
+            string date_str, user_name_file, action_str, book_id_str, ghi_chu;
+            
+            std::getline(ss, date_str, ',');
+            std::getline(ss, user_name_file, ',');
+            std::getline(ss, action_str, ',');
+            std::getline(ss, book_id_str, ',');
+            std::getline(ss, ghi_chu, ',');
+            
+            if (user_name_file != user_name_filter) {
+                continue; 
+            }
+
+            history_record record_entry;
+            record_entry.set_user_name(user_name_file);
+            my_time date;
+            date.set_time_datetime(date_str); 
+            record_entry.set_date_action(date);
+            record_entry.set_action_type_string(action_str);
+            long long book_id = to_long_long(book_id_str);
+            record_entry.set_book_id(book_id);
+            try {
+                if (!book_id_str.empty()) book_id = stoll(book_id_str);
+            } catch (...) { book_id = 0; }
+            b.insert(record_entry);
+        }
+        file.close();
+    }
+}
+
+void BST_History::loc_lich_su_theo_ngay(my_time start, my_time end, BST_History &b) {
+    b.clear();
+    b.traverse_ascending([&](history_record& hr) {
+        my_time t = hr.get_date_action();
+        if (t >= start && t <= end) {
+            b.insert(hr);
+        }
+        if (t > end) {
+            return;
+        }
+    });
+}
+
+BST_History& BST_History::tim_lich_su_user_ngay(string user_name, int ngay, int thang, int nam, BST_History &b) {
+    b.clear();
+    record.traverse_ascending([&](history_record& hr) {
+        my_time t = hr.get_date_action();
+        if (hr.get_user_name() == user_name && t.get_day() == ngay && t.get_month() == thang && t.get_year() == nam) {
+            b.insert(hr);
+        }
+    });
+    return b;
 }

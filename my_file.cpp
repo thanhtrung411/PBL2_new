@@ -9,6 +9,10 @@
 #include <QDebug>
 #include <iostream>
 #include <fstream>
+#include <QDesktopServices>
+#include <QUrl>
+#include <QMessageBox>
+#include <QFileDialog>
 #include "accout.h"
 #include "tree.h"
 using namespace std;
@@ -567,4 +571,49 @@ void ghi_borrow(BST_Borrow &borrow_data){
     QTextStream out(&file);
     borrow_data.write_borrow(out); // cần overload với QTextStream (bên dưới)
     qDebug() << "Ghi file thanh cong:" << path;
+}
+
+void open_file_PDF(const string& file_path){
+    QString qfile_path = getDataFilePath(file_path);
+
+    if (!QFile::exists(qfile_path)) {
+        QMessageBox::warning(nullptr, "Lỗi", "Không tìm thấy file PDF!");
+        return;
+    }
+
+    bool ok = QDesktopServices::openUrl(QUrl::fromLocalFile(qfile_path));
+    if (!ok) {
+        QMessageBox::warning(nullptr, "Lỗi", "Không thể mở file PDF!");
+    }
+}
+void download_pdf(const string& file_path, const string& save_path){
+    QString sourceFile = getDataFilePath(file_path);
+
+    // Kiểm tra file nguồn trước
+    if (!QFile::exists(sourceFile)) {
+        QMessageBox::warning(nullptr, "Lỗi", "Không tìm thấy file PDF!");
+        return;
+    }
+
+    // Chọn nơi lưu file
+    QString saveFilePath = QFileDialog::getSaveFileName(
+        nullptr,
+        QObject::tr("Lưu file PDF"),
+        QDir::homePath() + "/" + QString::fromStdString(save_path) + ".pdf",
+        QObject::tr("PDF (*.pdf);;Tất cả (*)")
+    );
+
+    if (saveFilePath.isEmpty()) return;
+
+    // Nếu file đích đã tồn tại thì xóa đi
+    if (QFile::exists(saveFilePath)) {
+        QFile::remove(saveFilePath);
+    }
+
+    // Copy file
+    if (QFile::copy(sourceFile, saveFilePath)) {
+        QMessageBox::information(nullptr, "Thành công", "Đã lưu file PDF tại: " + saveFilePath);
+    } else {
+        QMessageBox::warning(nullptr, "Lỗi", "Không thể lưu file PDF!");
+    }
 }

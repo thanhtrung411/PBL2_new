@@ -60,6 +60,8 @@ public:
     // BST<borrow, long long>& borrows_of_book(long long book_id);
 
     int dat_sach(long long id_book_, int id_user_, my_time booking_date, int limit_borrow, int score_user);
+    int check_gia_han_possible(long long id_borrow_);
+    int gia_han_muon_sach(long long id_borrow_);
 };
 
 #endif // LIBRARY_H

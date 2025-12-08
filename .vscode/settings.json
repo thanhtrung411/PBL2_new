@@ -68,6 +68,7 @@
     "typeinfo": "cpp",
     "variant": "cpp",
     "codecvt": "cpp",
-    "qabstractseries": "cpp"
+    "qabstractseries": "cpp",
+    "qcoreapplication": "cpp"
   }
 }

@@ -2,6 +2,8 @@
 #include "ui_muon_sach.h"
 #include "global.h"
 #include "my_time.h"
+#include <QMessageBox>
+#include <QLineEdit>
 
 muon_sach::muon_sach(borrow &borrow_inf,QWidget *parent)
     : QMainWindow(parent)
@@ -11,10 +13,32 @@ muon_sach::muon_sach(borrow &borrow_inf,QWidget *parent)
     ui->setupUi(this);
     them_doc_gia_muon();
     them_sach();
+
+    connect(ui->doc_gia->lineEdit(), &QLineEdit::editingFinished, this, [this](){
+        QString text = ui->doc_gia->currentText();
+        if (!text.isEmpty() && ui->doc_gia->findText(text) == -1) {
+            ui->doc_gia->setCurrentIndex(-1);
+            ui->doc_gia->setEditText("");
+            ui->doc_gia->setToolTip("Bạn đã nhập sai tên độc giả!");
+        } else {
+            ui->doc_gia->setToolTip("");
+        }
+    });
+
+    connect(ui->ten_sach->lineEdit(), &QLineEdit::editingFinished, this, [this](){
+        QString text = ui->ten_sach->currentText();
+        if (!text.isEmpty() && ui->ten_sach->findText(text) == -1) {
+            ui->ten_sach->setCurrentIndex(-1);
+            ui->ten_sach->setEditText("");
+            ui->ban_sao->clear();
+        }
+    });
+
     them_ngay_muon_ngay_tra();
     if (borrow_info.get_id() != 0){
         set_thong_tin();
     }
+    this->setMaximumHeight(0);
 }
 
 muon_sach::~muon_sach()
@@ -91,6 +115,23 @@ void muon_sach::on_muon_sach_button_clicked()
     long long user_id = ui->doc_gia->currentData().toLongLong();
     long long book_id = ui->ten_sach->currentData().toLongLong();
     long long copy_id = ui->ban_sao->currentData().toLongLong();
+
+    if (user_id == 0) {
+        QMessageBox::warning(this, "Thông báo", "Tên độc giả không tồn tại trong hệ thống!\nVui lòng chọn từ danh sách gợi ý.");
+        ui->doc_gia->setFocus(); // Đưa con trỏ chuột về lại ô này để sửa
+        return; // Dừng hàm, không chạy đoạn dưới nữa
+    }
+    if (book_id == 0) {
+        QMessageBox::warning(this, "Thông báo", "Tên sách không tồn tại!\nVui lòng chọn từ danh sách gợi ý.");
+        ui->ten_sach->setFocus();
+        return;
+    }
+    if (copy_id == 0) {
+        QMessageBox::warning(this, "Thông báo", "Vui lòng chọn bản sao sách hợp lệ!");
+        ui->ban_sao->setFocus();
+        return;
+    }
+
     QDate qdate_ngay_muon =  ui->ngay_muon->date();
     QDate qdate_ngay_tra =  ui->ngay_tra->date();
     my_time ngay_muon(qdate_ngay_muon.year(), qdate_ngay_muon.month(), qdate_ngay_muon.day(),0,0,0);
@@ -109,7 +150,35 @@ void muon_sach::on_muon_sach_button_clicked()
     else {
         borrow_data.update(borrow_info, borrow_info);
     }
+    Book_copies bc;
+    if (book_copy_data.find(copy_id, bc)){
+        bc.set_status("borrowed");
+        book_copy_data.update(bc, bc);
+    }
+    ghi_copy_book(book_copy_data);
     emit muon_sach_thanh_cong();
     this->close();
+}
+
+void muon_sach::set_up_borrow_info(){
+    ui->doc_gia->setEnabled(false);
+    ui->ten_sach->setEnabled(false);
+    ui->ten_sach->setEditText(QString::fromStdString(borrow_info.get_book_name()));
+    ui->ban_sao->setEnabled(false);
+    ui->ban_sao->setEditText(QString::fromStdString("BS-" + std::to_string(borrow_info.get_book_copy_id())));
+    ui->ngay_muon->setEnabled(false);
+    ui->ngay_tra->setEnabled(false);
+    ui->muon_sach_button->setVisible(false);
+}
+void muon_sach::set_up_xu_ly_muon_sach(){
+    ui->doc_gia->setEnabled(false);
+    ui->ten_sach->setEnabled(false);
+}
+
+
+
+void muon_sach::on_doc_gia_activated(int index)
+{
+
 }
 

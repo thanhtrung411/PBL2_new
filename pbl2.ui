@@ -543,13 +543,13 @@ QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical {
            <x>0</x>
            <y>0</y>
            <width>1497</width>
-           <height>1500</height>
+           <height>840</height>
           </rect>
          </property>
          <property name="minimumSize">
           <size>
            <width>849</width>
-           <height>1500</height>
+           <height>840</height>
           </size>
          </property>
          <layout class="QVBoxLayout" name="verticalLayout_10">
@@ -1181,7 +1181,7 @@ QComboBox QAbstractItemView::item:selected {
                   </widget>
                  </item>
                  <item>
-                  <widget class="QPushButton" name="pushButton_2">
+                  <widget class="QPushButton" name="dat_lai_button">
                    <property name="minimumSize">
                     <size>
                      <width>0</width>
@@ -1202,7 +1202,7 @@ QComboBox QAbstractItemView::item:selected {
                </widget>
               </item>
               <item>
-               <widget class="QWidget" name="horizontalWidget_2" native="true">
+               <widget class="QWidget" name="horizontalWidget_4" native="true">
                 <property name="styleSheet">
                  <string notr="true">QWidget{background-color: #ffffff;
 border: 2px solid #E0E0E0;
@@ -1280,7 +1280,7 @@ QLabel{
                  <item>
                   <layout class="QVBoxLayout" name="verticalLayout_13">
                    <item>
-                    <widget class="QLabel" name="label_40">
+                    <widget class="QLabel" name="tong_sach">
                      <property name="styleSheet">
                       <string notr="true">border-radius: 6px;
 padding: 4px 10px;
@@ -1297,7 +1297,7 @@ color: rgb(255, 255, 255);</string>
                     </widget>
                    </item>
                    <item>
-                    <widget class="QLabel" name="label_39">
+                    <widget class="QLabel" name="tong_dat">
                      <property name="styleSheet">
                       <string notr="true">border-radius: 6px;
 padding: 4px 10px;
@@ -1315,7 +1315,7 @@ color: rgb(255, 255, 255);</string>
                     </widget>
                    </item>
                    <item>
-                    <widget class="QLabel" name="label_38">
+                    <widget class="QLabel" name="tong_muon">
                      <property name="styleSheet">
                       <string notr="true">border-radius: 6px;
 padding: 4px 10px;
@@ -1344,8 +1344,8 @@ color: rgb(255, 255, 255);</string>
                 </property>
                 <property name="sizeHint" stdset="0">
                  <size>
-                  <width>20</width>
-                  <height>40</height>
+                  <width>0</width>
+                  <height>0</height>
                  </size>
                 </property>
                </spacer>
@@ -1364,7 +1364,7 @@ color: rgb(255, 255, 255);</string>
               <widget class="QWidget" name="trang_chu_page">
                <layout class="QVBoxLayout" name="verticalLayout_16">
                 <item>
-                 <widget class="QWidget" name="verticalWidget_2" native="true">
+                 <widget class="QWidget" name="widget_2" native="true">
                   <property name="styleSheet">
                    <string notr="true">QWidget{background-color: #ffffff;
 border: 2px solid #E0E0E0;
@@ -1412,10 +1412,22 @@ QLabel{
                    </item>
                    <item>
                     <widget class="QScrollArea" name="sach_moi_layout">
+                     <property name="sizePolicy">
+                      <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+                       <horstretch>0</horstretch>
+                       <verstretch>0</verstretch>
+                      </sizepolicy>
+                     </property>
+                     <property name="minimumSize">
+                      <size>
+                       <width>0</width>
+                       <height>350</height>
+                      </size>
+                     </property>
                      <property name="maximumSize">
                       <size>
                        <width>16777215</width>
-                       <height>340</height>
+                       <height>16777215</height>
                       </size>
                      </property>
                      <property name="styleSheet">
@@ -1428,6 +1440,9 @@ border-radius: 0px;</string>
                      <property name="horizontalScrollBarPolicy">
                       <enum>Qt::ScrollBarPolicy::ScrollBarAlwaysOff</enum>
                      </property>
+                     <property name="sizeAdjustPolicy">
+                      <enum>QAbstractScrollArea::SizeAdjustPolicy::AdjustToContents</enum>
+                     </property>
                      <property name="widgetResizable">
                       <bool>true</bool>
                      </property>
@@ -1436,46 +1451,64 @@ border-radius: 0px;</string>
                        <rect>
                         <x>0</x>
                         <y>0</y>
-                        <width>1490</width>
-                        <height>30</height>
+                        <width>48</width>
+                        <height>350</height>
                        </rect>
+                      </property>
+                      <property name="sizePolicy">
+                       <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                        <horstretch>0</horstretch>
+                        <verstretch>0</verstretch>
+                       </sizepolicy>
                       </property>
                       <property name="minimumSize">
                        <size>
-                        <width>1490</width>
+                        <width>0</width>
                         <height>0</height>
                        </size>
                       </property>
-                      <widget class="QWidget" name="gridLayoutWidget">
-                       <property name="geometry">
-                        <rect>
-                         <x>-1</x>
-                         <y>-1</y>
-                         <width>1491</width>
-                         <height>341</height>
-                        </rect>
+                      <layout class="QVBoxLayout" name="verticalLayout_9">
+                       <property name="spacing">
+                        <number>0</number>
                        </property>
-                       <layout class="QGridLayout" name="sach_moi_layout_2">
-                        <property name="sizeConstraint">
-                         <enum>QLayout::SizeConstraint::SetFixedSize</enum>
-                        </property>
-                        <property name="leftMargin">
-                         <number>5</number>
-                        </property>
-                        <property name="topMargin">
-                         <number>5</number>
-                        </property>
-                        <property name="rightMargin">
-                         <number>10</number>
-                        </property>
-                        <property name="bottomMargin">
-                         <number>14</number>
-                        </property>
-                        <property name="spacing">
-                         <number>12</number>
-                        </property>
-                       </layout>
-                      </widget>
+                       <property name="sizeConstraint">
+                        <enum>QLayout::SizeConstraint::SetFixedSize</enum>
+                       </property>
+                       <property name="leftMargin">
+                        <number>0</number>
+                       </property>
+                       <property name="topMargin">
+                        <number>0</number>
+                       </property>
+                       <property name="rightMargin">
+                        <number>0</number>
+                       </property>
+                       <property name="bottomMargin">
+                        <number>0</number>
+                       </property>
+                       <item>
+                        <layout class="QGridLayout" name="sach_moi_layout_2">
+                         <property name="sizeConstraint">
+                          <enum>QLayout::SizeConstraint::SetFixedSize</enum>
+                         </property>
+                         <property name="leftMargin">
+                          <number>5</number>
+                         </property>
+                         <property name="topMargin">
+                          <number>5</number>
+                         </property>
+                         <property name="rightMargin">
+                          <number>10</number>
+                         </property>
+                         <property name="bottomMargin">
+                          <number>14</number>
+                         </property>
+                         <property name="spacing">
+                          <number>12</number>
+                         </property>
+                        </layout>
+                       </item>
+                      </layout>
                      </widget>
                     </widget>
                    </item>
@@ -1501,10 +1534,16 @@ border-radius: 0px;</string>
                    </item>
                    <item>
                     <widget class="QScrollArea" name="scrollArea_2">
+                     <property name="minimumSize">
+                      <size>
+                       <width>0</width>
+                       <height>350</height>
+                      </size>
+                     </property>
                      <property name="maximumSize">
                       <size>
                        <width>16777215</width>
-                       <height>340</height>
+                       <height>16777215</height>
                       </size>
                      </property>
                      <property name="styleSheet">
@@ -1523,7 +1562,7 @@ border-radius: 0px;</string>
                         <x>0</x>
                         <y>0</y>
                         <width>1490</width>
-                        <height>30</height>
+                        <height>350</height>
                        </rect>
                       </property>
                       <property name="minimumSize">
@@ -1532,36 +1571,48 @@ border-radius: 0px;</string>
                         <height>0</height>
                        </size>
                       </property>
-                      <widget class="QWidget" name="gridLayoutWidget_2">
-                       <property name="geometry">
-                        <rect>
-                         <x>-1</x>
-                         <y>-1</y>
-                         <width>1491</width>
-                         <height>331</height>
-                        </rect>
+                      <layout class="QVBoxLayout" name="verticalLayout_17">
+                       <property name="spacing">
+                        <number>0</number>
                        </property>
-                       <layout class="QGridLayout" name="sach_goi_y_layout">
-                        <property name="sizeConstraint">
-                         <enum>QLayout::SizeConstraint::SetFixedSize</enum>
-                        </property>
-                        <property name="leftMargin">
-                         <number>5</number>
-                        </property>
-                        <property name="topMargin">
-                         <number>5</number>
-                        </property>
-                        <property name="rightMargin">
-                         <number>10</number>
-                        </property>
-                        <property name="bottomMargin">
-                         <number>14</number>
-                        </property>
-                        <property name="spacing">
-                         <number>12</number>
-                        </property>
-                       </layout>
-                      </widget>
+                       <property name="sizeConstraint">
+                        <enum>QLayout::SizeConstraint::SetFixedSize</enum>
+                       </property>
+                       <property name="leftMargin">
+                        <number>0</number>
+                       </property>
+                       <property name="topMargin">
+                        <number>0</number>
+                       </property>
+                       <property name="rightMargin">
+                        <number>0</number>
+                       </property>
+                       <property name="bottomMargin">
+                        <number>0</number>
+                       </property>
+                       <item>
+                        <layout class="QGridLayout" name="sach_goi_y_layout">
+                         <property name="sizeConstraint">
+                          <enum>QLayout::SizeConstraint::SetFixedSize</enum>
+                         </property>
+                         <property name="leftMargin">
+                          <number>5</number>
+                         </property>
+                         <property name="topMargin">
+                          <number>5</number>
+                         </property>
+                         <property name="rightMargin">
+                          <number>10</number>
+                         </property>
+                         <property name="bottomMargin">
+                          <number>14</number>
+                         </property>
+                         <property name="spacing">
+                          <number>12</number>
+                         </property>
+                        </layout>
+                       </item>
+                      </layout>
                      </widget>
                     </widget>
                    </item>
@@ -1572,8 +1623,8 @@ border-radius: 0px;</string>
                      </property>
                      <property name="sizeHint" stdset="0">
                       <size>
-                       <width>20</width>
-                       <height>40</height>
+                       <width>0</width>
+                       <height>0</height>
                       </size>
                      </property>
                     </spacer>
@@ -1603,7 +1654,7 @@ border-radius: 0px;</string>
                 <item>
                  <layout class="QVBoxLayout" name="verticalLayout">
                   <item>
-                   <widget class="QWidget" name="horizontalWidget_2" native="true">
+                   <widget class="QWidget" name="horizontalWidget_5" native="true">
                     <property name="styleSheet">
                      <string notr="true">QWidget{background-color: #ffffff;
 border: 2px solid #E0E0E0;
@@ -1646,7 +1697,7 @@ QLabel{
                           </size>
                          </property>
                          <property name="styleSheet">
-                          <string notr="true">background-color: rgb(255, 255, 0);</string>
+                          <string notr="true"/>
                          </property>
                          <property name="text">
                           <string>Ảnh</string>
@@ -1657,7 +1708,66 @@ QLabel{
                         </widget>
                        </item>
                        <item>
-                        <widget class="QLabel" name="label_7">
+                        <widget class="QPushButton" name="yeu_thich">
+                         <property name="minimumSize">
+                          <size>
+                           <width>1</width>
+                           <height>35</height>
+                          </size>
+                         </property>
+                         <property name="maximumSize">
+                          <size>
+                           <width>55</width>
+                           <height>16777215</height>
+                          </size>
+                         </property>
+                         <property name="font">
+                          <font>
+                           <pointsize>9</pointsize>
+                           <bold>true</bold>
+                          </font>
+                         </property>
+                         <property name="styleSheet">
+                          <string notr="true">/* TRẠNG THÁI BÌNH THƯỜNG (CHƯA LIKE) */
+QPushButton {
+    background-color: #f0f0f0;    /* Màu nền xám nhạt */
+    border: 1px solid #cccccc;    /* Viền xám */
+    border-radius: 10px;          /* Bo tròn như trong ảnh */
+    color: #555555;               /* Chữ màu tối */
+    padding: 5px 15px;            /* Căn chỉnh lề */
+    font-weight: bold;
+}
+
+QPushButton:hover {
+    background-color: #e0e0e0;    /* Rê chuột vào thì tối hơn xíu */
+}
+
+/* TRẠNG THÁI ĐÃ CLICK (ĐÃ LIKE) - Dựa theo màu xanh trong ảnh ông gửi */
+QPushButton:checked {
+    background-color: #e6f7ff;    /* Nền xanh nhạt (giống ảnh) */
+    border: 1px solid #1890ff;    /* Viền xanh dương đậm */
+    color: #1890ff;               /* Chữ màu xanh dương */
+}
+
+/* Hiệu ứng khi nhấn giữ chuột */
+QPushButton:pressed {
+    background-color: #d1eeff;
+}</string>
+                         </property>
+                         <property name="text">
+                          <string/>
+                         </property>
+                         <property name="icon">
+                          <iconset resource="resource.qrc">
+                           <normaloff>:/icons/icons_/like.png</normaloff>:/icons/icons_/like.png</iconset>
+                         </property>
+                         <property name="checkable">
+                          <bool>true</bool>
+                         </property>
+                        </widget>
+                       </item>
+                       <item>
+                        <widget class="QLabel" name="luot_xem_book">
                          <property name="font">
                           <font>
                            <pointsize>14</pointsize>
@@ -1682,7 +1792,7 @@ QLabel{
                         </widget>
                        </item>
                        <item>
-                        <widget class="QLabel" name="label_10">
+                        <widget class="QLabel" name="luot_doc_book">
                          <property name="font">
                           <font>
                            <pointsize>14</pointsize>
@@ -1702,12 +1812,12 @@ QLabel{
                           </font>
                          </property>
                          <property name="text">
-                          <string>Lượt đọc</string>
+                          <string>Lượt mượn</string>
                          </property>
                         </widget>
                        </item>
                        <item>
-                        <widget class="QLabel" name="label_11">
+                        <widget class="QLabel" name="luot_tai_book">
                          <property name="font">
                           <font>
                            <pointsize>14</pointsize>
@@ -1874,6 +1984,11 @@ QLabel{
                            </property>
                            <item>
                             <widget class="QLabel" name="TAC_GIA">
+                             <property name="font">
+                              <font>
+                               <bold>true</bold>
+                              </font>
+                             </property>
                              <property name="styleSheet">
                               <string notr="true">padding-top: 3px; padding-bottom: 3px;</string>
                              </property>
@@ -1884,6 +1999,11 @@ QLabel{
                            </item>
                            <item>
                             <widget class="QLabel" name="NHA_XUAT_BAN">
+                             <property name="font">
+                              <font>
+                               <bold>true</bold>
+                              </font>
+                             </property>
                              <property name="styleSheet">
                               <string notr="true">padding-top: 3px; padding-bottom: 3px;</string>
                              </property>
@@ -1894,8 +2014,21 @@ QLabel{
                            </item>
                            <item>
                             <widget class="QLabel" name="THE_LOAI">
+                             <property name="sizePolicy">
+                              <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+                               <horstretch>0</horstretch>
+                               <verstretch>0</verstretch>
+                              </sizepolicy>
+                             </property>
+                             <property name="font">
+                              <font>
+                               <bold>true</bold>
+                              </font>
+                             </property>
                              <property name="styleSheet">
-                              <string notr="true">padding-top: 3px; padding-bottom: 3px;</string>
+                              <string notr="true">padding-top: 3px; padding-bottom: 3px;
+border-radius: 10px;
+background-color: rgb(255, 255, 0);</string>
                              </property>
                              <property name="text">
                               <string>Thể loại</string>
@@ -1904,8 +2037,22 @@ QLabel{
                            </item>
                            <item>
                             <widget class="QLabel" name="CHUYEN_NGANH">
+                             <property name="sizePolicy">
+                              <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+                               <horstretch>0</horstretch>
+                               <verstretch>0</verstretch>
+                              </sizepolicy>
+                             </property>
+                             <property name="font">
+                              <font>
+                               <bold>true</bold>
+                              </font>
+                             </property>
                              <property name="styleSheet">
-                              <string notr="true">padding-top: 3px; padding-bottom: 3px;</string>
+                              <string notr="true">
+border-radius: 10px;
+;padding-top: 3px; padding-bottom: 3px;
+background-color: rgb(85, 255, 0);</string>
                              </property>
                              <property name="text">
                               <string>Chuyên ngành</string>
@@ -1914,6 +2061,11 @@ QLabel{
                            </item>
                            <item>
                             <widget class="QLabel" name="NGON_NGU">
+                             <property name="font">
+                              <font>
+                               <bold>true</bold>
+                              </font>
+                             </property>
                              <property name="styleSheet">
                               <string notr="true">padding-top: 3px; padding-bottom: 3px;</string>
                              </property>
@@ -1924,11 +2076,16 @@ QLabel{
                            </item>
                            <item>
                             <widget class="QLabel" name="CO_SAN">
+                             <property name="font">
+                              <font>
+                               <bold>true</bold>
+                              </font>
+                             </property>
                              <property name="styleSheet">
                               <string notr="true">padding-top: 3px; padding-bottom: 3px;</string>
                              </property>
                              <property name="text">
-                              <string>Có san</string>
+                              <string>Có sẵn</string>
                              </property>
                             </widget>
                            </item>
@@ -2110,10 +2267,23 @@ QPushButton{
                              </font>
                             </property>
                             <property name="styleSheet">
-                             <string notr="true">color: rgb(0, 0, 0);
-border: 0px;
-background-color: rgb(255,255,255);
-border-radius: 12px;</string>
+                             <string notr="true">QPushButton {
+    color: rgb(0, 0, 0);
+    background-color: rgb(255, 255, 255);
+    border: 0px;
+    border-radius: 12px;
+    padding: 6px 12px;
+}
+
+QPushButton:hover {
+    background-color: rgb(235, 235, 235);
+}
+
+QPushButton:pressed {
+    background-color: rgb(210, 210, 210);
+    padding-top: 8px;
+    padding-left: 14px;
+}</string>
                             </property>
                             <property name="text">
                              <string>CHI TIẾT</string>
@@ -2135,14 +2305,23 @@ border-radius: 12px;</string>
                              </font>
                             </property>
                             <property name="styleSheet">
-                             <string notr="true">border-radius: 16px;
-background-color: rgb(236, 235, 240);
-border: 0px;
-QPushButton{
-	color: rgb(0, 0, 0);
-	background-color: rgb(255, 255, 255);
+                             <string notr="true">QPushButton {
+    color: rgb(0, 0, 0);
+    background-color: rgb(236, 235, 240);
+    border: 0px;
+    border-radius: 12px;
+    padding: 6px 12px;
 }
-</string>
+
+/* Di chuột vào: Xám đậm hơn chút xíu */
+QPushButton:hover {
+    background-color: rgb(220, 220, 225);
+}
+
+/* Nhấn xuống: Xám đậm hẳn để biết là đã click */
+QPushButton:pressed {
+    background-color: rgb(200, 200, 205);
+}</string>
                             </property>
                             <property name="text">
                              <string>TRÍCH DẪN</string>
@@ -2165,7 +2344,7 @@ QPushButton{
 border-radius: 0px;</string>
                          </property>
                          <property name="currentIndex">
-                          <number>1</number>
+                          <number>0</number>
                          </property>
                          <widget class="QWidget" name="page">
                           <property name="styleSheet">
@@ -2230,7 +2409,7 @@ border-radius: 0px;</string>
                              </layout>
                             </item>
                             <item>
-                             <layout class="QHBoxLayout" name="horizontalLayout_8" stretch="0,0">
+                             <layout class="QHBoxLayout" name="horizontalLayout_8" stretch="0,1">
                               <property name="spacing">
                                <number>5</number>
                               </property>
@@ -2455,114 +2634,73 @@ QLabel{
                </layout>
               </widget>
               <widget class="QWidget" name="tim_kiem_page">
-               <widget class="QWidget" name="verticalLayoutWidget_3">
-                <property name="geometry">
-                 <rect>
-                  <x>-1</x>
-                  <y>-1</y>
-                  <width>1011</width>
-                  <height>671</height>
-                 </rect>
+               <property name="styleSheet">
+                <string notr="true"/>
+               </property>
+               <layout class="QVBoxLayout" name="verticalLayout_21">
+                <property name="leftMargin">
+                 <number>11</number>
                 </property>
-                <layout class="QVBoxLayout" name="verticalLayout_9">
-                 <property name="leftMargin">
-                  <number>2</number>
-                 </property>
-                 <property name="topMargin">
-                  <number>3</number>
-                 </property>
-                 <item>
-                  <widget class="QPushButton" name="return_home_button_2">
-                   <property name="minimumSize">
-                    <size>
-                     <width>0</width>
-                     <height>41</height>
-                    </size>
-                   </property>
-                   <property name="maximumSize">
-                    <size>
-                     <width>111</width>
-                     <height>16777215</height>
-                    </size>
-                   </property>
-                   <property name="font">
-                    <font>
-                     <bold>true</bold>
-                    </font>
-                   </property>
-                   <property name="styleSheet">
-                    <string notr="true">QPushButton{background-color: rgb(243, 246, 255);
-color: rgb(69, 104, 173);
-  border: 2px solid rgb(69, 104, 173);
-  border-radius: 18px;
-  selection-color: rgb(13, 13, 13);
-  qproperty-iconSize: 20px 20px;
-  padding-left: 15px;
-  text-align: left;
+                <property name="topMargin">
+                 <number>11</number>
+                </property>
+                <property name="rightMargin">
+                 <number>11</number>
+                </property>
+                <property name="bottomMargin">
+                 <number>11</number>
+                </property>
+                <item>
+                 <widget class="QWidget" name="verticalWidget" native="true">
+                  <property name="styleSheet">
+                   <string notr="true">QWidget{background-color: #ffffff;
+border: 2px solid #E0E0E0;
+border-radius: 12px;
 }
-QPushButton:hover   { background: #e9ecf5; border-color: #3e5e9c; }
-QPushButton:pressed { background: #d6d8e0; border-color: #37538a; }
-QPushButton:disabled{
-  background: #f1f3f9; color: #9aa0a6; border-color: #e0e2eb;
+QLabel{
+	border: 0px solid #E0E0E0;
 }</string>
+                  </property>
+                  <layout class="QVBoxLayout" name="verticalLayout_22" stretch="0,1">
+                   <property name="leftMargin">
+                    <number>15</number>
                    </property>
-                   <property name="text">
-                    <string>Quay lại</string>
+                   <property name="topMargin">
+                    <number>15</number>
                    </property>
-                   <property name="icon">
-                    <iconset resource="resource.qrc">
-                     <normaloff>:/icons/icons_/home.png</normaloff>:/icons/icons_/home.png</iconset>
+                   <property name="rightMargin">
+                    <number>15</number>
                    </property>
-                  </widget>
-                 </item>
-                 <item>
-                  <widget class="QLabel" name="label_24">
-                   <property name="minimumSize">
-                    <size>
-                     <width>0</width>
-                     <height>32</height>
-                    </size>
+                   <property name="bottomMargin">
+                    <number>15</number>
                    </property>
-                   <property name="maximumSize">
-                    <size>
-                     <width>16777215</width>
-                     <height>32</height>
-                    </size>
-                   </property>
-                   <property name="font">
-                    <font>
-                     <family>Times New Roman</family>
-                     <pointsize>14</pointsize>
-                     <bold>true</bold>
-                    </font>
-                   </property>
-                   <property name="text">
-                    <string>   DANH SÁCH TÌM KIẾM</string>
-                   </property>
-                  </widget>
-                 </item>
-                 <item>
-                  <layout class="QGridLayout" name="tim_kiem_grid">
-                   <property name="sizeConstraint">
-                    <enum>QLayout::SizeConstraint::SetFixedSize</enum>
-                   </property>
+                   <item>
+                    <widget class="QLabel" name="tim_kiem_cho">
+                     <property name="font">
+                      <font>
+                       <pointsize>14</pointsize>
+                       <bold>true</bold>
+                      </font>
+                     </property>
+                     <property name="text">
+                      <string>Tìm kiếm cho</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <layout class="QGridLayout" name="tim_kiem_grid">
+                     <property name="sizeConstraint">
+                      <enum>QLayout::SizeConstraint::SetFixedSize</enum>
+                     </property>
+                     <property name="topMargin">
+                      <number>17</number>
+                     </property>
+                    </layout>
+                   </item>
                   </layout>
-                 </item>
-                 <item>
-                  <spacer name="verticalSpacer_6">
-                   <property name="orientation">
-                    <enum>Qt::Orientation::Vertical</enum>
-                   </property>
-                   <property name="sizeHint" stdset="0">
-                    <size>
-                     <width>20</width>
-                     <height>40</height>
-                    </size>
-                   </property>
-                  </spacer>
-                 </item>
-                </layout>
-               </widget>
+                 </widget>
+                </item>
+               </layout>
               </widget>
              </widget>
             </item>
@@ -2587,8 +2725,14 @@ QPushButton:disabled{
                <widget class="QWidget" name="verticalWidget_6" native="true">
                 <property name="minimumSize">
                  <size>
-                  <width>270</width>
-                  <height>0</height>
+                  <width>275</width>
+                  <height>305</height>
+                 </size>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>16777215</width>
+                  <height>305</height>
                  </size>
                 </property>
                 <property name="styleSheet">
@@ -2656,6 +2800,7 @@ QLabel{
                   <widget class="QScrollArea" name="scrollArea_3">
                    <property name="styleSheet">
                     <string notr="true">border: 0px;
+color: #333333;
 </string>
                    </property>
                    <property name="widgetResizable">
@@ -2666,10 +2811,633 @@ QLabel{
                      <rect>
                       <x>0</x>
                       <y>0</y>
-                      <width>240</width>
-                      <height>422</height>
+                      <width>237</width>
+                      <height>490</height>
                      </rect>
                     </property>
+                    <layout class="QVBoxLayout" name="verticalLayout_23">
+                     <property name="leftMargin">
+                      <number>0</number>
+                     </property>
+                     <property name="rightMargin">
+                      <number>5</number>
+                     </property>
+                     <item>
+                      <widget class="QWidget" name="doc_nhieu_1" native="true">
+                       <property name="styleSheet">
+                        <string notr="true">QWidget{background-color: #ffffff;
+border: 1px solid #E0E0E0;
+border-radius: 12px;
+}
+QLabel{
+	border: 0px solid #E0E0E0;
+}</string>
+                       </property>
+                       <layout class="QHBoxLayout" name="horizontalLayout_24" stretch="0,1">
+                        <property name="spacing">
+                         <number>5</number>
+                        </property>
+                        <property name="leftMargin">
+                         <number>5</number>
+                        </property>
+                        <property name="topMargin">
+                         <number>5</number>
+                        </property>
+                        <property name="rightMargin">
+                         <number>5</number>
+                        </property>
+                        <property name="bottomMargin">
+                         <number>5</number>
+                        </property>
+                        <item>
+                         <widget class="QPushButton" name="pushButton_6">
+                          <property name="minimumSize">
+                           <size>
+                            <width>50</width>
+                            <height>50</height>
+                           </size>
+                          </property>
+                          <property name="font">
+                           <font>
+                            <pointsize>20</pointsize>
+                            <bold>true</bold>
+                           </font>
+                          </property>
+                          <property name="styleSheet">
+                           <string notr="true">border: 0px;
+
+</string>
+                          </property>
+                          <property name="text">
+                           <string>1</string>
+                          </property>
+                         </widget>
+                        </item>
+                        <item>
+                         <layout class="QVBoxLayout" name="verticalLayout_24">
+                          <property name="rightMargin">
+                           <number>5</number>
+                          </property>
+                          <item>
+                           <widget class="QLabel" name="sach_doc_nhieu">
+                            <property name="sizePolicy">
+                             <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+                              <horstretch>0</horstretch>
+                              <verstretch>0</verstretch>
+                             </sizepolicy>
+                            </property>
+                            <property name="minimumSize">
+                             <size>
+                              <width>160</width>
+                              <height>0</height>
+                             </size>
+                            </property>
+                            <property name="maximumSize">
+                             <size>
+                              <width>160</width>
+                              <height>16777215</height>
+                             </size>
+                            </property>
+                            <property name="font">
+                             <font>
+                              <pointsize>10</pointsize>
+                              <bold>true</bold>
+                             </font>
+                            </property>
+                            <property name="text">
+                             <string>Tên sách</string>
+                            </property>
+                            <property name="alignment">
+                             <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>
+                            </property>
+                           </widget>
+                          </item>
+                          <item>
+                           <widget class="QLabel" name="tac_gia_doc_nhieu">
+                            <property name="maximumSize">
+                             <size>
+                              <width>160</width>
+                              <height>16777215</height>
+                             </size>
+                            </property>
+                            <property name="text">
+                             <string>Tác giả</string>
+                            </property>
+                            <property name="alignment">
+                             <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>
+                            </property>
+                           </widget>
+                          </item>
+                          <item>
+                           <widget class="QLabel" name="doc_nhieu_info">
+                            <property name="minimumSize">
+                             <size>
+                              <width>160</width>
+                              <height>0</height>
+                             </size>
+                            </property>
+                            <property name="maximumSize">
+                             <size>
+                              <width>160</width>
+                              <height>16777215</height>
+                             </size>
+                            </property>
+                            <property name="text">
+                             <string>TextLabel</string>
+                            </property>
+                            <property name="alignment">
+                             <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>
+                            </property>
+                           </widget>
+                          </item>
+                         </layout>
+                        </item>
+                       </layout>
+                      </widget>
+                     </item>
+                     <item>
+                      <widget class="QWidget" name="doc_nhieu_2" native="true">
+                       <property name="styleSheet">
+                        <string notr="true">QWidget{background-color: #ffffff;
+border: 1px solid #E0E0E0;
+border-radius: 12px;
+}
+QLabel{
+	border: 0px solid #E0E0E0;
+}</string>
+                       </property>
+                       <layout class="QHBoxLayout" name="horizontalLayout_25" stretch="0,1">
+                        <property name="spacing">
+                         <number>5</number>
+                        </property>
+                        <property name="leftMargin">
+                         <number>5</number>
+                        </property>
+                        <property name="topMargin">
+                         <number>5</number>
+                        </property>
+                        <property name="rightMargin">
+                         <number>5</number>
+                        </property>
+                        <property name="bottomMargin">
+                         <number>5</number>
+                        </property>
+                        <item>
+                         <widget class="QPushButton" name="pushButton_7">
+                          <property name="minimumSize">
+                           <size>
+                            <width>50</width>
+                            <height>50</height>
+                           </size>
+                          </property>
+                          <property name="font">
+                           <font>
+                            <pointsize>20</pointsize>
+                            <bold>true</bold>
+                           </font>
+                          </property>
+                          <property name="styleSheet">
+                           <string notr="true">border: 0px;</string>
+                          </property>
+                          <property name="text">
+                           <string>2</string>
+                          </property>
+                         </widget>
+                        </item>
+                        <item>
+                         <layout class="QVBoxLayout" name="verticalLayout_29">
+                          <property name="rightMargin">
+                           <number>5</number>
+                          </property>
+                          <item>
+                           <widget class="QLabel" name="sach_doc_nhieu_1">
+                            <property name="minimumSize">
+                             <size>
+                              <width>160</width>
+                              <height>0</height>
+                             </size>
+                            </property>
+                            <property name="maximumSize">
+                             <size>
+                              <width>160</width>
+                              <height>16777215</height>
+                             </size>
+                            </property>
+                            <property name="font">
+                             <font>
+                              <pointsize>10</pointsize>
+                              <bold>true</bold>
+                             </font>
+                            </property>
+                            <property name="text">
+                             <string>Tên sách</string>
+                            </property>
+                            <property name="alignment">
+                             <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>
+                            </property>
+                           </widget>
+                          </item>
+                          <item>
+                           <widget class="QLabel" name="tac_gia_doc_nhieu_1">
+                            <property name="maximumSize">
+                             <size>
+                              <width>160</width>
+                              <height>16777215</height>
+                             </size>
+                            </property>
+                            <property name="text">
+                             <string>Tác giả</string>
+                            </property>
+                            <property name="alignment">
+                             <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>
+                            </property>
+                           </widget>
+                          </item>
+                          <item>
+                           <widget class="QLabel" name="doc_nhieu_info_1">
+                            <property name="minimumSize">
+                             <size>
+                              <width>160</width>
+                              <height>0</height>
+                             </size>
+                            </property>
+                            <property name="maximumSize">
+                             <size>
+                              <width>160</width>
+                              <height>16777215</height>
+                             </size>
+                            </property>
+                            <property name="text">
+                             <string>TextLabel</string>
+                            </property>
+                            <property name="alignment">
+                             <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>
+                            </property>
+                           </widget>
+                          </item>
+                         </layout>
+                        </item>
+                       </layout>
+                      </widget>
+                     </item>
+                     <item>
+                      <widget class="QWidget" name="doc_nhieu_3" native="true">
+                       <property name="styleSheet">
+                        <string notr="true">QWidget{background-color: #ffffff;
+border: 1px solid #E0E0E0;
+border-radius: 12px;
+}
+QLabel{
+	border: 0px solid #E0E0E0;
+}</string>
+                       </property>
+                       <layout class="QHBoxLayout" name="horizontalLayout_26" stretch="0,1">
+                        <property name="spacing">
+                         <number>5</number>
+                        </property>
+                        <property name="leftMargin">
+                         <number>5</number>
+                        </property>
+                        <property name="topMargin">
+                         <number>5</number>
+                        </property>
+                        <property name="rightMargin">
+                         <number>5</number>
+                        </property>
+                        <property name="bottomMargin">
+                         <number>5</number>
+                        </property>
+                        <item>
+                         <widget class="QPushButton" name="pushButton_9">
+                          <property name="minimumSize">
+                           <size>
+                            <width>50</width>
+                            <height>50</height>
+                           </size>
+                          </property>
+                          <property name="font">
+                           <font>
+                            <pointsize>20</pointsize>
+                            <bold>true</bold>
+                           </font>
+                          </property>
+                          <property name="styleSheet">
+                           <string notr="true">border: 0px;</string>
+                          </property>
+                          <property name="text">
+                           <string>3</string>
+                          </property>
+                         </widget>
+                        </item>
+                        <item>
+                         <layout class="QVBoxLayout" name="verticalLayout_30">
+                          <property name="rightMargin">
+                           <number>5</number>
+                          </property>
+                          <item>
+                           <widget class="QLabel" name="sach_doc_nhieu_2">
+                            <property name="maximumSize">
+                             <size>
+                              <width>160</width>
+                              <height>16777215</height>
+                             </size>
+                            </property>
+                            <property name="font">
+                             <font>
+                              <pointsize>10</pointsize>
+                              <bold>true</bold>
+                             </font>
+                            </property>
+                            <property name="text">
+                             <string>Tên sách</string>
+                            </property>
+                            <property name="alignment">
+                             <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>
+                            </property>
+                           </widget>
+                          </item>
+                          <item>
+                           <widget class="QLabel" name="tac_gia_doc_nhieu_2">
+                            <property name="maximumSize">
+                             <size>
+                              <width>160</width>
+                              <height>16777215</height>
+                             </size>
+                            </property>
+                            <property name="text">
+                             <string>Tác giả</string>
+                            </property>
+                            <property name="alignment">
+                             <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>
+                            </property>
+                           </widget>
+                          </item>
+                          <item>
+                           <widget class="QLabel" name="doc_nhieu_info_2">
+                            <property name="minimumSize">
+                             <size>
+                              <width>160</width>
+                              <height>0</height>
+                             </size>
+                            </property>
+                            <property name="maximumSize">
+                             <size>
+                              <width>160</width>
+                              <height>16777215</height>
+                             </size>
+                            </property>
+                            <property name="text">
+                             <string>TextLabel</string>
+                            </property>
+                            <property name="alignment">
+                             <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>
+                            </property>
+                           </widget>
+                          </item>
+                         </layout>
+                        </item>
+                       </layout>
+                      </widget>
+                     </item>
+                     <item>
+                      <widget class="QWidget" name="doc_nhieu_4" native="true">
+                       <property name="styleSheet">
+                        <string notr="true">QWidget{background-color: #ffffff;
+border: 1px solid #E0E0E0;
+border-radius: 12px;
+}
+QLabel{
+	border: 0px solid #E0E0E0;
+}</string>
+                       </property>
+                       <layout class="QHBoxLayout" name="horizontalLayout_29" stretch="0,1">
+                        <property name="spacing">
+                         <number>5</number>
+                        </property>
+                        <property name="leftMargin">
+                         <number>5</number>
+                        </property>
+                        <property name="topMargin">
+                         <number>5</number>
+                        </property>
+                        <property name="rightMargin">
+                         <number>5</number>
+                        </property>
+                        <property name="bottomMargin">
+                         <number>5</number>
+                        </property>
+                        <item>
+                         <widget class="QPushButton" name="pushButton_15">
+                          <property name="minimumSize">
+                           <size>
+                            <width>50</width>
+                            <height>50</height>
+                           </size>
+                          </property>
+                          <property name="font">
+                           <font>
+                            <pointsize>20</pointsize>
+                            <bold>true</bold>
+                           </font>
+                          </property>
+                          <property name="styleSheet">
+                           <string notr="true">border: 0px;</string>
+                          </property>
+                          <property name="text">
+                           <string>4</string>
+                          </property>
+                         </widget>
+                        </item>
+                        <item>
+                         <layout class="QVBoxLayout" name="verticalLayout_33">
+                          <property name="rightMargin">
+                           <number>5</number>
+                          </property>
+                          <item>
+                           <widget class="QLabel" name="sach_doc_nhieu_3">
+                            <property name="maximumSize">
+                             <size>
+                              <width>160</width>
+                              <height>16777215</height>
+                             </size>
+                            </property>
+                            <property name="font">
+                             <font>
+                              <pointsize>10</pointsize>
+                              <bold>true</bold>
+                             </font>
+                            </property>
+                            <property name="text">
+                             <string>Tên sách</string>
+                            </property>
+                            <property name="alignment">
+                             <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>
+                            </property>
+                           </widget>
+                          </item>
+                          <item>
+                           <widget class="QLabel" name="tac_gia_doc_nhieu_3">
+                            <property name="maximumSize">
+                             <size>
+                              <width>160</width>
+                              <height>16777215</height>
+                             </size>
+                            </property>
+                            <property name="text">
+                             <string>Tác giả</string>
+                            </property>
+                            <property name="alignment">
+                             <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>
+                            </property>
+                           </widget>
+                          </item>
+                          <item>
+                           <widget class="QLabel" name="doc_nhieu_info_3">
+                            <property name="minimumSize">
+                             <size>
+                              <width>160</width>
+                              <height>0</height>
+                             </size>
+                            </property>
+                            <property name="maximumSize">
+                             <size>
+                              <width>160</width>
+                              <height>16777215</height>
+                             </size>
+                            </property>
+                            <property name="text">
+                             <string>TextLabel</string>
+                            </property>
+                            <property name="alignment">
+                             <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>
+                            </property>
+                           </widget>
+                          </item>
+                         </layout>
+                        </item>
+                       </layout>
+                      </widget>
+                     </item>
+                     <item>
+                      <widget class="QWidget" name="doc_nhieu_5" native="true">
+                       <property name="styleSheet">
+                        <string notr="true">QWidget{background-color: #ffffff;
+border: 1px solid #E0E0E0;
+border-radius: 12px;
+}
+QLabel{
+	border: 0px solid #E0E0E0;
+}</string>
+                       </property>
+                       <layout class="QHBoxLayout" name="horizontalLayout_27" stretch="0,1">
+                        <property name="spacing">
+                         <number>5</number>
+                        </property>
+                        <property name="leftMargin">
+                         <number>5</number>
+                        </property>
+                        <property name="topMargin">
+                         <number>5</number>
+                        </property>
+                        <property name="rightMargin">
+                         <number>5</number>
+                        </property>
+                        <property name="bottomMargin">
+                         <number>5</number>
+                        </property>
+                        <item>
+                         <widget class="QPushButton" name="pushButton_11">
+                          <property name="minimumSize">
+                           <size>
+                            <width>50</width>
+                            <height>50</height>
+                           </size>
+                          </property>
+                          <property name="font">
+                           <font>
+                            <pointsize>20</pointsize>
+                            <bold>true</bold>
+                           </font>
+                          </property>
+                          <property name="styleSheet">
+                           <string notr="true">border: 0px;</string>
+                          </property>
+                          <property name="text">
+                           <string>5</string>
+                          </property>
+                         </widget>
+                        </item>
+                        <item>
+                         <layout class="QVBoxLayout" name="verticalLayout_31">
+                          <property name="rightMargin">
+                           <number>5</number>
+                          </property>
+                          <item>
+                           <widget class="QLabel" name="sach_doc_nhieu_4">
+                            <property name="maximumSize">
+                             <size>
+                              <width>160</width>
+                              <height>16777215</height>
+                             </size>
+                            </property>
+                            <property name="font">
+                             <font>
+                              <pointsize>10</pointsize>
+                              <bold>true</bold>
+                             </font>
+                            </property>
+                            <property name="text">
+                             <string>Tên sách</string>
+                            </property>
+                            <property name="alignment">
+                             <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>
+                            </property>
+                           </widget>
+                          </item>
+                          <item>
+                           <widget class="QLabel" name="tac_gia_doc_nhieu_4">
+                            <property name="maximumSize">
+                             <size>
+                              <width>160</width>
+                              <height>16777215</height>
+                             </size>
+                            </property>
+                            <property name="text">
+                             <string>Tác giả</string>
+                            </property>
+                            <property name="alignment">
+                             <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>
+                            </property>
+                           </widget>
+                          </item>
+                          <item>
+                           <widget class="QLabel" name="doc_nhieu_info_4">
+                            <property name="minimumSize">
+                             <size>
+                              <width>160</width>
+                              <height>0</height>
+                             </size>
+                            </property>
+                            <property name="maximumSize">
+                             <size>
+                              <width>160</width>
+                              <height>16777215</height>
+                             </size>
+                            </property>
+                            <property name="text">
+                             <string>TextLabel</string>
+                            </property>
+                            <property name="alignment">
+                             <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>
+                            </property>
+                           </widget>
+                          </item>
+                         </layout>
+                        </item>
+                       </layout>
+                      </widget>
+                     </item>
+                    </layout>
                    </widget>
                   </widget>
                  </item>
@@ -2678,6 +3446,18 @@ QLabel{
               </item>
               <item>
                <widget class="QWidget" name="verticalWidget_8" native="true">
+                <property name="minimumSize">
+                 <size>
+                  <width>0</width>
+                  <height>305</height>
+                 </size>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>16777215</width>
+                  <height>305</height>
+                 </size>
+                </property>
                 <property name="styleSheet">
                  <string notr="true">QWidget{background-color: #ffffff;
 border: 2px solid #E0E0E0;
@@ -2742,7 +3522,9 @@ QLabel{
                  <item>
                   <widget class="QScrollArea" name="scrollArea_4">
                    <property name="styleSheet">
-                    <string notr="true">border: 0px;</string>
+                    <string notr="true">border: 0px;
+color: #333333;
+</string>
                    </property>
                    <property name="widgetResizable">
                     <bool>true</bool>
@@ -2752,10 +3534,649 @@ QLabel{
                      <rect>
                       <x>0</x>
                       <y>0</y>
-                      <width>240</width>
-                      <height>421</height>
+                      <width>237</width>
+                      <height>490</height>
                      </rect>
                     </property>
+                    <layout class="QVBoxLayout" name="verticalLayout_34">
+                     <property name="leftMargin">
+                      <number>0</number>
+                     </property>
+                     <property name="rightMargin">
+                      <number>5</number>
+                     </property>
+                     <item>
+                      <widget class="QWidget" name="muon_nhieu" native="true">
+                       <property name="styleSheet">
+                        <string notr="true">QWidget{background-color: #ffffff;
+border: 1px solid #E0E0E0;
+border-radius: 12px;
+}
+QLabel{
+	border: 0px solid #E0E0E0;
+}</string>
+                       </property>
+                       <layout class="QHBoxLayout" name="horizontalLayout_28" stretch="0,1">
+                        <property name="spacing">
+                         <number>5</number>
+                        </property>
+                        <property name="leftMargin">
+                         <number>5</number>
+                        </property>
+                        <property name="topMargin">
+                         <number>5</number>
+                        </property>
+                        <property name="rightMargin">
+                         <number>5</number>
+                        </property>
+                        <property name="bottomMargin">
+                         <number>5</number>
+                        </property>
+                        <item>
+                         <widget class="QPushButton" name="pushButton_8">
+                          <property name="minimumSize">
+                           <size>
+                            <width>50</width>
+                            <height>50</height>
+                           </size>
+                          </property>
+                          <property name="font">
+                           <font>
+                            <pointsize>20</pointsize>
+                            <bold>true</bold>
+                           </font>
+                          </property>
+                          <property name="styleSheet">
+                           <string notr="true">border: 0px;</string>
+                          </property>
+                          <property name="text">
+                           <string>1</string>
+                          </property>
+                         </widget>
+                        </item>
+                        <item>
+                         <layout class="QVBoxLayout" name="verticalLayout_25">
+                          <property name="rightMargin">
+                           <number>5</number>
+                          </property>
+                          <item>
+                           <widget class="QLabel" name="sach_muon_nhieu">
+                            <property name="sizePolicy">
+                             <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+                              <horstretch>0</horstretch>
+                              <verstretch>0</verstretch>
+                             </sizepolicy>
+                            </property>
+                            <property name="minimumSize">
+                             <size>
+                              <width>160</width>
+                              <height>0</height>
+                             </size>
+                            </property>
+                            <property name="maximumSize">
+                             <size>
+                              <width>160</width>
+                              <height>16777215</height>
+                             </size>
+                            </property>
+                            <property name="font">
+                             <font>
+                              <pointsize>10</pointsize>
+                              <bold>true</bold>
+                             </font>
+                            </property>
+                            <property name="text">
+                             <string>Tên sách</string>
+                            </property>
+                            <property name="alignment">
+                             <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>
+                            </property>
+                           </widget>
+                          </item>
+                          <item>
+                           <widget class="QLabel" name="tac_gia_muon_nhieu">
+                            <property name="maximumSize">
+                             <size>
+                              <width>160</width>
+                              <height>16777215</height>
+                             </size>
+                            </property>
+                            <property name="text">
+                             <string>Tác giả</string>
+                            </property>
+                            <property name="alignment">
+                             <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>
+                            </property>
+                           </widget>
+                          </item>
+                          <item>
+                           <widget class="QLabel" name="muon_nhieu_info">
+                            <property name="minimumSize">
+                             <size>
+                              <width>160</width>
+                              <height>0</height>
+                             </size>
+                            </property>
+                            <property name="maximumSize">
+                             <size>
+                              <width>160</width>
+                              <height>16777215</height>
+                             </size>
+                            </property>
+                            <property name="text">
+                             <string>TextLabel</string>
+                            </property>
+                            <property name="alignment">
+                             <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>
+                            </property>
+                           </widget>
+                          </item>
+                         </layout>
+                        </item>
+                       </layout>
+                      </widget>
+                     </item>
+                     <item>
+                      <widget class="QWidget" name="muon_nhieu_2" native="true">
+                       <property name="styleSheet">
+                        <string notr="true">QWidget{background-color: #ffffff;
+border: 1px solid #E0E0E0;
+border-radius: 12px;
+}
+QLabel{
+	border: 0px solid #E0E0E0;
+}</string>
+                       </property>
+                       <layout class="QHBoxLayout" name="horizontalLayout_33" stretch="0,1">
+                        <property name="spacing">
+                         <number>5</number>
+                        </property>
+                        <property name="leftMargin">
+                         <number>5</number>
+                        </property>
+                        <property name="topMargin">
+                         <number>5</number>
+                        </property>
+                        <property name="rightMargin">
+                         <number>5</number>
+                        </property>
+                        <property name="bottomMargin">
+                         <number>5</number>
+                        </property>
+                        <item>
+                         <widget class="QPushButton" name="pushButton_14">
+                          <property name="minimumSize">
+                           <size>
+                            <width>50</width>
+                            <height>50</height>
+                           </size>
+                          </property>
+                          <property name="font">
+                           <font>
+                            <pointsize>20</pointsize>
+                            <bold>true</bold>
+                           </font>
+                          </property>
+                          <property name="styleSheet">
+                           <string notr="true">border: 0px;</string>
+                          </property>
+                          <property name="text">
+                           <string>2</string>
+                          </property>
+                         </widget>
+                        </item>
+                        <item>
+                         <layout class="QVBoxLayout" name="verticalLayout_32">
+                          <property name="rightMargin">
+                           <number>5</number>
+                          </property>
+                          <item>
+                           <widget class="QLabel" name="sach_muon_nhieu_2">
+                            <property name="sizePolicy">
+                             <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+                              <horstretch>0</horstretch>
+                              <verstretch>0</verstretch>
+                             </sizepolicy>
+                            </property>
+                            <property name="maximumSize">
+                             <size>
+                              <width>160</width>
+                              <height>16777215</height>
+                             </size>
+                            </property>
+                            <property name="font">
+                             <font>
+                              <pointsize>10</pointsize>
+                              <bold>true</bold>
+                             </font>
+                            </property>
+                            <property name="text">
+                             <string>Tên sách</string>
+                            </property>
+                            <property name="alignment">
+                             <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>
+                            </property>
+                           </widget>
+                          </item>
+                          <item>
+                           <widget class="QLabel" name="tac_gia_muon_nhieu_2">
+                            <property name="maximumSize">
+                             <size>
+                              <width>160</width>
+                              <height>16777215</height>
+                             </size>
+                            </property>
+                            <property name="text">
+                             <string>Tác giả</string>
+                            </property>
+                            <property name="alignment">
+                             <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>
+                            </property>
+                           </widget>
+                          </item>
+                          <item>
+                           <widget class="QLabel" name="muon_nhieu_info_2">
+                            <property name="minimumSize">
+                             <size>
+                              <width>160</width>
+                              <height>0</height>
+                             </size>
+                            </property>
+                            <property name="maximumSize">
+                             <size>
+                              <width>160</width>
+                              <height>16777215</height>
+                             </size>
+                            </property>
+                            <property name="text">
+                             <string>TextLabel</string>
+                            </property>
+                            <property name="alignment">
+                             <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>
+                            </property>
+                           </widget>
+                          </item>
+                         </layout>
+                        </item>
+                       </layout>
+                      </widget>
+                     </item>
+                     <item>
+                      <widget class="QWidget" name="muon_nhieu_3" native="true">
+                       <property name="styleSheet">
+                        <string notr="true">QWidget{background-color: #ffffff;
+border: 1px solid #E0E0E0;
+border-radius: 12px;
+}
+QLabel{
+	border: 0px solid #E0E0E0;
+}</string>
+                       </property>
+                       <layout class="QHBoxLayout" name="horizontalLayout_32" stretch="0,1">
+                        <property name="spacing">
+                         <number>5</number>
+                        </property>
+                        <property name="leftMargin">
+                         <number>5</number>
+                        </property>
+                        <property name="topMargin">
+                         <number>5</number>
+                        </property>
+                        <property name="rightMargin">
+                         <number>5</number>
+                        </property>
+                        <property name="bottomMargin">
+                         <number>5</number>
+                        </property>
+                        <item>
+                         <widget class="QPushButton" name="pushButton_13">
+                          <property name="minimumSize">
+                           <size>
+                            <width>50</width>
+                            <height>50</height>
+                           </size>
+                          </property>
+                          <property name="font">
+                           <font>
+                            <pointsize>20</pointsize>
+                            <bold>true</bold>
+                           </font>
+                          </property>
+                          <property name="styleSheet">
+                           <string notr="true">border: 0px;</string>
+                          </property>
+                          <property name="text">
+                           <string>3</string>
+                          </property>
+                         </widget>
+                        </item>
+                        <item>
+                         <layout class="QVBoxLayout" name="verticalLayout_28">
+                          <property name="rightMargin">
+                           <number>5</number>
+                          </property>
+                          <item>
+                           <widget class="QLabel" name="sach_muon_nhieu_3">
+                            <property name="sizePolicy">
+                             <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+                              <horstretch>0</horstretch>
+                              <verstretch>0</verstretch>
+                             </sizepolicy>
+                            </property>
+                            <property name="maximumSize">
+                             <size>
+                              <width>160</width>
+                              <height>16777215</height>
+                             </size>
+                            </property>
+                            <property name="font">
+                             <font>
+                              <pointsize>10</pointsize>
+                              <bold>true</bold>
+                             </font>
+                            </property>
+                            <property name="text">
+                             <string>Tên sách</string>
+                            </property>
+                            <property name="alignment">
+                             <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>
+                            </property>
+                           </widget>
+                          </item>
+                          <item>
+                           <widget class="QLabel" name="tac_gia_muon_nhieu_3">
+                            <property name="maximumSize">
+                             <size>
+                              <width>160</width>
+                              <height>16777215</height>
+                             </size>
+                            </property>
+                            <property name="text">
+                             <string>Tác giả</string>
+                            </property>
+                            <property name="alignment">
+                             <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>
+                            </property>
+                           </widget>
+                          </item>
+                          <item>
+                           <widget class="QLabel" name="muon_nhieu_info_3">
+                            <property name="minimumSize">
+                             <size>
+                              <width>160</width>
+                              <height>0</height>
+                             </size>
+                            </property>
+                            <property name="maximumSize">
+                             <size>
+                              <width>160</width>
+                              <height>16777215</height>
+                             </size>
+                            </property>
+                            <property name="text">
+                             <string>TextLabel</string>
+                            </property>
+                            <property name="alignment">
+                             <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>
+                            </property>
+                           </widget>
+                          </item>
+                         </layout>
+                        </item>
+                       </layout>
+                      </widget>
+                     </item>
+                     <item>
+                      <widget class="QWidget" name="muon_nhieu_4" native="true">
+                       <property name="styleSheet">
+                        <string notr="true">QWidget{background-color: #ffffff;
+border: 1px solid #E0E0E0;
+border-radius: 12px;
+}
+QLabel{
+	border: 0px solid #E0E0E0;
+}</string>
+                       </property>
+                       <layout class="QHBoxLayout" name="horizontalLayout_31" stretch="0,1">
+                        <property name="spacing">
+                         <number>5</number>
+                        </property>
+                        <property name="leftMargin">
+                         <number>5</number>
+                        </property>
+                        <property name="topMargin">
+                         <number>5</number>
+                        </property>
+                        <property name="rightMargin">
+                         <number>5</number>
+                        </property>
+                        <property name="bottomMargin">
+                         <number>5</number>
+                        </property>
+                        <item>
+                         <widget class="QPushButton" name="pushButton_12">
+                          <property name="minimumSize">
+                           <size>
+                            <width>50</width>
+                            <height>50</height>
+                           </size>
+                          </property>
+                          <property name="font">
+                           <font>
+                            <pointsize>20</pointsize>
+                            <bold>true</bold>
+                           </font>
+                          </property>
+                          <property name="styleSheet">
+                           <string notr="true">border: 0px;</string>
+                          </property>
+                          <property name="text">
+                           <string>4</string>
+                          </property>
+                         </widget>
+                        </item>
+                        <item>
+                         <layout class="QVBoxLayout" name="verticalLayout_27">
+                          <property name="rightMargin">
+                           <number>4</number>
+                          </property>
+                          <item>
+                           <widget class="QLabel" name="sach_muon_nhieu_4">
+                            <property name="sizePolicy">
+                             <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+                              <horstretch>0</horstretch>
+                              <verstretch>0</verstretch>
+                             </sizepolicy>
+                            </property>
+                            <property name="maximumSize">
+                             <size>
+                              <width>160</width>
+                              <height>16777215</height>
+                             </size>
+                            </property>
+                            <property name="font">
+                             <font>
+                              <pointsize>10</pointsize>
+                              <bold>true</bold>
+                             </font>
+                            </property>
+                            <property name="text">
+                             <string>Tên sách</string>
+                            </property>
+                            <property name="alignment">
+                             <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>
+                            </property>
+                           </widget>
+                          </item>
+                          <item>
+                           <widget class="QLabel" name="tac_gia_muon_nhieu_4">
+                            <property name="maximumSize">
+                             <size>
+                              <width>160</width>
+                              <height>16777215</height>
+                             </size>
+                            </property>
+                            <property name="text">
+                             <string>Tác giả</string>
+                            </property>
+                            <property name="alignment">
+                             <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>
+                            </property>
+                           </widget>
+                          </item>
+                          <item>
+                           <widget class="QLabel" name="muon_nhieu_info_4">
+                            <property name="minimumSize">
+                             <size>
+                              <width>160</width>
+                              <height>0</height>
+                             </size>
+                            </property>
+                            <property name="maximumSize">
+                             <size>
+                              <width>160</width>
+                              <height>16777215</height>
+                             </size>
+                            </property>
+                            <property name="text">
+                             <string>TextLabel</string>
+                            </property>
+                            <property name="alignment">
+                             <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>
+                            </property>
+                           </widget>
+                          </item>
+                         </layout>
+                        </item>
+                       </layout>
+                      </widget>
+                     </item>
+                     <item>
+                      <widget class="QWidget" name="muon_nhieu_5" native="true">
+                       <property name="styleSheet">
+                        <string notr="true">QWidget{background-color: #ffffff;
+border: 1px solid #E0E0E0;
+border-radius: 12px;
+}
+QLabel{
+	border: 0px solid #E0E0E0;
+}</string>
+                       </property>
+                       <layout class="QHBoxLayout" name="horizontalLayout_30" stretch="0,1">
+                        <property name="spacing">
+                         <number>5</number>
+                        </property>
+                        <property name="leftMargin">
+                         <number>5</number>
+                        </property>
+                        <property name="topMargin">
+                         <number>5</number>
+                        </property>
+                        <property name="rightMargin">
+                         <number>5</number>
+                        </property>
+                        <property name="bottomMargin">
+                         <number>5</number>
+                        </property>
+                        <item>
+                         <widget class="QPushButton" name="pushButton_10">
+                          <property name="minimumSize">
+                           <size>
+                            <width>50</width>
+                            <height>50</height>
+                           </size>
+                          </property>
+                          <property name="font">
+                           <font>
+                            <pointsize>20</pointsize>
+                            <bold>true</bold>
+                           </font>
+                          </property>
+                          <property name="styleSheet">
+                           <string notr="true">border: 0px;</string>
+                          </property>
+                          <property name="text">
+                           <string>5</string>
+                          </property>
+                         </widget>
+                        </item>
+                        <item>
+                         <layout class="QVBoxLayout" name="verticalLayout_26">
+                          <property name="rightMargin">
+                           <number>5</number>
+                          </property>
+                          <item>
+                           <widget class="QLabel" name="sach_muon_nhieu_5">
+                            <property name="sizePolicy">
+                             <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+                              <horstretch>0</horstretch>
+                              <verstretch>0</verstretch>
+                             </sizepolicy>
+                            </property>
+                            <property name="maximumSize">
+                             <size>
+                              <width>160</width>
+                              <height>16777215</height>
+                             </size>
+                            </property>
+                            <property name="font">
+                             <font>
+                              <pointsize>10</pointsize>
+                              <bold>true</bold>
+                             </font>
+                            </property>
+                            <property name="text">
+                             <string>Tên sách</string>
+                            </property>
+                            <property name="alignment">
+                             <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>
+                            </property>
+                           </widget>
+                          </item>
+                          <item>
+                           <widget class="QLabel" name="tac_gia_muon_nhieu_5">
+                            <property name="maximumSize">
+                             <size>
+                              <width>160</width>
+                              <height>16777215</height>
+                             </size>
+                            </property>
+                            <property name="text">
+                             <string>Tác giả</string>
+                            </property>
+                            <property name="alignment">
+                             <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>
+                            </property>
+                           </widget>
+                          </item>
+                          <item>
+                           <widget class="QLabel" name="muon_nhieu_info_5">
+                            <property name="minimumSize">
+                             <size>
+                              <width>160</width>
+                              <height>0</height>
+                             </size>
+                            </property>
+                            <property name="maximumSize">
+                             <size>
+                              <width>160</width>
+                              <height>16777215</height>
+                             </size>
+                            </property>
+                            <property name="text">
+                             <string>TextLabel</string>
+                            </property>
+                            <property name="alignment">
+                             <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>
+                            </property>
+                           </widget>
+                          </item>
+                         </layout>
+                        </item>
+                       </layout>
+                      </widget>
+                     </item>
+                    </layout>
                    </widget>
                   </widget>
                  </item>
@@ -2769,8 +4190,8 @@ QLabel{
                 </property>
                 <property name="sizeHint" stdset="0">
                  <size>
-                  <width>20</width>
-                  <height>40</height>
+                  <width>0</width>
+                  <height>0</height>
                  </size>
                 </property>
                </spacer>
@@ -2808,7 +4229,7 @@ QLabel{
   <tabstop>chuyen_nganh_list_layout</tabstop>
   <tabstop>truong_find_layout</tabstop>
   <tabstop>tim_kiem_find_layout</tabstop>
-  <tabstop>pushButton_2</tabstop>
+  <tabstop>dat_lai_button</tabstop>
   <tabstop>sach_moi_layout</tabstop>
   <tabstop>scrollArea_2</tabstop>
   <tabstop>muon_button</tabstop>
@@ -2817,7 +4238,6 @@ QLabel{
   <tabstop>chi_tiet_button</tabstop>
   <tabstop>trich_dan_button</tabstop>
   <tabstop>search_input</tabstop>
-  <tabstop>return_home_button_2</tabstop>
   <tabstop>pushButton_3</tabstop>
   <tabstop>scrollArea_3</tabstop>
   <tabstop>pushButton_5</tabstop>

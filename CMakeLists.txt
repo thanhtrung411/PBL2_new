@@ -25,21 +25,20 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         ${PROJECT_SOURCES}
         dang_ky_dialog.h dang_ky_dialog.cpp dang_ky_dialog.ui
         book.h book.cpp
-        description.h description.cpp
+
         accout.h accout.cpp
         tree.h tree.cpp
         my_string.h my_string.cpp
         resource.qrc
-        data/accout.txt
         my_file.h my_file.cpp
-        admin_show.h admin_show.cpp admin_show.ui
+
         card.h card.cpp
         my_time.h my_time.cpp
         global.h
-        dang_ky1.h dang_ky1.cpp dang_ky1.ui
-        login.h login.cpp login.ui
-        working.h working.cpp
-        card_muon.h card_muon.cpp
+
+
+
+
         borrow.h borrow.cpp
         info.h info.cpp info.ui
         book_copies.h book_copies.cpp
@@ -50,10 +49,13 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         admin.h admin.cpp admin.ui
         add_book.h add_book.cpp add_book.ui
         info_book.h info_book.cpp info_book.ui
-        history_record.h history_record.cpp
+
         muon_sach.h muon_sach.cpp muon_sach.ui
         phieu_tra_sach.h phieu_tra_sach.cpp phieu_tra_sach.ui
         settings_file.h settings_file.cpp
+        yeu_thich.h yeu_thich.cpp
+        info_user.h info_user.cpp info_user.ui
+        add_book_copy.h add_book_copy.cpp add_book_copy.ui
 
 
     )

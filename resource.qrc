@@ -21,6 +21,16 @@
         <file>icons_/exclamation.png</file>
         <file>icons_/dollars.png</file>
         <file>icons_/filter.png</file>
+        <file>icons_/like.png</file>
+        <file>icons_/open-book (1).png</file>
+        <file>icons_/user.png</file>
+        <file>icons_/expertise.png</file>
+        <file>icons_/reshot-icon-borrow-book-GJM3PD62HZ.svg</file>
+        <file>icons_/check-book.png</file>
+        <file>icons_/overdue.png</file>
+        <file>icons_/book.png</file>
+        <file>icons_/reading-book.png</file>
+        <file>icons_/check-book_1.png</file>
     </qresource>
     <qresource prefix="/data_">
         <file>data/accout.txt</file>

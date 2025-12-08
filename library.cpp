@@ -1,6 +1,8 @@
 #include "library.h"
+#include "settings_file.h"
 #include "global.h"
 #include <iostream>
+#include <QMessageBox>
 
 Library::Library() :
     books(KeyGetters::getBookID),
@@ -164,3 +166,57 @@ type_bieu_ghi: tùy chọn trường cần tìm kiếm
     - type_bieu_ghi == 7: tìm kiếm theo trường TÓM TẮT
     - type_bieu_ghi == 8: tìm kiếm theo trường CHUYÊN NGÀNH
 */
+
+ int Library::check_gia_han_possible(long long id_borrow_){
+    try {
+        borrow br;
+        if (!borrow_data.find(id_borrow_, br)) {
+            return 1;// Khong tim thay ban ghi muon sach
+        }
+
+        book b;
+        if (book_data.find(br.get_book_id(), b)) {
+            if (b.get_tong_sach_ranh() <= 0) {
+                return 2; // LOI_KHAN_HIEM
+            }
+        }
+
+        // 2. Logic Quá hạn
+        my_time current_date = my_time::now();
+        if (br.get_ngay_phai_tra() < current_date) {
+            return 3; // LOI_QUA_HAN
+        }
+
+        // 3. Logic Hết lượt
+        if (br.get_lan_gia_han() >= settings_file::getInstance()->get_so_lan_gia_han()) {
+            return 4; // LOI_HET_LUOT
+        }
+
+        return 0;
+    } catch (...) { 
+        return -1; // LOI_HE_THONG
+    }
+}
+
+// Hàm thực hiện gia hạn
+int Library::gia_han_muon_sach(long long id_borrow_) {
+    try {
+        // Kiểm tra trước, nếu lỗi thì return mã lỗi luôn
+        int status = check_gia_han_possible(id_borrow_);
+        if (status != 0) return status;
+
+        borrow br;
+        borrow_data.find(id_borrow_, br);
+        my_time new_due_date = br.get_ngay_phai_tra().extend_date(settings_file::getInstance()->get_so_ngay_gia_han());
+        br.set_ngay_phai_tra(new_due_date);
+        br.set_lan_gia_han(br.get_lan_gia_han() + 1);
+        borrow_data.update(br, br); 
+        ghi_borrow(borrow_data);
+        
+        return 0;
+    } catch (const std::exception &e) {
+        return -1; // LOI_HE_THONG
+    } catch (...) {
+        return -1; // LOI_HE_THONG
+    }
+}
