@@ -43,7 +43,6 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         info.h info.cpp info.ui
         book_copies.h book_copies.cpp
         the_loai_chuyen_nganh.h the_loai_chuyen_nganh.cpp
-        author.h author.cpp
         library.h library.cpp
         history.h history.cpp
         admin.h admin.cpp admin.ui

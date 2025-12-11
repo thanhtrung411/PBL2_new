@@ -24,9 +24,6 @@ namespace KeyGetters{
     long long getBookCopiesID(const Book_copies& bc) {
         return bc.get_id();
     }
-    int getAuthorID(const Author& au) {
-        return au.get_ID();
-    }
     int getTheLoaiID(const The_loai& tl) {
         return tl.get_id();
     }
@@ -387,7 +384,6 @@ Key BST<T, Key>::find_new_id() const {
 template class BST<accout, int>;
 template class BST<book, long long>;
 template class BST<Book_copies, long long>;
-template class BST<Author, int>;
 template class BST<Chuyen_nganh, int>;
 template class BST<The_loai, int>;
 template class BST<borrow, long long>;
@@ -966,37 +962,7 @@ bool BST_book_copy::remove_by_book_id(long long book_id){
 }
 
 /////////////--for BST_Author--/////////////
-Node<Author>* BST_Author::return_id_helper(Node<Author>* node, string name, int &ok, int &id) {
-    if (node == nullptr) {
-        ok = 0;
-        return nullptr;
-    }
-     Node<Author>* found = nullptr;
-    if (node->getData().get_name() == name) {
-        ok = 1;
-        id = node->getData().get_ID();
-        return node;
-    }
-    found = return_id_helper(node->getLeft(), name, ok, id);
-    if (ok == 1) return found;
-    return return_id_helper(node->getRight(), name, ok, id);
-}
 
-bool BST_Author::return_id(string name, int &id){
-    int ok = 0;
-    id = -1;
-    Node<Author>* node = return_id_helper(root, name, ok, id);
-    return ok == 1;
-}
-bool BST_Author::return_name(int id, string &name){
-    Author temp;
-    if (this->find(id, temp)){
-        name = temp.get_name();
-        return true;
-    }
-    name = "";
-    return false;
-}
 
 /////////////--for BST_Chuyen_nganh--//////////////
 

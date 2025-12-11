@@ -70,5 +70,7 @@
     "codecvt": "cpp",
     "qabstractseries": "cpp",
     "qcoreapplication": "cpp"
-  }
+  },
+  "codesnap.backgroundColor": "#ffffff",
+  "codesnap.boxShadow": "rgba(255,255,255) 0px 20px 68px"
 }

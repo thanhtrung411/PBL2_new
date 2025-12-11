@@ -6,11 +6,9 @@
 #include "accout.h"
 #include "book.h"
 #include "the_loai_chuyen_nganh.h"
-#include "author.h"
 #include "book_copies.h"
 #include "borrow.h"
 #include "history.h"
-#include "description.h"
 #include "yeu_thich.h"
 using namespace std;
 
@@ -81,7 +79,6 @@ protected:
     Node<T>* root;
     Key (*getKey)(const T&);
     int height(Node<T>* node) const;
-    int size(Node<T>* node) const;
     int getBalanceFactor(Node<T>* node) const;
     void updateHeight(Node<T>* node);
     Node<T>* rightRotate(Node<T>* y);
@@ -284,17 +281,6 @@ public:
     void write_book_copy(QTextStream &out) const;
     bool remove_by_book_id(long long book_id);
 };
-
-class BST_Author : public BST<Author, int> {
-private:
-    Node<Author>* return_id_helper(Node<Author>* node, string name, int &ok, int &id);
-public:
-    BST_Author() : BST<Author, int>(KeyGetters::getAuthorID) {}
-    //void write_author(QTextStream &out) const;
-    bool return_name(int id, string &name);
-    bool return_id(string name, int &id);
-};
-
 
 class BST_Chuyen_nganh : public BST<Chuyen_nganh, int> {
 private:

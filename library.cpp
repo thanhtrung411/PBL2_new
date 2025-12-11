@@ -7,7 +7,6 @@
 Library::Library() :
     books(KeyGetters::getBookID),
     book_copies(KeyGetters::getBookCopiesID),
-    authors(KeyGetters::getAuthorID),
     chuyen_nganhs(KeyGetters::getChuyenNganhID),
     the_loais(KeyGetters::getTheLoaiID),
     borrows(KeyGetters::getBorrowID),
@@ -17,9 +16,6 @@ Library::~Library() {}
 
 bool Library::add_book(const book& b) {
     return books.insert(b);
-}
-bool Library::add_author(const Author& a) {
-    return authors.insert(a);
 }
 bool Library::add_accout(const accout& a) {
     return accouts.insert(a);
@@ -39,9 +35,6 @@ bool Library::add_borrow(const borrow& br) {
 bool Library::remove_book(long long book_id) {
     return books.remove_by_Key(book_id);
 }
-bool Library::remove_author(int author_id) {
-    return authors.remove_by_Key(author_id);
-}
 bool Library::remove_accout(int id) {
     return accouts.remove_by_Key(id);
 }
@@ -60,9 +53,6 @@ bool Library::remove_borrow(long long borrow_id) {
 }
 int Library::get_total_books() const {
     return books.count_data();
-}
-int Library::get_total_authors() const {
-    return authors.count_data();
 }
 int Library::get_total_accouts() const {
     return accouts.count_data();

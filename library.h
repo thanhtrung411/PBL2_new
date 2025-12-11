@@ -5,7 +5,6 @@
 #include "tree.h"
 #include "book.h"
 #include "book_copies.h"
-#include "author.h"
 #include "the_loai_chuyen_nganh.h"
 #include "borrow.h"
 #include "accout.h"
@@ -16,7 +15,6 @@ class Library {
 private:
     BST<book, long long> books;
     BST<Book_copies, long long> book_copies;
-    BST<Author, int> authors;
     BST<Chuyen_nganh, int> chuyen_nganhs;
     BST<The_loai, int> the_loais;
     BST<borrow, long long> borrows;
@@ -25,7 +23,6 @@ public:
     Library();
     ~Library();
     bool add_book(const book& b);
-    bool add_author(const Author& a);
     bool add_accout(const accout& a);
     bool add_book_copy(const Book_copies& bc);
     bool add_chuyen_nganh(const Chuyen_nganh& cn);
@@ -33,7 +30,6 @@ public:
     bool add_borrow(const borrow& br);
 
     bool remove_book(long long book_id);
-    bool remove_author(int author_id);
     bool remove_accout(int id);
     bool remove_book_copy(long long book_copy_id);
     bool remove_chuyen_nganh(int chuyen_nganh_id);
@@ -41,7 +37,6 @@ public:
     bool remove_borrow(long long borrow_id);
 
     int get_total_books() const;
-    int get_total_authors() const;
     int get_total_accouts() const;
     int get_total_book_copies() const;
     int get_total_chuyen_nganhs() const;

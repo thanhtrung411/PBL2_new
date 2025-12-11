@@ -37,10 +37,6 @@ void doc_copy_book(BST_book_copy &book_copy_data);
 
 void ghi_copy_book(BST_book_copy &book_copy_data);
 
-void doc_author(BST_Author &author_data);
-
-void ghi_author(BST_Author &author_data);
-
 void doc_the_loai(BST_The_loai &the_loai_);
 
 void ghi_the_loai(BST_The_loai &the_loai_);

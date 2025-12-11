@@ -1,6 +1,5 @@
 #include "info.h"
 #include "ui_info.h"
-#include "admin_show.h"
 #include "settings_file.h"
 #include "my_string.h"
 #include "borrow.h"

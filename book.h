@@ -1,6 +1,5 @@
 #ifndef BOOK_H
 #define BOOK_H
-#include "description.h"
 #include "my_time.h"
 #include <iostream>
 
