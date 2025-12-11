@@ -44,6 +44,8 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         book_copies.h book_copies.cpp
         the_loai_chuyen_nganh.h the_loai_chuyen_nganh.cpp
         library.h library.cpp
+        add.h add.cpp add.ui
+        show.h show.cpp show.ui
         history.h history.cpp
         admin.h admin.cpp admin.ui
         add_book.h add_book.cpp add_book.ui
