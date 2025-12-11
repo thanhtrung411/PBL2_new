@@ -31,7 +31,7 @@
      <number>0</number>
     </property>
     <item>
-     <widget class="QWidget" name="horizontalWidget" native="true">
+     <widget class="QWidget" name="horizontalWidget_2" native="true">
       <property name="maximumSize">
        <size>
         <width>16777215</width>
@@ -685,7 +685,7 @@ QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical {
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>1478</width>
+             <width>1162</width>
              <height>1017</height>
             </rect>
            </property>
@@ -3391,8 +3391,8 @@ QLabel{
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>1484</width>
-             <height>566</height>
+             <width>596</width>
+             <height>131</height>
             </rect>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_3">
@@ -6564,8 +6564,8 @@ QTableWidget::item:selected {
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>1484</width>
-             <height>544</height>
+             <width>412</width>
+             <height>469</height>
             </rect>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_35">
