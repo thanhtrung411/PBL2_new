@@ -55,4 +55,6 @@ public:
 
 };
 
+int get_days_in_month(int year, int month);
+
 #endif // MY_TIME_H

@@ -1,11 +1,12 @@
 #include "library.h"
+#include "settings_file.h"
 #include "global.h"
 #include <iostream>
+#include <QMessageBox>
 
 Library::Library() :
     books(KeyGetters::getBookID),
     book_copies(KeyGetters::getBookCopiesID),
-    authors(KeyGetters::getAuthorID),
     chuyen_nganhs(KeyGetters::getChuyenNganhID),
     the_loais(KeyGetters::getTheLoaiID),
     borrows(KeyGetters::getBorrowID),
@@ -15,9 +16,6 @@ Library::~Library() {}
 
 bool Library::add_book(const book& b) {
     return books.insert(b);
-}
-bool Library::add_author(const Author& a) {
-    return authors.insert(a);
 }
 bool Library::add_accout(const accout& a) {
     return accouts.insert(a);
@@ -37,9 +35,6 @@ bool Library::add_borrow(const borrow& br) {
 bool Library::remove_book(long long book_id) {
     return books.remove_by_Key(book_id);
 }
-bool Library::remove_author(int author_id) {
-    return authors.remove_by_Key(author_id);
-}
 bool Library::remove_accout(int id) {
     return accouts.remove_by_Key(id);
 }
@@ -58,9 +53,6 @@ bool Library::remove_borrow(long long borrow_id) {
 }
 int Library::get_total_books() const {
     return books.count_data();
-}
-int Library::get_total_authors() const {
-    return authors.count_data();
 }
 int Library::get_total_accouts() const {
     return accouts.count_data();
@@ -102,7 +94,7 @@ int Library::dat_sach(long long id_book_, int id_user_, my_time booking_date, in
         if (!accout_data.find(id_user_, a)) {
             throw 2; // tai khoan khong hop le
         }
-        if (a.get_score() == -1){
+        if (a.get_score() < 0){
             throw 2; // tai khoan khong hop le
         }
         if (a.max_book_borrow() <= borrow_data.sach_dang_muon(id_user_)){
@@ -124,11 +116,10 @@ int Library::dat_sach(long long id_book_, int id_user_, my_time booking_date, in
         long long new_id_borrow = borrow_data.find_new_id_borrow();
         my_time due_date = current_date + my_time(0,0,limit_borrow_day,0,0,0);
         br.set_id(new_id_borrow);
-        br.set_book_copy_id(id_book_copy);
-        br.set_id_user(id_user_);
-        br.set_id_admin(0); //mac dinh
-        br.set_booking_date(current_date);
-        br.set_status("Da dat");
+        br.set_book_id(id_book_);
+        br.set_user_id(id_user_);
+        br.set_ngay_dat(booking_date);
+        br.set_status("XU_LY");
         borrow_data.insert(br);
         b.set_tong_sach_dang_dat(b.get_tong_sach_dang_dat() + 1);
         b.set_tong_sach_ranh(b.get_tong_sach_ranh() - 1);
@@ -165,10 +156,57 @@ type_bieu_ghi: tùy chọn trường cần tìm kiếm
     - type_bieu_ghi == 7: tìm kiếm theo trường TÓM TẮT
     - type_bieu_ghi == 8: tìm kiếm theo trường CHUYÊN NGÀNH
 */
-void search(int type_the_loai, int type_tuy_chon, int& type_bieu_ghi, string& key_word, BST_Book &book_data_, BST_Book &kq_return){
-    book_data_.traverse_ascending([&](book &a){
-        if (type_the_loai != 0){
 
+ int Library::check_gia_han_possible(long long id_borrow_){
+    try {
+        borrow br;
+        if (!borrow_data.find(id_borrow_, br)) {
+            return 1;// Khong tim thay ban ghi muon sach
         }
-    });
+
+        book b;
+        if (book_data.find(br.get_book_id(), b)) {
+            if (b.get_tong_sach_ranh() <= 0) {
+                return 2; // LOI_KHAN_HIEM
+            }
+        }
+
+        // 2. Logic Quá hạn
+        my_time current_date = my_time::now();
+        if (br.get_ngay_phai_tra() < current_date) {
+            return 3; // LOI_QUA_HAN
+        }
+
+        // 3. Logic Hết lượt
+        if (br.get_lan_gia_han() >= settings_file::getInstance()->get_so_lan_gia_han()) {
+            return 4; // LOI_HET_LUOT
+        }
+
+        return 0;
+    } catch (...) { 
+        return -1; // LOI_HE_THONG
+    }
+}
+
+// Hàm thực hiện gia hạn
+int Library::gia_han_muon_sach(long long id_borrow_) {
+    try {
+        // Kiểm tra trước, nếu lỗi thì return mã lỗi luôn
+        int status = check_gia_han_possible(id_borrow_);
+        if (status != 0) return status;
+
+        borrow br;
+        borrow_data.find(id_borrow_, br);
+        my_time new_due_date = br.get_ngay_phai_tra().extend_date(settings_file::getInstance()->get_so_ngay_gia_han());
+        br.set_ngay_phai_tra(new_due_date);
+        br.set_lan_gia_han(br.get_lan_gia_han() + 1);
+        borrow_data.update(br, br); 
+        ghi_borrow(borrow_data);
+        
+        return 0;
+    } catch (const std::exception &e) {
+        return -1; // LOI_HE_THONG
+    } catch (...) {
+        return -1; // LOI_HE_THONG
+    }
 }

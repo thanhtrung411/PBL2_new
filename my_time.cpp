@@ -5,6 +5,9 @@
 #include <ctime>
 
 using namespace std;
+
+// --- CÁC HÀM HỖ TRỢ (HELPER FUNCTIONS) ---
+
 bool kiem_tra_nam_nhuan(int year) {
     return ((year % 4 == 0 && year % 100 != 0) || (year % 400 == 0));
 }
@@ -21,6 +24,8 @@ int get_days_in_month(int year, int month) {
     return 0;
 }
 
+// --- CONSTRUCTOR & DESTRUCTOR ---
+
 my_time::my_time() : year(1970), month(1), day(1), hour(0), minute(0), second(0) {}
 
 my_time::my_time(int y, int mo, int d, int h, int mi, int s)
@@ -32,25 +37,39 @@ my_time::my_time(string date) {
 
 my_time::~my_time() {}
 
+// --- SETTERS ---
+
 void my_time::set_time(int y, int mo, int d, int h, int mi, int s) {
-    year = y;
-    month = mo;
-    day = d;
-    hour = h;
-    minute = mi;
-    second = s;
+    year = y; month = mo; day = d;
+    hour = h; minute = mi; second = s;
 }
 
 void my_time::set_time_date(const string& date) {
+    // Định dạng dd/MM/yyyy
     sscanf(date.c_str(), "%d/%d/%d", &day, &month, &year);
-    hour = 0;
-    minute = 0;
-    second = 0;
+    hour = 0; minute = 0; second = 0;
 }
 
 void my_time::set_time_datetime(const string& datetime) {
+    // Định dạng dd/MM/yyyy HH:mm:ss
     sscanf(datetime.c_str(), "%d/%d/%d %d:%d:%d", &day, &month, &year, &hour, &minute, &second);
 }
+
+void my_time::set_year(int y) { year = y; }
+void my_time::set_month(int mo) { month = mo; }
+void my_time::set_day(int d) { day = d; }
+void my_time::set_hour(int h) { hour = h; }
+void my_time::set_minute(int mi) { minute = mi; }
+void my_time::set_second(int s) { second = s; }
+
+// --- GETTERS ---
+
+int my_time::get_year() const { return year; }
+int my_time::get_month() const { return month; }
+int my_time::get_day() const { return day; }
+int my_time::get_hour() const { return hour; }
+int my_time::get_minute() const { return minute; }
+int my_time::get_second() const { return second; }
 
 string my_time::get_time() const {
     char buffer[9];
@@ -67,19 +86,8 @@ string my_time::get_date() const {
 string my_time::get_datetime() const {
     return get_date() + " " + get_time();
 }
-void my_time::set_year(int y) { year = y; }
-void my_time::set_month(int mo) { month = mo; }
-void my_time::set_day(int d) { day = d; }
-void my_time::set_hour(int h) { hour = h; }
-void my_time::set_minute(int mi) { minute = mi; }
-void my_time::set_second(int s) { second = s; }
-int my_time::get_year() const { return year; }
-int my_time::get_month() const { return month; }
-int my_time::get_day() const { return day; }
-int my_time::get_hour() const { return hour; }
-int my_time::get_minute() const { return minute; }
-int my_time::get_second() const { return second; }
 
+// --- STATIC METHODS ---
 
 my_time my_time::now() {
     time_t t = time(nullptr);
@@ -88,6 +96,9 @@ my_time my_time::now() {
                    now->tm_hour, now->tm_min, now->tm_sec);
 }
 
+// --- LOGIC TÍNH TOÁN ---
+
+// Hàm này giữ lại để dùng cho phép trừ (operator-)
 long long my_time::day_to_seconds() const {
     long long total_days = 0;
     for (int y = 1970; y < year; ++y) {
@@ -104,17 +115,24 @@ long long my_time::day_to_seconds() const {
 
 my_time my_time::add_time(const my_time& t) const {
     my_time result = *this;
+    // Cộng giây
     result.second += t.second;
     result.minute += t.minute + result.second / 60;
+    result.second %= 60;
+
+    // Cộng phút
     result.hour += t.hour + result.minute / 60;
+    result.minute %= 60;
+
+    // Cộng giờ
     result.day += t.day + result.hour / 24;
+    result.hour %= 24;
+
+    // Cộng ngày tháng năm
     result.month += t.month;
     result.year += t.year;
 
-    result.second %= 60;
-    result.minute %= 60;
-    result.hour %= 24;
-
+    // Chuẩn hóa ngày (xử lý tràn ngày trong tháng)
     while (result.day > get_days_in_month(result.year, result.month)) {
         result.day -= get_days_in_month(result.year, result.month);
         result.month++;
@@ -123,7 +141,6 @@ my_time my_time::add_time(const my_time& t) const {
             result.year++;
         }
     }
-
     return result;
 }
 
@@ -136,13 +153,11 @@ my_time my_time::operator-(const my_time& t) const {
     long long seconds2 = t.day_to_seconds();
     long long diff = seconds1 - seconds2;
 
+    // Logic chuyển lại từ giây sang my_time (giữ nguyên logic cũ của ông)
     my_time result;
-    result.second = diff % 60;
-    diff /= 60;
-    result.minute = diff % 60;
-    diff /= 60;
-    result.hour = diff % 24;
-    diff /= 24;
+    result.second = diff % 60; diff /= 60;
+    result.minute = diff % 60; diff /= 60;
+    result.hour = diff % 24; diff /= 24;
 
     int y = 1970;
     while (true) {
@@ -150,9 +165,7 @@ my_time my_time::operator-(const my_time& t) const {
         if (diff >= days_in_year) {
             diff -= days_in_year;
             y++;
-        } else {
-            break;
-        }
+        } else break;
     }
     result.year = y;
 
@@ -162,9 +175,7 @@ my_time my_time::operator-(const my_time& t) const {
         if (diff >= days_in_month) {
             diff -= days_in_month;
             m++;
-        } else {
-            break;
-        }
+        } else break;
     }
     result.month = m;
     result.day = diff + 1;
@@ -193,20 +204,38 @@ my_time my_time::extend_date(int day) const {
     return *this + day;
 }
 
-bool my_time::operator==(const my_time& t) const {
-    return this->day_to_seconds() == t.day_to_seconds();
+my_time& my_time::operator=(const my_time& t) {
+    if (this != &t) {
+        year = t.year; month = t.month; day = t.day;
+        hour = t.hour; minute = t.minute; second = t.second;
+    }
+    return *this;
 }
 
+// --- QUAN TRỌNG: OPERATORS SO SÁNH ĐÃ ĐƯỢC TỐI ƯU ---
+// So sánh theo thứ tự từ điển (Năm -> Tháng -> Ngày...) thay vì quy đổi giây
+
+bool my_time::operator<(const my_time& t) const {
+    if (year != t.year) return year < t.year;
+    if (month != t.month) return month < t.month;
+    if (day != t.day) return day < t.day;
+    if (hour != t.hour) return hour < t.hour;
+    if (minute != t.minute) return minute < t.minute;
+    return second < t.second;
+}
+
+bool my_time::operator==(const my_time& t) const {
+    return (year == t.year) && (month == t.month) && (day == t.day) &&
+           (hour == t.hour) && (minute == t.minute) && (second == t.second);
+}
+
+// Các operator còn lại dựa trên < và ==
 bool my_time::operator!=(const my_time& t) const {
     return !(*this == t);
 }
 
-bool my_time::operator<(const my_time& t) const {
-    return this->day_to_seconds() < t.day_to_seconds();
-}
-
 bool my_time::operator<=(const my_time& t) const {
-    return *this < t || *this == t;
+    return (*this < t) || (*this == t);
 }
 
 bool my_time::operator>(const my_time& t) const {
@@ -217,18 +246,9 @@ bool my_time::operator>=(const my_time& t) const {
     return !(*this < t);
 }
 
-my_time& my_time::operator=(const my_time& t) {
-    if (this != &t) {
-        year = t.year;
-        month = t.month;
-        day = t.day;
-        hour = t.hour;
-        minute = t.minute;
-        second = t.second;
-    }
-    return *this;
-}
-
+// Helper function bên ngoài
 bool diff(const my_time &t1, const my_time &t2){
     return t1 != t2;
 }
+
+int return_day_in_month(int year, int month);

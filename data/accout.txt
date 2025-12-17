@@ -1,2 +1,0 @@
-ID, Ten_dang_nhap, Ten_tai_khoan, Email, Phone_number, Gioi_tinh, Date_created, Pass
-1,61707F,61707F,0,0001/01/20,61707F,0,61707F,61707F,1126215B2C,1970/01/01 00:00:00

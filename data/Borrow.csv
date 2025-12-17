@@ -1,2 +1,3 @@
-ID, Book_copy_id, User_id, Admin_id, Booking_date, Borrow_date, Due_date, Return_date, Status, Tien_phat
-1,16,1,0,17/11/2025 21:27:04,01/01/1970 00:00:00,01/01/1970 00:00:00,01/01/1970 00:00:00,Da dat,0
+ID, Book_ID, Book_Copy_ID, User_ID, Ngay_dat, Ngay_muon, Ngay_phai_tra, Ngay_tra, Status,Lan_gia_han, Ghi_chu, Tien_phat
+1,202501200002,12,4,16/12/2025 08:50:31,17/12/2025 00:00:00,11/02/2026 00:00:00,01/01/1970 00:00:00,DANG_MUON,3,,0
+2,202501200002,11,5,17/12/2025 20:07:49,17/12/2025 00:00:00,31/12/2025 00:00:00,01/01/1970 00:00:00,DANG_MUON,0,,0

@@ -6,11 +6,10 @@
 #include "accout.h"
 #include "book.h"
 #include "the_loai_chuyen_nganh.h"
-#include "author.h"
 #include "book_copies.h"
 #include "borrow.h"
-#include "history_record.h"
-#include "description.h"
+#include "history.h"
+#include "yeu_thich.h"
 using namespace std;
 
 class accout;
@@ -80,7 +79,6 @@ protected:
     Node<T>* root;
     Key (*getKey)(const T&);
     int height(Node<T>* node) const;
-    int size(Node<T>* node) const;
     int getBalanceFactor(Node<T>* node) const;
     void updateHeight(Node<T>* node);
     Node<T>* rightRotate(Node<T>* y);
@@ -94,6 +92,7 @@ protected:
 
     void in_order_recursive(Node<T>* node, std::function<void(T&)> visit_func);
     void pre_order_recursive(Node<T>* node, std::function<void(T&)> visit_func);
+    void in_order_reverse_recursive(Node<T>* node, std::function<void(T&)> visit_func);
     int count(Node<T>* node) const;
     void destroy_Node(Node<T>* node);
     Key find_max_key(Node<T>* node) const;
@@ -126,7 +125,7 @@ public:
         in_order_recursive(root, visit_func);
     }
     void traverse_descending(std::function<void(T&)> visit_func) {
-        pre_order_recursive(root, visit_func);
+        in_order_reverse_recursive(root, visit_func);
     }
 };
 namespace KeyGetters {
@@ -149,15 +148,26 @@ namespace KeyGetters {
     std::pair<int,long long>    getKey_DoCX_ID   (const book& b);
     std::pair<my_time,long long> getKey_History_ID(const history_record& h);
     std::pair<my_time,long long>getKey_DateCreated_ID   (const book& b);
+    std::pair<long long, long long> getKey_YeuThich_ID(const yeu_thich& yt);
+    std::pair<int,long long> getKey_LuotXem_ID(const book& b);
+    std::pair<int,long long> getKey_LuotMuon_ID(const book& b);
 
 }
 
 class BST_Accout : public BST<accout, int> {
 private:
     bool search_custom(int type_tuy_chon, string& type_bieu_ghi, string& key_word, accout& a);
+    int count_doc_gia_helper(Node<accout>* node);
+    int count_thu_thu_helper(Node<accout>* node);
     Node<accout>* check_accout_helper(Node<accout>* node, string ten_dang_nhap, string pass, int &ok, accout &a);
 public:
     BST_Accout() : BST<accout, int>(KeyGetters::getAccoutID) {}
+    int count_doc_gia();
+    bool check_ten_dang_nhap(string ten_dang_nhap);
+    bool check_quen_mat_khau(string so_dien_thoai, string email, accout &a);
+    int count_thu_thu();
+    void tim_thu_thu(BST_Accout &u);
+    void tim_doc_gia(BST_Accout &u);
     bool check_accout(string ten_dang_nhap, string pass, accout& a); 
     void write_csv(Node<accout>* node, QTextStream &out) const;
     void write_accout(QTextStream &out) const;
@@ -173,6 +183,8 @@ private:
     Node<book>* the_loai_of_book_helper(int the_loai_id, Node<book>* node, BST_Book &b);
     Node<book>* chuyen_nganh_of_book_helper(int chuyen_nganh_id, Node<book>* node, BST_Book &b);
 public:
+    int count_sach_theo_the_loai(int the_loai_id);
+    int count_sach_theo_chuyen_nganh(int chuyen_nganh_id);
     void author_of_book(int author_id, BST_Book &b);
     void the_loai_of_book(int the_loai_id, BST_Book &b);
     void chuyen_nganh_of_book(int chuyen_nganh_id, BST_Book &b);
@@ -243,28 +255,32 @@ public:
     }
 };
 
+class BST_Book_by_luot_xem : public BST<book, std::pair<int,long long>>{
+private:
+public:
+    BST_Book_by_luot_xem() : BST(KeyGetters::getKey_LuotXem_ID) {}
+    void find_5_most_viewed(BST_Book_by_luot_xem &b);
+};
+
+class BST_Book_by_luot_muon : public BST<book, std::pair<int,long long>>{
+private:
+public:
+    BST_Book_by_luot_muon() : BST(KeyGetters::getKey_LuotMuon_ID) {}
+    void find_5_most_borrowed(BST_Book_by_luot_muon &b);
+};
 
 class BST_book_copy : public BST<Book_copies, long long> {
 private:
+    Node<Book_copies>* remove_by_book_id_helper(long long book_id, Node<Book_copies>* node);
     Node<Book_copies>* copies_of_book_helper(long long book_id, Node<Book_copies>* node, BST_book_copy &b);
     Node<Book_copies>* find_available_copy_helper(long long book_id, Node<Book_copies>* node);
 public:
-    BST_book_copy& copies_of_book(long long book_id);
+    void copies_of_book(long long book_id, BST_book_copy &b);
     long long find_id_available_copy(long long book_id);
     BST_book_copy() : BST<Book_copies, long long>(KeyGetters::getBookCopiesID) {}
     void write_book_copy(QTextStream &out) const;
+    bool remove_by_book_id(long long book_id);
 };
-
-class BST_Author : public BST<Author, int> {
-private:
-    Node<Author>* return_id_helper(Node<Author>* node, string name, int &ok, int &id);
-public:
-    BST_Author() : BST<Author, int>(KeyGetters::getAuthorID) {}
-    //void write_author(QTextStream &out) const;
-    bool return_name(int id, string &name);
-    bool return_id(string name, int &id);
-};
-
 
 class BST_Chuyen_nganh : public BST<Chuyen_nganh, int> {
 private:
@@ -300,16 +316,19 @@ class BST_Borrow : public BST<borrow, long long> {
 private:
     Node<borrow>* sach_dang_muon_helper(int user_id, Node<borrow>* node, int &count);
     Node<borrow>* check_book_copy_borrowed_helper(int user_id, long long book_id, Node<borrow>* node);
-    Node<borrow>* info_user_helper(int user_id, Node<borrow>* node, BST_Borrow &b);
+    void info_user_helper(int user_id, Node<borrow>* node, BST_Borrow &b);
     Node<borrow>* sach_qua_han_helper(int user_id, my_time current_date, Node<borrow>* node, BST_Borrow &b);
-public:
+    Node<borrow>* kiem_tra_sach_qua_han_helper(Node<borrow>* node, BST_Borrow &b, my_time current_date);
+    Node<borrow>* tong_sach_dat_muon_qua_han_helper(Node<borrow>* node, int &tong_sach_dat, int &tong_sach_muon, int &tong_sach_qua_han, my_time current_date);
+    public:
     BST_Borrow() : BST<borrow, long long>(KeyGetters::getBorrowID) {}
     ~BST_Borrow() = default;
 
     long long find_new_id_borrow() const {
         return find_max_id() + 1;
     }
-
+    void tong_sach_dat_muon_qua_han(int &tong_sach_dat, int &tong_sach_muon, int &tong_sach_qua_han);
+    void kiem_tra_sach_qua_han(BST_Borrow &b);
     bool find_Borrow(long long id, borrow &a) { return find(id, a); }
     bool update_Borrow(borrow &old_, borrow &new_) { return update(old_, new_); }
     borrow operator[](int index) { return BST::operator[](index); }
@@ -319,7 +338,15 @@ public:
     int sach_dang_muon(int user_id);
     bool check_borrowed(int user_id, long long book_id);
     void info_user(int user_id, BST_Borrow &b);
+
+    void tim_sach_dat_thu_thu(BST_Borrow &b);
+    void tim_sach_muon_thu_thu(BST_Borrow &b);
+    void tim_sach_tra_thu_thu(BST_Borrow &b);
+
     void sach_qua_han(int user_id, my_time current_date, BST_Borrow &b);
+    void thong_ke_sach_dat(int &xu_ly, int &san_sang, int &qua_han, BST_Borrow &b);
+    void thong_ke_sach_muon(int &dang_muon, int &qua_han, BST_Borrow &b);
+    void thong_ke_sach_tra(int &tong_luot_tra, int &tra_qua_han, int &hu_hong_mat, long long &tong_tien_phat, BST_Borrow &b);
 };
 
 class BST_History : public BST<history_record, my_time> {
@@ -327,6 +354,26 @@ private:
 public:
     BST_History() : BST<history_record, my_time>(KeyGetters::getMyTimeID) {}
     ~BST_History() = default;
+    void log_action(const string& user_name, ActionType action_type, long long book_id, const string& ghi_chu);
+    void save_to_file(const history_record& data);
+    void loc_lich_su_theo_ngay(my_time start, my_time end, BST_History &b);
+    void luot_xem_muon_tai_thang(int month, int year, int &so_luot_xem, int &so_luot_muon, int &so_luot_tai);
+    void loc_user(string user_name, BST_History &b);
+    BST_History& tim_lich_su_user_ngay(string user_name, int ngay, int thang, int nam, BST_History &b);
+    void load_from_file();
+    void load_from_file(string user_name, BST_History &b);
+};
+
+class BST_Yeu_thich : public BST<yeu_thich, std::pair<long long, long long>> {
+private:
+public:
+    BST_Yeu_thich() : BST<yeu_thich, std::pair<long long, long long>>(KeyGetters::getKey_YeuThich_ID) {}
+    ~BST_Yeu_thich() = default;
+    void load_from_file();
+    void write_to_file();
+    bool is_like_book(long long book_id, long long user_id);
+    void add_like(long long book_id, long long user_id);
+    void remove_like(long long book_id, long long user_id);
 };
 
 #endif // TREE_H
