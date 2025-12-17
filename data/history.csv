@@ -732,3 +732,273 @@
 10/12/2025 14:22:22,123,LOGIN,0,Đăng nhập thành công
 10/12/2025 17:20:26,Admin,LOGIN,0,Đăng nhập thành công
 11/12/2025 17:04:19,123,LOGIN,0,Đăng nhập thành công
+11/12/2025 19:05:37,123,LOGIN,0,Đăng nhập thành công
+11/12/2025 19:05:37,123,RESERVE_BOOK,202501200008,Đặt sách thành công
+15/12/2025 10:57:30,61707F,LOGIN,0,Đã đăng nhập vào hệ thống.
+15/12/2025 11:00:51,61707F,LOGIN,0,Đã đăng nhập vào hệ thống.
+15/12/2025 11:01:08,61707F,REGISTER,0,Đã đăng xuất khỏi hệ thống.
+15/12/2025 11:07:42,123,LOGIN,0,Đã đăng nhập vào hệ thống.
+15/12/2025 11:08:57,123,ADJ_USER,5,Cập nhật thông tin cá nhân
+15/12/2025 11:09:17,123,LOGIN,0,Đã đăng nhập vào hệ thống.
+15/12/2025 11:11:17,123,REGISTER,0,Đã đăng xuất khỏi hệ thống.
+15/12/2025 11:11:54,123,LOGIN,0,Đã đăng nhập vào hệ thống.
+15/12/2025 11:11:57,123,REGISTER,0,Đã đăng xuất khỏi hệ thống.
+15/12/2025 11:12:59,123,LOGIN,0,Đã đăng nhập vào hệ thống.
+15/12/2025 11:13:03,123,REGISTER,0,Đã đăng xuất khỏi hệ thống.
+15/12/2025 11:17:11,123,LOGIN,0,Đã đăng nhập vào hệ thống.
+15/12/2025 11:17:14,123,REGISTER,0,Đã đăng xuất khỏi hệ thống.
+15/12/2025 11:17:34,123,LOGIN,0,Đã đăng nhập vào hệ thống.
+15/12/2025 11:18:55,123,LOGIN,0,Đã đăng nhập vào hệ thống.
+15/12/2025 11:19:00,123,REGISTER,0,Đã đăng xuất khỏi hệ thống.
+15/12/2025 11:21:11,123,LOGIN,0,Đã đăng nhập vào hệ thống.
+15/12/2025 12:07:22,123,LOGIN,0,Đã đăng nhập vào hệ thống.
+15/12/2025 12:11:55,123,LOGIN,0,Đã đăng nhập vào hệ thống.
+15/12/2025 12:12:07,123,REGISTER,0,Đã đăng xuất khỏi hệ thống.
+15/12/2025 12:13:51,123,LOGIN,0,Đã đăng nhập vào hệ thống.
+15/12/2025 12:13:54,123,REGISTER,0,Đã đăng xuất khỏi hệ thống.
+15/12/2025 12:21:49,123,LOGIN,0,Đã đăng nhập vào hệ thống.
+15/12/2025 12:22:36,123,REGISTER,0,Đã đăng xuất khỏi hệ thống.
+15/12/2025 12:25:06,123,LOGIN,0,Đã đăng nhập vào hệ thống.
+15/12/2025 12:25:10,123,REGISTER,0,Đã đăng xuất khỏi hệ thống.
+15/12/2025 12:25:27,123,LOGIN,0,Đã đăng nhập vào hệ thống.
+15/12/2025 12:26:12,123,LOGIN,0,Đã đăng nhập vào hệ thống.
+15/12/2025 12:26:16,123,REGISTER,0,Đã đăng xuất khỏi hệ thống.
+15/12/2025 12:26:27,Admin,LOGIN,0,Đã đăng nhập vào hệ thống.
+15/12/2025 12:33:55,123,LOGIN,0,Đã đăng nhập vào hệ thống.
+15/12/2025 12:33:58,123,REGISTER,0,Đã đăng xuất khỏi hệ thống.
+15/12/2025 12:34:05,123,LOGIN,0,Đã đăng nhập vào hệ thống.
+15/12/2025 12:34:06,123,VIEW_BOOK,202501100001,
+15/12/2025 12:34:10,123,VIEW_BOOK,202501200001,
+15/12/2025 12:35:24,Admin,LOGIN,0,Đã đăng nhập vào hệ thống.
+15/12/2025 12:35:26,Admin,VIEW_BOOK,202501200001,
+15/12/2025 12:35:27,Admin,RESERVE_BOOK,202501200001,Đặt sách thành công
+15/12/2025 12:36:39,Admin,CONFIRM_BOOK,1,Đã xử lý đặt sách ID: 1
+15/12/2025 12:39:02,123,LOGIN,0,Đã đăng nhập vào hệ thống.
+15/12/2025 12:39:07,123,REGISTER,0,Đã đăng xuất khỏi hệ thống.
+15/12/2025 12:39:13,Admin,LOGIN,0,Đã đăng nhập vào hệ thống.
+15/12/2025 12:41:35,123,LOGIN,0,Đã đăng nhập vào hệ thống.
+15/12/2025 12:46:44,123,LOGIN,0,Đã đăng nhập vào hệ thống.
+15/12/2025 12:50:13,123,LOGIN,0,Đã đăng nhập vào hệ thống.
+15/12/2025 12:50:43,Admin,BORROW_BOOK,1,Đã xác nhận mượn sách bởi 123 | 1 - Cấu Trúc Dữ Liệu Và Giải Thuật
+15/12/2025 12:55:14,123,LOGIN,0,Đã đăng nhập vào hệ thống.
+15/12/2025 12:56:06,123,LOGIN,0,Đã đăng nhập vào hệ thống.
+15/12/2025 12:56:40,Admin,BORROW_BOOK,1,Đã xác nhận mượn sách bởi 123 | 1 - Cấu Trúc Dữ Liệu Và Giải Thuật
+15/12/2025 12:57:37,123,LOGIN,0,Đã đăng nhập vào hệ thống.
+15/12/2025 12:58:31,123,LOGIN,0,Đã đăng nhập vào hệ thống.
+15/12/2025 13:21:41,123,LOGIN,0,Đã đăng nhập vào hệ thống.
+15/12/2025 13:21:47,Admin,BORROW_BOOK,1,Đã xác nhận mượn sách bởi 123 | 1 - Cấu Trúc Dữ Liệu Và Giải Thuật
+15/12/2025 13:21:54,Admin,BORROW_BOOK,1,Đã xác nhận mượn sách bởi 123 | 1 - Cấu Trúc Dữ Liệu Và Giải Thuật
+15/12/2025 13:22:48,123,LOGIN,0,Đã đăng nhập vào hệ thống.
+15/12/2025 13:33:15,123,LOGIN,0,Đã đăng nhập vào hệ thống.
+15/12/2025 13:33:24,Admin,BORROW_BOOK,1,Đã xác nhận mượn sách bởi 123 | 1 - Cấu Trúc Dữ Liệu Và Giải Thuật
+15/12/2025 13:55:37,123,LOGIN,0,Đã đăng nhập vào hệ thống.
+15/12/2025 13:56:44,123,LOGIN,0,Đã đăng nhập vào hệ thống.
+15/12/2025 14:08:03,123,LOGIN,0,Đã đăng nhập vào hệ thống.
+15/12/2025 14:09:42,123,LOGIN,0,Đã đăng nhập vào hệ thống.
+15/12/2025 14:10:27,123,LOGIN,0,Đã đăng nhập vào hệ thống.
+15/12/2025 14:11:59,123,LOGIN,0,Đã đăng nhập vào hệ thống.
+15/12/2025 14:13:09,123,LOGIN,0,Đã đăng nhập vào hệ thống.
+15/12/2025 14:13:28,123,LOGIN,0,Đã đăng nhập vào hệ thống.
+15/12/2025 14:14:19,123,LOGIN,0,Đã đăng nhập vào hệ thống.
+15/12/2025 14:14:57,123,LOGIN,0,Đã đăng nhập vào hệ thống.
+15/12/2025 14:42:05,Admin,LOGIN,0,Đã đăng nhập vào hệ thống.
+15/12/2025 15:12:30,123,LOGIN,0,Đã đăng nhập vào hệ thống.
+15/12/2025 15:19:59,123,LOGIN,0,Đã đăng nhập vào hệ thống.
+15/12/2025 15:20:48,123,REMOVE_BOOK_COPY,275,Đã xóa bản sao 202501100002 - Hệ Thống Tiêu Chuẩn Xây Dựng Việt Nam Năm 2006
+15/12/2025 15:23:44,123,VIEW_BOOK,202501100002,
+15/12/2025 15:23:46,123,RESERVE_BOOK,202501100002,Đặt sách thành công
+15/12/2025 15:23:50,123,VIEW_BOOK,202501100002,
+15/12/2025 15:29:38,123,LOGIN,0,Đã đăng nhập vào hệ thống.
+15/12/2025 15:34:50,123,CONFIRM_BOOK,4,Đã xử lý đặt sách ID: 4
+15/12/2025 15:34:57,123,BORROW_BOOK,4,Đã xác nhận mượn sách bởi 123 | 4 - Hệ Thống Tiêu Chuẩn Xây Dựng Việt Nam Năm 2006
+15/12/2025 16:05:38,123,REGISTER,0,Đã đăng xuất khỏi hệ thống.
+15/12/2025 16:06:16,123,LOGIN,0,Đã đăng nhập vào hệ thống.
+15/12/2025 16:06:32,123,REGISTER,0,Đã đăng xuất khỏi hệ thống.
+15/12/2025 16:06:41,thanhtrung,LOGIN,0,Đã đăng nhập vào hệ thống.
+15/12/2025 20:05:15,123,LOGIN,0,Đã đăng nhập vào hệ thống.
+15/12/2025 20:05:24,123,VIEW_BOOK,202501100001,
+15/12/2025 20:06:34,123,LOGIN,0,Đã đăng nhập vào hệ thống.
+15/12/2025 20:07:08,123,REGISTER,0,Đã đăng xuất khỏi hệ thống.
+15/12/2025 20:07:22,123,LOGIN,0,Đã đăng nhập vào hệ thống.
+15/12/2025 20:08:26,123,LOGIN,0,Đã đăng nhập vào hệ thống.
+15/12/2025 20:09:40,123,ADD_BOOK,202502600001,Đã thêm sách 202502600001 - Kinh Nghiệm Dạy Con
+15/12/2025 20:10:19,123,ADD_BOOK,202502600002,Đã thêm sách 202502600002 - Dạy Con Từ Thuở Còn Thơ
+15/12/2025 20:10:42,123,ADD_BOOK,202502600002,Đã thêm sách 202502600002 - Nuôi Con
+15/12/2025 20:10:50,123,ADD_BOOK,202502600002,Đã thêm sách 202502600002 - The Process Of Parenting
+15/12/2025 20:11:01,123,ADD_BOOK,202502600003,Đã thêm sách 202502600003 - Phương Pháp Giáo Dục Trẻ Con
+15/12/2025 20:11:15,123,ADD_BOOK,202502600004,Đã thêm sách 202502600004 - Làm Giàu Muôn Đời
+15/12/2025 20:11:30,123,ADD_BOOK,202501600001,Đã thêm sách 202501600001 - Phương Pháp Làm Mẹ Tốt( Tập 1)
+15/12/2025 20:13:41,thanhtrung,LOGIN,0,Đã đăng nhập vào hệ thống.
+15/12/2025 20:13:42,thanhtrung,VIEW_BOOK,202501100001,
+15/12/2025 20:13:43,thanhtrung,RESERVE_BOOK,202501100001,Đặt sách thành công
+15/12/2025 20:14:31,123,LOGIN,0,Đã đăng nhập vào hệ thống.
+15/12/2025 20:14:37,123,RESERVE_BOOK,202501200007,Đặt sách thành công
+15/12/2025 20:14:42,123,VIEW_BOOK,202501200001,
+15/12/2025 20:14:47,123,VIEW_BOOK,202501200002,
+15/12/2025 20:14:47,123,RESERVE_BOOK,202501200002,Đặt sách thành công
+15/12/2025 20:14:50,123,VIEW_BOOK,202501200003,
+15/12/2025 20:14:50,123,RESERVE_BOOK,202501200003,Đặt sách thành công
+15/12/2025 20:14:52,123,VIEW_BOOK,202501200004,
+15/12/2025 20:14:54,123,RESERVE_BOOK,202501200004,Đặt sách thành công
+15/12/2025 20:14:57,123,VIEW_BOOK,202501100001,
+15/12/2025 20:14:58,123,RESERVE_BOOK,202501100001,Đặt sách thành công
+15/12/2025 20:15:19,Admin,LOGIN,0,Đã đăng nhập vào hệ thống.
+15/12/2025 20:15:45,Admin,CONFIRM_BOOK,5,Đã xử lý đặt sách ID: 5
+15/12/2025 20:15:50,Admin,CONFIRM_BOOK,10,Đã xử lý đặt sách ID: 10
+15/12/2025 20:16:02,Admin,CONFIRM_BOOK,9,Đã xử lý đặt sách ID: 9
+15/12/2025 20:16:07,Nguyễn Thành Trung,BORROW_BOOK,5,Đã xác nhận mượn sách bởi Admin | 5 - Hệ Thống Tiêu Chuẩn Xây Dựng Việt Nam Năm 2006
+15/12/2025 20:24:40,Admin,REGISTER,0,Đã đăng xuất khỏi hệ thống.
+15/12/2025 20:26:09,thanhtrung,LOGIN,0,Đã đăng nhập vào hệ thống.
+15/12/2025 20:26:11,thanhtrung,VIEW_BOOK,202501200001,
+15/12/2025 20:27:12,thanhtrung,ADJ_USER,4,Cập nhật thông tin cá nhân
+15/12/2025 20:27:37,thanhtrung,ADJ_USER,4,Cập nhật thông tin cá nhân
+15/12/2025 21:03:49,thanhtrung,REGISTER,0,Đã đăng xuất khỏi hệ thống.
+15/12/2025 21:03:57,Admin,LOGIN,0,Đã đăng nhập vào hệ thống.
+16/12/2025 08:04:05,123,LOGIN,0,Đã đăng nhập vào hệ thống.
+16/12/2025 08:07:09,123,LOGIN,0,Đã đăng nhập vào hệ thống.
+16/12/2025 08:07:27,123,VIEW_BOOK,202501100001,Xem thông tin sáchHệ Thống Tiêu Chuẩn Xây Dựng Việt Nam Năm 2006
+16/12/2025 08:07:29,123,READ_ONLINE,202501100001,
+16/12/2025 08:07:31,123,DOWNLOAD_BOOK,202501100001,
+16/12/2025 08:11:06,123,LOGIN,0,Đã đăng nhập vào hệ thống.
+16/12/2025 08:11:10,123,VIEW_BOOK,202501100001,Xem thông tin sáchHệ Thống Tiêu Chuẩn Xây Dựng Việt Nam Năm 2006
+16/12/2025 08:11:27,123,READ_ONLINE,202501100001,Đọc online sách Hệ Thống Tiêu Chuẩn Xây Dựng Việt Nam Năm 2006
+16/12/2025 08:11:29,123,READ_ONLINE,202501100001,Đọc online sách Hệ Thống Tiêu Chuẩn Xây Dựng Việt Nam Năm 2006
+16/12/2025 08:11:30,123,READ_ONLINE,202501100001,Đọc online sách Hệ Thống Tiêu Chuẩn Xây Dựng Việt Nam Năm 2006
+16/12/2025 08:11:33,123,DOWNLOAD_BOOK,202501100001,Tải sách Hệ Thống Tiêu Chuẩn Xây Dựng Việt Nam Năm 2006
+16/12/2025 08:11:52,123,VIEW_BOOK,202501200003,Xem thông tin sáchToán Học Rời Rạc-Ứng Dụng Trong Tin Học
+16/12/2025 08:12:47,123,ADJ_USER,5,Cập nhật thông tin cá nhân
+16/12/2025 08:13:16,123,CONFIRM_BOOK,8,Đã xử lý đặt sách ID: 8
+16/12/2025 08:14:10,123,LOGIN,0,Đã đăng nhập vào hệ thống.
+16/12/2025 08:14:20,123,CONFIRM_BOOK,7,Đã xử lý đặt sách ID: 7
+16/12/2025 08:17:24,123,LOGIN,0,Đã đăng nhập vào hệ thống.
+16/12/2025 08:18:27,123,CONFIRM_BOOK,6,Đã xử lý đặt sách ID: 6
+16/12/2025 08:19:28,123,REGISTER,0,Đã đăng xuất khỏi hệ thống.
+16/12/2025 08:19:33,Admin,LOGIN,0,Đã đăng nhập vào hệ thống.
+16/12/2025 08:19:37,Admin,VIEW_BOOK,202501100001,Xem thông tin sáchHệ Thống Tiêu Chuẩn Xây Dựng Việt Nam Năm 2006
+16/12/2025 08:19:41,Admin,RESERVE_BOOK,202501100001,Đặt sách thành công
+16/12/2025 08:20:11,Admin,CONFIRM_BOOK,11,Đã xử lý đặt sách ID: 11
+16/12/2025 08:26:57,123,LOGIN,0,Đã đăng nhập vào hệ thống.
+16/12/2025 08:27:06,123,CONFIRM_BOOK,11,Đã xử lý đặt sách ID: 11
+16/12/2025 08:27:18,Admin,BORROW_BOOK,11,Đã xác nhận mượn sách bởi 123 | 11 - Hệ Thống Tiêu Chuẩn Xây Dựng Việt Nam Năm 2006
+16/12/2025 08:33:47,123,LOGIN,0,Đã đăng nhập vào hệ thống.
+16/12/2025 08:37:48,123,LOGIN,0,Đã đăng nhập vào hệ thống.
+16/12/2025 08:38:22,123,LOGIN,0,Đã đăng nhập vào hệ thống.
+16/12/2025 08:39:24,123,LOGIN,0,Đã đăng nhập vào hệ thống.
+16/12/2025 08:40:33,123,LOGIN,0,Đã đăng nhập vào hệ thống.
+16/12/2025 08:41:06,123,EXTEND_BORROW,4,Đã gia hạn mượn sách thêm 7 ngày
+16/12/2025 08:41:10,123,EXTEND_BORROW,4,Đã gia hạn mượn sách thêm 7 ngày
+16/12/2025 08:41:12,123,EXTEND_BORROW,4,Đã gia hạn mượn sách thêm 7 ngày
+16/12/2025 08:50:18,thanhtrung,LOGIN,0,Đã đăng nhập vào hệ thống.
+16/12/2025 08:50:19,thanhtrung,VIEW_BOOK,202501100001,Xem thông tin sáchHệ Thống Tiêu Chuẩn Xây Dựng Việt Nam Năm 2006
+16/12/2025 08:50:20,thanhtrung,VIEW_BOOK,202501200001,Xem thông tin sáchCấu Trúc Dữ Liệu Và Giải Thuật
+16/12/2025 08:50:30,thanhtrung,VIEW_BOOK,202501200002,Xem thông tin sáchC# Cho Người Mới Học
+16/12/2025 08:50:31,thanhtrung,RESERVE_BOOK,202501200002,Đặt sách thành công
+16/12/2025 08:50:34,thanhtrung,VIEW_BOOK,202501200001,Xem thông tin sáchCấu Trúc Dữ Liệu Và Giải Thuật
+16/12/2025 08:50:46,thanhtrung,VIEW_BOOK,202501200001,Xem thông tin sáchCấu Trúc Dữ Liệu Và Giải Thuật
+16/12/2025 08:50:48,thanhtrung,VIEW_BOOK,202501200003,Xem thông tin sáchToán Học Rời Rạc-Ứng Dụng Trong Tin Học
+16/12/2025 08:50:49,thanhtrung,RESERVE_BOOK,202501200003,Đặt sách thành công
+16/12/2025 08:50:51,thanhtrung,VIEW_BOOK,202501200004,Xem thông tin sáchDigital  Arithmetic
+16/12/2025 08:51:01,thanhtrung,REGISTER,0,Đã đăng xuất khỏi hệ thống.
+16/12/2025 08:51:16,123,LOGIN,0,Đã đăng nhập vào hệ thống.
+16/12/2025 09:02:29,123,LOGIN,0,Đã đăng nhập vào hệ thống.
+16/12/2025 09:02:29,123,VIEW_BOOK,202501100001,Xem thông tin sáchHệ Thống Tiêu Chuẩn Xây Dựng Việt Nam Năm 2006
+16/12/2025 09:02:31,123,VIEW_BOOK,202501100001,Xem thông tin sáchHệ Thống Tiêu Chuẩn Xây Dựng Việt Nam Năm 2006
+16/12/2025 09:02:32,123,VIEW_BOOK,202501100001,Xem thông tin sáchHệ Thống Tiêu Chuẩn Xây Dựng Việt Nam Năm 2006
+16/12/2025 09:02:32,123,VIEW_BOOK,202501200001,Xem thông tin sáchCấu Trúc Dữ Liệu Và Giải Thuật
+16/12/2025 09:02:38,123,VIEW_BOOK,202501100001,Xem thông tin sáchHệ Thống Tiêu Chuẩn Xây Dựng Việt Nam Năm 2006
+16/12/2025 09:02:43,123,VIEW_BOOK,202501200002,Xem thông tin sáchC# Cho Người Mới Học
+16/12/2025 09:02:51,123,REGISTER,0,Đã đăng xuất khỏi hệ thống.
+16/12/2025 09:03:03,123,LOGIN,0,Đã đăng nhập vào hệ thống.
+16/12/2025 09:03:06,123,VIEW_BOOK,202501100001,Xem thông tin sáchHệ Thống Tiêu Chuẩn Xây Dựng Việt Nam Năm 2006
+16/12/2025 09:03:08,123,VIEW_BOOK,202501200001,Xem thông tin sáchCấu Trúc Dữ Liệu Và Giải Thuật
+16/12/2025 09:03:10,123,VIEW_BOOK,202501200002,Xem thông tin sáchC# Cho Người Mới Học
+16/12/2025 09:03:11,123,VIEW_BOOK,202501200003,Xem thông tin sáchToán Học Rời Rạc-Ứng Dụng Trong Tin Học
+16/12/2025 09:03:13,123,VIEW_BOOK,202501200003,Xem thông tin sáchToán Học Rời Rạc-Ứng Dụng Trong Tin Học
+16/12/2025 09:03:14,123,VIEW_BOOK,202501200001,Xem thông tin sáchCấu Trúc Dữ Liệu Và Giải Thuật
+16/12/2025 09:03:15,123,VIEW_BOOK,202501100001,Xem thông tin sáchHệ Thống Tiêu Chuẩn Xây Dựng Việt Nam Năm 2006
+16/12/2025 09:08:02,hoainhi,LOGIN,0,Đã đăng nhập vào hệ thống.
+16/12/2025 09:08:07,hoainhi,VIEW_BOOK,202501200001,Xem thông tin sáchCấu Trúc Dữ Liệu Và Giải Thuật
+16/12/2025 09:08:13,hoainhi,VIEW_BOOK,202501200003,Xem thông tin sáchToán Học Rời Rạc-Ứng Dụng Trong Tin Học
+16/12/2025 09:08:14,hoainhi,RESERVE_BOOK,202501200003,Đặt sách thành công
+16/12/2025 09:08:16,hoainhi,VIEW_BOOK,202501200006,Xem thông tin sáchToán Rời Rạc-Cơ Sở Toán Cho Máy Tính
+16/12/2025 09:08:17,hoainhi,RESERVE_BOOK,202501200006,Đặt sách thành công
+16/12/2025 09:08:20,hoainhi,VIEW_BOOK,202501200006,Xem thông tin sáchToán Rời Rạc-Cơ Sở Toán Cho Máy Tính
+16/12/2025 09:08:36,hoainhi,VIEW_BOOK,202501200001,Xem thông tin sáchCấu Trúc Dữ Liệu Và Giải Thuật
+16/12/2025 09:08:38,hoainhi,VIEW_BOOK,202501200003,Xem thông tin sáchToán Học Rời Rạc-Ứng Dụng Trong Tin Học
+16/12/2025 09:08:40,hoainhi,VIEW_BOOK,202501200003,Xem thông tin sáchToán Học Rời Rạc-Ứng Dụng Trong Tin Học
+16/12/2025 09:08:42,hoainhi,VIEW_BOOK,202501100001,Xem thông tin sáchHệ Thống Tiêu Chuẩn Xây Dựng Việt Nam Năm 2006
+16/12/2025 09:08:44,hoainhi,VIEW_BOOK,202501200001,Xem thông tin sáchCấu Trúc Dữ Liệu Và Giải Thuật
+16/12/2025 09:08:46,hoainhi,VIEW_BOOK,202501200004,Xem thông tin sáchDigital  Arithmetic
+16/12/2025 09:12:48,thanhtrung,LOGIN,0,Đã đăng nhập vào hệ thống.
+16/12/2025 09:13:26,123,LOGIN,0,Đã đăng nhập vào hệ thống.
+16/12/2025 09:13:45,123,REGISTER,0,Đã đăng xuất khỏi hệ thống.
+16/12/2025 09:13:51,thanhtrung,LOGIN,0,Đã đăng nhập vào hệ thống.
+16/12/2025 09:13:58,thanhtrung,VIEW_BOOK,202501100001,Xem thông tin sáchHệ Thống Tiêu Chuẩn Xây Dựng Việt Nam Năm 2006
+16/12/2025 09:14:00,thanhtrung,VIEW_BOOK,202501200001,Xem thông tin sáchCấu Trúc Dữ Liệu Và Giải Thuật
+16/12/2025 09:14:02,thanhtrung,VIEW_BOOK,202501200002,Xem thông tin sáchC# Cho Người Mới Học
+16/12/2025 09:14:03,thanhtrung,VIEW_BOOK,202501200003,Xem thông tin sáchToán Học Rời Rạc-Ứng Dụng Trong Tin Học
+16/12/2025 09:14:05,thanhtrung,VIEW_BOOK,202501200001,Xem thông tin sáchCấu Trúc Dữ Liệu Và Giải Thuật
+16/12/2025 09:14:07,thanhtrung,VIEW_BOOK,202501200006,Xem thông tin sáchToán Rời Rạc-Cơ Sở Toán Cho Máy Tính
+16/12/2025 09:14:10,thanhtrung,VIEW_BOOK,202501200007,Xem thông tin sáchMạng Máy Tính
+16/12/2025 09:14:32,thanhtrung,LOGIN,0,Đã đăng nhập vào hệ thống.
+16/12/2025 09:14:56,thanhtrung,VIEW_BOOK,202501100001,Xem thông tin sáchHệ Thống Tiêu Chuẩn Xây Dựng Việt Nam Năm 2006
+16/12/2025 09:14:58,thanhtrung,VIEW_BOOK,202501200001,Xem thông tin sáchCấu Trúc Dữ Liệu Và Giải Thuật
+16/12/2025 09:15:01,thanhtrung,VIEW_BOOK,202501200003,Xem thông tin sáchToán Học Rời Rạc-Ứng Dụng Trong Tin Học
+16/12/2025 09:15:03,thanhtrung,VIEW_BOOK,202501100001,Xem thông tin sáchHệ Thống Tiêu Chuẩn Xây Dựng Việt Nam Năm 2006
+16/12/2025 09:15:05,thanhtrung,VIEW_BOOK,202501200002,Xem thông tin sáchC# Cho Người Mới Học
+16/12/2025 09:15:07,thanhtrung,VIEW_BOOK,202501200004,Xem thông tin sáchDigital  Arithmetic
+16/12/2025 09:15:09,thanhtrung,VIEW_BOOK,202501200005,Xem thông tin sáchGiáo Trình Lý Thuyết Và Bài Tập JAVA
+16/12/2025 09:15:12,thanhtrung,VIEW_BOOK,202501600001,Xem thông tin sáchPhương Pháp Làm Mẹ Tốt( Tập 1)
+16/12/2025 09:15:18,thanhtrung,VIEW_BOOK,202501200006,Xem thông tin sáchToán Rời Rạc-Cơ Sở Toán Cho Máy Tính
+16/12/2025 09:20:23,123,LOGIN,0,Đã đăng nhập vào hệ thống.
+16/12/2025 09:20:29,123,REGISTER,0,Đã đăng xuất khỏi hệ thống.
+16/12/2025 09:20:34,thanhtrung,LOGIN,0,Đã đăng nhập vào hệ thống.
+16/12/2025 09:23:40,thanhtrung,LOGIN,0,Đã đăng nhập vào hệ thống.
+16/12/2025 09:28:56,thanhtrung,LOGIN,0,Đã đăng nhập vào hệ thống.
+16/12/2025 09:30:48,thanhtrung,REGISTER,0,Đã đăng xuất khỏi hệ thống.
+16/12/2025 09:30:57,Admin,LOGIN,0,Đã đăng nhập vào hệ thống.
+16/12/2025 09:34:21,thanhtrung,LOGIN,0,Đã đăng nhập vào hệ thống.
+16/12/2025 09:35:31,thanhtrung,REGISTER,0,Đã đăng xuất khỏi hệ thống.
+16/12/2025 09:35:36,Admin,LOGIN,0,Đã đăng nhập vào hệ thống.
+17/12/2025 16:03:51,123,LOGIN,0,Đã đăng nhập vào hệ thống.
+17/12/2025 16:06:25,123,CONFIRM_BOOK,1,Đã xử lý đặt sách ID: 1
+17/12/2025 16:26:13,123,LOGIN,0,Đã đăng nhập vào hệ thống.
+17/12/2025 16:26:47,123,LOGIN,0,Đã đăng nhập vào hệ thống.
+17/12/2025 16:32:44,123,LOGIN,0,Đã đăng nhập vào hệ thống.
+17/12/2025 16:35:13,123,REGISTER,0,Đã đăng xuất khỏi hệ thống.
+17/12/2025 16:35:19,Admin,LOGIN,0,Đã đăng nhập vào hệ thống.
+17/12/2025 16:37:09,Admin,REMOVE_BOOK_COPY,247,Đã xóa bản sao 202501100001 - Hệ Thống Tiêu Chuẩn Xây Dựng Việt Nam Năm 2006
+17/12/2025 16:59:18,123,LOGIN,0,Đã đăng nhập vào hệ thống.
+17/12/2025 16:59:57,123,EXTEND_BORROW,1,Gia hạn mượn sách ID: 1
+17/12/2025 16:59:59,123,EXTEND_BORROW,1,Gia hạn mượn sách ID: 1
+17/12/2025 17:00:02,123,EXTEND_BORROW,1,Gia hạn mượn sách ID: 1
+17/12/2025 17:03:53,123,LOGIN,0,Đã đăng nhập vào hệ thống.
+17/12/2025 19:50:17,123,LOGIN,0,Đã đăng nhập vào hệ thống.
+17/12/2025 19:51:14,123,REGISTER,0,Đã đăng xuất khỏi hệ thống.
+17/12/2025 19:53:17,123,LOGIN,0,Đã đăng nhập vào hệ thống.
+17/12/2025 19:53:53,123,REGISTER,0,Đã đăng xuất khỏi hệ thống.
+17/12/2025 19:55:36,123,LOGIN,0,Đã đăng nhập vào hệ thống.
+17/12/2025 19:56:39,123,LOGIN,0,Đã đăng nhập vào hệ thống.
+17/12/2025 20:05:33,123,LOGIN,0,Đã đăng nhập vào hệ thống.
+17/12/2025 20:05:43,123,REGISTER,0,Đã đăng xuất khỏi hệ thống.
+17/12/2025 20:05:46,123,LOGIN,0,Đã đăng nhập vào hệ thống.
+17/12/2025 20:05:59,123,REGISTER,0,Đã đăng xuất khỏi hệ thống.
+17/12/2025 20:06:12,123,LOGIN,0,Đã đăng nhập vào hệ thống.
+17/12/2025 20:06:15,123,REGISTER,0,Đã đăng xuất khỏi hệ thống.
+17/12/2025 20:06:20,thanhtrung,LOGIN,0,Đã đăng nhập vào hệ thống.
+17/12/2025 20:06:30,thanhtrung,REGISTER,0,Đã đăng xuất khỏi hệ thống.
+17/12/2025 20:06:36,Admin,LOGIN,0,Đã đăng nhập vào hệ thống.
+17/12/2025 20:07:08,Admin,REGISTER,0,Đã đăng xuất khỏi hệ thống.
+17/12/2025 20:07:20,123,LOGIN,0,Đã đăng nhập vào hệ thống.
+17/12/2025 20:07:23,123,VIEW_BOOK,202501200001,Xem thông tin sáchCấu Trúc Dữ Liệu Và Giải Thuật
+17/12/2025 20:07:25,123,VIEW_BOOK,202501200002,Xem thông tin sáchC# Cho Người Mới Học
+17/12/2025 20:07:27,123,VIEW_BOOK,202501100001,Xem thông tin sáchHệ Thống Tiêu Chuẩn Xây Dựng Việt Nam Năm 2006
+17/12/2025 20:07:29,123,VIEW_BOOK,202501200003,Xem thông tin sáchToán Học Rời Rạc-Ứng Dụng Trong Tin Học
+17/12/2025 20:07:40,123,VIEW_BOOK,202501200001,Xem thông tin sáchCấu Trúc Dữ Liệu Và Giải Thuật
+17/12/2025 20:07:48,123,VIEW_BOOK,202501200002,Xem thông tin sáchC# Cho Người Mới Học
+17/12/2025 20:07:49,123,RESERVE_BOOK,202501200002,Đặt sách thành công
+17/12/2025 20:07:51,123,VIEW_BOOK,202501200002,Xem thông tin sáchC# Cho Người Mới Học
+17/12/2025 20:08:12,123,CONFIRM_BOOK,2,Đã xử lý đặt sách ID: 2
+17/12/2025 20:47:16,123,LOGIN,0,Đã đăng nhập vào hệ thống.
+17/12/2025 20:47:16,123,VIEW_BOOK,202501100001,Xem thông tin sáchHệ Thống Tiêu Chuẩn Xây Dựng Việt Nam Năm 2006
+17/12/2025 20:47:17,123,RESERVE_BOOK,202501100001,Đặt sách thành công
