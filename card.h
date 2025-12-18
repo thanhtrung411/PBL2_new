@@ -2,6 +2,8 @@
 #include "book.h"
 #include <QFrame>
 #include <iostream>
+#include <QFutureWatcher>
+#include <QtConcurrent>
 using namespace std;
 
 class QLabel;
@@ -23,36 +25,14 @@ protected:
     void enterEvent(QEnterEvent* e) override;
     void leaveEvent(QEvent* e) override;
 private:
+    QFutureWatcher<QPixmap> watcher;
     QLabel* imageLabel{};
     QLabel* titleLabel{};
     QLabel* Auth_label{};
     QLabel* btnBorrowed{};
     QLabel* btnRemove{};
     book b;
-    QPixmap loadScaled(const QString& path, const QSize& toSize) const;
-};
-
-class ProductCard_Tim_kiem : public QFrame {
-    Q_OBJECT
-public:
-    explicit ProductCard_Tim_kiem(const book& b,
-                         QWidget* parent = nullptr);
-    void set_ID (book set_book){
-        b = set_book;
-    }
-signals:
-    void clicked(book b);
-protected:
-    //bool eventFilter(QObject* obj, QEvent* ev) override;
-    //void mousePressEvent(QMouseEvent* e) override;
-    //void enterEvent(QEnterEvent* e) override;
-    //void leaveEvent(QEvent* e) override;
-private:
-    QLabel* imageLabel{};
-    QLabel* titleLabel{};
-    QLabel* Auth_label{};
-    QLabel* btnBorrowed{};
-    QLabel* btnRemove{};
-    book b;
-    QPixmap loadScaled(const QString& path, const QSize& toSize) const;
+    static QPixmap loadScaled(const QString& path, const QSize& physicalSize, int radius);
+private slots:
+    void onImageLoaded();
 };

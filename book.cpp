@@ -24,6 +24,10 @@ book::book(){
     luot_xem = 0;
     luot_muon = 0;
     luot_tai = 0;
+    tong_sach = 0;
+    tong_sach_dang_muon = 0;
+    tong_sach_dang_dat = 0;
+    tong_sach_ranh = 0;
     Date_created = my_time();
     Created_by = "NULL";
     do_chinh_xac = 0;
