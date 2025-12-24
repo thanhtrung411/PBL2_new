@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>648</width>
-    <height>1016</height>
+    <height>1027</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -30,7 +30,7 @@
        <string notr="true"/>
       </property>
       <property name="currentIndex">
-       <number>1</number>
+       <number>0</number>
       </property>
       <widget class="QWidget" name="page">
        <widget class="QPushButton" name="dang_ky_2_button">
@@ -779,7 +779,7 @@ QLineEdit:focus {
 }</string>
              </property>
              <property name="placeholderText">
-              <string>Tên đăng nhập của bạn nà</string>
+              <string>Tên đăng nhập của bạn</string>
              </property>
             </widget>
            </item>
@@ -818,7 +818,7 @@ QLineEdit:focus {
               <enum>QLineEdit::EchoMode::Password</enum>
              </property>
              <property name="placeholderText">
-              <string>Mật khẩu của bạn nà</string>
+              <string>Mật khẩu của bạn</string>
              </property>
              <property name="clearButtonEnabled">
               <bool>true</bool>
@@ -1313,7 +1313,7 @@ QLineEdit:focus {
 }</string>
              </property>
              <property name="placeholderText">
-              <string>Đừng quên mật khẩu nha :)</string>
+              <string>Càng khó đoán càng tốt</string>
              </property>
             </widget>
            </item>
@@ -1511,6 +1511,9 @@ QLineEdit:focus {
     border: 1px solid #3498db; 
 }</string>
              </property>
+             <property name="placeholderText">
+              <string>Số điện thoại của bạn</string>
+             </property>
             </widget>
            </item>
            <item>
@@ -1542,6 +1545,9 @@ QLineEdit:focus {
     background-color: #FFFFFF; 
     border: 1px solid #3498db; 
 }</string>
+             </property>
+             <property name="placeholderText">
+              <string>Email của bạn</string>
              </property>
             </widget>
            </item>

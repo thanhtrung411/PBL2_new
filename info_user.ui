@@ -95,6 +95,9 @@
               <pointsize>8</pointsize>
              </font>
             </property>
+            <property name="cursor">
+             <cursorShape>PointingHandCursor</cursorShape>
+            </property>
             <property name="styleSheet">
              <string notr="true">border: 0px;
 border-radius: 0px;
@@ -111,6 +114,9 @@ color: rgb(51, 51, 51);</string>
              <font>
               <pointsize>8</pointsize>
              </font>
+            </property>
+            <property name="cursor">
+             <cursorShape>PointingHandCursor</cursorShape>
             </property>
             <property name="styleSheet">
              <string notr="true">border: 0px;
@@ -315,6 +321,9 @@ QLineEdit:focus {
             </item>
             <item>
              <widget class="QLineEdit" name="chuc_vu">
+              <property name="enabled">
+               <bool>true</bool>
+              </property>
               <property name="styleSheet">
                <string notr="true">QLineEdit {
     background-color: #e8ecef; 
@@ -332,6 +341,9 @@ QLineEdit:focus {
     background-color: #FFFFFF; 
     border: 1px solid #3498db; 
 }</string>
+              </property>
+              <property name="readOnly">
+               <bool>true</bool>
               </property>
              </widget>
             </item>
@@ -363,6 +375,9 @@ QLineEdit:focus {
             </item>
             <item>
              <widget class="QLineEdit" name="so_sach_muon">
+              <property name="enabled">
+               <bool>true</bool>
+              </property>
               <property name="styleSheet">
                <string notr="true">QLineEdit {
     background-color: #e8ecef; 
@@ -380,6 +395,9 @@ QLineEdit:focus {
     background-color: #FFFFFF; 
     border: 1px solid #3498db; 
 }</string>
+              </property>
+              <property name="readOnly">
+               <bool>true</bool>
               </property>
              </widget>
             </item>
@@ -476,6 +494,16 @@ QLineEdit:focus {
                 </property>
                 <property name="text">
                  <string>Số điện thoại</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLabel" name="label_2">
+                <property name="styleSheet">
+                 <string notr="true">color: rgb(0, 0, 0);</string>
+                </property>
+                <property name="text">
+                 <string>Số điểm</string>
                 </property>
                </widget>
               </item>
@@ -684,6 +712,31 @@ QLineEdit:focus {
                   </property>
                  </widget>
                 </item>
+                <item>
+                 <widget class="QLineEdit" name="so_diem">
+                  <property name="styleSheet">
+                   <string notr="true">QLineEdit {
+    background-color: #e8ecef; 
+    border-radius: 5px; 
+    border: 1px solid #E0E4E8; 
+    padding: 8px 10px; 
+    color: #1E1E1E; 
+    font-size: 14px;
+}
+
+QLineEdit:hover {
+    background-color: #E5E9ED;
+}
+QLineEdit:focus {
+    background-color: #FFFFFF; 
+    border: 1px solid #3498db; 
+}</string>
+                  </property>
+                  <property name="readOnly">
+                   <bool>true</bool>
+                  </property>
+                 </widget>
+                </item>
                </layout>
               </item>
              </layout>
@@ -841,7 +894,34 @@ QLineEdit:focus {
          </spacer>
         </item>
         <item>
-         <widget class="QPushButton" name="pushButton_2">
+         <widget class="QPushButton" name="khoi_phuc_diem">
+          <property name="styleSheet">
+           <string notr="true">QPushButton {
+    background-color: #1e8449; /* Xanh lá đậm (Dark Green) */
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 10px 20px;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+QPushButton:hover {
+    background-color: #27ae60; /* Sáng hơn một chút khi di chuột */
+}
+
+QPushButton:pressed {
+    background-color: #145a32; /* Xanh rất đậm khi ấn */
+    padding-top: 11px;
+}</string>
+          </property>
+          <property name="text">
+           <string>Khôi phục điểm</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="mo_khoa_tai_khoan">
           <property name="styleSheet">
            <string notr="true">QPushButton {
     background-color: #2ecc71; /* Xanh lá tươi (Emerald) */
@@ -868,7 +948,7 @@ QPushButton:pressed {
          </widget>
         </item>
         <item>
-         <widget class="QPushButton" name="pushButton">
+         <widget class="QPushButton" name="khoa_tai_khoan">
           <property name="styleSheet">
            <string notr="true">QPushButton {
     background-color: #e74c3c; /* Đỏ tươi (Alizarin) - Thay cho xanh dương */

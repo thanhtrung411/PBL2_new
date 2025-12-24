@@ -3,6 +3,7 @@
 #include "book.h"
 #include "tree.h"
 #include "global.h"
+#include "library.h"
 #include "my_string.h"
 #include "my_file.h"
 #include "my_time.h"
@@ -22,6 +23,7 @@ add_book::add_book(QWidget *parent)
     set_the_loai_chuyen_nganh();
     ui_3->trang_them_sach->setCurrentIndex(0);
     ui_3->xoa_button->setVisible(false);
+    ui_3->so_ngay_muon_input->setValue(14);
 }
 
 add_book::~add_book()
@@ -147,7 +149,7 @@ void add_book::on_them_button_clicked()
         b.set_Name(ten_sach);
         b.set_Author(tac_gia);
         int the_loai_id;
-        the_loai_data.return_id(the_loai, the_loai_id);
+        lib.get_the_loai_data().return_id(the_loai, the_loai_id);
         b.set_The_loai_ID(the_loai_id);
         b.set_NXB(nha_xuat_ban);
         b.set_NamXB(nam_xuat_ban);
@@ -155,7 +157,7 @@ void add_book::on_them_button_clicked()
         b.set_ISBN(ISBN);
         b.set_Language(ngon_ngu);
         int chuyen_nganh_id;
-        chuyen_nganh_data.return_id(chuyen_nganh, chuyen_nganh_id);
+        lib.get_chuyen_nganh_data().return_id(chuyen_nganh, chuyen_nganh_id);
         b.set_Chuyen_nganh_ID(chuyen_nganh_id);
         b.set_Tom_tat(tom_tat);
         my_time d = my_time::now();
@@ -166,7 +168,7 @@ void add_book::on_them_button_clicked()
         b.set_limit_borrow(limit_borrow);
         b.set_tong_sach_ranh(number_of_book);
         b.set_Date_created(d);
-        b.set_Created_by(acc_sign_in.get_ten_dang_nhap());
+        b.set_Created_by(lib.get_acc_sign_in().get_ten_dang_nhap());
         QString path = getDataFilePath("png_background\\");
         if (!link_png_.empty()){
             copy_file(link_png_,path.toStdString() + to_string(b.get_ID()) + ".png");
@@ -183,22 +185,26 @@ void add_book::on_them_button_clicked()
         b.set_Link_pdf(rel.toStdString() +"/"+ to_string(b.get_ID()) + ".pdf");
         if (is_chinh_sua_mode) {
             // Chế độ chỉnh sửa: chỉ update thông tin sách
-            book_data.update(b,b);
-            
-            // Xóa toàn bộ bản sao cũ
-            book_copy_data.remove_by_book_id(b.get_ID());
-            // Tạo lại bản sao mới theo số lượng hiện tại
-            int so_luong_moi = ui_3->number_of_book->value();
-            for (int i = 0; i < so_luong_moi; i++) {
-                Book_copies bc;
-                long long id_copy = book_copy_data.find_max_id() + 1;
-                bc.set_id(id_copy);
-                bc.set_id_book(b.get_ID());
-                bc.set_status(is_read ? "available" : "not available");
-                book_copy_data.insert(bc);
+            try{
+                lib.sua_sach(b);
             }
-            ghi_copy_book(book_copy_data);
-            ghi_book(book_data);
+            catch (...){
+                QMessageBox box(this);
+                box.setWindowTitle("Lỗi");
+                box.setText("Cập nhật sách thất bại!");
+                box.setStyleSheet(R"(
+                QMessageBox { background: rgb(243,246,255); }
+                QMessageBox QLabel { color:#e53935; }
+                QMessageBox QPushButton {
+                background:#fff; color:#e53935;
+                border:1px solid #d0d0d0; border-radius:8px; padding:6px 12px;
+                }
+                QMessageBox QPushButton:hover  { background:#f5f5f5; }
+                QMessageBox QPushButton:default{ border-color:#e53935; }
+                )");
+                box.exec();
+                return;
+            }
             QMessageBox box(this);
             box.setWindowTitle("Thông báo");
             box.setText("Cập nhật sách thành công!");
@@ -215,22 +221,8 @@ void add_book::on_them_button_clicked()
             box.exec();
         } else {
             // Chế độ thêm mới: insert như bình thường
-            book_data.insert(b);
-            for (int i = 0; i < ui_3->number_of_book->value(); i++) {
-            Book_copies bc;
-            long long id_copy = book_copy_data.find_max_id() + 1;
-            bc.set_id(id_copy);
-            bc.set_id_book(b.get_ID());
-            if (is_read) {
-                bc.set_status("available");
-            } else {
-                bc.set_status("not available");
-            }
-            book_copy_data.insert(bc);
-            }
-            record.log_action(acc_sign_in.get_ten_dang_nhap(), ActionType::ADD_BOOK, b.get_ID(), "Đã thêm sách " + to_stringll_(b.get_ID()) + " - " + b.get_Name());
-            ghi_copy_book(book_copy_data);
-            ghi_book(book_data);
+            lib.them_sach(b, number_of_book);
+            ghi_copy_book(lib.get_book_copy_data());
             QMessageBox box(this);
             box.setWindowTitle("Thông báo");
             box.setText("Thêm sách thành công!");
@@ -246,7 +238,6 @@ void add_book::on_them_button_clicked()
             )");
             box.exec();
         }
-        //box.setIconPixmap(QPixmap(":/icons/icons_/error.png").scaled(16,16, Qt::KeepAspectRatio, Qt::SmoothTransformation));
         if (is_file_mode) {
             // Tăng index lên để sang cuốn tiếp theo
             STT++;
@@ -271,7 +262,6 @@ void add_book::on_them_button_clicked()
             }
         } 
         else {
-            // Nếu nhập tay bình thường thì xoá trắng form như cũ
             if (!is_chinh_sua_mode) return_null_all();
         }
     }
@@ -279,8 +269,6 @@ void add_book::on_them_button_clicked()
         return;
     }
 }
-
-//string user_nguoi_dung = ui_2->user_input->text().trimmed().toUtf8().toStdString();
 
 void add_book::on_chuyen_nganh_input_textActivated(const QString &arg1){
     set_ID_book();
@@ -298,9 +286,9 @@ void add_book::set_ID_book(){
     if (ui_3->the_loai_sach_input->currentIndex() == 0) return;
     if (is_chinh_sua_mode){
         int chuyen_nganh_id_temp;
-        chuyen_nganh_data.return_id(chuyen_nganh_, chuyen_nganh_id_temp);
+        lib.get_chuyen_nganh_data().return_id(chuyen_nganh_, chuyen_nganh_id_temp);
         int the_loai_id_temp;
-        the_loai_data.return_id(the_loai_, the_loai_id_temp);
+        lib.get_the_loai_data().return_id(the_loai_, the_loai_id_temp);
         
         if (book_chinh_sua.get_Chuyen_nganh_ID() == chuyen_nganh_id_temp &&
             book_chinh_sua.get_The_loai_ID() == the_loai_id_temp){
@@ -309,9 +297,9 @@ void add_book::set_ID_book(){
         }
     }
     int The_loai_ID;
-    the_loai_data.return_id(the_loai_,The_loai_ID);
+    lib.get_the_loai_data().return_id(the_loai_,The_loai_ID);
     int Chuyen_nganh_ID;
-    chuyen_nganh_data.return_id(chuyen_nganh_, Chuyen_nganh_ID);
+    lib.get_chuyen_nganh_data().return_id(chuyen_nganh_, Chuyen_nganh_ID);
     if (chuyen_nganh_ == "Khác..."){
         Chuyen_nganh_ID = 99;
     }
@@ -326,12 +314,12 @@ void add_book::set_ID_book(){
     if (the_loai_ == "Khác..."){
         The_loai_ID = 8;
         BST_Book b;
-        book_data.tong_hop_sach_TL_CN(The_loai_ID, Chuyen_nganh_ID, b,book_data);
+        lib.get_book_data().tong_hop_sach_TL_CN(The_loai_ID, Chuyen_nganh_ID, b,lib.get_book_data());
         long long max_id = b.find_max_id();
         if ((max_id - 99999 & 100000) == 0 && max_id > 0){
             The_loai_ID = 9;
             BST_Book b_;
-            book_data.tong_hop_sach_TL_CN(The_loai_ID, Chuyen_nganh_ID, b_,book_data);
+            lib.get_book_data().tong_hop_sach_TL_CN(The_loai_ID, Chuyen_nganh_ID, b_,lib.get_book_data());
             long long max_id_ = b_.find_max_id();
             if ((max_id_ - 99999 & 100000) == 0 && max_id_ > 0){
                 ui_3->ID_Sach_input->clear();
@@ -366,7 +354,7 @@ void add_book::set_ID_book(){
     }
     else{
         BST_Book b;
-        book_data.tong_hop_sach_TL_CN(The_loai_ID, Chuyen_nganh_ID, b,book_data);
+        lib.get_book_data().tong_hop_sach_TL_CN(The_loai_ID, Chuyen_nganh_ID, b,lib.get_book_data());
         long long max_id = b.find_max_id();
         if ((max_id - 99999 & 100000) == 0 && max_id > 0){
             ui_3->ID_Sach_input->clear();
@@ -393,11 +381,11 @@ void add_book::set_the_loai_chuyen_nganh(){
     ui_3->chuyen_nganh_input->clear();
     ui_3->the_loai_sach_input->addItem("Vui lòng chọn thể loại sách...");
     ui_3->chuyen_nganh_input->addItem("Vui lòng chọn chuyên ngành...");
-    for (int i = 0 ; i < the_loai_data.count_data() ; i++){
-        ui_3->the_loai_sach_input->addItem(the_loai_data[i].get_name().c_str());
+    for (int i = 0 ; i < lib.get_the_loai_data().count_data() ; i++){
+        ui_3->the_loai_sach_input->addItem(lib.get_the_loai_data()[i].get_name().c_str());
     }
-    for (int i = 0 ; i < chuyen_nganh_data.count_data() ; i++){
-        ui_3->chuyen_nganh_input->addItem(chuyen_nganh_data[i].get_name().c_str());
+    for (int i = 0 ; i < lib.get_chuyen_nganh_data().count_data() ; i++){
+        ui_3->chuyen_nganh_input->addItem(lib.get_chuyen_nganh_data()[i].get_name().c_str());
     }
     ui_3->the_loai_sach_input->addItem("Khác...");
     ui_3->chuyen_nganh_input->addItem("Khác...");
@@ -528,18 +516,18 @@ void add_book::on_nhap_file_clicked()
             b.set_Language(fields[6].trimmed().toStdString());
             b.set_Tom_tat(fields[7].trimmed().toStdString());
             int the_loai_id;
-            the_loai_data.return_id(fields[8].trimmed().toStdString(), the_loai_id);
+            lib.get_the_loai_data().return_id(fields[8].trimmed().toStdString(), the_loai_id);
             b.set_The_loai_ID(the_loai_id);
             
             int chuyen_nganh_id;
-            chuyen_nganh_data.return_id(fields[9].trimmed().toStdString(), chuyen_nganh_id);
+            lib.get_chuyen_nganh_data().return_id(fields[9].trimmed().toStdString(), chuyen_nganh_id);
             b.set_Chuyen_nganh_ID(chuyen_nganh_id);
             
             b.set_tong_sach(fields[10].trimmed().toInt());
             
             my_time d = my_time::now();
             b.set_Date_created(d);
-            b.set_Created_by(acc_sign_in.get_ten_dang_nhap());
+            b.set_Created_by(lib.get_acc_sign_in().get_ten_dang_nhap());
             
             // Tạo ID tự động
             long long ID_temp = id;
@@ -578,20 +566,23 @@ void add_book::hien_thi_sach_theo_file(book b){
     ui_3->tom_tat_input->setPlainText(QString::fromStdString(b.get_Tom_tat()));
     int the_loai_id = b.get_The_loai_ID();
     string the_loai_name;
-    the_loai_data.return_name(the_loai_id, the_loai_name);
+    lib.get_the_loai_data().return_name(the_loai_id, the_loai_name);
     int index_tl = ui_3->the_loai_sach_input->findText(QString::fromStdString(the_loai_name));
     if (index_tl != -1){
         ui_3->the_loai_sach_input->setCurrentIndex(index_tl);
     }
     int chuyen_nganh_id = b.get_Chuyen_nganh_ID();
     string chuyen_nganh_name;
-    chuyen_nganh_data.return_name(chuyen_nganh_id, chuyen_nganh_name);
+    lib.get_chuyen_nganh_data().return_name(chuyen_nganh_id, chuyen_nganh_name);
     int index_cn = ui_3->chuyen_nganh_input->findText(QString::fromStdString(chuyen_nganh_name));
     if (index_cn != -1){
         ui_3->chuyen_nganh_input->setCurrentIndex(index_cn);
     }
     ui_3->number_of_book->setValue(b.get_tong_sach());
     ui_3->so_ngay_muon_input->setValue(b.get_limit_borrow());
+    ui_3->link_pdf_layout->clear();
+    ui_3->link_png_layout->clear();
+    ui_3->so_ngay_muon_input->setValue(14);
 }
 
 void add_book::set_up_chinh_sua_mode(book b){
@@ -611,14 +602,14 @@ void add_book::set_up_chinh_sua_mode(book b){
     ui_3->tom_tat_input->setPlainText(QString::fromStdString(b.get_Tom_tat()));
     int the_loai_id = b.get_The_loai_ID();
     string the_loai_name;
-    the_loai_data.return_name(the_loai_id, the_loai_name);
+    lib.get_the_loai_data().return_name(the_loai_id, the_loai_name);
     int index_tl = ui_3->the_loai_sach_input->findText(QString::fromStdString(the_loai_name));
     if (index_tl != -1){
         ui_3->the_loai_sach_input->setCurrentIndex(index_tl);
     }
     int chuyen_nganh_id = b.get_Chuyen_nganh_ID();
     string chuyen_nganh_name;
-    chuyen_nganh_data.return_name(chuyen_nganh_id, chuyen_nganh_name);
+    lib.get_chuyen_nganh_data().return_name(chuyen_nganh_id, chuyen_nganh_name);
     int index_cn = ui_3->chuyen_nganh_input->findText(QString::fromStdString(chuyen_nganh_name));
     if (index_cn != -1){
         ui_3->chuyen_nganh_input->setCurrentIndex(index_cn);

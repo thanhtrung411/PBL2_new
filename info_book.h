@@ -20,6 +20,8 @@ private:
     Ui::info_book *ui;
     const book &book_info;
     void displayBookInfo();
+    QPixmap loadScaled(const QString& path, const QSize& physicalSize, int radius);
+    void set_up_anh();
 };
 
 #endif // INFO_BOOK_H

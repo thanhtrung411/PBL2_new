@@ -65,8 +65,6 @@ public:
     void set_ghi_chu(const string& note);
 };
 
-#include "tree.h"
-
 // Forward declaration if BST_History is not yet defined
 // --- PHẦN ĐỊNH NGHĨA CLASS QUẢN LÝ ---
 

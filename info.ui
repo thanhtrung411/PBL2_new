@@ -477,7 +477,7 @@ border-radius: 10px;</string>
 border-radius: 0px;</string>
          </property>
          <property name="currentIndex">
-          <number>1</number>
+          <number>2</number>
          </property>
          <widget class="QWidget" name="page_2">
           <layout class="QVBoxLayout" name="verticalLayout_14">
@@ -550,8 +550,8 @@ QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical {
                    <rect>
                     <x>0</x>
                     <y>0</y>
-                    <width>579</width>
-                    <height>242</height>
+                    <width>1231</width>
+                    <height>577</height>
                    </rect>
                   </property>
                   <layout class="QVBoxLayout" name="verticalLayout_16">
@@ -605,19 +605,35 @@ QLabel{
                            </widget>
                           </item>
                           <item>
-                           <widget class="QLabel" name="label_43">
-                            <property name="font">
-                             <font>
-                              <family>Segoe UI</family>
-                              <pointsize>12</pointsize>
-                              <bold>true</bold>
-                             </font>
+                           <widget class="QPushButton" name="pushButton">
+                            <property name="minimumSize">
+                             <size>
+                              <width>40</width>
+                              <height>40</height>
+                             </size>
+                            </property>
+                            <property name="maximumSize">
+                             <size>
+                              <width>40</width>
+                              <height>40</height>
+                             </size>
+                            </property>
+                            <property name="styleSheet">
+                             <string notr="true">border: 0px;
+border-radius: 0px;</string>
                             </property>
                             <property name="text">
-                             <string>0</string>
+                             <string/>
                             </property>
-                            <property name="alignment">
-                             <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>
+                            <property name="icon">
+                             <iconset resource="resource.qrc">
+                              <normaloff>:/icons/icons_/check-book.png</normaloff>:/icons/icons_/check-book.png</iconset>
+                            </property>
+                            <property name="iconSize">
+                             <size>
+                              <width>40</width>
+                              <height>40</height>
+                             </size>
                             </property>
                            </widget>
                           </item>
@@ -714,19 +730,35 @@ QLabel{
                            </widget>
                           </item>
                           <item>
-                           <widget class="QLabel" name="label_54">
-                            <property name="font">
-                             <font>
-                              <family>Segoe UI</family>
-                              <pointsize>12</pointsize>
-                              <bold>true</bold>
-                             </font>
+                           <widget class="QPushButton" name="pushButton_6">
+                            <property name="minimumSize">
+                             <size>
+                              <width>40</width>
+                              <height>40</height>
+                             </size>
+                            </property>
+                            <property name="maximumSize">
+                             <size>
+                              <width>40</width>
+                              <height>40</height>
+                             </size>
+                            </property>
+                            <property name="styleSheet">
+                             <string notr="true">border: 0px;
+border-radius: 0px;</string>
                             </property>
                             <property name="text">
-                             <string>0</string>
+                             <string/>
                             </property>
-                            <property name="alignment">
-                             <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>
+                            <property name="icon">
+                             <iconset resource="resource.qrc">
+                              <normaloff>:/icons/icons_/reading-book.png</normaloff>:/icons/icons_/reading-book.png</iconset>
+                            </property>
+                            <property name="iconSize">
+                             <size>
+                              <width>40</width>
+                              <height>40</height>
+                             </size>
                             </property>
                            </widget>
                           </item>
@@ -752,7 +784,7 @@ QLabel{
                          </widget>
                         </item>
                         <item>
-                         <widget class="QLabel" name="tong_sach_label_5">
+                         <widget class="QLabel" name="dang_muon_label">
                           <property name="font">
                            <font>
                             <family>Segoe UI</family>
@@ -823,19 +855,35 @@ QLabel{
                            </widget>
                           </item>
                           <item>
-                           <widget class="QLabel" name="label_50">
-                            <property name="font">
-                             <font>
-                              <family>Segoe UI</family>
-                              <pointsize>12</pointsize>
-                              <bold>true</bold>
-                             </font>
+                           <widget class="QPushButton" name="pushButton_5">
+                            <property name="minimumSize">
+                             <size>
+                              <width>40</width>
+                              <height>40</height>
+                             </size>
+                            </property>
+                            <property name="maximumSize">
+                             <size>
+                              <width>40</width>
+                              <height>40</height>
+                             </size>
+                            </property>
+                            <property name="styleSheet">
+                             <string notr="true">border: 0px;
+border-radius: 0px;</string>
                             </property>
                             <property name="text">
-                             <string>0</string>
+                             <string/>
                             </property>
-                            <property name="alignment">
-                             <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>
+                            <property name="icon">
+                             <iconset resource="resource.qrc">
+                              <normaloff>:/icons/icons_/reshot-icon-borrow-book-GJM3PD62HZ.svg</normaloff>:/icons/icons_/reshot-icon-borrow-book-GJM3PD62HZ.svg</iconset>
+                            </property>
+                            <property name="iconSize">
+                             <size>
+                              <width>40</width>
+                              <height>40</height>
+                             </size>
                             </property>
                            </widget>
                           </item>
@@ -861,7 +909,7 @@ QLabel{
                          </widget>
                         </item>
                         <item>
-                         <widget class="QLabel" name="tong_sach_label_3">
+                         <widget class="QLabel" name="da_tra_label">
                           <property name="font">
                            <font>
                             <family>Segoe UI</family>
@@ -932,19 +980,35 @@ QLabel{
                            </widget>
                           </item>
                           <item>
-                           <widget class="QLabel" name="label_52">
-                            <property name="font">
-                             <font>
-                              <family>Segoe UI</family>
-                              <pointsize>12</pointsize>
-                              <bold>true</bold>
-                             </font>
+                           <widget class="QPushButton" name="pushButton_2">
+                            <property name="minimumSize">
+                             <size>
+                              <width>40</width>
+                              <height>40</height>
+                             </size>
+                            </property>
+                            <property name="maximumSize">
+                             <size>
+                              <width>40</width>
+                              <height>40</height>
+                             </size>
+                            </property>
+                            <property name="styleSheet">
+                             <string notr="true">border: 0px;
+border-radius: 0px;</string>
                             </property>
                             <property name="text">
-                             <string>0</string>
+                             <string/>
                             </property>
-                            <property name="alignment">
-                             <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>
+                            <property name="icon">
+                             <iconset resource="resource.qrc">
+                              <normaloff>:/icons/icons_/like.png</normaloff>:/icons/icons_/like.png</iconset>
+                            </property>
+                            <property name="iconSize">
+                             <size>
+                              <width>40</width>
+                              <height>40</height>
+                             </size>
                             </property>
                            </widget>
                           </item>
@@ -970,7 +1034,7 @@ QLabel{
                          </widget>
                         </item>
                         <item>
-                         <widget class="QLabel" name="tong_sach_label_4">
+                         <widget class="QLabel" name="yeu_thich_label">
                           <property name="font">
                            <font>
                             <family>Segoe UI</family>
@@ -1766,6 +1830,9 @@ QLineEdit:focus {
     border: 1px solid #3498db; 
 }</string>
                         </property>
+                        <property name="readOnly">
+                         <bool>true</bool>
+                        </property>
                        </widget>
                       </item>
                      </layout>
@@ -1813,6 +1880,9 @@ QLineEdit:focus {
     background-color: #FFFFFF; 
     border: 1px solid #3498db; 
 }</string>
+                        </property>
+                        <property name="readOnly">
+                         <bool>true</bool>
                         </property>
                        </widget>
                       </item>
@@ -2002,6 +2072,12 @@ QCalendarWidget QAbstractItemView:enabled {
 QCalendarWidget QAbstractItemView:disabled {
     color: #888; /* Màu chữ xám cho ngày không thuộc tháng hiện tại */
 }</string>
+                            </property>
+                            <property name="currentSection">
+                             <enum>QDateTimeEdit::Section::DaySection</enum>
+                            </property>
+                            <property name="displayFormat">
+                             <string>d/M/yyyy</string>
                             </property>
                             <property name="calendarPopup">
                              <bool>true</bool>
@@ -2331,6 +2407,8 @@ border: 2px solid rgb(51, 51, 51);
    </layout>
   </widget>
  </widget>
- <resources/>
+ <resources>
+  <include location="resource.qrc"/>
+ </resources>
  <connections/>
 </ui>

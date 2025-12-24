@@ -2,6 +2,7 @@
 #define THE_LOAI_CHUYEN_NGANH_H
 #include <iostream>
 using namespace std;
+class BST_Book;
 class The_loai{
 private:
     int ID;
@@ -15,6 +16,8 @@ public:
 
     int get_id() const;
     string get_name() const;
+    // Relations
+    void related_books(BST_Book& out) const;
 };
 class Chuyen_nganh{
 private:
@@ -29,6 +32,8 @@ public:
 
     int get_id() const;
     string get_name() const;
+    // Relations
+    void related_books(BST_Book& out) const;
 };
 
 #endif // THE_LOAI_CHUYEN_NGANH_H

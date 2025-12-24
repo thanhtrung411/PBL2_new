@@ -146,8 +146,8 @@ private:
     void hien_thi_sach_muon(BST_Borrow &b);
     void hien_thi_sach_tra(BST_Borrow &b);
     void hien_thi_ban_sao(BST_book_copy &b);
-    void hien_thi_thu_thu(BST_Accout &b);
-    void hien_thi_doc_gia(BST_Accout &b);
+    void hien_thi_thu_thu(BST_Account &b);
+    void hien_thi_doc_gia(BST_Account &b);
     void hien_thi_lich_su(BST_History &b);
 
 

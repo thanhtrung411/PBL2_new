@@ -7,6 +7,8 @@
 #include "settings_file.h"
 #include "my_time.h"
 #include "my_file.h"
+#include "library.h"
+#include "exception.h"
 
 #include <QMessageBox>
 
@@ -28,13 +30,13 @@ phieu_tra_sach::~phieu_tra_sach()
 void phieu_tra_sach::load_borrow_can_tra(){
     borrow_can_tra.clear();
     ui->phieu_muon->clear();
-    borrow_data.tim_sach_muon_thu_thu(borrow_can_tra);
+    lib.get_borrow_data().tim_sach_muon_thu_thu(borrow_can_tra);
 }
 
 void phieu_tra_sach::hien_thi_borrow_can_tra(){
     borrow_can_tra.traverse_ascending([this](borrow& br){
-        accout p;
-        accout_data.find(br.get_user_id(),p);
+        Account p;
+        lib.get_account_data().find(br.get_user_id(),p);
         string phieu_muon_str = p.get_phone_number() + " - " + p.get_ten_tai_khoan() + " - BS-" + to_string(br.get_book_copy_id()) + " - " + br.get_book_name();
         ui->phieu_muon->addItem(QString::fromStdString(phieu_muon_str), QVariant::fromValue(br.get_id()));
     });
@@ -73,54 +75,24 @@ void phieu_tra_sach::on_xac_nhan_clicked()
     int tinh_trang_index = ui->tinh_trang_sach->currentIndex();
     long long borrow_id = ui->phieu_muon->currentData().toLongLong();
     borrow br;
-    if (borrow_can_tra.find_Borrow(borrow_id, br)) {
-        switch (tinh_trang_index) {
-        case 0: { // tot
-            br.set_tinh_trang_sach(TOT);
-            break;
-        }
-        case 1: { // binh thuong
-            br.set_tinh_trang_sach(BINH_THUONG);
-            break;
-        }
-        case 2: { // hu hong
-            br.set_tinh_trang_sach(HONG);
-            break;
-        }
-        case 3: { // mat sach
-            br.set_tinh_trang_sach(MAT);
-            break;
-        }
-        default:
-            break;
-        }
-        if (tien_phat_1 > 0){
-            br.set_status(TRA_QUA_HAN);
-        } else {
-            br.set_status(TRA_DUNG_HAN);
-        }
-        my_time today = my_time::now();
-        br.set_ngay_tra(today);
-        long long tong_tien_phat = tien_phat_1 + tien_phat_2;
-        br.set_tien_phat(tong_tien_phat);
-        borrow_data.update(br, br);
-        book b;
-        if (book_data.find(br.get_book_id(), b)) {
-            b.set_tong_sach_dang_muon(b.get_tong_sach_dang_muon() - 1);
-            b.set_tong_sach_ranh(b.get_tong_sach_ranh() + 1);
-            book_data.update(b, b);
-        }
-        Book_copies bc;
-        if (book_copy_data.find(br.get_book_copy_id(), bc)){
-            bc.set_status("available");
-            book_copy_data.update(bc, bc);
-        }
-        ghi_copy_book(book_copy_data);
-        ghi_borrow(borrow_data);
-        ghi_book(book_data);
-        QMessageBox::information(this, "Thông báo", "Xác nhận phiếu trả sách thành công!");
+    try{
+        lib.tra_sach(borrow_id, tinh_trang_index, tien_phat_1, tien_phat_2, "");
+        QMessageBox::information(this, "Thông báo", "Xác nhận trả sách thành công!");
         load_borrow_can_tra();
         hien_thi_borrow_can_tra();
+        ui->phieu_muon->setCurrentIndex(-1);
+        ui->ngay_muon_date->setText("");
+        ui->han_tra_date->setText("");
+        ui->tra_thuc_te_date->setText("");
+        ui->tinh_trang_sach->setCurrentIndex(-1);
+        ui->tong_phi_phat->setText("0 VND");
+    } catch (const AppException& e) {
+        QMessageBox::warning(this, QString::fromStdString(e.getTitle()), QString::fromStdString(e.what()));
+        return;
+    }
+    catch (...){
+        QMessageBox::warning(this, "Lỗi", "Đã xảy ra lỗi khi xử lý trả sách.");
+        return;
     }
 }
 

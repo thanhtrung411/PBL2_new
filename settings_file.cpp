@@ -40,6 +40,7 @@ settings_file::settings_file() {
     tien_phat_hu_hong = 50000;
     phi_phat_moi_ngay = 5000;
     mat_khau_quen = "12345678";
+    so_quyen_muon_toi_da = 2;
 }
 int settings_file::get_so_lan_gia_han() const {
     return so_lan_gia_han;
@@ -95,6 +96,12 @@ void settings_file::set_tien_phat_hu_hong(long long x) {
 void settings_file::set_phi_phat_moi_ngay(long long x) {
     phi_phat_moi_ngay = x;
 }
+void settings_file::set_so_quyen_muon_toi_da(int x) {
+    so_quyen_muon_toi_da = x;
+}
+int settings_file::get_so_quyen_muon_toi_da() const {
+    return so_quyen_muon_toi_da;
+}
 void settings_file::doc_file_settings() {
     const QString path = getDataFilePath("data/settings.csv");
     QFile file(path);
@@ -131,6 +138,8 @@ void settings_file::doc_file_settings() {
             so_ngay_gia_han = value.toInt();
         } else if (key == "MAT_KHAU_QUEN") {
             mat_khau_quen = value.toStdString();
+        } else if (key == "SO_QUYEN_MUON_TOI_DA") {
+            so_quyen_muon_toi_da = value.toInt();
         }
     }
     file.close();
@@ -155,6 +164,7 @@ void settings_file::ghi_file_settings() const {
     out << "PHI_PHAT_MOI_NGAY," << phi_phat_moi_ngay << "\n";
     out << "SO_NGAY_GIA_HAN," << so_ngay_gia_han << "\n";
     out << "MAT_KHAU_QUEN," << QString::fromStdString(mat_khau_quen) << "\n";
+    out << "SO_QUYEN_MUON_TOI_DA," << so_quyen_muon_toi_da << "\n";
     file.close();
 }
 

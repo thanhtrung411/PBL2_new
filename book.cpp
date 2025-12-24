@@ -1,6 +1,7 @@
 #include "book.h"
 #include "tree.h"
 #include "global.h"
+#include "library.h"
 #include <iostream>
 using namespace std;
 book::book(){
@@ -44,8 +45,8 @@ book::book(long long ID, string Name, string Author, string NXB, int NamXB, int 
     this->Tom_tat = Tom_tat;
     this->Link_png = Link_png;
     this->Link_pdf = Link_pdf;
-    this->The_loai_ID = The_loai_ID;
-    this->Chuyen_nganh_ID = Chuyen_nganh_ID;
+    this ->The_loai_ID = The_loai_ID;
+    this ->Chuyen_nganh_ID = Chuyen_nganh_ID;
     this->is_Read_online = is_Read_online;
     this->is_Download = is_Download;
     this->is_Borrow = is_Borrow;
@@ -95,26 +96,18 @@ void book::set_Link_png(string Link_png){
 void book::set_Link_pdf(string Link_pdf){
     this->Link_pdf = Link_pdf;
 }
-void book::set_The_loai_ID(int The_loai_ID){
-    this->The_loai_ID = The_loai_ID;
-}
-void book::set_Chuyen_nganh_ID(int Chuyen_nganh_ID){
-    this->Chuyen_nganh_ID = Chuyen_nganh_ID;
-}
-string book::get_The_loai_name() const{
-    string name;
-    if (the_loai_data.return_name(this->The_loai_ID, name)) {
-        return name;
-    }
-    return "";
-}
-string book::get_Chuyen_nganh_name() const{
-    string name;
-    if (chuyen_nganh_data.return_name(this->Chuyen_nganh_ID, name)) {
-        return name;
-    }
-    return "";
-}
+// void book::set_The_loai_ID(int The_loai_ID){
+//     this->the_loai = lib.get_the_loai_data().get_the_loai_by_id(The_loai_ID);
+// }
+// void book::set_Chuyen_nganh_ID(int Chuyen_nganh_ID){
+//     this->chuyen_nganh = lib.get_chuyen_nganh_data().get_chuyen_nganh_by_id(Chuyen_nganh_ID);
+// }
+// string book::get_The_loai_name() const{
+//     return the_loai.get_name();
+// }
+// string book::get_Chuyen_nganh_name() const{
+//     return chuyen_nganh.get_name();
+// }
 void book::set_is_Read_online(bool is_Read_online){
     this->is_Read_online = is_Read_online;
 }
@@ -157,6 +150,12 @@ void book::set_Created_by(string Created_by){
 void book::set_do_chinh_xac(int dcx){
     this->do_chinh_xac = dcx;
 }
+void book::set_Chuyen_nganh_ID(int Chuyen_nganh_ID){
+    this->Chuyen_nganh_ID = Chuyen_nganh_ID;
+}
+void book::set_The_loai_ID(int The_loai_ID){
+    this->The_loai_ID = The_loai_ID;
+}
 
 long long book::get_ID() const{
     return ID;
@@ -192,10 +191,16 @@ string book::get_Link_pdf() const{
     return Link_pdf;
 }
 int book::get_The_loai_ID() const{
-    return The_loai_ID;
+     return The_loai_ID;
 }
 int book::get_Chuyen_nganh_ID() const{
-    return Chuyen_nganh_ID;
+     return Chuyen_nganh_ID;
+ }
+string book::get_The_loai_name() const{
+    return lib.get_the_loai_data().get_the_loai_by_id(The_loai_ID).get_name();
+}
+string book::get_Chuyen_nganh_name() const{
+    return lib.get_chuyen_nganh_data().get_chuyen_nganh_by_id(Chuyen_nganh_ID).get_name();
 }
 bool book::get_is_Read_online() const{
     return is_Read_online;
@@ -239,3 +244,31 @@ string book::get_Created_by() const{
 int book::get_do_chinh_xac() const{
     return do_chinh_xac;
 }
+
+// Relationship
+// bool book::fetch_The_loai(The_loai& out) const{
+//     return lib.get_the_loai_data().find(this->the_loai.get_id(), out);
+// }
+// bool book::fetch_Chuyen_nganh(Chuyen_nganh& out) const{
+//     return lib.get_chuyen_nganh_data().find(this->chuyen_nganh.get_id(), out);
+// }
+// void book::related_copies(BST_book_copy& out) const{
+//     out.clear();
+//     lib.get_book_copy_data().copies_of_book(this->ID, out);
+// }
+// void book::related_borrows(BST_Borrow& out) const{
+//     out.clear();
+//     lib.get_borrow_data().traverse_ascending([&](borrow &br){
+//         if (br.get_book_id() == this->ID){
+//             out.insert(br);
+//         }
+//     });
+// }
+// void book::related_favorites(BST_Yeu_thich& out) const{
+//     out.clear();
+//     lib.get_yeu_thich_data().traverse_ascending([&](yeu_thich &yt){
+//         if (yt.get_book_id() == this->ID){
+//             out.insert(yt);
+//         }
+//     });
+// }

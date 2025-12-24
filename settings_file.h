@@ -14,6 +14,7 @@ private:
     int so_sach_moi;
     int so_sach_goi_y;
     int so_ngay_dat_sach;
+    int so_quyen_muon_toi_da;
 
     long long tien_phat_mat;
     long long tien_phat_hu_hong;
@@ -32,6 +33,7 @@ public:
     long long get_phi_phat_moi_ngay() const;
     string get_mat_khau_quen() const;
     int get_so_ngay_gia_han() const;
+    int get_so_quyen_muon_toi_da() const;
     void set_so_ngay_gia_han(int x);
     void set_so_lan_gia_han(int x);
     void set_so_sach_moi(int x);
@@ -40,6 +42,7 @@ public:
     void set_tien_phat_mat(long long x);
     void set_tien_phat_hu_hong(long long x);
     void set_phi_phat_moi_ngay(long long x);
+    void set_so_quyen_muon_toi_da(int x);
     void doc_file_settings();
     void ghi_file_settings() const;
     void set_mat_khau_quen(const string& x);

@@ -1,7 +1,9 @@
 #include "muon_sach.h"
 #include "ui_muon_sach.h"
 #include "global.h"
+#include "exception.h"
 #include "my_time.h"
+#include "library.h"
 #include <QMessageBox>
 #include <QLineEdit>
 
@@ -48,7 +50,7 @@ muon_sach::~muon_sach()
 
 void muon_sach::them_doc_gia_muon(){
     ui->doc_gia->clear();
-    accout_data.traverse_ascending([this](accout& a){
+    lib.get_account_data().traverse_ascending([this](Account& a){
         QString text = QString::fromStdString(a.get_phone_number() + " - " + a.get_ten_tai_khoan());
         ui->doc_gia->addItem(text, QVariant::fromValue(a.get_ID()));
     });
@@ -56,7 +58,7 @@ void muon_sach::them_doc_gia_muon(){
 
 void muon_sach::them_sach(){
     ui->ten_sach->clear();
-    book_data.traverse_ascending([this](book& b){
+    lib.get_book_data().traverse_ascending([this](book& b){
         QString text = QString::fromStdString(std::to_string(b.get_ID()) + " - " + b.get_Name());
         ui->ten_sach->addItem(text, QVariant::fromValue(b.get_ID()));
     });
@@ -64,7 +66,7 @@ void muon_sach::them_sach(){
 
 void muon_sach::them_ban_sao(long long book_id){
     ui->ban_sao->clear();
-    book_copy_data.traverse_ascending([this, book_id](Book_copies& bc){
+    lib.get_book_copy_data().traverse_ascending([this, book_id](Book_copies& bc){
         if (bc.get_id_book() == book_id && bc.get_status() == "available"){
             QString text = QString::fromStdString("BS-" + std::to_string(bc.get_id()));
             ui->ban_sao->addItem(text, QVariant::fromValue(bc.get_id()));
@@ -115,47 +117,19 @@ void muon_sach::on_muon_sach_button_clicked()
     long long user_id = ui->doc_gia->currentData().toLongLong();
     long long book_id = ui->ten_sach->currentData().toLongLong();
     long long copy_id = ui->ban_sao->currentData().toLongLong();
-
-    if (user_id == 0) {
-        QMessageBox::warning(this, "Thông báo", "Tên độc giả không tồn tại trong hệ thống!\nVui lòng chọn từ danh sách gợi ý.");
-        ui->doc_gia->setFocus(); // Đưa con trỏ chuột về lại ô này để sửa
-        return; // Dừng hàm, không chạy đoạn dưới nữa
-    }
-    if (book_id == 0) {
-        QMessageBox::warning(this, "Thông báo", "Tên sách không tồn tại!\nVui lòng chọn từ danh sách gợi ý.");
-        ui->ten_sach->setFocus();
-        return;
-    }
-    if (copy_id == 0) {
-        QMessageBox::warning(this, "Thông báo", "Vui lòng chọn bản sao sách hợp lệ!");
-        ui->ban_sao->setFocus();
-        return;
-    }
-
     QDate qdate_ngay_muon =  ui->ngay_muon->date();
     QDate qdate_ngay_tra =  ui->ngay_tra->date();
     my_time ngay_muon(qdate_ngay_muon.year(), qdate_ngay_muon.month(), qdate_ngay_muon.day(),0,0,0);
     my_time ngay_tra(qdate_ngay_tra.year(), qdate_ngay_tra.month(), qdate_ngay_tra.day(),0,0,0);
 
-    borrow_info.set_user_id(user_id);
-    borrow_info.set_book_id(book_id);
-    borrow_info.set_book_copy_id(copy_id);
-    borrow_info.set_ngay_muon(ngay_muon);
-    borrow_info.set_ngay_phai_tra(ngay_tra);
-    borrow_info.set_status(StatusType::DANG_MUON);
-    if (borrow_info.get_id() == 0){
-        borrow_info.set_id(borrow_data.find_new_id_borrow());
-        borrow_data.insert(borrow_info);
+    try {
+        lib.muon_sach(borrow_info,book_id, user_id, copy_id, ngay_muon, ngay_tra, is_show_xu_ly_muon_sach);
     }
-    else {
-        borrow_data.update(borrow_info, borrow_info);
+    catch (const AppException& e) {
+        QMessageBox::warning(this, QString::fromStdString(e.getTitle()), QString::fromStdString(e.what()));
+        return;
     }
-    Book_copies bc;
-    if (book_copy_data.find(copy_id, bc)){
-        bc.set_status("borrowed");
-        book_copy_data.update(bc, bc);
-    }
-    ghi_copy_book(book_copy_data);
+
     emit muon_sach_thanh_cong();
     this->close();
 }
@@ -166,13 +140,20 @@ void muon_sach::set_up_borrow_info(){
     ui->ten_sach->setEditText(QString::fromStdString(borrow_info.get_book_name()));
     ui->ban_sao->setEnabled(false);
     ui->ban_sao->setEditText(QString::fromStdString("BS-" + std::to_string(borrow_info.get_book_copy_id())));
-    ui->ngay_muon->setEnabled(false);
-    ui->ngay_tra->setEnabled(false);
+    ui->ngay_muon->setReadOnly(true);
+    ui->ngay_tra->setReadOnly(true);
     ui->muon_sach_button->setVisible(false);
+    ui->ngay_muon->setDate(QDate(borrow_info.get_ngay_muon().get_year(),
+                            borrow_info.get_ngay_muon().get_month(),
+                            borrow_info.get_ngay_muon().get_day()));
+    ui->ngay_tra->setDate(QDate(borrow_info.get_ngay_phai_tra().get_year(),
+                            borrow_info.get_ngay_phai_tra().get_month(),
+                            borrow_info.get_ngay_phai_tra().get_day()));
 }
 void muon_sach::set_up_xu_ly_muon_sach(){
     ui->doc_gia->setEnabled(false);
     ui->ten_sach->setEnabled(false);
+    is_show_xu_ly_muon_sach = true;
 }
 
 
@@ -182,3 +163,15 @@ void muon_sach::on_doc_gia_activated(int index)
 
 }
 
+my_time muon_sach::get_ngay_muon()
+{
+    QDate qdate_ngay_muon =  ui->ngay_muon->date();
+    my_time ngay_muon(qdate_ngay_muon.year(), qdate_ngay_muon.month(), qdate_ngay_muon.day(),0,0,0);
+    return ngay_muon;
+}
+my_time muon_sach::get_ngay_phai_tra()
+{
+    QDate qdate_ngay_tra =  ui->ngay_tra->date();
+    my_time ngay_tra(qdate_ngay_tra.year(), qdate_ngay_tra.month(), qdate_ngay_tra.day(),0,0,0);
+    return ngay_tra;
+}

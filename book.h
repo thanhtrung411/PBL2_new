@@ -1,7 +1,11 @@
 #ifndef BOOK_H
 #define BOOK_H
 #include "my_time.h"
+#include "my_string.h"
 #include <iostream>
+#include <string>
+
+class BST_book_copy;
 
 using namespace std;
 class book {
@@ -17,8 +21,8 @@ private:
     string Tom_tat;
     string Link_png;
     string Link_pdf;
-    int The_loai_ID;
-    int Chuyen_nganh_ID;
+    int The_loai_ID; //FK
+    int Chuyen_nganh_ID; //FK
     bool is_Read_online;
     bool is_Download;
     bool is_Borrow;
@@ -37,6 +41,7 @@ public:
     book();
     book(long long ID, string Name, string Author, string NXB, int NamXB, int So_trang, string ISBN, string Language, string Tom_tat, string Link_png, string Link_pdf, int The_loai_ID, int Chuyen_nganh_ID, bool is_Read_online, bool is_Download, bool is_Borrow, int limit_borrow, int luot_xem, int luot_muon, int luot_tai,int tong_sach, int tong_sach_dang_muon, int tong_sach_dang_dat, int tong_sach_ranh, my_time Date_created, string Created_by);
     ~book();
+    void copies_of_book(BST_book_copy& out) const;
     void set_ID(long long ID);
     void set_Name(string Name);
     void set_Author(string Author);
@@ -94,6 +99,13 @@ public:
     my_time get_Date_created() const;
     string get_Created_by() const;
     int get_do_chinh_xac() const;
+
+    // Relations
+    //bool fetch_The_loai(The_loai& out) const;
+    //bool fetch_Chuyen_nganh(Chuyen_nganh& out) const;
+    // void related_copies(BST_book_copy& out) const;
+    // void related_borrows(BST_Borrow& out) const;
+    // void related_favorites(BST_Yeu_thich& out) const;
 };
 
 #endif // BOOK_H

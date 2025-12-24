@@ -628,7 +628,7 @@ QGroupBox::title {
 }</string>
       </property>
       <property name="currentIndex">
-       <number>5</number>
+       <number>7</number>
       </property>
       <widget class="QWidget" name="page_4">
        <layout class="QVBoxLayout" name="verticalLayout_32">
@@ -685,7 +685,7 @@ QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical {
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>1162</width>
+             <width>1478</width>
              <height>1017</height>
             </rect>
            </property>
@@ -3391,8 +3391,8 @@ QLabel{
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>596</width>
-             <height>131</height>
+             <width>1484</width>
+             <height>566</height>
             </rect>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_3">
@@ -4377,7 +4377,7 @@ border-radius: 10px;</string>
         <item>
          <widget class="QStackedWidget" name="quan_ly_muon_tra_hien_thi">
           <property name="currentIndex">
-           <number>2</number>
+           <number>0</number>
           </property>
           <widget class="QWidget" name="page_7">
            <layout class="QVBoxLayout" name="verticalLayout_30">
@@ -4932,13 +4932,6 @@ QComboBox QAbstractItemView::item:selected {
                   <string>Quá hạn đặt</string>
                  </property>
                 </item>
-               </widget>
-              </item>
-              <item>
-               <widget class="QPushButton" name="nhan_tra">
-                <property name="text">
-                 <string>Tạo phiếu đặt sách</string>
-                </property>
                </widget>
               </item>
              </layout>
@@ -6564,8 +6557,8 @@ QTableWidget::item:selected {
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>412</width>
-             <height>469</height>
+             <width>1467</width>
+             <height>548</height>
             </rect>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_35">
@@ -7026,6 +7019,98 @@ QSpinBox::down-arrow, QDoubleSpinBox::down-arrow {
                   </property>
                  </widget>
                 </item>
+                <item>
+                 <widget class="QLabel" name="label_3">
+                  <property name="font">
+                   <font>
+                    <family>Segoe UI</family>
+                    <pointsize>10</pointsize>
+                    <bold>true</bold>
+                   </font>
+                  </property>
+                  <property name="text">
+                   <string>Số quyển sách mượn tối đa</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QSpinBox" name="so_sach_muon_toi_da">
+                  <property name="font">
+                   <font>
+                    <family>Segoe UI</family>
+                    <pointsize>9</pointsize>
+                    <bold>false</bold>
+                   </font>
+                  </property>
+                  <property name="styleSheet">
+                   <string notr="true">/* --- PHẦN CHÍNH (Đồng bộ với QLineEdit) --- */
+QSpinBox, QDoubleSpinBox {
+    background-color: #e8ecef; 
+    border-radius: 8px; 
+    border: 1px solid #E0E4E8; 
+    padding: 8px 10px; 
+    /* Quan trọng: chừa chỗ bên phải để chứa 2 nút bấm, không chữ sẽ bị che */
+    padding-right: 30px; 
+    color: #1E1E1E; 
+}
+
+QSpinBox:hover, QDoubleSpinBox:hover {
+    background-color: #E5E9ED;
+}
+
+QSpinBox:focus, QDoubleSpinBox:focus {
+    background-color: #FFFFFF; 
+    border: 1px solid #3498db; 
+}
+
+/* --- PHẦN NÚT BẤM (Up/Down) --- */
+
+/* Nút LÊN */
+QSpinBox::up-button, QDoubleSpinBox::up-button {
+    subcontrol-origin: border;
+    subcontrol-position: top right; /* Nằm góc trên phải */
+    width: 25px; /* Chiều rộng vùng bấm */
+    
+    /* Đường kẻ ngăn cách giữa số và nút bấm */
+    border-left: 1px solid #E0E4E8;
+    border-bottom: 1px solid #E0E4E8; /* Ngăn cách nút lên/xuống */
+    
+    /* Bo góc chỉ ở bên phải trên cùng để khớp với khung chính */
+    border-top-right-radius: 8px; 
+    background-color: transparent; /* Trong suốt để ăn theo màu nền chính */
+}
+
+/* Nút XUỐNG */
+QSpinBox::down-button, QDoubleSpinBox::down-button {
+    subcontrol-origin: border;
+    subcontrol-position: bottom right; /* Nằm góc dưới phải */
+    width: 25px;
+    
+    border-left: 1px solid #E0E4E8;
+    border-top: 0px; /* Không cần viền trên vì dính với nút up rồi */
+    
+    /* Bo góc dưới phải */
+    border-bottom-right-radius: 8px;
+    background-color: transparent;
+}
+
+/* Hiệu ứng khi rê chuột vào nút bấm (làm đậm xíu cho biết đang bấm) */
+QSpinBox::up-button:hover, QSpinBox::down-button:hover,
+QDoubleSpinBox::up-button:hover, QDoubleSpinBox::down-button:hover {
+    background-color: #d1d5da; /* Đậm hơn chút so với nền hover của khung */
+}
+
+/* Mũi tên (Chỉnh màu cho hợp tông text #1E1E1E) */
+QSpinBox::up-arrow, QDoubleSpinBox::up-arrow,
+QSpinBox::down-arrow, QDoubleSpinBox::down-arrow {
+    width: 8px;
+    height: 8px;
+    /* Mẹo: Dùng màu border để tạo mũi tên nếu không có ảnh, 
+       nhưng mặc định Qt sẽ tự render màu đen xám, khá hợp rồi */
+}</string>
+                  </property>
+                 </widget>
+                </item>
                </layout>
               </item>
               <item>
@@ -7332,6 +7417,25 @@ QSpinBox::down-arrow, QDoubleSpinBox::down-arrow {
                     <horstretch>0</horstretch>
                     <verstretch>0</verstretch>
                    </sizepolicy>
+                  </property>
+                  <property name="styleSheet">
+                   <string notr="true">QLineEdit {
+    background-color: #e8ecef; 
+    border-radius: 8px; 
+    border: 1px solid #E0E4E8; 
+    padding: 8px 10px; /* Padding đều, không cần chừa chỗ cho nút */
+    color: #1E1E1E; 
+    font-size: 12px;
+}
+
+QLineEdit:hover {
+    background-color: #E5E9ED; /* Màu nền khi di chuột */
+}
+
+QLineEdit:focus {
+    background-color: #FFFFFF; /* Nền trắng khi nhập liệu */
+    border: 1px solid #3498db; /* Viền xanh dương để nổi bật */
+}</string>
                   </property>
                  </widget>
                 </item>

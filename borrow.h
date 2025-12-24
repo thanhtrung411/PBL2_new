@@ -4,6 +4,9 @@
 #include "my_time.h"
 #include "my_string.h"
 using namespace std;
+class book;
+class Book_copies;
+class Account;
 
 enum StatusType {
     NONE,
@@ -28,9 +31,9 @@ enum TinhTrangsach {
 class borrow {
 private:
     long long ID;
-    long long Book_ID;
-    long long Book_copy_ID;
-    long long User_id;
+    long long Book_ID; //FK
+    long long Book_copy_ID; //FK
+    long long User_id; //FK
     my_time Ngay_dat;
     my_time Ngay_muon;
     my_time Ngay_phai_tra;
@@ -91,6 +94,11 @@ public:
     string get_status_string() const;
     string get_ghi_chu() const;
     int get_tien_phat() const;
+
+    // Relations
+    bool fetch_book(book& out) const;
+    bool fetch_copy(Book_copies& out) const;
+    bool fetch_user(Account& out) const;
 };
 
 #endif // BORROW_H
