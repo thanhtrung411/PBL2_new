@@ -26,7 +26,7 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         dang_ky_dialog.h dang_ky_dialog.cpp dang_ky_dialog.ui
         book.h book.cpp
 
-        accout.h accout.cpp
+        Account.h Account.cpp
         tree.h tree.cpp
         my_string.h my_string.cpp
         resource.qrc
@@ -55,6 +55,7 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         yeu_thich.h yeu_thich.cpp
         info_user.h info_user.cpp info_user.ui
         add_book_copy.h add_book_copy.cpp add_book_copy.ui
+        exception.h exception.cpp
 
 
     )

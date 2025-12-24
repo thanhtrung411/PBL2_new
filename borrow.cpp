@@ -1,7 +1,11 @@
 #include "borrow.h"
 #include "global.h"
+#include "library.h"
 #include <iostream>
 #include "my_string.h"
+#include "book.h"
+#include "book_copies.h"
+#include "Account.h"
 using namespace std;
 
 borrow::borrow(){
@@ -142,7 +146,7 @@ long long borrow::get_book_id() const{
 }
 string borrow::get_book_name() const{
     book temp;
-    book_data.find(Book_ID, temp);
+    lib.get_book_data().find(Book_ID, temp);
     return temp.get_Name();
 }
 long long borrow::get_book_copy_id() const{
@@ -153,8 +157,8 @@ long long borrow::get_user_id() const{
     return User_id;
 }
 string borrow::get_user_name() const{
-    accout temp;
-    accout_data.find(User_id, temp);
+     Account temp;
+    lib.get_account_data().find(User_id, temp);
     return temp.get_ten_tai_khoan();
 }
 
@@ -226,4 +230,15 @@ string borrow::get_ghi_chu() const{
 
 int borrow::get_tien_phat() const{
     return Tien_phat;
+}
+
+// --- Relations implementations ---
+bool borrow::fetch_book(book& out) const{
+    return lib.get_book_data().find(Book_ID, out);
+}
+bool borrow::fetch_copy(Book_copies& out) const{
+    return lib.get_book_copy_data().find(Book_copy_ID, out);
+}
+bool borrow::fetch_user(Account& out) const{
+    return lib.get_account_data().find(User_id, out);
 }

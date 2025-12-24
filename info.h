@@ -46,7 +46,6 @@ private slots:
     void on_dang_xuat_clicked();
 
 private:
-    Library library_;
     Ui::info *ui;
     void set_anh_dai_dien();
     void tim_sach_yeu_thich(BST_Book &b);

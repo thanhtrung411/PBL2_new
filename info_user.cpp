@@ -1,7 +1,8 @@
 #include "info_user.h"
 #include "ui_info_user.h"
-#include "accout.h"
+#include "Account.h"
 #include "global.h"
+#include "exception.h"
 #include <QMessageBox>
 #include <QFileDialog>
 #include <QDir>
@@ -12,13 +13,14 @@
 #include <QPainter>
 #include <QPainterPath>
 
-info_user::info_user(accout ac, QWidget *parent)
+info_user::info_user(Account ac, QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::info_user)
 {
     acc_info = ac;
     ui->setupUi(this);
     set_info_user();
+    set_locker();
 }
 
 info_user::~info_user()
@@ -50,12 +52,14 @@ void info_user::set_info_user(){
     else{
         ui->gioi_tinh->setCurrentIndex(2);
     }
+    ui->so_diem->setText(QString::number(acc_info.get_score()));
+    ui->so_sach_muon->setText(QString::number(lib.get_borrow_data().sach_dang_muon(acc_info.get_ID())));
     set_anh_dai_dien();
 }
 
 void info_user::on_luu_thong_tin_clicked()
 {
-    accout acc_old = acc_info;
+    Account acc_old = acc_info;
     std::string pass_new = ui->mat_khau_moi->text().trimmed().toStdString();
     std::string pass_confirm = ui->mat_khau_moi_again->text().trimmed().toStdString();
     if (!pass_new.empty() || !pass_confirm.empty()) {
@@ -81,7 +85,7 @@ void info_user::on_luu_thong_tin_clicked()
     }
 
     std::string username = ui->ten_dang_nhap->text().trimmed().toStdString();
-    if (accout_data.check_ten_dang_nhap(username) && username != acc_old.get_ten_dang_nhap()) {
+    if (lib.get_account_data().check_ten_dang_nhap(username) && username != acc_old.get_ten_dang_nhap()) {
         QMessageBox::warning(this, "Lỗi", "Tên đăng nhập đã tồn tại!");
         return;
     }
@@ -94,8 +98,8 @@ void info_user::on_luu_thong_tin_clicked()
     acc_info.set_ngay_sinh(ngay_sinh);
     acc_info.set_gioi_tinh(ui->gioi_tinh->currentIndex());
 
-    accout_data.update(acc_old, acc_info);
-    ghi_accout(accout_data);
+    lib.get_account_data().update(acc_old, acc_info);
+    ghi_Account(lib.get_account_data());
     QMessageBox::information(this, "Thành công", "Cập nhật thông tin cá nhân thành công!");
 }
 
@@ -123,7 +127,7 @@ void info_user::on_pushButton_4_clicked()
         return;
     }
 
-    QString newFileName = QString("../../anh_dai_dien/%1.png").arg(acc_sign_in.get_ID());
+    QString newFileName = QString("../../anh_dai_dien/%1.png").arg(lib.get_acc_sign_in().get_ID());
     QDir dir;
     dir.mkpath("../../anh_dai_dien");
 
@@ -204,5 +208,71 @@ QPixmap info_user::load_image_pro(const QString &path, const QSize &targetSize, 
     painter.end();
 
     return finalPix;
+}
+
+void info_user::set_locker()
+{
+    if (acc_info.get_doi_tuong() ==  -1){
+        ui->khoa_tai_khoan->setVisible(false);
+        ui->mo_khoa_tai_khoan->setVisible(true);
+    }
+    else{
+        ui->khoa_tai_khoan->setVisible(true);
+        ui->mo_khoa_tai_khoan->setVisible(false);
+    }
+    ui->so_diem->setText(QString::number(acc_info.get_score()));
+}
+
+void info_user::on_khoa_tai_khoan_clicked()
+{
+    try{
+        lib.khoa_tai_khoan(acc_info.get_ID());
+        QMessageBox::information(this, "Thành công", "Khóa tài khoản thành công!");
+    }
+    catch (AppException &e) {
+        QMessageBox::warning(
+            this,
+            QString::fromStdString(e.getTitle()),
+            QString::fromStdString(e.what())
+        );
+    }
+    lib.get_account_data().find(acc_info.get_ID(), acc_info);
+    set_locker();
+}
+
+
+void info_user::on_mo_khoa_tai_khoan_clicked()
+{
+    try{
+        lib.mo_khoa_tai_khoan(acc_info.get_ID());
+        QMessageBox::information(this, "Thành công", "Mở khóa tài khoản thành công!");
+    }
+    catch (AppException &e) {
+        QMessageBox::warning(
+            this,
+            QString::fromStdString(e.getTitle()),
+            QString::fromStdString(e.what())
+        );
+    }
+    lib.get_account_data().find(acc_info.get_ID(), acc_info);
+    set_locker();
+}
+
+
+void info_user::on_khoi_phuc_diem_clicked()
+{
+    try{
+        lib.khoi_phuc_diem(acc_info.get_ID());
+        QMessageBox::information(this, "Thành công", "Khôi phục điểm thành công!");
+    }
+    catch (AppException &e) {
+        QMessageBox::warning(
+            this,
+            QString::fromStdString(e.getTitle()),
+            QString::fromStdString(e.what())
+        );
+    }
+    lib.get_account_data().find(acc_info.get_ID(), acc_info);
+    set_locker();
 }
 

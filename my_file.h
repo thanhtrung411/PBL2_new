@@ -8,7 +8,7 @@
 #include <QCoreApplication>
 #include <QApplication>
 #include <QDebug>
-#include "accout.h"
+#include "account.h"
 #include "tree.h"
 #include "book.h"
 #include "global.h"
@@ -25,9 +25,10 @@ static QString getDataFilePath(string link) {
     return QDir(QCoreApplication::applicationDirPath()).filePath(link.c_str());
 }
 
-void doc_accout(BST_Accout &accout_data);
 
-void ghi_accout(BST_Accout &accout_data);
+void doc_Account(BST_Account &account_data);
+
+void ghi_Account(BST_Account &account_data);
 
 void doc_book(BST_Book &book_data);
 

@@ -2,6 +2,7 @@
 #include "ui_add_book_copy.h"
 #include "book.h"
 #include "global.h"
+#include "library.h"
 #include "tree.h"
 #include <QVariant>
 #include <QHeaderView>
@@ -29,7 +30,7 @@ add_book_copy::~add_book_copy()
 
 void add_book_copy::set_up(){
     ui->ten_dau_sach->clear();
-    book_data.traverse_ascending([this](book& b){
+    lib.get_book_data().traverse_ascending([this](book& b){
         QString text = QString::fromStdString(std::to_string(b.get_ID()) + " - " + b.get_Name());
         ui->ten_dau_sach->addItem(text, QVariant::fromValue(b.get_ID()));
     });
@@ -49,7 +50,7 @@ void add_book_copy::on_so_ban_sao_valueChanged(int arg1)
     };
     for (int i = 0;i < arg1;i++){
         Book_copies bcp;
-        bcp.set_id(book_copy_data.find_max_id() + 1 + i);
+        bcp.set_id(lib.get_book_copy_data().find_max_id() + 1 + i);
         bcp.set_id_book(book_id);
         bcp.set_status("available");
         bcp.set_ghi_chu("");
@@ -73,10 +74,10 @@ void add_book_copy::on_them_button_clicked()
         return;
     }
     bc.traverse_ascending([this](Book_copies &bcp){
-        record.log_action(acc_sign_in.get_ten_dang_nhap(), ActionType::ADD_BOOK_COPY, bcp.get_id(), "Đã thêm bản sao " + to_stringll_(bcp.get_id()) + " - " + to_stringll_(bcp.get_id_book()));
-        book_copy_data.insert(bcp);
+        record.log_action(lib.get_acc_sign_in().get_ten_dang_nhap(), ActionType::ADD_BOOK_COPY, bcp.get_id(), "Đã thêm bản sao " + to_stringll_(bcp.get_id()) + " - " + to_stringll_(bcp.get_id_book()));
+        lib.get_book_copy_data().insert(bcp);
     });
-    ghi_copy_book(book_copy_data);
+    ghi_copy_book(lib.get_book_copy_data());
     on_so_ban_sao_valueChanged(0);
     QMessageBox::information(this, "Thành công", "Thêm bản sao sách thành công!");
 }

@@ -10,6 +10,7 @@
 #include "my_string.h"
 #include "the_loai_chuyen_nganh.h"
 #include "settings_file.h"
+#include "exception.h"
 #include <QDir>
 #include <QLabel>
 #include <QPushButton>
@@ -28,8 +29,6 @@
 #include <QApplication>
 #include <iostream>
 #include <chrono>
-
-Library lib;
 
 QPixmap pbl2::loadScaled(const QString& path, const QSize& physicalSize, int radius)
 {
@@ -101,41 +100,31 @@ pbl2::pbl2(QWidget *parent)
     ui->dang_tim_kiem_layout->setVisible(false);
     ui->trich_dan_tom_tat_stack->setCurrentIndex(0);
     //ui->dang_nhap_button->setIcon(QIcon(":/icons/icons_/user-interface.png"));
-    set_up(book_data);
+    set_up(lib.get_book_data());
     connect(ui->muon_button, &QPushButton::clicked, this, [this](){
         if (current_selected_book.get_ID() == 0) return;
         qDebug() << "Muon sach " << current_selected_book.get_ID();
-        switch (lib.dat_sach(current_selected_book.get_ID(), acc_sign_in.get_ID(), my_time::now(), current_selected_book.get_limit_borrow(), acc_sign_in.get_score())){
-            case 0:
-                record.log_action(acc_sign_in.get_ten_dang_nhap(),ActionType::RESERVE_BOOK , current_selected_book.get_ID(),"Đặt sách thành công");
-                box_thong_bao(("Đặt sách thành công! Vui lòng đến thư viện trong vòng " + std::to_string(settings_file::getInstance()->get_so_ngay_dat_sach()) + " ngày để mượn sách."));
-                break;
-            case 1:
-                box_thong_bao("Lỗi đặt sách. Vui lòng thử lại sau.\nKhông tìm thấy sách");
-                break;
-            case 2:
-                box_thong_bao("Tài khoản không hợp lệ, có thể bạn đã bị khóa.");
-                break;
-            case 3:
-                box_thong_bao("Bạn đã đặt quá số lượng sách cho phép.");
-                break;
-            case 4:
-                box_thong_bao("Toàn bộ sách đã được đặt/mượn.");
-                break;
-            case 5:
-                box_thong_bao("Bạn đã đặt/mượn cuốn sách này rồi.");
-                break;
-            case 6:
-                box_thong_bao("Bạn đang có sách quá hạn chưa trả !\nVui lòng trả sách trước khi đặt sách mới.");
-                break;
-            default:
-                break;
+        try {
+            lib.dat_sach(current_selected_book.get_ID(), lib.get_acc_sign_in().get_ID(), my_time::now(), current_selected_book.get_limit_borrow(), lib.get_acc_sign_in().get_score());
+            record.log_action(lib.get_acc_sign_in().get_ten_dang_nhap(),ActionType::RESERVE_BOOK , current_selected_book.get_ID(),"Đặt sách thành công");
+            box_thong_bao(("Đặt sách thành công! Vui lòng đến thư viện trong vòng " + std::to_string(settings_file::getInstance()->get_so_ngay_dat_sach()) + " ngày để mượn sách."));
+        } catch (const AppException &e) {
+            box_thong_bao(e.what());
+        }
+        catch (const std::exception &e) {
+            box_thong_bao("Lỗi hệ thống: " + string(e.what()));
+        }
+        catch (...) {
+            box_thong_bao("Lỗi hệ thống không xác định.");
         }
     });
-
     connect(ui->doc_onliine_button, &QPushButton::clicked, this, [this](){
         if (current_selected_book.get_ID() == 0) return;
-        if (is_sign_in) record.log_action(acc_sign_in.get_ten_dang_nhap(), ActionType::READ_ONLINE, current_selected_book.get_ID(), "");
+        book b;
+        if (!lib.get_book_data().find(current_selected_book.get_ID(), b)) return;
+        b.set_luot_xem(b.get_luot_xem() + 1);
+        lib.get_book_data().update(b, b);
+        if (lib.get_is_sign_in()) record.log_action(lib.get_acc_sign_in().get_ten_dang_nhap(), ActionType::READ_ONLINE, current_selected_book.get_ID(), "Đọc online sách " + current_selected_book.get_Name());
         qDebug() << "Doc online " << current_selected_book.get_ID();
         open_file_PDF(current_selected_book.get_Link_pdf());
         
@@ -143,7 +132,11 @@ pbl2::pbl2(QWidget *parent)
 
     connect(ui->download_button, &QPushButton::clicked, this, [this](){
         if (current_selected_book.get_ID() == 0) return;
-        if (is_sign_in) record.log_action(acc_sign_in.get_ten_dang_nhap(), ActionType::DOWNLOAD_BOOK, current_selected_book.get_ID(), "");
+        book b;
+        if (!lib.get_book_data().find(current_selected_book.get_ID(), b)) return;
+        b.set_luot_tai(b.get_luot_tai() + 1);
+        lib.get_book_data().update(b, b);
+        if (lib.get_is_sign_in()) record.log_action(lib.get_acc_sign_in().get_ten_dang_nhap(), ActionType::DOWNLOAD_BOOK, current_selected_book.get_ID(), "Tải sách " + current_selected_book.get_Name());
         qDebug() << "Download " << current_selected_book.get_ID();
         download_pdf(current_selected_book.get_Link_pdf(),current_selected_book.get_Name());
     });
@@ -151,13 +144,6 @@ pbl2::pbl2(QWidget *parent)
     connect(ui->return_home_button, &QPushButton::clicked, this, [this](){
         ui->noi_dung_layout->setCurrentIndex(0);
         QLayoutItem *child;
-        // while ((child = ui->muon_sach_layout->takeAt(0)) != nullptr) {
-        //     if (child->widget()) {
-        //         child->widget()->deleteLater();
-        //     }
-        //     delete child;
-        // }
-
         current_selected_book = book();
     });
     set_up_top_doc_nhieu_nhat();
@@ -171,12 +157,12 @@ pbl2::~pbl2()
 }
 
 void pbl2::set_tong_sach_tong_muon_tong_dat_number(){
-    int tong_sach = book_data.count_data();
+    int tong_sach = lib.get_book_data().count_data();
     int tong_muon;
     int tong_dat;
     int tong_qua_han;
 
-    borrow_data.tong_sach_dat_muon_qua_han(tong_dat, tong_muon, tong_qua_han);
+    lib.get_borrow_data().tong_sach_dat_muon_qua_han(tong_dat, tong_muon, tong_qua_han);
     ui->tong_sach->setText(QString::number(tong_sach));
     ui->tong_muon->setText(QString::number(tong_muon));
     ui->tong_dat->setText(QString::number(tong_dat));
@@ -184,12 +170,12 @@ void pbl2::set_tong_sach_tong_muon_tong_dat_number(){
 
 void pbl2::set_up(BST_Book& book_data_){
     //setup page the loai
-    the_loai_data.traverse_ascending([this](The_loai &a){
+    lib.get_the_loai_data().traverse_ascending([this](The_loai &a){
         ui->the_loai_list_layout->addItem(QString::fromStdString(a.get_name()));
         ui->the_loai_find_layout->addItem(QString::fromStdString(a.get_name()));
     });
     //setup page chuyen nganh
-    chuyen_nganh_data.traverse_ascending([this](Chuyen_nganh &a){
+    lib.get_chuyen_nganh_data().traverse_ascending([this](Chuyen_nganh &a){
         ui->chuyen_nganh_list_layout->addItem(QString::fromStdString(a.get_name()));
     });
     //setup page sach moi
@@ -244,22 +230,13 @@ void pbl2::set_up(BST_Book& book_data_){
 
 void pbl2::on_dang_nhap_button_clicked()
 {
-    if (!is_sign_in){
+    if (!lib.get_is_sign_in()){
         auto win = new dang_ky_dialog(this);
         win->setAttribute(Qt::WA_DeleteOnClose, true);
         win->show();
-        connect(win, &dang_ky_dialog::registered, this, [this, win](const accout& user) {
-            acc_sign_in = user;
-            is_sign_in = 1;
-            acc_sign_in.giai_ma_();
-
-            accout_data.traverse_ascending([&](accout &a){
-                a.giai_ma_();
-            });
-            borrow_data.info_user(acc_sign_in.get_ID(), borrow_user_data);
-            QString name_ = QString::fromStdString(acc_sign_in.get_ten_tai_khoan());
-            Reload(book_data);
-            
+        connect(win, &dang_ky_dialog::registered, this, [this, win](const Account& user) {
+            QString name_ = QString::fromStdString(lib.get_acc_sign_in().get_ten_tai_khoan());
+            Reload(lib.get_book_data());
             ui->dang_nhap_button->setText(name_);
             this->show();
             this->raise();
@@ -309,7 +286,7 @@ void pbl2::set_up_card_moi(Tree &b,QGridLayout* path_link){
         path_link->addWidget(card, 0, i++);
         connect(card, &ProductCard::clicked, this, [this](book bk){
             page_previous = 0;
-            if (is_sign_in) record.log_action(acc_sign_in.get_ten_dang_nhap(), ActionType::VIEW_BOOK, bk.get_ID(), "");
+            if (lib.get_is_sign_in()) record.log_action(lib.get_acc_sign_in().get_ten_dang_nhap(), ActionType::VIEW_BOOK, bk.get_ID(), "Xem thông tin sách" + bk.get_Name());
             show_info_sach(bk);
         });
         --show;
@@ -347,7 +324,7 @@ void pbl2::set_up_card_goi_y(Tree &b,QGridLayout* path_link){
         path_link->addWidget(card, 0, i++);
         connect(card, &ProductCard::clicked, this, [this](book bk){
             page_previous = 0;
-            if (is_sign_in) record.log_action(acc_sign_in.get_ten_dang_nhap(), ActionType::VIEW_BOOK, bk.get_ID(), "");
+            if (lib.get_is_sign_in()) record.log_action(lib.get_acc_sign_in().get_ten_dang_nhap(), ActionType::VIEW_BOOK, bk.get_ID(), "Xem thông tin sách" + bk.get_Name());
             show_info_sach(bk);
         });
     }
@@ -365,7 +342,7 @@ void pbl2::clear_layout(QLayout* layout) {
 }
 
 void pbl2::Reload_show_info(book& b){
-    qDebug() << is_sign_in << "\nis sign in \n";
+    qDebug() << lib.get_is_sign_in() << "\nis sign in \n";
     // auto* canh_bao_label = new QLabel("Vui lòng đăng nhập để mượn sách !", this);
     // canh_bao_label->setFixedSize(999,32);
     // canh_bao_label->setStyleSheet(R"(
@@ -393,6 +370,9 @@ void pbl2::Reload_show_info(book& b){
 }
 
 void pbl2::show_info_sach(book& b){
+    lib.get_book_data().find(b.get_ID(), b);
+    b.set_luot_xem(b.get_luot_xem() + 1);
+    lib.get_book_data().update(b, b);
     current_selected_book = b;
     ui->muon_button->setIcon(QIcon(":/icons/icons_/borrow.png"));
     ui->doc_onliine_button->setIcon(QIcon(":/icons/icons_/read.png"));
@@ -430,40 +410,19 @@ void pbl2::show_info_sach(book& b){
     
     ui->PNG_BOOK->setPixmap(result);
     ui->PNG_BOOK->setStyleSheet("background-color: transparent; border: none;");
-    //202501100001
-    //
-    qDebug() << is_sign_in << "\nis sign in \n";
-    // auto* canh_bao_label = new QLabel("Vui lòng đăng nhập để mượn sách !", this);
-    // canh_bao_label->setFixedSize(999,32);
-    // canh_bao_label->setStyleSheet(R"(
-    // background-color: rgb(170, 0, 0);
-    // color: rgb(255, 255, 255);
-    // )");
-    // // ui->muon_sach_layout->addWidget(canh_bao_label);
-    // canh_bao_label->setVisible(false);
-    // if (!is_sign_in){
-    //     canh_bao_label->setVisible(true);
-    // }
-    // else{
-    //     canh_bao_label->setVisible(false);
-    // }
+    qDebug() << lib.get_is_sign_in() << "\nis sign in \n";
     connect(ui->return_home_button, &QPushButton::clicked, this, [this, b](){
         ui->noi_dung_layout->setCurrentIndex(page_previous);
         QLayoutItem *child;
-        // while ((child = ui->muon_sach_layout->takeAt(0)) != nullptr) {
-        //     if (child->widget()) {
-        //         child->widget()->deleteLater();
-        //     }
-        //     delete child;
-        // }
         current_selected_book = book();
     });
-    if (yeu_thich_data.is_like_book(b.get_ID(), acc_sign_in.get_ID())){
+    if (lib.get_yeu_thich_data().is_like_book(b.get_ID(), lib.get_acc_sign_in().get_ID())){
             ui->yeu_thich->setChecked(true);
     }
     else{
         ui->yeu_thich->setChecked(false);
     }
+
 }
 
 void pbl2::on_pushButton_clicked()
@@ -476,65 +435,77 @@ void pbl2::on_chi_tiet_button_clicked()
 {
     ui->chi_tiet_button->setStyleSheet(R"(
         QPushButton {
-            color: rgb(0, 0, 0);
-            background-color: rgb(255, 255, 255);
-            border: 0px;
-            border-radius: 12px;
-            padding: 6px 12px;
-        }
+    color: rgb(0, 0, 0);
+    background-color: rgb(255, 255, 255);
+    border: 0px;
+    border-radius: 12px;
+    padding: 6px 12px;
+    }
 
-        QPushButton:hover {
-            background-color: rgb(235, 235, 235);
-        }
+    QPushButton:hover {
+        background-color: rgb(245, 245, 245);
+    }
 
-        QPushButton:pressed {
-            background-color: rgb(210, 210, 210);
-            padding-top: 8px;
-            padding-left: 14px;
-        }
+    QPushButton:pressed {
+        background-color: rgb(210, 210, 210);
+        padding-top: 8px;
+        padding-left: 14px;
+    }
     )");
     ui->trich_dan_button->setStyleSheet(R"(
-        border-radius: 16px;
-        background-color: rgb(236, 235, 240);
-        border: 0px;
-        QPushButton{
-            color: rgb(0, 0, 0);
-            background-color: rgb(255, 255, 255);
-        }
-
+        QPushButton {
+    color: rgb(0, 0, 0);
+    background-color: rgb(236, 235, 240);
+    border: 0px;
+    border-radius: 12px;
+    padding: 6px 12px;
+}
+    QPushButton:hover {
+        background-color: rgb(220, 220, 225);
+    }
+    QPushButton:pressed {
+        background-color: rgb(200, 200, 205);
+    }
     )");
     ui->trich_dan_tom_tat_stack->setCurrentIndex(0);
-
 }
 
 
 void pbl2::on_trich_dan_button_clicked()
 {
-    ui->chi_tiet_button->setStyleSheet(R"(
-        QPushButton{background-color: rgb(69, 104, 173);
-        color: rgb(243, 246, 255);
-          border: 2px solid rgb(69, 104, 173);
-          border-radius: 4px;
-          selection-color: rgb(13, 13, 13);
-        }
-        QPushButton:hover   { background: rgb(60, 91, 149); border-color: #3e5e9c; }
-        QPushButton:pressed { background: rgb(48, 74, 121); border-color: #37538a; }
-        QPushButton:disabled{
-          background: #f1f3f9; color: #9aa0a6; border-color: #e0e2eb;
-        }
-    )");
     ui->trich_dan_button->setStyleSheet(R"(
-        QPushButton{background-color: rgb(243, 246, 255);
-        color: rgb(69, 104, 173);
-          border: 2px solid rgb(69, 104, 173);
-          border-radius: 4px;
-          selection-color: rgb(13, 13, 13);
-        }
-        QPushButton:hover   { background: #e9ecf5; border-color: #3e5e9c; }
-        QPushButton:pressed { background: #d6d8e0; border-color: #37538a; }
-        QPushButton:disabled{
-          background: #f1f3f9; color: #9aa0a6; border-color: #e0e2eb;
-        }
+        QPushButton {
+    color: rgb(0, 0, 0);
+    background-color: rgb(255, 255, 255);
+    border: 0px;
+    border-radius: 12px;
+    padding: 6px 12px;
+    }
+
+    QPushButton:hover {
+        background-color: rgb(245, 245, 245);
+    }
+
+    QPushButton:pressed {
+        background-color: rgb(210, 210, 210);
+        padding-top: 8px;
+        padding-left: 14px;
+    }
+    )");
+    ui->chi_tiet_button->setStyleSheet(R"(
+        QPushButton {
+    color: rgb(0, 0, 0);
+    background-color: rgb(236, 235, 240);
+    border: 0px;
+    border-radius: 12px;
+    padding: 6px 12px;
+}
+    QPushButton:hover {
+        background-color: rgb(220, 220, 225);
+    }
+    QPushButton:pressed {
+        background-color: rgb(200, 200, 205);
+    }
     )");
     ui->trich_dan_tom_tat_stack->setCurrentIndex(1);
 }
@@ -545,11 +516,11 @@ void pbl2::on_the_loai_list_layout_currentIndexChanged(int index)
     int id_the_loai = index;
     qDebug() << "The loai index changed to " << id_the_loai;
     if (id_the_loai == 0){
-        Reload(book_data);
+        Reload(lib.get_book_data());
         return;
     }
     BST_Book book_the_loai;
-    book_data.the_loai_of_book(id_the_loai, book_the_loai);
+    lib.get_book_data().the_loai_of_book(id_the_loai, book_the_loai);
     Reload(book_the_loai);
 }
 
@@ -559,11 +530,11 @@ void pbl2::on_chuyen_nganh_list_layout_currentIndexChanged(int index)
     int id_chuyen_nganh = index ;
     qDebug() << "Chuyen nganh index changed to " << id_chuyen_nganh;
     if (id_chuyen_nganh == 0){
-        Reload(book_data);
+        Reload(lib.get_book_data());
         return;
     }
     BST_Book book_chuyen_nganh;
-    book_data.chuyen_nganh_of_book(id_chuyen_nganh, book_chuyen_nganh);
+    lib.get_book_data().chuyen_nganh_of_book(id_chuyen_nganh, book_chuyen_nganh);
     Reload(book_chuyen_nganh);
 }
 
@@ -583,7 +554,7 @@ void pbl2::on_tim_kiem_button_clicked()
     int truong_tim_kiem = ui->truong_find_layout->currentIndex();
 
     BST_Book ket_qua;
-    book_data.search(type_the_loai, type_tim_kiem, truong_tim_kiem, key, book_data, ket_qua);
+    lib.get_book_data().search(type_the_loai, type_tim_kiem, truong_tim_kiem, key, lib.get_book_data(), ket_qua);
 
     QGridLayout *path_link = ui->tim_kiem_grid;
 
@@ -603,7 +574,7 @@ void pbl2::on_tim_kiem_button_clicked()
 
         connect(card, &ProductCard::clicked, this, [this](book bk){
             page_previous = 2;
-            if (is_sign_in) record.log_action(acc_sign_in.get_ten_dang_nhap(), ActionType::VIEW_BOOK, bk.get_ID(), "");
+            if (lib.get_is_sign_in()) record.log_action(lib.get_acc_sign_in().get_ten_dang_nhap(), ActionType::VIEW_BOOK, bk.get_ID(), "Xem thông tin sách" + bk.get_Name());
             show_info_sach(bk);
         });
 
@@ -623,17 +594,17 @@ void pbl2::on_tim_kiem_button_clicked()
 
 void pbl2::on_yeu_thich_toggled(bool checked)
 {
-    if (is_sign_in == 0) {
+    if (lib.get_is_sign_in() == 0) {
         ui->yeu_thich->setChecked(false);
         return;
     }
     if (checked){
         qDebug() << "Da them vao yeu thich";
-        yeu_thich_data.add_like(current_selected_book.get_ID(), acc_sign_in.get_ID());
+        lib.get_yeu_thich_data().add_like(current_selected_book.get_ID(), lib.get_acc_sign_in().get_ID());
     }
     else{
         qDebug() << "Da xoa khoi yeu thich";
-        yeu_thich_data.remove_like(current_selected_book.get_ID(), acc_sign_in.get_ID());
+        lib.get_yeu_thich_data().remove_like(current_selected_book.get_ID(), lib.get_acc_sign_in().get_ID());
     }
 }
 
@@ -662,15 +633,13 @@ void pbl2::set_up_top_doc_nhieu_nhat()
     ui->doc_nhieu_4->installEventFilter(this);
     ui->doc_nhieu_5->installEventFilter(this);
 
-    ui->doc_nhieu_1->setProperty("book_id", luot_xem_book_data[0].get_ID());
-    ui->doc_nhieu_2->setProperty("book_id", luot_xem_book_data[1].get_ID());
+    ui->doc_nhieu_1->setProperty("book_id", luot_xem_book_data[4].get_ID());
+    ui->doc_nhieu_2->setProperty("book_id", luot_xem_book_data[3].get_ID());
     ui->doc_nhieu_3->setProperty("book_id", luot_xem_book_data[2].get_ID());
-    ui->doc_nhieu_4->setProperty("book_id", luot_xem_book_data[3].get_ID());
-    ui->doc_nhieu_5->setProperty("book_id", luot_xem_book_data[4].get_ID());
-
-
-    QString bookName = QString::fromStdString(luot_xem_book_data[0].get_Name());
-    QString authorName = QString::fromStdString(luot_xem_book_data[0].get_Author());
+    ui->doc_nhieu_4->setProperty("book_id", luot_xem_book_data[1].get_ID());
+    ui->doc_nhieu_5->setProperty("book_id", luot_xem_book_data[0].get_ID());
+    QString bookName = QString::fromStdString(luot_xem_book_data[4].get_Name());
+    QString authorName = QString::fromStdString(luot_xem_book_data[4].get_Author());
     
     QFontMetrics fmBook(ui->sach_doc_nhieu->font());
     QString elidedBookName = fmBook.elidedText(bookName, Qt::ElideRight, ui->sach_doc_nhieu->width());
@@ -680,15 +649,15 @@ void pbl2::set_up_top_doc_nhieu_nhat()
     QString elidedAuthorName = fmAuthor.elidedText(authorName, Qt::ElideRight, ui->tac_gia_doc_nhieu->width());
     ui->tac_gia_doc_nhieu->setText(elidedAuthorName);
     
-    ui->doc_nhieu_info->setText(QString::number(luot_xem_book_data[0].get_luot_xem()));
+    ui->doc_nhieu_info->setText(QString::number(luot_xem_book_data[4].get_luot_xem()));
 
-    bookName = QString::fromStdString(luot_xem_book_data[1].get_Name());
-    authorName = QString::fromStdString(luot_xem_book_data[1].get_Author());
+    bookName = QString::fromStdString(luot_xem_book_data[3].get_Name());
+    authorName = QString::fromStdString(luot_xem_book_data[3].get_Author());
     elidedBookName = fmBook.elidedText(bookName, Qt::ElideRight, ui->sach_doc_nhieu_1->width());
     ui->sach_doc_nhieu_1->setText(elidedBookName);
     elidedAuthorName = fmAuthor.elidedText(authorName, Qt::ElideRight, ui->tac_gia_doc_nhieu_1->width());
     ui->tac_gia_doc_nhieu_1->setText(elidedAuthorName);
-    ui->doc_nhieu_info_1->setText(QString::number(luot_xem_book_data[1].get_luot_xem()));
+    ui->doc_nhieu_info_1->setText(QString::number(luot_xem_book_data[3].get_luot_xem()));
 
     bookName = QString::fromStdString(luot_xem_book_data[2].get_Name());
     authorName = QString::fromStdString(luot_xem_book_data[2].get_Author());
@@ -698,21 +667,21 @@ void pbl2::set_up_top_doc_nhieu_nhat()
     ui->tac_gia_doc_nhieu_2->setText(elidedAuthorName);
     ui->doc_nhieu_info_2->setText(QString::number(luot_xem_book_data[2].get_luot_xem()));
 
-    bookName = QString::fromStdString(luot_xem_book_data[3].get_Name());
-    authorName = QString::fromStdString(luot_xem_book_data[3].get_Author());
+    bookName = QString::fromStdString(luot_xem_book_data[1].get_Name());
+    authorName = QString::fromStdString(luot_xem_book_data[1].get_Author());
     elidedBookName = fmBook.elidedText(bookName, Qt::ElideRight, ui->sach_doc_nhieu_3->width());
     ui->sach_doc_nhieu_3->setText(elidedBookName);
     elidedAuthorName = fmAuthor.elidedText(authorName, Qt::ElideRight, ui->tac_gia_doc_nhieu_3->width());
     ui->tac_gia_doc_nhieu_3->setText(elidedAuthorName);
-    ui->doc_nhieu_info_3->setText(QString::number(luot_xem_book_data[3].get_luot_xem()));
+    ui->doc_nhieu_info_3->setText(QString::number(luot_xem_book_data[1].get_luot_xem()));
 
-    bookName = QString::fromStdString(luot_xem_book_data[4].get_Name());
-    authorName = QString::fromStdString(luot_xem_book_data[4].get_Author());
+    bookName = QString::fromStdString(luot_xem_book_data[0].get_Name());
+    authorName = QString::fromStdString(luot_xem_book_data[0].get_Author());
     elidedBookName = fmBook.elidedText(bookName, Qt::ElideRight, ui->sach_doc_nhieu_4->width());
     ui->sach_doc_nhieu_4->setText(elidedBookName);
     elidedAuthorName = fmAuthor.elidedText(authorName, Qt::ElideRight, ui->tac_gia_doc_nhieu_4->width());
     ui->tac_gia_doc_nhieu_4->setText(elidedAuthorName);
-    ui->doc_nhieu_info_4->setText(QString::number(luot_xem_book_data[4].get_luot_xem()));
+    ui->doc_nhieu_info_4->setText(QString::number(luot_xem_book_data[0].get_luot_xem()));
 
 }
 
@@ -739,14 +708,14 @@ void pbl2::set_up_top_muon_nhieu_nhat()
     ui->muon_nhieu_4->installEventFilter(this);
     ui->muon_nhieu_5->installEventFilter(this);
 
-    ui->muon_nhieu->setProperty("book_id", luot_muon_book_data[0].get_ID());
-    ui->muon_nhieu_2->setProperty("book_id", luot_muon_book_data[1].get_ID());
+    ui->muon_nhieu->setProperty("book_id", luot_muon_book_data[4].get_ID());
+    ui->muon_nhieu_2->setProperty("book_id", luot_muon_book_data[3].get_ID());
     ui->muon_nhieu_3->setProperty("book_id", luot_muon_book_data[2].get_ID());
-    ui->muon_nhieu_4->setProperty("book_id", luot_muon_book_data[3].get_ID());
-    ui->muon_nhieu_5->setProperty("book_id", luot_muon_book_data[4].get_ID());
+    ui->muon_nhieu_4->setProperty("book_id", luot_muon_book_data[1].get_ID());
+    ui->muon_nhieu_5->setProperty("book_id", luot_muon_book_data[0].get_ID());
 
-    QString bookName = QString::fromStdString(luot_muon_book_data[0].get_Name());
-    QString authorName = QString::fromStdString(luot_muon_book_data[0].get_Author());
+    QString bookName = QString::fromStdString(luot_muon_book_data[4].get_Name());
+    QString authorName = QString::fromStdString(luot_muon_book_data[4].get_Author());
     
     QFontMetrics fmBook(ui->sach_muon_nhieu->font());
     QString elidedBookName = fmBook.elidedText(bookName, Qt::ElideRight, ui->sach_muon_nhieu->width());
@@ -756,15 +725,15 @@ void pbl2::set_up_top_muon_nhieu_nhat()
     QString elidedAuthorName = fmAuthor.elidedText(authorName, Qt::ElideRight, ui->tac_gia_muon_nhieu->width());
     ui->tac_gia_muon_nhieu->setText(elidedAuthorName);
     
-    ui->muon_nhieu_info->setText(QString::number(luot_muon_book_data[0].get_luot_muon()));
+    ui->muon_nhieu_info->setText(QString::number(luot_muon_book_data[4].get_luot_muon()));
 
-    bookName = QString::fromStdString(luot_muon_book_data[1].get_Name());
-    authorName = QString::fromStdString(luot_muon_book_data[1].get_Author());
+    bookName = QString::fromStdString(luot_muon_book_data[3].get_Name());
+    authorName = QString::fromStdString(luot_muon_book_data[3].get_Author());
     elidedBookName = fmBook.elidedText(bookName, Qt::ElideRight, ui->sach_muon_nhieu_2->width());
     ui->sach_muon_nhieu_2->setText(elidedBookName);
     elidedAuthorName = fmAuthor.elidedText(authorName, Qt::ElideRight, ui->tac_gia_muon_nhieu_2->width());
     ui->tac_gia_muon_nhieu_2->setText(elidedAuthorName);
-    ui->muon_nhieu_info_2->setText(QString::number(luot_muon_book_data[1].get_luot_muon()));
+    ui->muon_nhieu_info_2->setText(QString::number(luot_muon_book_data[3].get_luot_muon()));
 
     bookName = QString::fromStdString(luot_muon_book_data[2].get_Name());
     authorName = QString::fromStdString(luot_muon_book_data[2].get_Author());
@@ -774,21 +743,21 @@ void pbl2::set_up_top_muon_nhieu_nhat()
     ui->tac_gia_muon_nhieu_3->setText(elidedAuthorName);
     ui->muon_nhieu_info_3->setText(QString::number(luot_muon_book_data[2].get_luot_muon()));
 
-    bookName = QString::fromStdString(luot_muon_book_data[3].get_Name());
-    authorName = QString::fromStdString(luot_muon_book_data[3].get_Author());
+    bookName = QString::fromStdString(luot_muon_book_data[1].get_Name());
+    authorName = QString::fromStdString(luot_muon_book_data[1].get_Author());
     elidedBookName = fmBook.elidedText(bookName, Qt::ElideRight, ui->sach_muon_nhieu_4->width());
     ui->sach_muon_nhieu_4->setText(elidedBookName);
     elidedAuthorName = fmAuthor.elidedText(authorName, Qt::ElideRight, ui->tac_gia_muon_nhieu_4->width());
     ui->tac_gia_muon_nhieu_4->setText(elidedAuthorName);
-    ui->muon_nhieu_info_4->setText(QString::number(luot_muon_book_data[3].get_luot_muon()));
+    ui->muon_nhieu_info_4->setText(QString::number(luot_muon_book_data[1].get_luot_muon()));
 
-    bookName = QString::fromStdString(luot_muon_book_data[4].get_Name());
-    authorName = QString::fromStdString(luot_muon_book_data[4].get_Author());
+    bookName = QString::fromStdString(luot_muon_book_data[0].get_Name());
+    authorName = QString::fromStdString(luot_muon_book_data[0].get_Author());
     elidedBookName = fmBook.elidedText(bookName, Qt::ElideRight, ui->sach_muon_nhieu_5->width());
     ui->sach_muon_nhieu_5->setText(elidedBookName);
     elidedAuthorName = fmAuthor.elidedText(authorName, Qt::ElideRight, ui->tac_gia_muon_nhieu_5->width());
     ui->tac_gia_muon_nhieu_5->setText(elidedAuthorName);
-    ui->muon_nhieu_info_5->setText(QString::number(luot_muon_book_data[4].get_luot_muon()));
+    ui->muon_nhieu_info_5->setText(QString::number(luot_muon_book_data[0].get_luot_muon()));
 }
 
 bool pbl2::eventFilter(QObject *watched, QEvent *event)
@@ -802,13 +771,13 @@ bool pbl2::eventFilter(QObject *watched, QEvent *event)
             qDebug() << "Clicked on widget with book ID:" << book_id;
             
             book selected_book;
-            if (book_data.find(book_id, selected_book)) {
+            if (lib.get_book_data().find(book_id, selected_book)) {
                 page_previous = 0;
-                if (is_sign_in) {
-                    record.log_action(acc_sign_in.get_ten_dang_nhap(), 
+                if (lib.get_is_sign_in()) {
+                    record.log_action(lib.get_acc_sign_in().get_ten_dang_nhap(), 
                                     ActionType::VIEW_BOOK, 
                                     selected_book.get_ID(), 
-                                    "");
+                                    "Xem thông tin sách " + selected_book.get_Name());
                 }
                 show_info_sach(selected_book);
             }

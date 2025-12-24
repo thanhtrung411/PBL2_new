@@ -2,7 +2,7 @@
 #define DANG_KY_DIALOG_H
 
 #include <QMainWindow>
-#include "accout.h"
+#include "Account.h"
 namespace Ui {
 class dang_ky_dialog;
 }
@@ -49,7 +49,7 @@ private:
     std::string register_role = "User";
     bool is_admin = false;
 signals:
-    void registered(const accout& user);
+    void registered(const Account& user);
     void returned();
 };
 

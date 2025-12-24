@@ -1,5 +1,6 @@
 #include "tree.h"
 #include "global.h"
+#include "library.h"
 #include "my_string.h"
 #include "settings_file.h"
 #include <iostream>
@@ -15,7 +16,7 @@ namespace{
 }
 
 namespace KeyGetters{
-    int getAccoutID(const accout& a) {
+    int getAccountID(const Account& a) {
         return a.get_ID();
     }
     long long getBookID(const book& b) {
@@ -381,7 +382,7 @@ Key BST<T, Key>::find_new_id() const {
     return max_key + (Key)1;
 }
     */
-template class BST<accout, int>;
+template class BST<Account, int>;
 template class BST<book, long long>;
 template class BST<Book_copies, long long>;
 template class BST<Chuyen_nganh, int>;
@@ -427,11 +428,11 @@ void BST_string::search_co_chua_helper(Node<string>* node, BST_string &full, int
     search_co_chua_helper(node, full, count_);
 }
 
-/////////////--for BST_Accout--//////////////
+/////////////--for BST_Account--//////////////
 
-bool BST_Accout::check_accout(string ten_dang_nhap, string pass, accout& a){
+bool BST_Account::check_Account(string ten_dang_nhap, string pass, Account& a){
     int ok = 0;
-    accout_data.traverse_ascending([&](accout &ac){
+    lib.get_account_data().traverse_ascending([&](Account &ac){
         if (ac.get_ten_dang_nhap() == ten_dang_nhap && ac.get_pass() == pass){
             ok = 1;
             a = ac;
@@ -440,10 +441,10 @@ bool BST_Accout::check_accout(string ten_dang_nhap, string pass, accout& a){
     return ok == 1;
 }
 
-void BST_Accout::write_csv(Node<accout>* node, QTextStream &out) const {
+void BST_Account::write_csv(Node<Account>* node, QTextStream &out) const {
     if (!node) return;
     write_csv(node->getLeft(), out);
-    accout& a = node->getData();
+    Account& a = node->getData();
     a.ma_hoa_();
     out << a.get_ID() << "," 
         << QString::fromStdString(a.get_ten_dang_nhap()) << "," 
@@ -455,51 +456,52 @@ void BST_Accout::write_csv(Node<accout>* node, QTextStream &out) const {
         << QString::fromStdString(a.get_phone_number()) << "," 
         << QString::fromStdString(a.get_pass()) << "," 
         << QString::fromStdString(a.get_level()) << ","
+        << a.get_score() << ","
         << QString::fromStdString(a.get_date_created().get_datetime()) << "\n";
     a.giai_ma_();
     write_csv(node->getRight(), out);
 }
 
-void BST_Accout::write_accout(QTextStream &out) const {
+void BST_Account::write_Account(QTextStream &out) const {
     out << "ID, Ten_dang_nhap, Ten_tai_khoan, Email, Phone_number, Gioi_tinh, Date_created, Pass\n";
-    Node<accout>* node = root;
+    Node<Account>* node = root;
     write_csv(node, out);
 }
 
-int BST_Accout::count_doc_gia_helper(Node<accout>* node) {
+int BST_Account::count_doc_gia_helper(Node<Account>* node) {
     if (!node) return 0;
     int count = 0;
-    if (node->getData().get_doi_tuong() == 1) {
+    if (node->getData().get_level() == "User") {
         count = 1;
     }
     return count + count_doc_gia_helper(node->getLeft()) + count_doc_gia_helper(node->getRight());
 }
-int BST_Accout::count_thu_thu_helper(Node<accout>* node) {
+int BST_Account::count_thu_thu_helper(Node<Account>* node) {
     if (!node) return 0;
     int count = 0;
-    if (node->getData().get_doi_tuong() == 2) {
+    if (node->getData().get_level() == "Librarian" || node->getData().get_level() == "Admin") {
         count = 1;
     }
     return count + count_thu_thu_helper(node->getLeft()) + count_thu_thu_helper(node->getRight());
 }
-int BST_Accout::count_doc_gia(){
+int BST_Account::count_doc_gia(){
     return count_doc_gia_helper(root);
 }
-int BST_Accout::count_thu_thu(){
+int BST_Account::count_thu_thu(){
     return count_thu_thu_helper(root);
 }
-bool BST_Accout::check_ten_dang_nhap(string ten_dang_nhap){
+bool BST_Account::check_ten_dang_nhap(string ten_dang_nhap){
     int ok = 0;
-    accout_data.traverse_ascending([&](accout &a){
+    lib.get_account_data().traverse_ascending([&](Account &a){
         if (a.get_ten_dang_nhap() == ten_dang_nhap){
             ok = 1;
         }
     });
     return ok;
 }
-bool BST_Accout::check_quen_mat_khau(string so_dien_thoai, string email, accout &a){
+bool BST_Account::check_quen_mat_khau(string so_dien_thoai, string email, Account &a){
     int ok = 0;
-    accout_data.traverse_ascending([&](accout &ac){
+    lib.get_account_data().traverse_ascending([&](Account &ac){
         if (ac.get_phone_number() == so_dien_thoai && ac.get_email() == email){
             ok = 1;
             ac.set_pass(ma_hoa_str_(settings_file::getInstance()->get_mat_khau_quen()));
@@ -509,16 +511,16 @@ bool BST_Accout::check_quen_mat_khau(string so_dien_thoai, string email, accout 
     return ok;
 }
 
-void BST_Accout::tim_thu_thu(BST_Accout &u){
-    accout_data.traverse_ascending([&](accout &a){
+void BST_Account::tim_thu_thu(BST_Account &u){
+    lib.get_account_data().traverse_ascending([&](Account &a){
         if (a.get_level() == "Admin" || a.get_level() == "Librarian"){
             u.insert(a);
         }
     });
 }
 
-void BST_Accout::tim_doc_gia(BST_Accout &u){
-    accout_data.traverse_ascending([&](accout &a){
+void BST_Account::tim_doc_gia(BST_Account &u){
+    lib.get_account_data().traverse_ascending([&](Account &a){
         if (a.get_level() == "User"){
             u.insert(a);
         }
@@ -542,11 +544,12 @@ void BST_Borrow::write_csv(Node<borrow>* node, QTextStream &out) const {
         << QString::fromStdString(a.get_status_string()) << ","
         << a.get_lan_gia_han() << ","
         << QString::fromStdString(a.get_ghi_chu()) << ","
-        << a.get_tien_phat() << "\n";
+        << a.get_tien_phat() << ","
+        << QString::fromStdString(a.get_tinh_trang_sach_string()) << "\n";
     write_csv(node->getRight(), out);
 }
 void BST_Borrow::write_borrow(QTextStream &out) const {
-    out << "ID, Book_ID, Book_Copy_ID, User_ID, Ngay_dat, Ngay_muon, Ngay_phai_tra, Ngay_tra, Status,Lan_gia_han, Ghi_chu, Tien_phat\n";
+    out << "ID, Book_ID, Book_Copy_ID, User_ID, Ngay_dat, Ngay_muon, Ngay_phai_tra, Ngay_tra, Status,Lan_gia_han, Ghi_chu, Tien_phat, Tinhtrangsach\n";
     write_csv(root, out);
 }
 
@@ -845,7 +848,7 @@ void BST_Book::chuyen_nganh_of_book(int chuyen_nganh_id, BST_Book &b){
 
 int BST_Book::count_sach_theo_chuyen_nganh(int chuyen_nganh_id){
     int count = 0;
-    book_data.traverse_ascending([&chuyen_nganh_id, &count](book& a) {
+    lib.get_book_data().traverse_ascending([&chuyen_nganh_id, &count](book& a) {
         if (a.get_Chuyen_nganh_ID() == chuyen_nganh_id){
             count++;
         }
@@ -854,7 +857,7 @@ int BST_Book::count_sach_theo_chuyen_nganh(int chuyen_nganh_id){
 }
 int BST_Book::count_sach_theo_the_loai(int the_loai_id){
     int count = 0;
-    book_data.traverse_ascending([&the_loai_id, &count](book& a) {
+    lib.get_book_data().traverse_ascending([&the_loai_id, &count](book& a) {
         if (a.get_The_loai_ID() == the_loai_id){
             count++;
         }
@@ -871,7 +874,7 @@ void BST_Book_by_luot_xem::find_5_most_viewed(BST_Book_by_luot_xem &b){
     };
     std::priority_queue<book, std::vector<book>, decltype(cmp)> min_heap(cmp);
     
-    book_data.traverse_ascending([&min_heap](book& bk) {
+    lib.get_book_data().traverse_ascending([&min_heap](book& bk) {
         if (min_heap.size() < 5) {
             min_heap.push(bk);
         } else if (bk.get_luot_xem() > min_heap.top().get_luot_xem()) {
@@ -896,10 +899,10 @@ void BST_Book_by_luot_muon::find_5_most_borrowed(BST_Book_by_luot_muon &b){
     };
     std::priority_queue<book, std::vector<book>, decltype(cmp)> min_heap(cmp);
     
-    book_data.traverse_ascending([&min_heap](book& bk) {
+    lib.get_book_data().traverse_ascending([&min_heap](book& bk) {
         if (min_heap.size() < 5) {
             min_heap.push(bk);
-        } else if (bk.get_luot_muon() > min_heap.top().get_luot_muon()) {
+        } else if (bk.get_luot_muon() >= min_heap.top().get_luot_muon()) {
             min_heap.pop();
             min_heap.push(bk);
         }
@@ -915,7 +918,7 @@ void BST_Book_by_luot_muon::find_5_most_borrowed(BST_Book_by_luot_muon &b){
 ///////////////--for BST_Book_copies--///////////////
 long long BST_book_copy::find_id_available_copy(long long book_id){
     long long id_found = -1;
-    book_copy_data.traverse_ascending([&book_id, this,&id_found](Book_copies& a) {
+    lib.get_book_copy_data().traverse_ascending([&book_id, this,&id_found](Book_copies& a) {
         if (a.get_status() == "available" && a.get_id_book() == book_id){
             id_found = a.get_id();
         }
@@ -926,7 +929,7 @@ long long BST_book_copy::find_id_available_copy(long long book_id){
 
 void BST_book_copy::write_book_copy(QTextStream &out) const {
     out << "ID, Book_id,Status,ghi_chu" << "\n";
-    book_copy_data.traverse_ascending([&out](Book_copies& a) {
+    lib.get_book_copy_data().traverse_ascending([&out](Book_copies& a) {
         out << a.get_id() << ","
             << a.get_id_book() << ","
             << QString::fromStdString(a.get_status()) << "," << "\""
@@ -935,7 +938,7 @@ void BST_book_copy::write_book_copy(QTextStream &out) const {
 }
 
 void BST_book_copy::copies_of_book(long long book_id, BST_book_copy &b){
-    book_copy_data.traverse_ascending([&book_id, this,&b](Book_copies& a) {
+    lib.get_book_copy_data().traverse_ascending([&book_id, this,&b](Book_copies& a) {
         if (a.get_id_book() == book_id){
             b.insert(a);
         }
@@ -946,7 +949,7 @@ bool BST_book_copy::remove_by_book_id(long long book_id){
     bool any_removed = false;
     std::vector<long long> ids_to_remove;
     
-    book_copy_data.traverse_ascending([&book_id, &ids_to_remove](Book_copies& a) {
+    lib.get_book_copy_data().traverse_ascending([&book_id, &ids_to_remove](Book_copies& a) {
         if (a.get_id_book() == book_id){
             ids_to_remove.push_back(a.get_id());
         }
@@ -998,6 +1001,22 @@ bool BST_Chuyen_nganh::return_name(int id, string &name){
     return false;
 }
 
+void BST_Chuyen_nganh::write_chuyen_nganh(QTextStream &out) const{
+    out << "ID, Name\n";
+    Node<Chuyen_nganh>* node = root;
+    lib.get_chuyen_nganh_data().traverse_ascending([&out](Chuyen_nganh &a){
+        out << a.get_id() << ","
+            << QString::fromStdString(a.get_name()) << "\n";
+    });
+}
+Chuyen_nganh BST_Chuyen_nganh::get_chuyen_nganh_by_id(int id){
+    Chuyen_nganh temp;
+    if (this->find(id, temp)){
+        return temp;
+    }
+    return Chuyen_nganh();
+}
+
 ////////////--for BST_The_loai--//////////////
 
 Node<The_loai>* BST_The_loai::return_id_helper(Node<The_loai>* node, string name, int &ok, int &id) {
@@ -1031,6 +1050,24 @@ bool BST_The_loai::return_name(int id, string &name){
     name = "";
     return false;
 }
+
+void BST_The_loai::write_the_loai(QTextStream &out) const{
+    out << "ID, Name\n";
+    Node<The_loai>* node = root;
+    lib.get_the_loai_data().traverse_ascending([&out](The_loai &a){
+        out << a.get_id() << ","
+            << QString::fromStdString(a.get_name()) << "\n";
+    });
+}
+
+The_loai BST_The_loai::get_the_loai_by_id(int id){
+    The_loai temp;
+    if (this->find(id, temp)){
+        return temp;
+    }
+    return The_loai();
+}
+
 //////////////--for BST_Borrow--//////////////
 
 Node<borrow>* BST_Borrow::sach_dang_muon_helper(int user_id, Node<borrow>* node, int &count){
@@ -1045,10 +1082,19 @@ Node<borrow>* BST_Borrow::sach_dang_muon_helper(int user_id, Node<borrow>* node,
 }
 int BST_Borrow::sach_dang_muon(int user_id){
     int count = 0;
-    borrow_data.traverse_ascending([&user_id,&count](borrow &a){
+    lib.get_borrow_data().traverse_ascending([&user_id,&count](borrow &a){
         if (a.get_user_id() == user_id && a.get_status() == StatusType::DANG_MUON
-            || a.get_user_id() == user_id && a.get_status() == StatusType::QUA_HAN_MUON
-            || a.get_user_id() == user_id && a.get_status() == StatusType::SAN_SANG
+            || a.get_user_id() == user_id && a.get_status() == StatusType::QUA_HAN_MUON){
+            count++;
+        }
+    });
+    return count;
+}
+
+int BST_Borrow::sach_dang_dat(int user_id){
+    int count = 0;
+    lib.get_borrow_data().traverse_ascending([&user_id,&count](borrow &a){
+        if (a.get_user_id() == user_id && a.get_status() == StatusType::SAN_SANG
             || a.get_user_id() == user_id && a.get_status() == StatusType::XU_LY){
             count++;
         }
@@ -1056,9 +1102,10 @@ int BST_Borrow::sach_dang_muon(int user_id){
     return count;
 }
 
+
 bool BST_Borrow::check_borrowed(int id_user, long long id_book){
     int ok = 0;
-    borrow_data.traverse_ascending([this,&ok,id_user,id_book](borrow &a){
+    lib.get_borrow_data().traverse_ascending([this,&ok,id_user,id_book](borrow &a){
         if (a.get_user_id() == id_user && a.get_book_id() == id_book && a.get_status() == StatusType::DANG_MUON 
         || a.get_user_id() == id_user && a.get_book_id() == id_book && a.get_status() == StatusType::SAN_SANG
         || a.get_user_id() == id_user && a.get_book_id() == id_book && a.get_status() == StatusType::XU_LY){
@@ -1114,11 +1161,11 @@ Node<borrow>* BST_Borrow::kiem_tra_sach_qua_han_helper(Node<borrow>* node, BST_B
     if ((a.get_status() == StatusType::XU_LY || a.get_status() == StatusType::SAN_SANG) && a.get_ngay_dat() + 4 < current_date){
         a.set_status(StatusType::QUA_HAN_DAT);
         book b;
-        book_data.find(a.get_book_id(), b);
+        lib.get_book_data().find(a.get_book_id(), b);
         b.set_tong_sach_ranh(b.get_tong_sach_ranh() + 1);
         b.set_tong_sach_dang_dat(b.get_tong_sach_dang_dat() - 1);
-        book_data.update(b, b);
-        ghi_book(book_data);
+        lib.get_book_data().update(b, b);
+        ghi_book(lib.get_book_data());
     }
     kiem_tra_sach_qua_han_helper(node->getRight(), b, current_date);
     return nullptr;
@@ -1161,7 +1208,7 @@ void BST_Borrow::tim_sach_dat_thu_thu(BST_Borrow &b){
     while (b.count_data() > 0){
         b.remove_by_Key(b.find_max_id());
     }
-    borrow_data.traverse_ascending([&b](borrow& a) {
+    lib.get_borrow_data().traverse_ascending([&b](borrow& a) {
         if (a.get_status() == StatusType::XU_LY || a.get_status() == StatusType::SAN_SANG || a.get_status() == StatusType::QUA_HAN_DAT){
             b.insert(a);
         }
@@ -1173,7 +1220,7 @@ void BST_Borrow::tim_sach_muon_thu_thu(BST_Borrow &b){
     while (b.count_data() > 0){
         b.remove_by_Key(b.find_max_id());
     }
-    borrow_data.traverse_ascending([&b](borrow& a) {
+    lib.get_borrow_data().traverse_ascending([&b](borrow& a) {
         if (a.get_status() == StatusType::DANG_MUON || a.get_status() == StatusType::QUA_HAN_MUON){
             b.insert(a);
         }
@@ -1185,7 +1232,7 @@ void BST_Borrow::tim_sach_tra_thu_thu(BST_Borrow &b){
     while (b.count_data() > 0){
         b.remove_by_Key(b.find_max_id());
     }
-    borrow_data.traverse_ascending([&b](borrow& a) {
+    lib.get_borrow_data().traverse_ascending([&b](borrow& a) {
         if (a.get_status() == StatusType::TRA_DUNG_HAN || a.get_status() == StatusType::TRA_QUA_HAN){
             b.insert(a);
         }
@@ -1414,6 +1461,7 @@ void BST_History::load_from_file(string user_name_filter, BST_History &b){
             record_entry.set_action_type_string(action_str);
             long long book_id = to_long_long(book_id_str);
             record_entry.set_book_id(book_id);
+            record_entry.set_ghi_chu(ghi_chu);
             try {
                 if (!book_id_str.empty()) book_id = stoll(book_id_str);
             } catch (...) { book_id = 0; }

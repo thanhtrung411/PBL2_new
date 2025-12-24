@@ -13,14 +13,14 @@
 #include <QUrl>
 #include <QMessageBox>
 #include <QFileDialog>
-#include "accout.h"
+#include "Account.h"
 #include "tree.h"
 using namespace std;
 
 
 
-void doc_accout(BST_Accout &accout_data){
-    const QString path = getDataFilePath("data/accout.txt");
+void doc_Account(BST_Account &Account_data){
+    const QString path = getDataFilePath("data/Account.txt");
     QFile file(path);
     if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
         qDebug() << "Khong the mo file de doc:" << path;
@@ -33,7 +33,7 @@ void doc_accout(BST_Accout &accout_data){
         if (qline.trimmed().isEmpty()) continue;
         qDebug() << qline;
         string line = qline.toUtf8().toStdString();
-        accout ac;
+        Account ac;
         int idx = 0;
         for (int i = 0 ; i < line.size() ; i++){
             string res = "";
@@ -87,7 +87,10 @@ void doc_accout(BST_Accout &accout_data){
             case 9:
                 ac.set_level(res);
                 break;
-            case 10:{
+            case 10:
+                ac.set_score(to_int(res));
+                break;
+            case 11:{
                 my_time res_time;
                 res_time.set_time_datetime(res);
                 ac.set_date_created(res_time);
@@ -98,21 +101,21 @@ void doc_accout(BST_Accout &accout_data){
             }
             idx++;
         }
-        accout_data.insert(ac);
+        Account_data.insert(ac);
     }
     file.close();
 }
 
-void ghi_accout(BST_Accout &accout_data){
-    const QString path = getDataFilePath("data/accout.txt");
+void ghi_Account(BST_Account &Account_data){
+    const QString path = getDataFilePath("data/Account.txt");
     QDir().mkpath(QFileInfo(path).absolutePath());
     QFile file(path);
     if (!file.open(QIODevice::WriteOnly | QIODevice::Truncate | QIODevice::Text)) {
-        qDebug() << "Khong the mo file de ghi: accout.txt" << path;
+        qDebug() << "Khong the mo file de ghi: Account.txt" << path;
         return;
     }
     QTextStream out(&file);
-    accout_data.write_accout(out);
+    Account_data.write_Account(out);
     qDebug() << "Ghi file thanh cong:" << path;
 }
 
@@ -332,7 +335,7 @@ void ghi_the_loai(BST_The_loai &the_loai_){
         return;
     }
     QTextStream out(&file);
-    //the_loai_.write_the_loai(out); // cần overload với QTextStream (bên dưới)
+    the_loai_.write_the_loai(out); // cần overload với QTextStream (bên dưới)
     qDebug() << "Ghi file thanh cong:" << path;
 }
 
@@ -396,7 +399,7 @@ void ghi_chuyen_nganh(BST_Chuyen_nganh &chuyen_nganh_){
         return;
     }
     QTextStream out(&file);
-    //chuyen_nganh_.write_chuyen_nganh(out); // cần overload với QTextStream (bên dưới)
+    chuyen_nganh_.write_chuyen_nganh(out); // cần overload với QTextStream (bên dưới)
     qDebug() << "Ghi file thanh cong:" << path;
 }
 
@@ -482,6 +485,9 @@ void doc_borrow(BST_Borrow &borrow_data){
                 break;
             case 11:
                 b.set_tien_phat(to_int(res));
+                break;
+            case 12:
+                b.set_tinh_trang_sach(res);
                 break;
             default:
                 break;

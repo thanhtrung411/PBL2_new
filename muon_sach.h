@@ -3,6 +3,8 @@
 
 #include <QMainWindow>
 #include "borrow.h"
+#include "my_time.h"
+
 
 namespace Ui {
 class muon_sach;
@@ -19,6 +21,8 @@ public:
     ~muon_sach();
     void set_up_borrow_info();
     void set_up_xu_ly_muon_sach();
+    my_time get_ngay_muon();
+    my_time get_ngay_phai_tra();
 
 private slots:
     void on_doc_gia_currentTextChanged(const QString &arg1);

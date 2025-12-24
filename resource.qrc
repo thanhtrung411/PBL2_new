@@ -33,7 +33,6 @@
         <file>icons_/check-book_1.png</file>
     </qresource>
     <qresource prefix="/data_">
-        <file>data/accout.txt</file>
         <file>data/CSDL.csv</file>
     </qresource>
 </RCC>

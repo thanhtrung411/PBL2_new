@@ -3,6 +3,7 @@
 #include "book.h"
 #include "tree.h"
 #include "global.h"
+#include "library.h"
 #include "history.h"
 #include "add_book.h"
 #include "info_book.h"
@@ -10,12 +11,13 @@
 #include "my_string.h"
 #include "phieu_tra_sach.h"
 #include "dang_ky_dialog.h"
-#include "accout.h"
+#include "Account.h"
 #include "info_user.h"
 #include "the_loai_chuyen_nganh.h"
 #include "add_book_copy.h"
 #include "my_time.h"
 #include "settings_file.h"
+#include "exception.h"
 
 #include <QTableWidget>
 #include <QTableWidgetItem>
@@ -48,11 +50,11 @@ admin::admin(QWidget *parent)
     , ui(new Ui::admin)
 {
     ui->setupUi(this);
-    ui->name->setText(QString::fromStdString(acc_sign_in.get_ten_tai_khoan()));
+    ui->name->setText(QString::fromStdString(lib.get_acc_sign_in().get_ten_tai_khoan()));
     string chuc_vu;
-    if (acc_sign_in.get_level() == "Admin"){
+    if (lib.get_acc_sign_in().get_level() == "Admin"){
         chuc_vu = "Quản trị viên";
-    } else if (acc_sign_in.get_level() == "Librarian"){
+    } else if (lib.get_acc_sign_in().get_level() == "Librarian"){
         chuc_vu = "Thủ thư";
     } else {
         chuc_vu = "Độc giả";
@@ -75,11 +77,11 @@ admin::admin(QWidget *parent)
         this->set_anh_dai_dien();
         this->set_up_top_doc_nhieu_nhat();
         this->set_up_top_muon_nhieu_nhat();
-    });    
+    });
     this->hien_thi_thong_ke();
     this->set_thong_ke();
     // Load dữ liệu sách ban đầu
-    add_book_(book_data);
+    add_book_(lib.get_book_data());
 }
 
 admin::~admin()
@@ -88,30 +90,30 @@ admin::~admin()
 }
 
 void admin::set_anh_dai_dien(){
-    QString id_path = QString::fromUtf8("../../anh_dai_dien/%1.png").arg(acc_sign_in.get_ID());
+    QString id_path = QString::fromUtf8("../../anh_dai_dien/%1.png").arg(lib.get_acc_sign_in().get_ID());
     QString default_path = QString::fromUtf8("../../anh_dai_dien/anh_dai_dien.png");
     QString png_path = QFile::exists(id_path) ? id_path : default_path;
-    
+
     // Tính size thật (nhân với PixelRatio để nét trên màn hình 2K/4K)
     QSize realSize = ui->anh_dai_dien->size() * ui->anh_dai_dien->devicePixelRatio();
-    
+
     // GỌI HÀM MỚI cho anh_dai_dien
-    QPixmap pix = load_image_pro(png_path, realSize, 15, true); 
+    QPixmap pix = load_image_pro(png_path, realSize, 15, true);
     pix.setDevicePixelRatio(ui->anh_dai_dien->devicePixelRatio());
     ui->anh_dai_dien->setPixmap(pix);
 }
 
 void admin::set_thong_ke(){
-    int tong_sach = book_data.count_data();
-    int tong_ban_sao = book_copy_data.count_data();
-    int tong_doc_gia = accout_data.count_doc_gia();
-    int tong_thu_thu = accout_data.count_thu_thu();
-    int tong_chuyen_nganh = chuyen_nganh_data.count_data();
+    int tong_sach = lib.get_book_data().count_data();
+    int tong_ban_sao = lib.get_book_copy_data().count_data();
+    int tong_doc_gia = lib.get_account_data().count_doc_gia();
+    int tong_thu_thu = lib.get_account_data().count_thu_thu();
+    int tong_chuyen_nganh = lib.get_chuyen_nganh_data().count_data();
     int tong_sach_ranh;
     int tong_sach_dat;
     int tong_sach_dang_muon;
     int tong_sach_qua_han;
-    borrow_data.tong_sach_dat_muon_qua_han(tong_sach_dat, tong_sach_dang_muon, tong_sach_qua_han);
+    lib.get_borrow_data().tong_sach_dat_muon_qua_han(tong_sach_dat, tong_sach_dang_muon, tong_sach_qua_han);
     tong_sach_ranh = tong_ban_sao - tong_sach_dang_muon;
     int luot_xem_thang;
     int luot_muon_thang;
@@ -130,7 +132,7 @@ void admin::set_thong_ke(){
     ui->luot_xem_thang_label->setText(QString::number(luot_xem_thang));
     ui->tong_luot_muon_thang_label->setText(QString::number(luot_muon_thang));
     ui->tong_luot_tai_thang->setText(QString::number(luot_tai_thang));
-    
+
 }
 
 void admin::hien_thi_thong_ke()
@@ -190,7 +192,7 @@ QChartView* admin::createLuotMuonChart()
 
     // Trục Y
     QValueAxis *axisY = new QValueAxis();
-    axisY->setRange(0, 100);
+    axisY->setRange(0, 0);
     axisY->setTickCount(5);
     chart->addAxis(axisY, Qt::AlignLeft);
     series->attachAxis(axisY);
@@ -224,8 +226,8 @@ QChartView* admin::createPhanboTheLoaiChart()
 
     int total = 0;
 
-    the_loai_data.traverse_ascending([&](The_loai &tl) {
-        int count = book_data.count_sach_theo_the_loai(tl.get_id());
+    lib.get_the_loai_data().traverse_ascending([&](The_loai &tl) {
+        int count = lib.get_book_data().count_sach_theo_the_loai(tl.get_id());
         if (count > 0) {
             total += count;
             series->append(QString::fromStdString(tl.get_name()), count);
@@ -385,7 +387,7 @@ void admin::on_lineEdit_textChanged(const QString &arg1)
     remove_table(ui->sach_table);
 
     if (arg1.isEmpty()) {
-        add_book_(book_data);
+        add_book_(lib.get_book_data());
         return;
     }
 
@@ -395,8 +397,8 @@ void admin::on_lineEdit_textChanged(const QString &arg1)
     int type_bieu_ghi = 1;   // 1: tên sách
     std::string key_word = arg1.toStdString();
 
-    book_data.search(type_the_loai, type_tuy_chon, type_bieu_ghi,
-                     key_word, book_data, kq_search);
+    lib.get_book_data().search(type_the_loai, type_tuy_chon, type_bieu_ghi,
+                     key_word, lib.get_book_data(), kq_search);
     add_book_(kq_search);
 }
 
@@ -423,7 +425,7 @@ void admin::on_sach_table_customContextMenuRequested(const QPoint &pos)
         return;
 
     book selectedBook;
-    if (!book_data.find(id, selectedBook)) {
+    if (!lib.get_book_data().find(id, selectedBook)) {
         return;
     }
 
@@ -438,32 +440,39 @@ void admin::on_sach_table_customContextMenuRequested(const QPoint &pos)
         win->show();
         connect(win, &add_book::destroyed, this, [this]() {
             remove_table(ui->sach_table);
-            add_book_(book_data);
+            add_book_(lib.get_book_data());
         });
     } else if (chosen == actXoa) {
-        // Hiển thị hộp thoại xác nhận
-        QString ten_sach = QString::fromStdString(selectedBook.get_Name());
-        QMessageBox::StandardButton reply;
-        reply = QMessageBox::question(this, "Xác nhận xóa", 
-                           "Bạn có chắc chắn muốn xóa sách:\nID: " + QString::number(id) + "\n" + ten_sach + "?",
-                           QMessageBox::Yes | QMessageBox::No);
-        
-        if (reply == QMessageBox::Yes) {
-            // Xóa tất cả bản sao của sách
-            BST_book_copy copies;
-            copies.copies_of_book(id, copies);
-            copies.traverse_ascending([](Book_copies &bc){
-            book_copy_data.remove_by_Key(bc.get_id());
-            });
-            
-            // Xóa sách
-            book_data.remove_by_Key(id);
-            
-            // Cập nhật lại bảng hiển thị
+        QMessageBox::StandardButton reply =
+            QMessageBox::question(
+                this,
+                "Xác nhận xóa",
+                "Bạn có chắc chắn muốn xóa sách:\n" +
+                QString::number(id) + " - " +
+                QString::fromStdString(selectedBook.get_Name()),
+                QMessageBox::Yes | QMessageBox::No
+            );
+
+        if (reply != QMessageBox::Yes)
+            return;
+
+        try {
+            lib.xoa_sach_va_ban_sao(id);
+            QMessageBox::information(
+                this,
+                "Thành công",
+                "Đã xóa sách và các bản sao thành công."
+            );
+
             remove_table(ui->sach_table);
-            add_book_(book_data);
-            record.log_action(acc_sign_in.get_ten_dang_nhap(), REMOVE_BOOK_COPY, id, "Đã xóa sách " + to_stringll_(selectedBook.get_ID()) + " - " + selectedBook.get_Name());
-            QMessageBox::information(this, "Xóa thành công", "Sách và các bản sao đã được xóa thành công.");
+            add_book_(lib.get_book_data());
+        }
+        catch (AppException &e) {
+            QMessageBox::warning(
+                this,
+                QString::fromStdString(e.getTitle()),
+                QString::fromStdString(e.what())
+            );
         }
     }
 }
@@ -515,11 +524,11 @@ void admin::on_dau_sach_button_clicked()
     ui->chuyen_nganh_combo->addItem("Tất cả chuyên ngành");
     ui->chuyen_nganh_combo->setProperty("status", j++);
 
-    chuyen_nganh_data.traverse_ascending([this, &j](Chuyen_nganh &cn){
+    lib.get_chuyen_nganh_data().traverse_ascending([this, &j](Chuyen_nganh &cn){
         ui->chuyen_nganh_combo->addItem(QString::fromStdString(cn.get_name()));
         ui->chuyen_nganh_combo->setProperty("status", j++);
     });
-    the_loai_data.traverse_ascending([this, &i](The_loai &tl){
+    lib.get_the_loai_data().traverse_ascending([this, &i](The_loai &tl){
         ui->the_loai_combo->addItem(QString::fromStdString(tl.get_name()));
         ui->the_loai_combo->setProperty("status", i++);
     });
@@ -591,7 +600,7 @@ void admin::hien_thi_sach_dat(BST_Borrow &b){
                 item->setTextAlignment(Qt::AlignCenter);
             ui->dat_sach_table->setItem(row, col, item);
         };
-        setText(0, QString::fromStdString(giai_ma_str_(br.get_user_name())));
+        setText(0, QString::fromStdString((br.get_user_name())));
         setText(1, QString::fromStdString(br.get_book_name()));
         setText(2, QString::fromStdString(br.get_ngay_dat().get_date()), true);
         setText(3, QString::fromStdString((br.get_ngay_dat() + 3).get_date()), true);
@@ -622,7 +631,7 @@ QWidget* admin::createStatusDatWidget(StatusType trang_thai, int days = 0)
         lblStatus->setStyleSheet(
             "QPushButton {"
             "   background-color: #e0e0e0;"
-            "   color: #333333;" 
+            "   color: #333333;"
             "   border: 1px solid #bfbfbf;"
             "   border-radius: 10px;"
             "   font-weight: bold;"
@@ -670,7 +679,7 @@ QWidget* admin::createStatusDatWidget(StatusType trang_thai, int days = 0)
         break;
     default:
         break;
-        
+
     }
     layout->addWidget(lblStatus);
     layout->setContentsMargins(0, 0, 0, 0);
@@ -719,63 +728,89 @@ void admin::onXuLyClicked()
     if (!button)
         return;
     long long id = button->property("ID").toLongLong();
-
-    borrow br;
-    if (!borrow_data.find(id, br)) {
+    try{
+        lib.xu_ly_sach(id);
+    } catch (AppException &e){
+        QMessageBox::warning(this, "Lỗi", QString::fromStdString(e.what()));
         return;
     }
-    br.set_status(StatusType::SAN_SANG);
-    book bk;
-    book_data.find(id, bk);
-    bk.set_luot_muon(bk.get_luot_muon() + 1);
-    bk.set_tong_sach_ranh(bk.get_tong_sach_ranh() - 1);
-    book_data.update(bk, bk);
-    borrow_data.update(br, br);
-    ghi_book(book_data);
-    ghi_borrow(borrow_data);
     cau_hinh_dat_sach();
 }
 void admin::onXacNhanClicked()
 {
     QPushButton* button = qobject_cast<QPushButton*>(sender());
-    if (!button)
-        return;
+    if (!button) return;
+
     long long id = button->property("ID").toLongLong();
 
     borrow br;
-    if (!borrow_data.find(id, br)) {
+    if (!lib.get_borrow_data().find(id, br)) {
+        QMessageBox::warning(this, "Lỗi", "Không tìm thấy yêu cầu đặt.");
         return;
     }
+
     auto win = new muon_sach(br, this);
     win->set_up_xu_ly_muon_sach();
     win->setWindowModality(Qt::ApplicationModal);
     win->setAttribute(Qt::WA_DeleteOnClose, true);
     win->show();
-    connect(win, &muon_sach::muon_sach_thanh_cong, this, [this, win, button, id,br]() {
-        QWidget *widgetContainer = button->parentWidget();
-        if (!widgetContainer) return;
-        QPoint pos = widgetContainer->pos();
-        QModelIndex index = ui->dat_sach_table->indexAt(pos);
-        int currentRow = index.row();
-        ghi_book(book_data);
-        ghi_borrow(borrow_data);
 
-        record.log_action(br.get_user_name(), BORROW_BOOK, id, "Đã xác nhận mượn sách bởi " + acc_sign_in.get_ten_tai_khoan() + " | " + to_stringll_(id) + " - " + br.get_book_name());
-        if (currentRow >= 0) {
-            ui->dat_sach_table->setCellWidget(currentRow, 4, createStatusDatWidget(StatusType::DANG_MUON,0));
-            ui->dat_sach_table->setCellWidget(currentRow, 5, createNutDatWidget(StatusType::DANG_MUON, id));
-        }
+    connect(win, &muon_sach::muon_sach_thanh_cong,
+        this, [this, id, win]() {
+        QMessageBox::information(
+            this,
+            "Thành công",
+            "Xác nhận mượn sách thành công."
+        );
+
+        cau_hinh_dat_sach();
+        cau_hinh_muon_sach();
         });
-    //cau_hinh_dat_sach();
 }
 void admin::onXoaDatSachClicked()
 {
     QPushButton* button = qobject_cast<QPushButton*>(sender());
     if (!button)
         return;
+
     long long id = button->property("ID").toLongLong();
-    borrow_data.remove_by_Key(id);
-    cau_hinh_dat_sach();
+
+    QMessageBox::StandardButton reply =
+        QMessageBox::question(
+            this,
+            "Xác nhận hủy đặt",
+            "Bạn có chắc chắn muốn hủy yêu cầu đặt sách này?",
+            QMessageBox::Yes | QMessageBox::No
+        );
+
+    if (reply != QMessageBox::Yes)
+        return;
+
+    try {
+        lib.huy_dat_sach(id);
+
+        QMessageBox::information(
+            this,
+            "Thành công",
+            "Đã hủy đặt sách thành công."
+        );
+
+        cau_hinh_dat_sach();
+    }
+    catch (AppException &e) {
+        QMessageBox::warning(
+            this,
+            QString::fromStdString(e.getTitle()),
+            QString::fromStdString(e.what())
+        );
+    }
+    catch (...) {
+        QMessageBox::critical(
+            this,
+            "Lỗi hệ thống",
+            "Đã xảy ra lỗi không xác định."
+        );
+    }
 }
 
 
@@ -920,15 +955,16 @@ void admin::hien_thi_sach_muon(BST_Borrow &b){
         int row = ui->muon_sach_table->rowCount();
         ui->muon_sach_table->insertRow(row);
 
+
         auto setText = [&](int col, const QString &text, bool center = false) {
             QTableWidgetItem *item = new QTableWidgetItem(text);
             if (center)
                 item->setTextAlignment(Qt::AlignCenter);
             ui->muon_sach_table->setItem(row, col, item);
         };
-        setText(0, QString::fromStdString(giai_ma_str_(br.get_user_name())));
-        setText(1, QString::fromStdString(br.get_book_name()));
-        setText(2, QString::number(br.get_book_copy_id()), true);
+        setText(0, QString::fromStdString(to_stringll_(br.get_user_id()) + " - " + (br.get_user_name())));
+        setText(1, QString::fromStdString(to_stringll_(br.get_book_id()) + " - " + br.get_book_name()));
+        setText(2, QString::fromStdString("BS-" + to_stringll_(br.get_book_copy_id())), true);
         setText(3, QString::fromStdString(br.get_ngay_muon().get_date()), true);
         setText(4, QString::fromStdString(br.get_ngay_phai_tra().get_date()), true);
         string trang_thai;
@@ -949,10 +985,13 @@ QWidget* admin::createNutMuonWidget(StatusType trang_thai,long long id){
     QHBoxLayout *layout = new QHBoxLayout(container);
     borrow br;
     book bk;
-    book_data.find(id, bk);
-    if (!borrow_data.find(id, br)) {
+    if (!lib.get_borrow_data().find(id, br)) {
         return container;
     }
+    lib.get_book_data().find(br.get_book_id(), bk);
+    qDebug() << "So lan gia han: " << br.get_lan_gia_han();
+    qDebug() << "So lan gia han cho phep: " << settings_file::getInstance()->get_so_lan_gia_han();
+    qDebug() << "Tong sach ranh: " << bk.get_tong_sach_ranh();
     if (br.get_lan_gia_han() < settings_file::getInstance()->get_so_lan_gia_han() && bk.get_tong_sach_ranh() > 0){
         QPushButton *lblNut = new QPushButton();
         lblNut->setProperty("ID", QString::number(id));
@@ -980,18 +1019,35 @@ QWidget* admin::createNutMuonWidget(StatusType trang_thai,long long id){
 void admin::onGiaHanSachClicked()
 {
     QPushButton* button = qobject_cast<QPushButton*>(sender());
-    if (!button)
-        return;
+    if (!button) return;
+
     long long id = button->property("ID").toLongLong();
 
-    borrow br;
-    if (!borrow_data.find(id, br)) {
-        return;
+    try {
+        lib.gia_han_muon_sach_(id);
+
+        QMessageBox::information(
+            this,
+            "Thành công",
+            "Gia hạn sách thành công."
+        );
+
+        cau_hinh_muon_sach();
     }
-    br.set_lan_gia_han(br.get_lan_gia_han() + 1);
-    br.set_ngay_phai_tra(br.get_ngay_phai_tra() + 7);
-    borrow_data.update(br, br);
-    cau_hinh_muon_sach();
+    catch (AppException &e) {
+        QMessageBox::warning(
+            this,
+            QString::fromStdString(e.getTitle()),
+            QString::fromStdString(e.what())
+        );
+    }
+    catch (...) {
+        QMessageBox::critical(
+            this,
+            "Lỗi hệ thống",
+            "Đã xảy ra lỗi không xác định."
+        );
+    }
 }
 
 void admin::onXemChiTietMuonClicked()
@@ -1002,11 +1058,11 @@ void admin::onXemChiTietMuonClicked()
     long long id = button->property("ID").toLongLong();
 
     borrow br;
-    if (!borrow_data.find(id, br)) {
+    if (!lib.get_borrow_data().find(id, br)) {
         return;
     }
     auto win = new muon_sach(br, this);
-    win->set_up_xu_ly_muon_sach();
+    win->set_up_borrow_info();
     win->setWindowModality(Qt::ApplicationModal);
     win->setAttribute(Qt::WA_DeleteOnClose, true);
     win->show();
@@ -1076,9 +1132,9 @@ void admin::hien_thi_sach_tra(BST_Borrow &b){
                 item->setTextAlignment(Qt::AlignCenter);
             ui->tra_sach_table->setItem(row, col, item);
         };
-        setText(0, QString::fromStdString((br.get_user_name())));
-        setText(1, QString::fromStdString(br.get_book_name()));
-        setText(2,"BS-" + QString::number(br.get_book_copy_id()), true);
+        setText(0, QString::fromStdString(to_stringll_(br.get_user_id()) + " - " + br.get_user_name()));
+        setText(1, QString::fromStdString(to_stringll_(br.get_book_id()) + " - " + br.get_book_name()));
+        setText(2, "BS-" + QString::number(br.get_book_copy_id()), true);
         setText(3, QString::fromStdString(br.get_ngay_muon().get_date()), true);
         setText(4, QString::fromStdString(br.get_ngay_phai_tra().get_date()), true);
         setText(5, QString::fromStdString(br.get_ngay_tra().get_date()), true);
@@ -1109,28 +1165,28 @@ QWidget* admin::createTinhTrangWidget(TinhTrangsach tinh_trang, long long id)
     case TinhTrangsach::TOT:
         lblStatus->setText("Tốt");
         lblStatus->setProperty("status", 0);
-        lblStatus->setStyleSheet(baseStyle + 
+        lblStatus->setStyleSheet(baseStyle +
             "QLabel { background-color: #28a745; color: white; }");
         break;
 
     case TinhTrangsach::BINH_THUONG:
         lblStatus->setText("Bình thường");
         lblStatus->setProperty("status", 1);
-        lblStatus->setStyleSheet(baseStyle + 
+        lblStatus->setStyleSheet(baseStyle +
             "QLabel { background-color: #b9f6ca; color: #1b5e20; }");
         break;
 
     case TinhTrangsach::HONG:
         lblStatus->setText("Hư hỏng");
         lblStatus->setProperty("status", 2);
-        lblStatus->setStyleSheet(baseStyle + 
+        lblStatus->setStyleSheet(baseStyle +
             "QLabel { background-color: #ff9800; color: white; }");
         break;
 
     case TinhTrangsach::MAT:
         lblStatus->setText("Mất");
         lblStatus->setProperty("status", 3);
-        lblStatus->setStyleSheet(baseStyle + 
+        lblStatus->setStyleSheet(baseStyle +
             "QLabel { background-color: #212121; color: white; }");
         break;
 
@@ -1140,7 +1196,7 @@ QWidget* admin::createTinhTrangWidget(TinhTrangsach tinh_trang, long long id)
     }
 
     layout->addWidget(lblStatus);
-    layout->setAlignment(Qt::AlignCenter); 
+    layout->setAlignment(Qt::AlignCenter);
     layout->setContentsMargins(0, 0, 0, 0);
     layout->setSpacing(0);
 
@@ -1169,7 +1225,7 @@ void admin::onXemChiTietTraClicked()
     long long id = button->property("ID").toLongLong();
 
     borrow br;
-    if (!borrow_data.find(id, br)) {
+    if (!lib.get_borrow_data().find(id, br)) {
         return;
     }
     //info_borrow *win = new info_borrow(br, this);
@@ -1310,7 +1366,7 @@ void admin::on_ban_sao_button_clicked()
     cau_hinh_ban_sao();
     ui->dau_sach->clear();
     string s;
-    book_data.traverse_ascending([this,&s](book &bk){
+    lib.get_book_data().traverse_ascending([this,&s](book &bk){
         s = to_stringll_(bk.get_ID()) + " - " + bk.get_Name();
         ui->dau_sach->addItem(QString::fromStdString(s), QVariant::fromValue(bk.get_ID()));
     });
@@ -1322,7 +1378,7 @@ void admin::on_ban_sao_button_clicked()
 void admin::hien_thi_ban_sao(BST_book_copy &bc){
     remove_table(ui->ban_sao_table);
     book b;
-    book_data.find(ui->dau_sach->currentData().toLongLong(), b);
+    lib.get_book_data().find(ui->dau_sach->currentData().toLongLong(), b);
     bc.traverse_ascending([this,&b](Book_copies &br){
         int row = ui->ban_sao_table->rowCount();
         ui->ban_sao_table->insertRow(row);
@@ -1339,6 +1395,15 @@ void admin::hien_thi_ban_sao(BST_book_copy &bc){
         };
         setText(0, QString::fromStdString( "BS-" + to_string(br.get_id())),true);
         setText(1, QString::fromStdString(to_string(br.get_id_book()) + " - " + b.get_Name()));
+        if (br.get_status() == "available")
+            setText(2, "Sẵn sàng", true);
+        else if (br.get_status() == "DA_MUON")
+            setText(2, "Đang mượn", true);
+        else if (br.get_status() == "damaged")
+            setText(2, "Hư hỏng", true);
+        else if (br.get_status() == "lost")
+            setText(2, "Mất", true);
+        else
         setText(2, QString::fromStdString(br.get_status()), true);
         ui->ban_sao_table->setCellWidget(row, 3, createNutXoaWidget(br.get_id()));
     });
@@ -1373,30 +1438,30 @@ void admin::onXoaBanSaoClicked()
 
     // Tìm thông tin bản sao để hiển thị tên
     Book_copies bc;
-    if (!book_copy_data.find(id, bc)) {
+    if (!lib.get_book_copy_data().find(id, bc)) {
         return;
     }
-    
+
     book b;
-    if (!book_data.find(bc.get_id_book(), b)) {
+    if (!lib.get_book_data().find(bc.get_id_book(), b)) {
         return;
     }
-    
+
     QString ten_ban_sao = QString::fromStdString("BS-" + to_string(id) + " - " + b.get_Name());
-    
+
     // Hiển thị hộp thoại xác nhận
     QMessageBox::StandardButton reply;
-    reply = QMessageBox::question(this, "Xác nhận xóa", 
+    reply = QMessageBox::question(this, "Xác nhận xóa",
                                    "Bạn có chắc chắn muốn xóa bản sao:\n" + ten_ban_sao + "?",
                                    QMessageBox::Yes | QMessageBox::No);
-    
+
     if (reply == QMessageBox::Yes) {
-        book_copy_data.remove_by_Key(id);
-        ghi_copy_book(book_copy_data);
+        lib.get_book_copy_data().remove_by_Key(id);
+        ghi_copy_book(lib.get_book_copy_data());
         BST_book_copy bc_list;
         bc_list.copies_of_book(ui->dau_sach->currentData().toLongLong(), bc_list);
         hien_thi_ban_sao(bc_list);
-        record.log_action(acc_sign_in.get_ten_dang_nhap(), ActionType::REMOVE_BOOK_COPY, id, "Đã xóa bản sao " + to_stringll_(b.get_ID()) + " - " + b.get_Name());
+        record.log_action(lib.get_acc_sign_in().get_ten_dang_nhap(), ActionType::REMOVE_BOOK_COPY, id, "Đã xóa bản sao " + to_stringll_(b.get_ID()) + " - " + b.get_Name());
         QMessageBox::information(this, "Xóa thành công", "Bản sao đã được xóa thành công.");
     }
 }
@@ -1410,14 +1475,14 @@ void admin::on_thu_thu_button_clicked()
         "color: rgb(0, 0, 0);"
         "background-color: rgb(255, 255, 255);"
         "border-radius: 10px;");
-    if (acc_sign_in.get_level() != "Admin"){
+    if (lib.get_acc_sign_in().get_level() != "Admin"){
         ui->noi_dung_layout->setCurrentIndex(8);
         return;
     }
     ui->noi_dung_layout->setCurrentIndex(4);
     cau_hinh_thu_thu();
-    BST_Accout u;
-    accout_data.tim_thu_thu(u);
+    BST_Account u;
+    lib.get_account_data().tim_thu_thu(u);
     hien_thi_thu_thu(u);
 }
 
@@ -1437,9 +1502,9 @@ void admin::cau_hinh_thu_thu(){
     header->setSectionResizeMode(6, QHeaderView::ResizeToContents);
 }
 
-void admin::hien_thi_thu_thu(BST_Accout &u){
+void admin::hien_thi_thu_thu(BST_Account &u){
     remove_table(ui->thu_thu_table);
-    u.traverse_ascending([this](accout &ac){
+    u.traverse_ascending([this](Account &ac){
         int row = ui->thu_thu_table->rowCount();
         ui->thu_thu_table->insertRow(row);
 
@@ -1468,7 +1533,7 @@ void admin::on_them_doc_gia_clicked()
     //win->setAttribute(Qt::WA_DeleteOnClose, true);
     win->set_up_register_mode("User");
     win->show();
-    connect(win, &dang_ky_dialog::registered, this, [this, win](const accout& user) {
+    connect(win, &dang_ky_dialog::registered, this, [this, win](const Account& user) {
         this->on_doc_gia_button_clicked();
     });
 }
@@ -1480,7 +1545,7 @@ void admin::on_them_thu_thu_clicked()
     //win->setAttribute(Qt::WA_DeleteOnClose, true);
     win->set_up_register_mode("Librarian");
     win->show();
-    connect(win, &dang_ky_dialog::registered, this, [this, win](const accout& user) {
+    connect(win, &dang_ky_dialog::registered, this, [this, win](const Account& user) {
         this->on_thu_thu_button_clicked();
     });
 }
@@ -1520,8 +1585,8 @@ void admin::onXemThongTinUserClicked() {
         return;
     long long user_id = button->property("UserID").toLongLong();
 
-    accout ac;
-    if (!accout_data.find(user_id, ac)) {
+    Account ac;
+    if (!lib.get_account_data().find(user_id, ac)) {
         return;
     }
 
@@ -1536,8 +1601,8 @@ void admin::onXoaUserClicked() {
         return;
     long long user_id = button->property("UserID").toLongLong();
 
-    accout ac;
-    if (!accout_data.find(user_id, ac)) {
+    Account ac;
+    if (!lib.get_account_data().find(user_id, ac)) {
         return;
     }
 
@@ -1549,10 +1614,10 @@ void admin::onXoaUserClicked() {
                                    QMessageBox::Yes | QMessageBox::No);
 
     if (reply == QMessageBox::Yes) {
-        accout_data.remove_by_Key(user_id);
-        ghi_accout(accout_data);
+        lib.get_account_data().remove_by_Key(user_id);
+        ghi_Account(lib.get_account_data());
         this->on_doc_gia_button_clicked();
-        record.log_action(acc_sign_in.get_ten_dang_nhap(), ActionType::ADJ_USER, user_id, "Đã xóa người dùng " + ac.get_ten_tai_khoan());
+        record.log_action(lib.get_acc_sign_in().get_ten_dang_nhap(), ActionType::ADJ_USER, user_id, "Đã xóa người dùng " + ac.get_ten_tai_khoan());
         QMessageBox::information(this, "Xóa thành công", "Người dùng đã được xóa thành công.");
         if (level == "Librarian") {
             this->on_thu_thu_button_clicked();
@@ -1576,8 +1641,8 @@ void admin::on_doc_gia_button_clicked()
         "border-radius: 10px;");
 
     cau_hinh_doc_gia();
-    BST_Accout u;
-    accout_data.tim_doc_gia(u);
+    BST_Account u;
+    lib.get_account_data().tim_doc_gia(u);
     hien_thi_doc_gia(u);
 }
 
@@ -1598,9 +1663,9 @@ void admin::cau_hinh_doc_gia(){
 
 }
 
-void admin::hien_thi_doc_gia(BST_Accout &u){
+void admin::hien_thi_doc_gia(BST_Account &u){
     remove_table(ui->doc_gia_table);
-    u.traverse_ascending([this](accout &ac){
+    u.traverse_ascending([this](Account &ac){
         int row = ui->doc_gia_table->rowCount();
         ui->doc_gia_table->insertRow(row);
 
@@ -1631,7 +1696,7 @@ void admin::on_nhap_tu_file_clicked()
     win->set_up_file_mode();
     connect(win, &add_book::destroyed, this, [this]() {
         remove_table(ui->sach_table);
-        add_book_(book_data);
+        add_book_(lib.get_book_data());
     });
 }
 
@@ -1805,8 +1870,8 @@ void admin::on_lich_su_button_clicked()
 
 void admin::set_up_user_lich_su(){
     ui->user_lich_su->clear();
-    BST_Accout u;
-    accout_data.traverse_ascending([this,&u](accout &ac){
+    BST_Account u;
+    lib.get_account_data().traverse_ascending([this,&u](Account &ac){
         ui->user_lich_su->addItem(QString::fromStdString(ac.get_ten_tai_khoan()), QVariant::fromValue(ac.get_ID()));
     });
 }
@@ -1819,8 +1884,8 @@ void admin::on_user_lich_su_activated(int index)
     int nam = parts.isEmpty() ? QDate::currentDate().year() : parts.last().toInt();
     long long user_id = ui->user_lich_su->itemData(index).toLongLong();
     BST_History h;
-    accout a;
-    accout_data.find(user_id, a);
+    Account a;
+    lib.get_account_data().find(user_id, a);
     h.tim_lich_su_user_ngay(a.get_ten_tai_khoan(), ngay, thang, nam, h);
     hien_thi_lich_su(h);
 }
@@ -1865,11 +1930,12 @@ void admin::hien_thi_lich_su(BST_History &h){
             break;
         default:
         {
-            if (book_data.find(his.get_book_id(), b)) {
-                ghi_chu = to_stringll_(b.get_ID()) + " - " + b.get_Name();
-            } else {
-                ghi_chu = "Sách đã bị xóa hoặc không tồn tại";
-            }
+            ghi_chu = his.get_ghi_chu();
+            // if (lib.get_book_data().find(his.get_book_id(), b)) {
+            //     ghi_chu = to_stringll_(b.get_ID()) + " - " + b.get_Name();
+            // } else {
+            //     ghi_chu = "Sách đã bị xóa hoặc không tồn tại";
+            // }
             break;
         }
         }
@@ -1941,7 +2007,7 @@ void admin::on_cai_dat_button_clicked()
         "color: rgb(0, 0, 0);"
         "background-color: rgb(255, 255, 255);"
         "border-radius: 10px;");
-    if (acc_sign_in.get_level() != "Admin"){
+    if (lib.get_acc_sign_in().get_level() != "Admin"){
         ui->noi_dung_layout->setCurrentIndex(8);
         return;
     }
@@ -1959,6 +2025,7 @@ void admin::cau_hinh_cai_dat(){
     ui->tien_phat_khi_mat_sach->setValue(settings_file::getInstance()->get_tien_phat_mat());
     ui->phi_phat_moi_ngay->setValue(settings_file::getInstance()->get_phi_phat_moi_ngay());
     ui->pass_quen->setText(QString::fromStdString(settings_file::getInstance()->get_mat_khau_quen()));
+    ui->so_sach_muon_toi_da->setValue(settings_file::getInstance()->get_so_quyen_muon_toi_da());
 }
 
 void admin::on_cap_nhat_cai_dat_clicked()
@@ -1972,12 +2039,13 @@ void admin::on_cap_nhat_cai_dat_clicked()
     settings_file::getInstance()->set_tien_phat_mat(ui->tien_phat_khi_mat_sach->value());
     settings_file::getInstance()->set_phi_phat_moi_ngay(ui->phi_phat_moi_ngay->value());
     settings_file::getInstance()->set_mat_khau_quen(ui->pass_quen->text().toStdString());
+    settings_file::getInstance()->set_so_quyen_muon_toi_da(ui->so_sach_muon_toi_da->value());
     settings_file::getInstance()->ghi_file_settings();
     QMessageBox::information(this, "Cập nhật thành công", "Cài đặt đã được cập nhật thành công.\nVui lòng khởi động lại ứng dụng để áp dụng các thay đổi.");
 }
 
 void admin::xuat_csv_dau_sach(){
-    
+
 }
 
 void admin::set_up_top_muon_nhieu_nhat()
@@ -1997,32 +2065,32 @@ void admin::set_up_top_muon_nhieu_nhat()
     ui->muon_nhieu_4->installEventFilter(this);
     ui->muon_nhieu_5->installEventFilter(this);
 
-    ui->muon_nhieu->setProperty("book_id", luot_muon_book_data[0].get_ID());
-    ui->muon_nhieu_2->setProperty("book_id", luot_muon_book_data[1].get_ID());
+    ui->muon_nhieu->setProperty("book_id", luot_muon_book_data[4].get_ID());
+    ui->muon_nhieu_2->setProperty("book_id", luot_muon_book_data[3].get_ID());
     ui->muon_nhieu_3->setProperty("book_id", luot_muon_book_data[2].get_ID());
-    ui->muon_nhieu_4->setProperty("book_id", luot_muon_book_data[3].get_ID());
-    ui->muon_nhieu_5->setProperty("book_id", luot_muon_book_data[4].get_ID());
+    ui->muon_nhieu_4->setProperty("book_id", luot_muon_book_data[1].get_ID());
+    ui->muon_nhieu_5->setProperty("book_id", luot_muon_book_data[0].get_ID());
 
-    QString bookName = QString::fromStdString(luot_muon_book_data[0].get_Name());
-    QString authorName = QString::fromStdString(luot_muon_book_data[0].get_Author());
-    
+    QString bookName = QString::fromStdString(luot_muon_book_data[4].get_Name());
+    QString authorName = QString::fromStdString(luot_muon_book_data[4].get_Author());
+
     QFontMetrics fmBook(ui->sach_muon_nhieu->font());
     QString elidedBookName = fmBook.elidedText(bookName, Qt::ElideRight, ui->sach_muon_nhieu->width());
     ui->sach_muon_nhieu->setText(elidedBookName);
-    
+
     QFontMetrics fmAuthor(ui->tac_gia_muon_nhieu->font());
     QString elidedAuthorName = fmAuthor.elidedText(authorName, Qt::ElideRight, ui->tac_gia_muon_nhieu->width());
     ui->tac_gia_muon_nhieu->setText(elidedAuthorName);
-    
-    ui->muon_nhieu_info->setText(QString::number(luot_muon_book_data[0].get_luot_muon()));
 
-    bookName = QString::fromStdString(luot_muon_book_data[1].get_Name());
-    authorName = QString::fromStdString(luot_muon_book_data[1].get_Author());
+    ui->muon_nhieu_info->setText(QString::number(luot_muon_book_data[4].get_luot_muon()));
+
+    bookName = QString::fromStdString(luot_muon_book_data[3].get_Name());
+    authorName = QString::fromStdString(luot_muon_book_data[3].get_Author());
     elidedBookName = fmBook.elidedText(bookName, Qt::ElideRight, ui->sach_muon_nhieu_2->width());
     ui->sach_muon_nhieu_2->setText(elidedBookName);
     elidedAuthorName = fmAuthor.elidedText(authorName, Qt::ElideRight, ui->tac_gia_muon_nhieu_2->width());
     ui->tac_gia_muon_nhieu_2->setText(elidedAuthorName);
-    ui->muon_nhieu_info_2->setText(QString::number(luot_muon_book_data[1].get_luot_muon()));
+    ui->muon_nhieu_info_2->setText(QString::number(luot_muon_book_data[3].get_luot_muon()));
 
     bookName = QString::fromStdString(luot_muon_book_data[2].get_Name());
     authorName = QString::fromStdString(luot_muon_book_data[2].get_Author());
@@ -2032,21 +2100,21 @@ void admin::set_up_top_muon_nhieu_nhat()
     ui->tac_gia_muon_nhieu_3->setText(elidedAuthorName);
     ui->muon_nhieu_info_3->setText(QString::number(luot_muon_book_data[2].get_luot_muon()));
 
-    bookName = QString::fromStdString(luot_muon_book_data[3].get_Name());
-    authorName = QString::fromStdString(luot_muon_book_data[3].get_Author());
+    bookName = QString::fromStdString(luot_muon_book_data[1].get_Name());
+    authorName = QString::fromStdString(luot_muon_book_data[1].get_Author());
     elidedBookName = fmBook.elidedText(bookName, Qt::ElideRight, ui->sach_muon_nhieu_4->width());
     ui->sach_muon_nhieu_4->setText(elidedBookName);
     elidedAuthorName = fmAuthor.elidedText(authorName, Qt::ElideRight, ui->tac_gia_muon_nhieu_4->width());
     ui->tac_gia_muon_nhieu_4->setText(elidedAuthorName);
-    ui->muon_nhieu_info_4->setText(QString::number(luot_muon_book_data[3].get_luot_muon()));
+    ui->muon_nhieu_info_4->setText(QString::number(luot_muon_book_data[1].get_luot_muon()));
 
-    bookName = QString::fromStdString(luot_muon_book_data[4].get_Name());
-    authorName = QString::fromStdString(luot_muon_book_data[4].get_Author());
+    bookName = QString::fromStdString(luot_muon_book_data[0].get_Name());
+    authorName = QString::fromStdString(luot_muon_book_data[0].get_Author());
     elidedBookName = fmBook.elidedText(bookName, Qt::ElideRight, ui->sach_muon_nhieu_5->width());
     ui->sach_muon_nhieu_5->setText(elidedBookName);
     elidedAuthorName = fmAuthor.elidedText(authorName, Qt::ElideRight, ui->tac_gia_muon_nhieu_5->width());
     ui->tac_gia_muon_nhieu_5->setText(elidedAuthorName);
-    ui->muon_nhieu_info_5->setText(QString::number(luot_muon_book_data[4].get_luot_muon()));
+    ui->muon_nhieu_info_5->setText(QString::number(luot_muon_book_data[0].get_luot_muon()));
 }
 
 void admin::set_up_top_doc_nhieu_nhat()
@@ -2067,33 +2135,32 @@ void admin::set_up_top_doc_nhieu_nhat()
     ui->doc_nhieu_4->installEventFilter(this);
     ui->doc_nhieu_5->installEventFilter(this);
 
-    ui->doc_nhieu_1->setProperty("book_id", luot_xem_book_data[0].get_ID());
-    ui->doc_nhieu_2->setProperty("book_id", luot_xem_book_data[1].get_ID());
+    ui->doc_nhieu_1->setProperty("book_id", luot_xem_book_data[4].get_ID());
+    ui->doc_nhieu_2->setProperty("book_id", luot_xem_book_data[3].get_ID());
     ui->doc_nhieu_3->setProperty("book_id", luot_xem_book_data[2].get_ID());
-    ui->doc_nhieu_4->setProperty("book_id", luot_xem_book_data[3].get_ID());
-    ui->doc_nhieu_5->setProperty("book_id", luot_xem_book_data[4].get_ID());
+    ui->doc_nhieu_4->setProperty("book_id", luot_xem_book_data[1].get_ID());
+    ui->doc_nhieu_5->setProperty("book_id", luot_xem_book_data[0].get_ID());
 
+    QString bookName = QString::fromStdString(luot_xem_book_data[4].get_Name());
+    QString authorName = QString::fromStdString(luot_xem_book_data[4].get_Author());
 
-    QString bookName = QString::fromStdString(luot_xem_book_data[0].get_Name());
-    QString authorName = QString::fromStdString(luot_xem_book_data[0].get_Author());
-    
     QFontMetrics fmBook(ui->sach_doc_nhieu->font());
     QString elidedBookName = fmBook.elidedText(bookName, Qt::ElideRight, ui->sach_doc_nhieu->width());
     ui->sach_doc_nhieu->setText(elidedBookName);
-    
+
     QFontMetrics fmAuthor(ui->tac_gia_doc_nhieu->font());
     QString elidedAuthorName = fmAuthor.elidedText(authorName, Qt::ElideRight, ui->tac_gia_doc_nhieu->width());
     ui->tac_gia_doc_nhieu->setText(elidedAuthorName);
-    
-    ui->doc_nhieu_info->setText(QString::number(luot_xem_book_data[0].get_luot_xem()));
 
-    bookName = QString::fromStdString(luot_xem_book_data[1].get_Name());
-    authorName = QString::fromStdString(luot_xem_book_data[1].get_Author());
+    ui->doc_nhieu_info->setText(QString::number(luot_xem_book_data[4].get_luot_xem()));
+
+    bookName = QString::fromStdString(luot_xem_book_data[3].get_Name());
+    authorName = QString::fromStdString(luot_xem_book_data[3].get_Author());
     elidedBookName = fmBook.elidedText(bookName, Qt::ElideRight, ui->sach_doc_nhieu_1->width());
     ui->sach_doc_nhieu_1->setText(elidedBookName);
     elidedAuthorName = fmAuthor.elidedText(authorName, Qt::ElideRight, ui->tac_gia_doc_nhieu_1->width());
     ui->tac_gia_doc_nhieu_1->setText(elidedAuthorName);
-    ui->doc_nhieu_info_1->setText(QString::number(luot_xem_book_data[1].get_luot_xem()));
+    ui->doc_nhieu_info_1->setText(QString::number(luot_xem_book_data[3].get_luot_xem()));
 
     bookName = QString::fromStdString(luot_xem_book_data[2].get_Name());
     authorName = QString::fromStdString(luot_xem_book_data[2].get_Author());
@@ -2103,27 +2170,27 @@ void admin::set_up_top_doc_nhieu_nhat()
     ui->tac_gia_doc_nhieu_2->setText(elidedAuthorName);
     ui->doc_nhieu_info_2->setText(QString::number(luot_xem_book_data[2].get_luot_xem()));
 
-    bookName = QString::fromStdString(luot_xem_book_data[3].get_Name());
-    authorName = QString::fromStdString(luot_xem_book_data[3].get_Author());
+    bookName = QString::fromStdString(luot_xem_book_data[1].get_Name());
+    authorName = QString::fromStdString(luot_xem_book_data[1].get_Author());
     elidedBookName = fmBook.elidedText(bookName, Qt::ElideRight, ui->sach_doc_nhieu_3->width());
     ui->sach_doc_nhieu_3->setText(elidedBookName);
     elidedAuthorName = fmAuthor.elidedText(authorName, Qt::ElideRight, ui->tac_gia_doc_nhieu_3->width());
     ui->tac_gia_doc_nhieu_3->setText(elidedAuthorName);
-    ui->doc_nhieu_info_3->setText(QString::number(luot_xem_book_data[3].get_luot_xem()));
+    ui->doc_nhieu_info_3->setText(QString::number(luot_xem_book_data[1].get_luot_xem()));
 
-    bookName = QString::fromStdString(luot_xem_book_data[4].get_Name());
-    authorName = QString::fromStdString(luot_xem_book_data[4].get_Author());
+    bookName = QString::fromStdString(luot_xem_book_data[0].get_Name());
+    authorName = QString::fromStdString(luot_xem_book_data[0].get_Author());
     elidedBookName = fmBook.elidedText(bookName, Qt::ElideRight, ui->sach_doc_nhieu_4->width());
     ui->sach_doc_nhieu_4->setText(elidedBookName);
     elidedAuthorName = fmAuthor.elidedText(authorName, Qt::ElideRight, ui->tac_gia_doc_nhieu_4->width());
     ui->tac_gia_doc_nhieu_4->setText(elidedAuthorName);
-    ui->doc_nhieu_info_4->setText(QString::number(luot_xem_book_data[4].get_luot_xem()));
+    ui->doc_nhieu_info_4->setText(QString::number(luot_xem_book_data[0].get_luot_xem()));
 }
 
 void admin::on_xuat_csv_sach_clicked()
 {
     QString fileName = QFileDialog::getSaveFileName(this,
-        "Xuất danh sách đầu sách", 
+        "Xuất danh sách đầu sách",
         QDir::homePath() + "/dau_sach.csv",
         "CSV Files (*.csv)");
 
@@ -2146,7 +2213,7 @@ void admin::on_xuat_csv_sach_clicked()
     out << "ID,Tên sách,Tác giả,Nhà xuất bản,Năm xuất bản,Mã ISBN,Ngôn ngữ,Tóm tắt,Thể loại,Chuyên ngành,Số bản sao,Sách đang mượn,Sách đang đặt,Ngày tạo,Tạo bởi\n";
 
     // Data
-    book_data.traverse_ascending([&out](book &b) {
+    lib.get_book_data().traverse_ascending([&out](book &b) {
         out << b.get_ID() << ","
             << "\"" << QString::fromStdString(b.get_Name()) << "\","
             << "\"" << QString::fromStdString(b.get_Author()) << "\","
@@ -2195,10 +2262,10 @@ void admin::on_xuat_csv_ban_sao_clicked()
     out << "ID bản sao,ID đầu sách,Tên sách,Trạng thái\n";
 
     // Ghi dữ liệu
-    book_copy_data.traverse_ascending([&out](Book_copies &bc) {
+    lib.get_book_copy_data().traverse_ascending([&out](Book_copies &bc) {
         book b;
         QString tenSach = "Không tìm thấy";
-        if (book_data.find(bc.get_id_book(), b)) {
+        if (lib.get_book_data().find(bc.get_id_book(), b)) {
             tenSach = QString::fromStdString(b.get_Name());
         }
 
@@ -2239,8 +2306,8 @@ void admin::on_xuat_csv_muon_tra_clicked()
            "Ngày phải trả,Ngày trả,Trạng thái,Tình trạng sách,Tiền phạt\n";
 
     // Ghi dữ liệu từ toàn bộ cây borrow_data
-    borrow_data.traverse_ascending([&out](borrow &br) {
-        QString userName   = QString::fromStdString(giai_ma_str_(br.get_user_name()));
+    lib.get_borrow_data().traverse_ascending([&out](borrow &br) {
+        QString userName   = QString::fromStdString((br.get_user_name()));
         QString bookName   = QString::fromStdString(br.get_book_name());
         QString ngayMuon   = QString::fromStdString(br.get_ngay_muon().get_date());
         QString ngayPhaiTra= QString::fromStdString(br.get_ngay_phai_tra().get_date());
@@ -2375,7 +2442,7 @@ QPixmap admin::load_image_pro(const QString &path, const QSize &targetSize, int 
     if (cropToFill) {
         // Mode: FILL (Lấp đầy khung, cắt phần thừa) - Đẹp cho UI
         img = img.scaled(targetSize, Qt::KeepAspectRatioByExpanding, Qt::SmoothTransformation);
-        
+
         // Cắt lấy phần giữa (Center Crop)
         int x = (img.width() - targetSize.width()) / 2;
         int y = (img.height() - targetSize.height()) / 2;
@@ -2392,7 +2459,7 @@ QPixmap admin::load_image_pro(const QString &path, const QSize &targetSize, int 
     finalPix.fill(Qt::transparent);
 
     QPainter painter(&finalPix);
-    painter.setRenderHint(QPainter::Antialiasing);      
+    painter.setRenderHint(QPainter::Antialiasing);
     painter.setRenderHint(QPainter::SmoothPixmapTransform);
 
     // Tạo khung bo tròn

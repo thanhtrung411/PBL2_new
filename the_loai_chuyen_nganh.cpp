@@ -1,4 +1,7 @@
 #include "the_loai_chuyen_nganh.h"
+#include "tree.h"
+#include "global.h"
+#include "library.h"
 #include <iostream>
 using namespace std;
 The_loai::The_loai(){
@@ -23,6 +26,10 @@ int The_loai::get_id() const{
 string The_loai::get_name() const{
     return name;
 }
+void The_loai::related_books(BST_Book& out) const{
+    out.clear();
+    lib.get_book_data().the_loai_of_book(this->ID, out);
+}
 Chuyen_nganh::Chuyen_nganh(){
     ID = 0;
     name = "";
@@ -44,5 +51,9 @@ int Chuyen_nganh::get_id() const{
 }
 string Chuyen_nganh::get_name() const{
     return name;
+}
+void Chuyen_nganh::related_books(BST_Book& out) const{
+    out.clear();
+    lib.get_book_data().chuyen_nganh_of_book(this->ID, out);
 }
 

@@ -3,6 +3,7 @@
 #include "my_string.h"
 #include "history.h"
 #include "global.h"
+#include "library.h"
 #include <QStackedWidget>
 #include <QWidget>
 #include <QTimer>
@@ -151,69 +152,20 @@ void dang_ky_dialog::on_return_home_clicked()
 void dang_ky_dialog::on_sign_in_button_clicked()
 {
     try {
-        int check = 1;
+        Account acc;
         string ten_dang_nhap = ui_2->username_input->text().trimmed().toUtf8().toStdString();
         string pass = ui_2->password_input->text().toUtf8().toStdString();
-
-        if (ten_dang_nhap.empty()){
-            check = 0;
-            markError(ui_2->username_input,"Vui lòng nhập tên người dùng");
-        }
-        else{
-            clearError(ui_2->username_input);
-        }
-        if (pass.empty()){
-            check = 0;
-            markError(ui_2->password_input,"Vui lòng nhập mật khẩu");
-        }
-        else{
-            clearError(ui_2->password_input);
-        }
-        
         ten_dang_nhap = ma_hoa_str_(ten_dang_nhap);
         pass = ma_hoa_str_(pass);
-        
-        if (check){
-            if(!accout_data.check_accout(ten_dang_nhap,pass,acc_sign_in) && !ten_dang_nhap.empty() && !pass.empty()){
-                markError(ui_2->username_input,"Tên người dùng hoặc mật khẩu sai");
-                ui_2->password_input->clear();
-                ui_2->password_input->setPlaceholderText("Mật khẩu");
-                ui_2->password_input->setStyleSheet(R"(QLineEdit {
-                    background-color: #e8ecef; 
-                    border-radius: 5px; 
-                    border: 1px solid #ff0000; 
-                    padding: 8px 10px; 
-                    color: #1E1E1E; 
-                    font-size: 12px;
-                }
-
-                QLineEdit:hover {
-                    background-color: #E5E9ED;
-                }
-                QLineEdit:focus {
-                    background-color: #FFFFFF; 
-                    border: 1px solid #3498db; 
-                })");
-                QPalette pal = ui_2->password_input->palette();
-                pal.setColor(QPalette::PlaceholderText, QColor("#333333"));
-                ui_2->password_input->setPalette(pal);
-                ui_2->password_input->setFocus();
-            }
-            else{
-                record.log_action(giai_ma_str_(ten_dang_nhap), LOGIN, 0, "Đăng nhập thành công");
-                emit registered(acc_sign_in);
-                ui_2->username_input->setText("");
-                ui_2->password_input->setText("");
-            }
-        }
+        lib.dang_nhap_tai_khoan(acc,ten_dang_nhap, pass);
+        emit registered(acc);
+        this->close();
     }
     catch (const std::exception& e) {
-        markError(ui_2->username_input, "Đã xảy ra lỗi trong quá trình đăng nhập");
-        ui_2->password_input->clear();
+        QMessageBox::warning(this, "Đăng nhập thất bại", QString::fromStdString(e.what()));
     }
     catch (...) {
-        markError(ui_2->username_input, "Đã xảy ra lỗi không xác định");
-        ui_2->password_input->clear();
+        QMessageBox::warning(this, "Đăng nhập thất bại", "Đã có lỗi xảy ra trong quá trình đăng nhập.");
     }
 }
 
@@ -323,7 +275,7 @@ void dang_ky_dialog::on_dang_ky_2_button_2_clicked()
         ok = 0;
         markError(ui_2->ten_dang_nhap_2_input,"Vui lòng nhập tên đăng nhập");
     }
-    else if (accout_data.check_ten_dang_nhap(ma_hoa_str_(ui_2->ten_dang_nhap_2_input->text().trimmed().toUtf8().toStdString()))){
+    else if (lib.get_account_data().check_ten_dang_nhap(ma_hoa_str_(ui_2->ten_dang_nhap_2_input->text().trimmed().toUtf8().toStdString()))){
         ok = 0;
     }
     else clearError(ui_2->ten_dang_nhap_2_input);
@@ -379,8 +331,8 @@ void dang_ky_dialog::on_dang_ky_2_button_2_clicked()
         my_time ngay_sinh;
         ngay_sinh = my_time(ui_2->ngay_sinh_2_input->text().toUtf8().toStdString());
         string mat_khau     = ui_2->password_2_input->text().toUtf8().toStdString();
-        accout p;
-        p.set_ID(accout_data.find_max_id() + 1);
+        Account p;
+        p.set_ID(lib.get_account_data().find_max_id() + 1);
         p.set_ten_dang_nhap(ten_dang_nhap);
         p.set_ten_tai_khoan(ho_ten);
         p.set_email(email);
@@ -399,14 +351,8 @@ void dang_ky_dialog::on_dang_ky_2_button_2_clicked()
         p.set_level(this->register_role);
         my_time now = my_time::now();
         p.set_date_created(now);
-        accout_data.insert(p);
-        p.ma_hoa_();
-        record.log_action(ten_dang_nhap, REGISTER, 0, "Đăng ký tài khoản thành công");
-        ghi_accout(accout_data);
-        QMessageBox::information(this, "Thông báo", "Đăng ký thành công");
-        if (!this->is_admin) {
-            acc_sign_in = p;
-        }
+        lib.dang_ky_tai_khoan(p);
+        box_thong_bao("Đăng ký thành công!");
         emit registered(p);
         this->close();
     }
@@ -419,7 +365,7 @@ void dang_ky_dialog::on_ten_dang_nhap_2_input_textChanged(const QString &arg1)
     string ten_dang_nhap_khong_ma_hoa = ten_dang_nhap;
     ten_dang_nhap = ma_hoa_str_(ten_dang_nhap);
     if (is_admin){
-        if (accout_data.check_ten_dang_nhap(ten_dang_nhap_khong_ma_hoa)){
+        if (lib.get_account_data().check_ten_dang_nhap(ten_dang_nhap_khong_ma_hoa)){
             ui_2->ten_dang_nhap_label->setText("Tên đăng nhập đã tồn tại");
             ui_2->ten_dang_nhap_label->setStyleSheet("color: #e53935;");
 
@@ -430,7 +376,7 @@ void dang_ky_dialog::on_ten_dang_nhap_2_input_textChanged(const QString &arg1)
         }
     }
     else{
-        if (accout_data.check_ten_dang_nhap(ten_dang_nhap)){
+        if (lib.get_account_data().check_ten_dang_nhap(ten_dang_nhap)){
             ui_2->ten_dang_nhap_label->setText("Tên đăng nhập đã tồn tại");
             ui_2->ten_dang_nhap_label->setStyleSheet("color: #e53935;");
 
@@ -500,22 +446,21 @@ void dang_ky_dialog::on_lay_lai_mat_khau_button_clicked()
     string email = ui_2->email_quen->text().trimmed().toUtf8().toStdString();
     so_dien_thoai = ma_hoa_str_(so_dien_thoai);
     email = ma_hoa_str_(email);
-    accout a;
-    
-    if (accout_data.check_quen_mat_khau(so_dien_thoai, email, a)){
-        box_thong_bao("Mật khẩu của bạn đã được đặt lại. Vui lòng kiểm tra và đổi mật khẩu sau khi đăng nhập.");
+    Account a;
+
+    try{
+        lib.quen_mat_khau(so_dien_thoai, email);
         ui_2->so_dien_thoai_quen_input->setText("");
         ui_2->email_quen->setText("");
-        record.log_action(giai_ma_str_(a.get_ten_dang_nhap()), RESET_PASSWORD, 0, "Đặt lại mật khẩu thành công");
-        acc_sign_in = a;
-        accout_data.update(a,a);
-        ghi_accout(accout_data);
-        emit registered(a);
+        box_thong_bao("Mật khẩu của bạn đã được đặt lại. Vui lòng kiểm tra và đổi mật khẩu sau khi đăng nhập.");
+        emit registered(lib.get_acc_sign_in());
         this->close();
     }
-    else{
-        box_thong_bao("Số điện thoại hoặc email không đúng");
+    catch (const std::exception& e) {
+        QMessageBox::warning(this, "Lấy lại mật khẩu thất bại", QString::fromStdString(e.what()));
     }
-
+    catch (...) {
+        QMessageBox::warning(this, "Lấy lại mật khẩu thất bại", "Đã có lỗi xảy ra trong quá trình lấy lại mật khẩu.");
+    }
 }
 

@@ -1,62 +1,78 @@
 #ifndef LIBRARY_H
 #define LIBRARY_H
 
-
 #include "tree.h"
 #include "book.h"
 #include "book_copies.h"
 #include "the_loai_chuyen_nganh.h"
 #include "borrow.h"
-#include "accout.h"
+#include "Account.h"
+#include "my_time.h"
+#include "global.h"
+#include "settings_file.h"
 
 using namespace std;
 
 class Library {
 private:
-    BST<book, long long> books;
-    BST<Book_copies, long long> book_copies;
-    BST<Chuyen_nganh, int> chuyen_nganhs;
-    BST<The_loai, int> the_loais;
-    BST<borrow, long long> borrows;
-    BST<accout, int> accouts;
+    BST_Book         book_data;
+    BST_book_copy    book_copy_data;
+    BST_Chuyen_nganh chuyen_nganh_data;
+    BST_The_loai     the_loai_data;
+    BST_Borrow       borrow_data;
+    BST_Account      account_data;
+    BST_Yeu_thich    yeu_thich_data;
+    FILE*            peoples;
+    Account          acc_sign_in;
+    BST_Borrow       borrow_user_data;
+    int              is_sign_in = 0;
+    int tong_sach_muon;
 public:
     Library();
     ~Library();
-    bool add_book(const book& b);
-    bool add_accout(const accout& a);
-    bool add_book_copy(const Book_copies& bc);
-    bool add_chuyen_nganh(const Chuyen_nganh& cn);
-    bool add_the_loai(const The_loai& tl);
-    bool add_borrow(const borrow& br);
 
-    bool remove_book(long long book_id);
-    bool remove_accout(int id);
-    bool remove_book_copy(long long book_copy_id);
-    bool remove_chuyen_nganh(int chuyen_nganh_id);
-    bool remove_the_loai(int the_loai_id);
-    bool remove_borrow(long long borrow_id);
+    void load_data();
+    void save_data();
 
-    int get_total_books() const;
-    int get_total_accouts() const;
-    int get_total_book_copies() const;
-    int get_total_chuyen_nganhs() const;
-    int get_total_the_loais() const;
-    int get_total_borrows() const;
+    BST_Book& get_book_data();
+    BST_book_copy& get_book_copy_data();
+    BST_Chuyen_nganh& get_chuyen_nganh_data();
+    BST_The_loai& get_the_loai_data();
+    BST_Borrow& get_borrow_data();
+    BST_Account& get_account_data();
+    BST_Yeu_thich& get_yeu_thich_data();
+    Account& get_acc_sign_in();
+    int& get_is_sign_in();
+    BST_Borrow& get_borrow_user_data();
+    int& get_tong_sach_muon();
 
-    void sort_books_by_name(BST_Book& books_data, BST_Book_by_Name books_sorted, int asc = 1);
-    void sort_books_by_author(BST_Book& books_data, BST_Book_by_Author books_sorted, int asc = 1);
-    void sort_books_by_the_loai(BST_Book& books_data, BST_Book books_sorted, int asc = 1);
-    void sort_books_by_chuyen_nganh(BST_Book& books_data, BST_Book_by_Chuyen_Nganh books_sorted, int asc = 1);
-
-    // BST<Book_copies, long long>& copies_of_book(long long book_id);
-    // BST<Author, int>& authors_of_book(long long book_id);
-    // BST<Chuyen_nganh, int>& chuyen_nganhs_of_book(long long book_id);
-    // BST<The_loai, int>& the_loais_of_book(long long book_id);
-    // BST<borrow, long long>& borrows_of_book(long long book_id);
-
-    int dat_sach(long long id_book_, int id_user_, my_time booking_date, int limit_borrow, int score_user);
-    int check_gia_han_possible(long long id_borrow_);
+    //Xử lý sách
+    void dat_sach(long long id_book_, int id_user_, my_time booking_date, int limit_borrow, int score_user);
+    void muon_sach(borrow &br,long long id_book, long long id_user_, long long id_copy_book_, my_time borrow_date, my_time due_date, bool is_xu_ly);
+    void tra_sach(long long id_borrow_, int tinh_trang_sach_, int tien_phat_1, int tien_phat_2, string ghi_chu = "");
+    void them_sach(const book& b, int so_luong);
+    void xoa_sach(long long id_book_);
+    void sua_sach(book& b);
     int gia_han_muon_sach(long long id_borrow_);
+    void gia_han_muon_sach_(long long id_borrow_);
+    void xu_ly_sach(long long id_borrow_);
+    void huy_dat_sach(long long id_borrow_);
+    void xac_nhan_muon_sach(long long id_borrow_,my_time borrow_date, my_time due_date);
+
+    //Xử lý bản sao
+    void xoa_ban_sao_sach(long long id_copy_book_);
+
+    void xoa_sach_va_ban_sao(long long id_book_);
+
+    //Xử lý tài khoản
+    void dang_ky_tai_khoan(Account& ac);
+    bool dang_nhap_tai_khoan(Account& ac, string ten_dang_nhap_, string pass_);
+    void dang_xuat_tai_khoan();
+    void cap_nhat_tai_khoan(Account& a, string& old_pass);
+    void quen_mat_khau(string email_, string so_dien_thoai_);
+    void khoa_tai_khoan(long long id_account_);
+    void mo_khoa_tai_khoan(long long id_account_);
+    void khoi_phuc_diem(long long id_account_);
 };
 
 #endif // LIBRARY_H

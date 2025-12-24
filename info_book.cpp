@@ -4,31 +4,10 @@
 #include "book.h"
 #include <QPainter>
 #include <QPainterPath>
-
-inline QPixmap loadScaled(const QString& path, const QSize& toSize, int radius)
-{
-    QPixmap pm(path);
-    if (pm.isNull()) {
-        // placeholder nếu không tìm thấy ảnh
-        QPixmap ph(toSize);
-        ph.fill(Qt::lightGray);
-        return ph;
-    }
-    if (radius <= 0)
-    return pm.scaled(toSize, Qt::KeepAspectRatio, Qt::SmoothTransformation);
-    QPixmap output(toSize);
-    output.fill(Qt::transparent);
-    QPainter painter(&output);
-    painter.setRenderHint(QPainter::Antialiasing, true);
-    QPainterPath path_;
-    path_.addRoundedRect(0, 0, toSize.width(), toSize.height(), radius, radius);
-    painter.setClipPath(path_);
-    QPixmap scaled = pm.scaled(toSize, Qt::KeepAspectRatioByExpanding, Qt::SmoothTransformation);
-    int x = (toSize.width() - scaled.width()) / 2;
-    int y = (toSize.height() - scaled.height()) / 2;
-    painter.drawPixmap(x, y, scaled);
-    return output;
-}
+#include <QImageReader>
+#include <QScreen>
+#include <QGuiApplication>
+#include <QFile>
 
 info_book::info_book(const book &book_inf, QWidget *parent)
     : QMainWindow(parent)
@@ -37,6 +16,8 @@ info_book::info_book(const book &book_inf, QWidget *parent)
 {
     ui->setupUi(this);
     displayBookInfo();
+    this->setWindowTitle(QString::fromStdString(book_info.get_Name()));
+    this->setMaximumHeight(0);
 }
 
 info_book::~info_book()
@@ -45,15 +26,9 @@ info_book::~info_book()
 }
 void info_book::displayBookInfo()
 {
-    QString png_path = QString::fromUtf8(book_info.get_Link_png());
-    ui->book_png->setFixedSize(175,220);
-    QSize targetSize = ui->book_png->size();
-    targetSize = targetSize * ui->book_png->devicePixelRatio(); 
-    ui->book_png->setPixmap(loadScaled(png_path, targetSize, 15));
-    QPixmap finalPix = loadScaled(png_path, targetSize, 15);
-    finalPix.setDevicePixelRatio(ui->book_png->devicePixelRatio());
-    ui->book_png->setPixmap(finalPix);
-
+    set_up_anh();
+    ui->name_book->setText(QString::fromStdString(book_info.get_Name()));
+    ui->nam_xuat_ban_label->setText(QString::number(book_info.get_NamXB()));
     ui->author_name->setText(QString::fromStdString(book_info.get_Author()));
     ui->nha_xuat_ban->setText(QString::fromStdString(book_info.get_NXB()));
     ui->so_trang->setText(QString::number(book_info.get_So_trang()));
@@ -71,4 +46,62 @@ void info_book::displayBookInfo()
     ui->sach_ranh->setText(QString::number(book_info.get_tong_sach_ranh()));
     string inf = "Được tạo vào ngày " + book_info.get_Date_created().get_date() + " bởi " + book_info.get_Created_by();
     ui->created_by->setText(QString::fromStdString(inf));
+}
+
+QPixmap info_book::loadScaled(const QString& path, const QSize& physicalSize, int radius)
+{
+    QPixmap src(path);
+    if (src.isNull()) {
+        // Thử load ảnh mặc định
+        src = QPixmap("../../png_background/default_book.png");
+        if (src.isNull()) {
+            // Nếu ảnh mặc định cũng không có, dùng màu nền
+            QPixmap ph(physicalSize);
+            ph.fill(QColor("#f1f5f9"));
+            return ph;
+        }
+    }
+    QPixmap scaled = src.scaled(physicalSize, Qt::KeepAspectRatioByExpanding, Qt::SmoothTransformation);
+    int x = (scaled.width() - physicalSize.width()) / 2;
+    int y = (scaled.height() - physicalSize.height()) / 2;
+    QPixmap cropped = scaled.copy(x, y, physicalSize.width(), physicalSize.height());
+
+    QPixmap dest(physicalSize);
+    dest.fill(Qt::transparent);
+
+    QPainter painter(&dest);
+    painter.setRenderHint(QPainter::Antialiasing, true);
+    painter.setRenderHint(QPainter::SmoothPixmapTransform, true);
+
+    QPainterPath pathObj;
+    pathObj.addRoundedRect(0, 0, physicalSize.width(), physicalSize.height(), radius, radius);
+    
+    painter.setClipPath(pathObj);
+    painter.drawPixmap(0, 0, cropped);
+
+    // Viền mờ
+    painter.setClipping(false);
+    painter.setPen(QPen(QColor(0, 0, 0, 20), 1)); 
+    painter.setBrush(Qt::NoBrush);
+    painter.drawRoundedRect(0, 0, physicalSize.width()-1, physicalSize.height()-1, radius, radius);
+
+    return dest;
+}
+
+void info_book::set_up_anh(){
+    QString png_path = QString::fromUtf8(book_info.get_Link_png().c_str());
+    
+    qreal dpr = QGuiApplication::primaryScreen()->devicePixelRatio();
+    QSize logicalSize(200, 250);
+    QSize physicalSize = logicalSize * dpr;
+    int physicalRadius = 12 * dpr;
+    
+    ui->book_png->setFixedSize(logicalSize);
+    ui->book_png->setAlignment(Qt::AlignCenter);
+    
+    QPixmap result = loadScaled(png_path, physicalSize, physicalRadius);
+    result.setDevicePixelRatio(dpr);
+    
+    ui->book_png->setPixmap(result);
+    ui->book_png->setStyleSheet("background-color: transparent; border: none;");
 }

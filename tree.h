@@ -3,7 +3,7 @@
 #include <iostream>
 #include <QTextStream>
 #include <functional>
-#include "accout.h"
+#include "Account.h"
 #include "book.h"
 #include "the_loai_chuyen_nganh.h"
 #include "book_copies.h"
@@ -12,7 +12,7 @@
 #include "yeu_thich.h"
 using namespace std;
 
-class accout;
+class Account;
 class book;
 class Book_copies;
 class Author;
@@ -129,10 +129,9 @@ public:
     }
 };
 namespace KeyGetters {
-    int getAccoutID(const accout& a);
+    int getAccountID(const Account& a);
     long long getBookID(const book& b);
     long long getBookCopiesID(const Book_copies& bc);
-    int getAuthorID(const Author& au);
     int getTheLoaiID(const The_loai& tl); 
     int getChuyenNganhID(const Chuyen_nganh& cn);
     long long getBorrowID(const borrow& br);
@@ -154,23 +153,23 @@ namespace KeyGetters {
 
 }
 
-class BST_Accout : public BST<accout, int> {
+class BST_Account : public BST<Account, int> {
 private:
-    bool search_custom(int type_tuy_chon, string& type_bieu_ghi, string& key_word, accout& a);
-    int count_doc_gia_helper(Node<accout>* node);
-    int count_thu_thu_helper(Node<accout>* node);
-    Node<accout>* check_accout_helper(Node<accout>* node, string ten_dang_nhap, string pass, int &ok, accout &a);
+    bool search_custom(int type_tuy_chon, string& type_bieu_ghi, string& key_word, Account& a);
+    int count_doc_gia_helper(Node<Account>* node);
+    int count_thu_thu_helper(Node<Account>* node);
+    Node<Account>* check_Account_helper(Node<Account>* node, string ten_dang_nhap, string pass, int &ok, Account &a);
 public:
-    BST_Accout() : BST<accout, int>(KeyGetters::getAccoutID) {}
+    BST_Account() : BST<Account, int>(KeyGetters::getAccountID) {}
     int count_doc_gia();
     bool check_ten_dang_nhap(string ten_dang_nhap);
-    bool check_quen_mat_khau(string so_dien_thoai, string email, accout &a);
+    bool check_quen_mat_khau(string so_dien_thoai, string email, Account &a);
     int count_thu_thu();
-    void tim_thu_thu(BST_Accout &u);
-    void tim_doc_gia(BST_Accout &u);
-    bool check_accout(string ten_dang_nhap, string pass, accout& a); 
-    void write_csv(Node<accout>* node, QTextStream &out) const;
-    void write_accout(QTextStream &out) const;
+    void tim_thu_thu(BST_Account &u);
+    void tim_doc_gia(BST_Account &u);
+    bool check_Account(string ten_dang_nhap, string pass, Account& a); 
+    void write_csv(Node<Account>* node, QTextStream &out) const;
+    void write_Account(QTextStream &out) const;
 };
 
 class BST_Book : public BST<book, long long> {
@@ -289,6 +288,7 @@ public:
     BST_Chuyen_nganh() : BST<Chuyen_nganh, int>(KeyGetters::getChuyenNganhID) {}
     bool return_name(int id, string &name);
     bool return_id(string name, int &id);
+    Chuyen_nganh get_chuyen_nganh_by_id(int id);
     void write_chuyen_nganh(QTextStream &out) const;
 };
 
@@ -299,6 +299,7 @@ public:
     BST_The_loai() : BST<The_loai, int>(KeyGetters::getTheLoaiID) {}
     bool return_name(int id, string &name);
     bool return_id(string name, int &id);
+    The_loai get_the_loai_by_id(int id);
     void write_the_loai(QTextStream &out) const;
 };
 
@@ -336,6 +337,7 @@ private:
     void write_csv(Node<borrow>* node, QTextStream &out) const; // Cần thay đổi tham số
     void write_borrow(QTextStream &out) const;
     int sach_dang_muon(int user_id);
+    int sach_dang_dat(int user_id);
     bool check_borrowed(int user_id, long long book_id);
     void info_user(int user_id, BST_Borrow &b);
 
